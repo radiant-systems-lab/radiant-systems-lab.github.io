@@ -1,0 +1,11 @@
+<div class="current-projects flex-container image-container">
+
+{% include project name="Provenance for Reproducibility" caption="" image="provenance.png" link="https://cdmdicewebprd01.dpu.depaul.edu/projects/provenanceanalysis" %}
+
+{% include project name="Advanced Containers for Reproducible Science" caption="" image="container.png" link="https://cdmdicewebprd01.dpu.depaul.edu/projects/advancedcontainers" %}
+
+{% include project name="Reproducibility Infrastructure" caption="" image="infrastructure.png" link="https://cdmdicewebprd01.dpu.depaul.edu/projects/reprobench" %}
+
+{% include project name="Reproducible Policies" caption="" image="policy.png" link="https://cdmdicewebprd01.dpu.depaul.edu/projects/adae" %}
+
+</div>
