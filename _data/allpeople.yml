@@ -1,0 +1,94 @@
+- name: Tanu Malik
+  key: Tanu 
+  website: https://facsrv.cs.depaul.edu/~tmalik1/
+  image: Tanu.jpg 
+  dblp: ':author:Tanu_Malik'
+  
+- name: Alexander Rasin
+  key: Alex
+  website: https://www.cdm.depaul.edu/Faculty-and-Staff/pages/faculty-info.aspx?fid=1041
+  image: Alex.jpg
+
+- name: Iyad Kanj
+  key: Iyad
+  website: http://facweb.cs.depaul.edu/ikanj/
+  image: Iyad.jpg
+ 
+- name: Zhen Huang
+  key: Zhen
+  website: https://facsrv.cs.depaul.edu/zhuang28/
+  image: Zhen.jpg
+
+
+- name: Ashish Gehani
+  key: Ashish
+  website: http://www.csl.sri.com/people/gehani/
+  image: Ashish.jpg
+
+# use image: placeholder.jpg for those w/o pics
+- name: Yuta Nakamura 
+  key: Yuta 
+  website: https://github.com/nakasan617
+  image: Yuta.jpg
+
+- name: Raza Ahmad 
+  key: Raza 
+  website: https://www.razaahmad.org 
+  image: Raza.jpg
+
+- name: Shilvi Satpati
+  key: Shilvi 
+  website: https://www.linkedin.com/in/shilvi-satpati/ 
+  image: Shilvi.jpg
+
+
+- name: Shravan Ravishankar
+  website: https://www.linkedin.com/in/shravan-ravishankar-68730016a/ 
+
+- name: Naga Nithin Manne
+  key: Nithin
+  website: https://www.linkedin.com/in/nithinmanne/
+  image: Nithin.jpg
+
+- name: Pushkar JK
+  website: https://www.linkedin.com/in/pushkar-jk-5a40b267/
+
+- name: Madeline Deeds
+  website: 
+
+- name: Mohammadsaleh Gharehdaghi 
+  website: https://www.linkedin.com/in/mohammad-gh/
+
+- name: Dai Hai Ton That
+  key: Hai
+  website: https://www.linkedin.com/in/dai-hai-ton-that-43521b100/
+  image: Hai.jpg
+
+- name: Zhihao Yuan
+  key: Zhihao
+  website: https://www.linkedin.com/in/zhihaoyuan/
+  image: Zhihao.jpg
+
+- name: Gabriel Fils
+  website: https://www.linkedin.com/in/gabriel-fils-937524169/
+
+- name: Siddanth Kothari
+  website: 
+
+- name: John Gorman
+  website: https://www.linkedin.com/in/john-michael-gorman/
+
+- name: Qili Sui
+  website: https://www.linkedin.com/in/qili-sui-981082a8/
+
+- name: Sumanth Mannam
+  website: https://www.linkedin.com/in/sumanth-mannam/
+
+- name: Cristian Vlaescu
+  website: https://www.linkedin.com/in/cristian-vlaescu-8ab2236/
+
+- name: Rupa Kommineni
+  website: https://www.linkedin.com/in/rupa-sravani-kommineni-36819816/
+
+- name: Quan Pham
+  website: https://www.linkedin.com/in/tran-quan-pham-657019b3/?originalSubdomain=au 

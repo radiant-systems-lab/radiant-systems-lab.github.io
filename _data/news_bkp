@@ -1,0 +1,83 @@
+- date: 2022-02-22
+  description: >
+      [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) presents [Reproducibility and Transparency Practices in HPC](https://meetings.siam.org/sess/dsp_talk.cfm?p=117798) at 2022 SIAM Conference on Parallel Processing for Scientific Computing. 
+
+- date: 2022-01-15
+  description: >
+      'CHEX: Multiversion Replay with Ordered Checkpoints' accepted to VLDB. Congrats [Nithin](URL) and [Shilvi](URL).
+
+- date: 2021-12-18
+  description: >
+      [Ton That Dai Hai](URL) presents 'Learned Distribution Index for Column Stores' at IEEE, Big Data, 2021. 
+
+- date: 2021-12-06
+  description: >
+     [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) is organizing [Theory and Practice of Provenance](URL). Please consider submitting.
+
+- date: 2021-11-18
+  description: >
+      [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) participates in the SC21 Panel on computational reproducibility. Check out ['Reproducibility in HPC:' Passing Fad or a Work in Progress?](https://sc21.supercomputing.org/presentation/?id=pan138&sess=sess238) 
+
+- date: 2021-11-12
+  description: >
+     Project on [Multiversion Execution](URL) launched. [Nithin](URL) and [Shilvi](URL) demonstrate it to the scientists. 
+
+- date: 2021-09-10
+  description: >
+     [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) and [Anjo Vahldiek-Oberwagner](URL) successfully complete SC21 Reproducibility Initiative Artifact Description and Artifact Evaluation. Our report is here. Artifacts are published here and here. 
+- date: 2021-09-01
+  description: >
+      The survey paper on ['Reproducibility Practice in High-Performance Computing: Community Survey Results'](https://ieeexplore.ieee.org/document/9547695) in collaboration with [Beth Plale](https://orcid.org/0000-0003-2164-8132) and Line Pouchard is published! 
+
+- date: 2021-07-19
+  description: |
+      Several mentions of DICE group members at ProvenanceWeek'21':'
+      - [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) successfully organizes [Theory and Practice of Provenance](https://iitdbgroup.github.io/ProvenanceWeek2021/tapp.html).
+      - [Raza Ahmad](URL) presents Practical Provenance Privacy Protection.
+      - [Yuta Nakamura](URL) presents the TaPP 2020 paper on 'Efficient Provenance Alignment in Reproduced Executions'. Slides are [here](URL).
+
+- date: 2021-07-04
+  description: >
+      Two new interns [Shilvi Satpati](URL) and [Shravan RaviShankar](URL) join DICE Lab!
+
+- date: 2021-04-01
+  description: >
+    [Ton That Dai Hai](URL) has a short paper at ACM Conference on Scientific and Statistical Databases(SSDBM), 2021. The paper is 'On Lowering Merge Costs of an LSM Tree.'
+  
+- date: 2021-02-01
+  description: >
+      [Nithin Manne](URL) leaves to join a job at Argonne National Lab. Congrats Nithin!
+
+- date: 2020-12-18
+  description: >
+     [Yuta Nakamura](URL) presents Content-defined Merkel Trees at 27th IEEE International Conference on High Performance Computing, Data, and Analytics (HiPC), 2020. Slides are [here](URL).
+
+- date: 2020-10-31
+  description: > 
+      Our paper on Content-defined Merkel Trees is accepted at 27th IEEE International Conference on High Performance Computing, Data, and Analytics (HiPC), 2020. Congrats, [Yuta](URL) on his first paper!
+
+- date: 2020-08-31
+  description: |
+      [James Wagner](URL), a PhD student at DePaul, advised by our collaborator, [Alex Rasin](URL) and co-advised by [Tanu Malik](URL) successfull defends his PhD thesis!. We wish Jay a successful career at his new position as Assistant Professor, University of New Orleans. Jay also publishes two short papers':' 
+        - ['DF-Toolkit:' Interacting with Low-Level Database Storage](URL) at VLDB, and
+        - ['ODSA:' Open Database Storage Access](URL) at EDBT.
+
+- date: 2020-07-17
+ description: |
+     Several accolades for DICE members at ProvenanceWeek'20':'
+     - [Raza Ahmad](URL) demonstrates 'PROV-CRT: Provenance Support for Container Runtimes'. Watch the demo [here](URL).
+     - [Yuta Nakamura](URL) presents the paper on 'Efficient Provenance Alignment in Reproduced Executions'.
+     - [Raza Ahmad](URL) also presents his past work at SRI on Discrepancy Detection in Whole Network Provenance. 
+
+
+- date: 2020-04-01
+    description: >
+        [Yuta Nakamura] joins the lab as its first PhD student. Welcome, Yuta!
+- date: 2020-04-01
+    description: >
+        [Raza Ahmad](URL) joins the DICE Lab. Welcome, Raza!
+
+- date: 2019-11-31
+    description: >
+        [Ton That Dai Hai](URL) leaves DePaul to join as Research Scientist at the The University of Alabama, Huntsville!
+
