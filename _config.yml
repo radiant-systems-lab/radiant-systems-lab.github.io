@@ -1,7 +1,7 @@
 name: The RADIANT Systems Lab
 markdown: kramdown
 highlighter: rouge
-url: https://rafiant-systems-lab.github.io
+url: https://radiant-systems-lab.github.io
 baseurl: ""
 plugins:
   - jekyll-redirect-from
