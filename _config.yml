@@ -1,7 +1,7 @@
-name: DICE group
+name: The RADIANT Systems Lab
 markdown: kramdown
 highlighter: rouge
-url: https://dice.cs.depaul.edu
+url: https://rafiant-systems-lab.github.io
 baseurl: ""
 plugins:
   - jekyll-redirect-from
