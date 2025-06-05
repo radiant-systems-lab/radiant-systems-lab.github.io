@@ -1,7 +1,7 @@
 ---
 layout: home
 title: Home
-group: "navigation"
+group: navigation
 rank: 0
 ---
 
@@ -17,20 +17,14 @@ rank: 0
 <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
 
 <p class="lead">
-The Data, Infrastructure, Computation, and Environments (DICE) Lab aims at expanding the understanding of issues relating to data, infrastructure, computational problems, and environments. The current focus is on provenance data, systems and infrastructure for computational reproducibility, optimization and decision problems arising within this data and systems, and exploration of a variety of virtual environments that are relevant for establishing computational reproducibility.
+The Radiant Systems Lab at the University of Missouri-Columbia is dedicated to advancing the path from data to informed decisions across a wide range of domains. The Lab pioneers the design of reproducible, accountable, transparent, and trustworthy data-driven systems and infrastructure. Its research and expertise spans cutting-edge areas including AI/ML methodologies and workflows, resource and systems optimization, data provenance, DevOps solutions and practices, and policy frameworks.
 </p>
 
 <p class="lead">
 
-<!--
-<a href="https://twitter.com/uw_db" class="twitter-follow-button" data-size="large" data-show-count="false" data-show-screen-name="false">Follow @uw_db</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-<a href="https://medium.com/@uwdb"><img class="icon" src="https://cdn-images-1.medium.com/max/800/1*F6SrJR7_s95r6oCF3ugMZw.png" alt="follow uwdb on medium" title="follow uwdb on medium" height="24"/></a>
--->
-
 <!--<a class="github-button" href="https://github.com/depaul-dice" 
   aria-label="Follow @depaul-dice on GitHub"></a> --> 
-<a href="https://github.com/depaul-dice" aria-label="Follow @depaul-dice on GitHub"> <img src="https://s18955.pcdn.co/wp-content/uploads/2018/02/github.png" width="35"> </a>
+<a href="https://github.com/radiant-systems-lab" aria-label="Follow @radiant-systems-lab on GitHub"> <img src="https://s18955.pcdn.co/wp-content/uploads/2018/02/github.png" width="35"> </a>
 
 </p>
 
