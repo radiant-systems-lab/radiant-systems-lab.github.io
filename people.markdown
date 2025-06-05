@@ -1,0 +1,86 @@
+---
+layout: page
+title: People
+group: "navigation"
+id: "people"
+---
+
+<!--# People
+-->
+<!--Group photos from different years are on the [group page]({{ site.baseurl }}/group.html).
+-->
+
+## Faculty
+
+<div class="flex-container people image-container">
+{% for person in site.data.faculty %}
+  {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+{% endfor %}
+</div>
+
+## Affiliate Faculty
+
+<div class="flex-container people image-container">
+{% for person in site.data.affiliates %}
+  {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+{% endfor %}
+</div>
+
+## Collaborators
+
+<div class="flex-container people image-container">
+ {% for person in site.data.collaborators %}
+    {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+ {% endfor %}
+ </div>
+
+
+
+## Postdocs
+<div class="flex-container people image-container">
+{% for person in site.data.postdocs %}
+  {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+{% endfor %}
+</div>
+
+
+## Graduate Students
+<div class="flex-container people image-container">
+{% for person in site.data.phd_students %}
+  {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+{% endfor %}
+</div>
+
+## Masters Students
+<div class="flex-container people image-container">
+{% for person in site.data.master_students %}
+  {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+{% endfor %}
+</div>
+
+<!--
+## Undergraduate Students
+<div class="flex-container people image-container">
+{% for person in site.data.undergraduates %}
+  {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+{% endfor %}
+</div>
+-->
+
+## Alumni
+
+<ul>
+{% assign sorted_alumni = (site.data.alumni) %}
+{% for person in sorted_alumni %}
+  <li>
+    {% if person.website %}
+    <a href="{{ person.website }}">
+      {{person.name}}
+    </a>
+    {% else %}
+      {{person.name}}
+    {% endif %}
+    {% if person.at %} (now at {{ person.at }}) {% endif %}
+  </li>
+{% endfor %}
+</ul>

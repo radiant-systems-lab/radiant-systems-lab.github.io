@@ -1,0 +1,7 @@
+name: DICE group
+markdown: kramdown
+highlighter: rouge
+url: https://dice.cs.depaul.edu
+baseurl: ""
+plugins:
+  - jekyll-redirect-from
