@@ -17,7 +17,9 @@ rank: 0
 <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
 
 <p class="lead">
-The Radiant Systems Lab at the University of Missouri-Columbia is dedicated to advancing the path from data to informed decisions across a wide range of domains. The Lab pioneers the design of reproducible, accountable, transparent, and trustworthy data-driven systems and infrastructure. Its research and expertise spans cutting-edge areas including AI/ML methodologies and workflows, resource and systems optimization, data provenance, DevOps solutions and practices, and policy frameworks.
+The Radiant Systems Lab at the University of Missouri-Columbia is dedicated to advancing the path from data to informed decisions across a wide range of domains. The Lab pioneers the design of reproducible, accountable, transparent, and trustworthy data-driven systems and infrastructure. Its research and expertise spans cutting-edge areas including AI/ML methodologies and workflows, resource and systems optimization, data provenance, DevOps solutions and practices, and policy frameworks. 
+  
+  Research Areas: Data management, distributed computing, provenance
 </p>
 
 <p class="lead">
