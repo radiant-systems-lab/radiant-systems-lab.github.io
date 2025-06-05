@@ -1,0 +1,75 @@
+.papertitle {
+    color: blue;
+}
+
+#cdmt {
+}
+
+.dropbtn {
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 0.25em;
+    padding: 0.5em 1em;
+    font-family: -apple-system,BlinkMacSystemFont,"Roboto","Segoe UI","Helvetica Neue","Lucida Grande",Arial,sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-width: 0;
+    border-radius: 4px;
+}
+
+.dropdown-content {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.btnAbstract {
+    display: inline-block;
+    border: 3px solid #0093d7;
+}
+
+.btnBibtex {
+    display:inline-block;
+    border: 3px solid #005EB8;
+}
+
+.btnPdf {
+    display: inline-block;
+    border: 3px solid #000000;
+}
+
+.dropdown-abstract {
+    font-size: .8em;
+    display: none;
+    position: relative;
+    border-left: 3px solid #7a8288;
+    padding-left: 3px;
+}
+
+pre {
+    display: block;
+    white-space: pre;
+    margin: 1em 0px;
+}
+.dropdown-bibtex {
+    font-size: .8em;
+    position: relative;
+}
+
+.dropdown-pdf {
+}
+
+.btns {
+    display: block;
+}
+
+.pubyear {
+    color: #7a8288;
+    border-bottom: 1px solid #f2f3f3;
+}
+
+
