@@ -11,7 +11,7 @@ keywords: machine learning, big data management, resource and system optimizatio
           <li><a href="{{ BASE_PATH }}/tm_cv.pdf">cv</a></li>
           <li><a href="https://github.com/radiant-systems-lab">github</a></li>
           <li><a href="https://kn.org/blog">blog</a></li>
-          <li><a href="https://discord.com">discord</a></li>
+          <li><a href="https://www.discord.com">discord</a></li>
       </ul>
   </div>
 </div>
