@@ -1,7 +1,7 @@
 ---
 layout: home
 title: Home
-group: "navigation"
+group: navigation
 rank: 0
 ---
 
@@ -17,7 +17,7 @@ rank: 0
 <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
 
 <p class="lead">
-The Radiant Systems Lab in the Department of Electrical Engineering and Computer Science at the University of Missouri-Columbia is dedicated to advancing the path from data to informed decisions across a wide range of domains. The Lab is a front runner in the design of reproducible, accountable, and trustworthy data-driven systems and infrastructure. It is directed by Dr. Tanu Malik and member expertise spans machine learning, big data management, resource and system optimization,  data provenance and policy frameworks, scientific workflows, and DevOps solutions and practices. 
+  The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in the <a href="https://engineering.missouri.edu/departments/eecs/">Department of Electrical Engineering and Computer Science</a> at the <a href="http://www.missouri.edu">University of Missouri-Columbia</a> is dedicated to advancing the path from data to informed decisions across a wide range of domains. The Lab is a front runner in the design of reproducible, accountable, and trustworthy data-driven systems and infrastructure. It is directed by <a href="https://engineering.missouri.edu/faculty/tanu-malik/">Dr. Tanu Malik</a> and member expertise spans machine learning, big data management, resource and system optimization,  data provenance and policy frameworks, scientific workflows, and DevOps solutions and practices. 
 
 </p>
 
@@ -31,7 +31,7 @@ The Radiant Systems Lab in the Department of Electrical Engineering and Computer
 
 <!--<a class="github-button" href="https://github.com/depaul-dice" 
   aria-label="Follow @depaul-dice on GitHub"></a> --> 
-<a href="https://github.com/depaul-dice" aria-label="Follow @depaul-dice on GitHub"> <img src="https://s18955.pcdn.co/wp-content/uploads/2018/02/github.png" width="35"> </a>
+<a href="https://github.com/radiant-systems-lab" aria-label="Follow @radiant-systems-lab on GitHub"> <img src="https://s18955.pcdn.co/wp-content/uploads/2018/02/github.png" width="35"> </a>
 
 </p>
 
