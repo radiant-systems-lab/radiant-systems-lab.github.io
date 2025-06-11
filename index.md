@@ -8,7 +8,7 @@ keywords: machine learning, big data management, resource and system optimizatio
 <div class="navbar">
   <div class="navbar-inner">
       <ul class="nav">
-          <li><a href="{{ BASE_PATH }}/bn_cv.pdf">cv</a></li>
+          <li><a href="{{ BASE_PATH }}/tm_cv.pdf">cv</a></li>
           <li><a href="https://github.com/radiant-systems-lab">github</a></li>
           <li><a href="https://kn.org/blog">blog</a></li>
           <li><a href="https://discord.com">discord</a></li>
