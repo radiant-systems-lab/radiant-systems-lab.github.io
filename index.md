@@ -1,6 +1,6 @@
 ---
 layout: page
-title:  The Radiant Systems Lab
+title:  Radiant Systems Lab
 description: The  webpage of Radiant Systems Lab
 keywords: machine learning, big data management, resource and system optimization,  data provenance and policy frameworks, scientific workflows, DevOps solutions and practices. 
 ---
