@@ -9,6 +9,8 @@
 .navbar .nav {
   float: right; }
 
+.navbarleft .nav {
+  float: leftt; }
 /* posts index */
 .post > h3.title {
   position: relative;
