@@ -1,17 +1,18 @@
 ---
 layout: page
-title:  Radiant Systems Lab
+title:  The Radiant Systems Lab
 description: The  webpage of Radiant Systems Lab
 keywords: machine learning, big data management, resource and system optimization,  data provenance and policy frameworks, scientific workflows, DevOps solutions and practices. 
 ---
 
+This is a test.
 <div class="navbar">
   <div class="navbar-inner">
       <ul class="nav">
           <li><a href="{{ BASE_PATH }}/tm_cv.pdf">cv</a></li>
           <li><a href="https://github.com/radiant-systems-lab">github</a></li>
-          <li><a href="https://kn.org/blog">blog</a></li>
           <li><a href="https://www.discord.com">discord</a></li>
+          <li><a href="https://kn.org/blog">blog</a></li>
       </ul>
   </div>
 </div>
