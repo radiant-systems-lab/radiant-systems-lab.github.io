@@ -39,10 +39,10 @@ The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in 
   <div class="navbar-inner">
       <ul class="nav">
           <li><a href="morefigs.html">news</a></li>
-          <li><a href="{{ BASE_PATH }}/tm_cv.pdf">cv</a></li>
+          <!--<li><a href="{{ BASE_PATH }}/tm_cv.pdf">cv</a></li>
           <li><a href="https://github.com/radiant-systems-lab">github</a></li>
           <li><a href="https://www.discord.com">discord</a></li>
-          <li><a href="https://kn.org/blog">blog</a></li>
+          <li><a href="https://kn.org/blog">blog</a></li>-->
       </ul>
   </div>
 </div>
