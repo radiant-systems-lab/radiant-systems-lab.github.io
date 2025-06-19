@@ -7,32 +7,34 @@ description: Radiant's members
 <div class="navbar">
     <div class="navbar-inner">
         <ul class="nav">
-            <li><a href="https://engineering.missouri.edu/faculty/tanu-malik/">director</a></li>
-            <li><a href="postdocs">postdocs</a></li>
-            <li><a href="phd">phd</a></li>
-            <li><a href="masters">ms</a></li>
-            <li><a href="ug">ug</a></li>
-            <li><a href="alumni">alumni</a></li>
-            <li><a href="openings">openings</a></li>
+            <li><a href="#director">director</a></li>
+            <li><a href="#postdocs">postdocs</a></li>
+            <li><a href="#phd">phd</a></li>
+            <li><a href="#masters">ms</a></li>
+            <li><a href="#ug">ug</a></li>
+            <li><a href="#alumni">alumni</a></li>
+            <li><a href="#openings">openings</a></li>
         </ul>
     </div>
 </div>
 
 ---
 
-## Director
+## <a name="director"></a>Director
 
 
-## Postdocs
+## <a name="postdocs"></a>Postdocs
 
 
-## Graduate students
+## <a name="phd"></a>Graduate students
 
 
-## Masters students
+## <a name="ms"></a>Masters students
 
 
-## Undergraduate students
+## <a name="ug"></a>Undergraduate students
 
 
-## Alumni
+## <a name="alumni"></a>Alumni
+
+## <a name="openings"></a>Openings
