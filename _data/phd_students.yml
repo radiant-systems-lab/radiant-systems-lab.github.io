@@ -1,0 +1,21 @@
+# use image: placeholder.jpg for those w/o pics
+
+- name: Bhanu Prakash Vangala
+  nickname: Bhanu
+  website: https://github.com/nakasan617
+  image: Bhanu.jpg
+
+- name: A S M Shahadat Hossain
+  nickname: Shahadat
+  website: https://www.linkedin.com/in/aniket-modi-985470190/
+  image: Shahdat.jpg
+
+- name: Ziyang Jia
+  nickname: Zi
+  website: 
+  image: Ziyang.jpg
+
+- name: Raza Ahmad
+  nickname: Raza
+  website: https://www.linkedin.com/in/sranasir/
+  image: Raza.jpg

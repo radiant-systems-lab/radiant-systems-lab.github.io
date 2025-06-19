@@ -33,13 +33,39 @@ description: Radiant's members
 
 ## <a name="phd"></a>graduate students
 
+<div class="flex-container people image-container">
+{% for person in site.data.phd_students %}
+  {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+{% endfor %}
+</div>
 
 ## <a name="ms"></a>masters students
 
+<div class="flex-container people image-container">
+{% for person in site.data.master_students %}
+  {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+{% endfor %}
+</div>
 
 ## <a name="ug"></a>undergraduate students
 
 
 ## <a name="alumni"></a>alumni
+
+<ul>
+{% assign sorted_alumni = (site.data.alumni) %}
+{% for person in sorted_alumni %}
+  <li>
+    {% if person.website %}
+    <a href="{{ person.website }}">
+      {{person.name}}
+    </a>
+    {% else %}
+      {{person.name}}
+    {% endif %}
+    {% if person.at %} (now at {{ person.at }}) {% endif %}
+  </li>
+{% endfor %}
+</ul>
 
 ## <a name="openings"></a>openings
