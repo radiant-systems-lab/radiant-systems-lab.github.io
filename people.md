@@ -20,21 +20,26 @@ description: Radiant's members
 
 ---
 
-## <a name="director"></a>Director
+## <a name="director"></a>director
+
+<div class="flex-container people image-container">
+{% for person in site.data.faculty %}
+  {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+{% endfor %}
+</div>
+
+## <a name="postdocs"></a>postdocs
 
 
-## <a name="postdocs"></a>Postdocs
+## <a name="phd"></a>graduate students
 
 
-## <a name="phd"></a>Graduate students
+## <a name="ms"></a>masters students
 
 
-## <a name="ms"></a>Masters students
+## <a name="ug"></a>undergraduate students
 
 
-## <a name="ug"></a>Undergraduate students
+## <a name="alumni"></a>alumni
 
-
-## <a name="alumni"></a>Alumni
-
-## <a name="openings"></a>Openings
+## <a name="openings"></a>openings
