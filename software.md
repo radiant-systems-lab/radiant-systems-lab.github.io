@@ -9,6 +9,7 @@ description: Radiant's Research Projects
         <ul class="nav">
             <li><a href="https://github.com/radiant-systems-lab/">Lab github</a></li>
             <li><a href="#sciunit">sciunit</a></li>
+            <li><a href="#provscope">provscope</a></li>
             <li><a href="#floability">floability</a></li>
             <li><a href="#flexiflow">flexiflow</a></li>
         </ul>
