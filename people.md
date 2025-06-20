@@ -30,7 +30,8 @@ description: Radiant's members
 
 ## <a name="postdocs"></a>postdocs
 
-
+See <a href="#openings">open positions.</a>
+ 
 ## <a name="phd"></a>graduate students
 
 <div class="flex-container people image-container">
@@ -49,6 +50,7 @@ description: Radiant's members
 
 ## <a name="ug"></a>undergraduate students
 
+See <a href="#openings">open positions.</a>
 
 ## <a name="alumni"></a>alumni
 
@@ -69,3 +71,5 @@ description: Radiant's members
 </ul>
 
 ## <a name="openings"></a>openings
+
+
