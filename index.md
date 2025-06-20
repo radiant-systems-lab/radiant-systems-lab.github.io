@@ -38,7 +38,7 @@ The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in 
 </table>
 -->
 
-<div class="navbarleft">
+<div class="navbar">
   <div class="navbar-inner">
       <ul class="nav">
           <li>news</li>
