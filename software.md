@@ -2,7 +2,7 @@
 layout: page
 title: research
 description: Radiant's Research Projects 
-
+---
 
 <div class="navbar">
     <div class="navbar-inner">
