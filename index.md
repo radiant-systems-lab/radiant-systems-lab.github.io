@@ -49,11 +49,19 @@ The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in 
   </div>
 </div>
 
+<ul id="RecentNews">
+{% assign news = site.data.news | sort: 'date' | reverse %}
+{% for n in news limit:8 %}
+  <li>
+   <span><b>{{ n.date | date: "%B %-d, %Y" }}</b></span>: {{ n.description | markdownify }}
+  </li>
+{% endfor %}
+
 
 <div class="navbar">
   <div class="navbar-inner">
       <ul class="nav">
-          <li><a href="morefigs.html">more news</a></li>
+          <li><a href="news.html">more news</a></li>
       </ul>
   </div>
 </div>
