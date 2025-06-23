@@ -49,7 +49,7 @@ The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in 
   </div>
 </div>
 
-<ul id="RecentNews">
+<ul id="RecentNews" class="news-font">
 {% assign news = site.data.news | sort: 'date' | reverse %}
 {% for n in news limit:8 %}
   <li>

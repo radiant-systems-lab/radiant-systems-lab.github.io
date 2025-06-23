@@ -39,6 +39,12 @@ p {
   color: #333;
 }
 
+.news-font {
+  font-family: 'Georgia', serif; /* or any other font like 'Roboto', 'Arial', etc. */
+  font-size: 10px;
+}
+
+
 /* tag_box */
 .tag_box {
   list-style: none;
