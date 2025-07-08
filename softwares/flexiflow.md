@@ -28,6 +28,15 @@ The current programming paradigm is to chose the ML model with the best performa
   <img src="/images/softwares/flexiflowfig1.png" alt="FlexiFlow Example Diagram" style="max-width:90%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 </div>
 
+Supppose that Model 1 performs suboptimally on a subset of the input called Input A. This Model 1 gives Output 1 for the Input A which does not satisfy a user defined evaluation metric. For this specific input, there exists a Model 2 giving Output 2 which satisfies the evaluation metric.
+On a holistic level, the second model may not perform better than the primary model on the entire dataset, but for this specific subset of the data, it may be better to use the secondary model instead.
+
+Current systems lack the capability to adaptively switch between models based on performance, forcing users to manually run the models in a user-defined sequence. This may be feasible for smaller pipelines, but completly infeasible for bigger and more complex workflows with multiple moving components.
+
+Thus, **FlexiFlow** was created to solve this problem. It uses reinforcement learning to learn the order of using models at each node to maximise performance. The reward to the learning algorithm is given by user defined evaluation metrics or assertions.
+
+The learning algorithm is a hybrid thomson sampling strategy that takes into account information at the node level and the job level to effectively learn the optimal order of models to run to reduce runtime and maximise accuracy.
+
 -------------
 
 ## docs
@@ -38,7 +47,7 @@ The current programming paradigm is to chose the ML model with the best performa
 
 ## code
 
-Add some sample code/link to the github repository here.
+You can find the entire repository here: Link to the github repository here.
 
 -------------
 
@@ -50,4 +59,4 @@ Add the upcoming papers here
 
 ## team
 
-Insert the team members here
+Insert the team members here.
