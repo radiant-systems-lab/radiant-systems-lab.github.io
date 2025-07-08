@@ -41,7 +41,7 @@ The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in 
 <div class="navbarleft">
   <div class="navbar-inner">
       <ul class="nav">
-          <li>news</li>
+          <li class="news-heading">news</li>
           <!--<li><a href="https://github.com/radiant-systems-lab">github</a></li>
           <li><a href="https://www.discord.com">discord</a></li>
           <li><a href="https://kn.org/blog">blog</a></li>-->
@@ -49,11 +49,12 @@ The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in 
   </div>
 </div>
 
-<ul id="RecentNews"> 
+<ul id="RecentNews">
 {% assign news = site.data.news | sort: 'date' | reverse %}
 {% for n in news limit:8 %}
-  <li class="news-font">
-   <span><b>{{ n.date | date: "%B %-d, %Y" }}</b></span>: {{ n.description | markdownify }}
+  <li>
+    <div class="news-date">{{ n.date | date: "%B %-d, %Y" }}</div>
+    <div class="news-description">{{ n.description | markdownify }}</div>
   </li>
 {% endfor %}
 
