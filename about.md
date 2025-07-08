@@ -37,10 +37,12 @@ The focus of the research performed in this lab includes but is not limited to:
     }
 
     .slides img {
-      width: 100%;
-      flex-shrink: 0;
-      object-fit: cover;
+      width: 50%;
+      height: auto;
+      object-fit: contain;
+      margin: auto;
     }
+
 
     @keyframes slide {
       0% { transform: translateX(0%); }
