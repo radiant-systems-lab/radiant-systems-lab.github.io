@@ -21,7 +21,7 @@ The focus of the research performed in this lab includes but is not limited to:
 - **Infrastructure and Policy (INP):**  
   Engage in resource and systems optimization of infrastructure, guided by policy frameworks.
 
-<div style="max-width:600px; margin:auto;">
+<div style="max-width:800px; margin:auto;">
   <style>
     .slider {
       position: relative;
@@ -32,8 +32,8 @@ The focus of the research performed in this lab includes but is not limited to:
 
     .slides {
       display: flex;
-      width: 400%;
-      animation: slide 16s linear infinite;
+      width: 100%;
+      animation: slide 28s linear infinite;
     }
 
     .slides img {
