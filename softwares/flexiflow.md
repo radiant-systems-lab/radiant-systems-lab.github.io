@@ -59,4 +59,10 @@ Add the upcoming papers here
 
 ## team
 
-Insert the team members here.
+<div class="flex-container people image-container">
+{% assign flexiflow_team = site.data.flexiflow %}
+{% for person in flexiflow_team %}
+  {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+{% endfor %}
+</div>
+

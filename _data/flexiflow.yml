@@ -1,8 +1,32 @@
 # Volatile data for FlexiFlow software page
 # Add fields as needed, e.g., version, release_date, contributors, etc.
-flexiflow:
-  version: ""
-  release_date: ""
-  contributors: []
-  downloads: 0
-  last_updated: ""
+- name: Tanu Malik
+  nickname: Tanu
+  website: https://facsrv.cs.depaul.edu/~tmalik1/
+  image: Tanu.jpg
+
+- name: Abhilash Jindal
+  website: https://abhilash-jindal.com/
+  image: Abhilash.jpg
+
+- name: Todd Nief
+  website: https://toddnief.com/
+  image:
+
+- name: Shankaradithyaa Venkateswaran
+  website: https://www.linkedin.com/in/shankaradithyaa-venkateswaran-12a283262/
+  image:
+
+- name: Tvisha Malik
+  website: 
+  image:
+
+- name: Anshik Sahu
+  website: https://www.linkedin.com/in/anshik-sahu-0893a822b/?originalSubdomain=in
+  image:
+
+- name: Amitabh Chaudhary
+  image:
+
+- name: Aaron Schein
+  image:
