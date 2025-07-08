@@ -31,18 +31,19 @@ The focus of the research performed in this lab includes but is not limited to:
     }
     .slides {
       display: flex;
-      width: 300%;
-      animation: slide 9s infinite;
+      width: 400%;
+      animation: slide 16s infinite;
     }
     .slides img {
       width: 100%;
       object-fit: cover;
     }
     @keyframes slide {
-      0% { transform: translateX(0%); }
-      33% { transform: translateX(-100%); }
-      66% { transform: translateX(-200%); }
-      100% { transform: translateX(0%); }
+      0%    { transform: translateX(0%); }
+      25%   { transform: translateX(-100%); }
+      50%   { transform: translateX(-200%); }
+      75%   { transform: translateX(-300%); }
+      100%  { transform: translateX(0%); }
     }
   </style>
 
