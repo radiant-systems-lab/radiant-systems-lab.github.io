@@ -17,7 +17,8 @@
 /* home navigation list */
 .navbar .home-nav {
   float: left;
-  margin-right: auto; }
+  margin-right: auto; 
+  margin-left: -20px; }
 
 /* posts index */
 .post > h3.title {
