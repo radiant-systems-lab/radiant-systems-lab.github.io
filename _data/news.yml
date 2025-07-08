@@ -1,163 +1,163 @@
 - date: 2024-02-16
   description: >
-          'Differential Analysis for System Provenance' accepted to PhD Symposium at 40th IEEE International Conference on Data Engineering (ICDE). Congratulations [Yuta Nakamura](https://github.com/nakasan617)!
+    'Differential Analysis for System Provenance' accepted to the PhD Symposium at the 40th IEEE International Conference on Data Engineering (ICDE). Congratulations [Yuta Nakamura](https://github.com/nakasan617)!
 
 - date: 2024-02-12
   description: >
-          'Efficiently Reducing Storage Footprint in Reproducible Containers via I/O Specialization' accepted to 24th IEEE/ACM international Symposium on Cluster, Cloud and Internet Computing (CCGrid). Congratulations [Aniket Modi](https://www.linkedin.com/in/aniket-modi-985470190/), [Rohan Tikmany](https://www.linkedin.com/in/rtikmany) and [Moaz Reyad](https://scholar.google.fr/citations?user=AUe7hCIAAAAJ&hl=en)! 
+    'Efficiently Reducing Storage Footprint in Reproducible Containers via I/O Specialization' accepted to the 24th IEEE/ACM International Symposium on Cluster, Cloud and Internet Computing (CCGrid). Congratulations [Aniket Modi](https://www.linkedin.com/in/aniket-modi-985470190/), [Rohan Tikmany](https://www.linkedin.com/in/rtikmany), and [Moaz Reyad](https://scholar.google.fr/citations?user=AUe7hCIAAAAJ&hl=en)!
+
 - date: 2024-01-19
   description: >
-          'Kondo: Efficient Provenance-driven Data Debloating' accepted to 40th IEEE International Conference on Data Engineering (ICDE). Congratulations [Aniket Modi](https://www.linkedin.com/in/aniket-modi-985470190/) and [Rohan Tikmany](https://www.linkedin.com/in/rtikmany)! 
+    'Kondo: Efficient Provenance-driven Data Debloating' accepted to the 40th IEEE International Conference on Data Engineering (ICDE). Congratulations [Aniket Modi](https://www.linkedin.com/in/aniket-modi-985470190/) and [Rohan Tikmany](https://www.linkedin.com/in/rtikmany)!
 
 - date: 2023-08-16
   description: >
-          'Reproducible eScience: The Data Containerization Challenge' in Future of eScience track at [IEEE eScience'23](https://www.escience-conference.org/2023/). 
+    'Reproducible eScience: The Data Containerization Challenge' in the Future of eScience track at [IEEE eScience'23](https://www.escience-conference.org/2023/).
 
 - date: 2023-08-05
   description: >
-          'Efficient Differencing of System-level Provenance Graphs' accepted to ACM International Conference of Knowledge Management (CIKM). Congratulations [Yuta Nakamura](https://github.com/nakasan617)!
+    'Efficient Differencing of System-level Provenance Graphs' accepted to the ACM International Conference on Knowledge Management (CIKM). Congratulations [Yuta Nakamura](https://github.com/nakasan617)!
 
 - date: 2023-06-28
   description: >
-          The First ACM Conference on Reproducibility and Replicability [(ACM-REP)](https://acm-rep.github.io/2023/) was a hugh success! See a summary [here](https://acm-rep.github.io/post/20230714-acmrep23/).
+    The First ACM Conference on Reproducibility and Replicability [(ACM-REP)](https://acm-rep.github.io/2023/) was a huge success! See a summary [here](https://acm-rep.github.io/post/20230714-acmrep23/).
 
 - date: 2023-06-08
   description: >
-          'Towards Shareable and Reproducible Cloud Computing Experiments' accepted to IEEE CloudSummit! Our vision of how to reproduce cloud-based experiments. 
+    'Towards Shareable and Reproducible Cloud Computing Experiments' accepted to IEEE CloudSummit! Our vision of how to reproduce cloud-based experiments.
 
 - date: 2023-04-24
   description: >
-          DICE Lab presents several posters and a talk on ['Reproducible Notebook Containers'](https://gcasr.org/talks) at 10th  Greater Chicago Area Systems Research Workshop [(GCASR)](https://gcasr.org).
+    DICE Lab presents several posters and a talk on ['Reproducible Notebook Containers'](https://gcasr.org/talks) at the 10th Greater Chicago Area Systems Research Workshop [(GCASR)](https://gcasr.org).
 
 - date: 2023-03-06
   description: >
-          'Querying Container Provenance' accepted to ACM Theory and Practice of Provenance at ProvenanceWeek. Congratulations [Aniket Modi](https://www.linkedin.com/in/aniket-modi-985470190/) and [Moaz Reyad](https://scholar.google.fr/citations?user=AUe7hCIAAAAJ&hl=en)!
+    'Querying Container Provenance' accepted to ACM Theory and Practice of Provenance at ProvenanceWeek. Congratulations [Aniket Modi](https://www.linkedin.com/in/aniket-modi-985470190/) and [Moaz Reyad](https://scholar.google.fr/citations?user=AUe7hCIAAAAJ&hl=en)!
 
 - date: 2023-01-03
   description: >
-          Our paper ['IOSPReD: I/O Specialized Packaging of Reduced Datasets and Data-Intensive Applications for Efficient Reproducibility'](https://dice.cs.depaul.edu/pdfs/pubs/J7.pdf) accepted to IEEE Access.
+    Our paper ['IOSPReD: I/O Specialized Packaging of Reduced Datasets and Data-Intensive Applications for Efficient Reproducibility'](https://dice.cs.depaul.edu/pdfs/pubs/J7.pdf) accepted to IEEE Access.
 
 - date: 2022-12-18
   description: >
-          [Yuta Nakamura](https://github.com/nakasan617) presents 'Provenance-based Workflow Diagnostics Using Program Specification' at 29th IEEE International Conference on High Performance Computing, Data, and Analytics.
+    [Yuta Nakamura](https://github.com/nakasan617) presents 'Provenance-based Workflow Diagnostics Using Program Specification' at the 29th IEEE International Conference on High Performance Computing, Data, and Analytics.
 
 - date: 2022-11-14
   description: >
-         The first [ACM Conference on Reproducibility and Replicability](https://acm-rep.github.io/2023/). Please consider contributing! 
+    The first [ACM Conference on Reproducibility and Replicability](https://acm-rep.github.io/2023/). Please consider contributing!
 
 - date: 2022-11-13
   description: >
-          [COV882: Resource Virtualization With Containers](https://dice.cs.depaul.edu/courses/882/index.html) well-received at IIT, Delhi. Thanks to IIT, Delhi students and a wonderful experience!
+    [COV882: Resource Virtualization With Containers](https://dice.cs.depaul.edu/courses/882/index.html) was well received at IIT Delhi. Thanks to the IIT Delhi students for a wonderful experience!
 
 - date: 2022-10-13
-  description: > 
-      'Reproducible Notebook Containers using  Application Virtualization' **wins** <s>nominated as</s> the **Best Student Paper** at eScience'22! Congrats [Raza Ahmad](https://www.linkedin.com/in/sranasir/) and [Nithin Manne](https://www.linkedin.com/in/nithinmanne/)
+  description: >
+    'Reproducible Notebook Containers using Application Virtualization' **wins** <s>nominated as</s> the **Best Student Paper** at eScience'22! Congrats [Raza Ahmad](https://www.linkedin.com/in/sranasir/) and [Nithin Manne](https://www.linkedin.com/in/nithinmanne/).
 
 - date: 2022-09-16
-  description: > 
-        'Provenance-based Workflow Diagnostics Using Program Specification' accepted to 29th IEEE International Conference on High Performance Computing, Data, and Analytics.
-        Congrats [Yuta Nakamura](https://github.com/nakasan617)! 
+  description: >
+    'Provenance-based Workflow Diagnostics Using Program Specification' accepted to the 29th IEEE International Conference on High Performance Computing, Data, and Analytics. Congrats [Yuta Nakamura](https://github.com/nakasan617)!
 
 - date: 2022-09-08
-  description: > 
-      [Nithin](https://www.linkedin.com/in/nithinmanne/) presents 'CHEX: Multiversion Replay with Ordered Checkpoints' at VLDB'22.  
+  description: >
+    [Nithin](https://www.linkedin.com/in/nithinmanne/) presents 'CHEX: Multiversion Replay with Ordered Checkpoints' at VLDB'22.
 
 - date: 2022-08-05
-  description: > 
-      'Reproducible Notebook Containers using  Application Virtualization' nominated as the Best Student Paper at eScience'22! 
+  description: >
+    'Reproducible Notebook Containers using Application Virtualization' nominated as the Best Student Paper at eScience'22!
 
 - date: 2022-07-15
   description: >
-      'Reproducible Notebook Containers using  Application Virtualization' accepted to eScience'22. Congrats [Raza](https://www.linkedin.com/in/sranasir/) and [Nithin](https://www.linkedin.com/in/nithinmanne/). 
+    'Reproducible Notebook Containers using Application Virtualization' accepted to eScience'22. Congrats [Raza](https://www.linkedin.com/in/sranasir/) and [Nithin](https://www.linkedin.com/in/nithinmanne/).
 
 - date: 2022-05-01
   description: >
-          DICE lab is funded by the [NASA AIST program](https://esto.nasa.gov/project-selections-for-aist-21/) for advancing reproducible containers to collaborative analytics!! Elated to extend [Sciunit](http://sciunit.run) to NASA workflows!! 
+    DICE Lab is funded by the [NASA AIST program](https://esto.nasa.gov/project-selections-for-aist-21/) for advancing reproducible containers to collaborative analytics! Elated to extend [Sciunit](http://sciunit.run) to NASA workflows!
 
 - date: 2022-04-23
   description: >
-        'Expanding the Scope of Artifact Evaluation at HPC Conferences: Experience of SC21' accepted to PRECS workshop at HPDC. Thanks to [Anjo Vahldiek-Oberwagner](https://vahldiek.github.io) for collaborating on this. 
+    'Expanding the Scope of Artifact Evaluation at HPC Conferences: Experience of SC21' accepted to the PRECS workshop at HPDC. Thanks to [Anjo Vahldiek-Oberwagner](https://vahldiek.github.io) for collaborating on this.
 
 - date: 2022-02-22
   description: >
-      [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) presents [Reproducibility and Transparency Practices in HPC](https://meetings.siam.org/sess/dsp_talk.cfm?p=117798) at 2022 SIAM Conference on Parallel Processing for Scientific Computing. 
+    [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) presents [Reproducibility and Transparency Practices in HPC](https://meetings.siam.org/sess/dsp_talk.cfm?p=117798) at the 2022 SIAM Conference on Parallel Processing for Scientific Computing.
 
 - date: 2022-01-15
   description: >
-      'CHEX: Multiversion Replay with Ordered Checkpoints' accepted to VLDB. Congrats [Nithin](https://www.linkedin.com/in/nithinmanne/) and [Shilvi](https://www.linkedin.com/in/shilvi-satpati/).
+    'CHEX: Multiversion Replay with Ordered Checkpoints' accepted to VLDB. Congrats [Nithin](https://www.linkedin.com/in/nithinmanne/) and [Shilvi](https://www.linkedin.com/in/shilvi-satpati/).
 
 - date: 2021-12-18
   description: >
-      [Dai Hai Ton That](https://www.linkedin.com/in/dai-hai-ton-that-43521b100/) presents 'Learned Distribution Index for Column Stores' at IEEE, Big Data, 2021. 
+    [Dai Hai Ton That](https://www.linkedin.com/in/dai-hai-ton-that-43521b100/) presents 'Learned Distribution Index for Column Stores' at IEEE Big Data 2021.
 
 - date: 2021-12-06
   description: >
-     [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) is organizing [Theory and Practice of Provenance](https://tapp2022.github.io/). Please consider submitting.
+    [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) is organizing [Theory and Practice of Provenance](https://tapp2022.github.io/). Please consider submitting.
 
 - date: 2021-11-18
   description: >
-      [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) participates in the SC21 Panel on computational reproducibility. Check out ['Reproducibility in HPC:' Passing Fad or a Work in Progress?](https://sc21.supercomputing.org/presentation/?id=pan138&sess=sess238) 
+    [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) participates in the SC21 Panel on computational reproducibility. Check out ['Reproducibility in HPC: Passing Fad or a Work in Progress?'](https://sc21.supercomputing.org/presentation/?id=pan138&sess=sess238).
 
 - date: 2021-11-12
   description: >
-     Project on [Multiversion Execution](URL) launched. [Nithin](https://www.linkedin.com/in/nithinmanne/) and [Shilvi](https://www.linkedin.com/in/shilvi-satpati/) demonstrate it to the scientists. 
+    Project on [Multiversion Execution](URL) launched. [Nithin](https://www.linkedin.com/in/nithinmanne/) and [Shilvi](https://www.linkedin.com/in/shilvi-satpati/) demonstrate it to scientists.
 
 - date: 2021-09-10
   description: >
-     [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) and [Anjo Vahldiek-Oberwagner](https://vahldiek.github.io/) successfully complete SC21 Reproducibility Initiative Artifact Description and Artifact Evaluation. Our report is here. Artifacts are published here and here. 
+    [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) and [Anjo Vahldiek-Oberwagner](https://vahldiek.github.io/) successfully complete the SC21 Reproducibility Initiative Artifact Description and Artifact Evaluation. Our report is here. Artifacts are published here and here.
+
 - date: 2021-09-01
   description: >
-      The survey paper on ['Reproducibility Practice in High-Performance Computing: Community Survey Results'](https://ieeexplore.ieee.org/document/9547695) in collaboration with [Beth Plale](https://orcid.org/0000-0003-2164-8132) and Line Pouchard is published! 
+    The survey paper on ['Reproducibility Practice in High-Performance Computing: Community Survey Results'](https://ieeexplore.ieee.org/document/9547695), in collaboration with [Beth Plale](https://orcid.org/0000-0003-2164-8132) and Line Pouchard, is published!
 
 - date: 2021-07-19
   description: |
-      Several mentions of DICE group members at ProvenanceWeek'21':'
-      - [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) successfully organizes [Theory and Practice of Provenance](https://iitdbgroup.github.io/ProvenanceWeek2021/tapp.html).
-      - [Raza Ahmad](https://razaahmad.org/) presents Practical Provenance Privacy Protection.
-      - [Yuta Nakamura](https://github.com/nakasan617) presents the TaPP 2020 paper on 'Efficient Provenance Alignment in Reproduced Executions'. Slides are [here](URL).
+    Several mentions of DICE group members at ProvenanceWeek'21:
+    - [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) successfully organizes [Theory and Practice of Provenance](https://iitdbgroup.github.io/ProvenanceWeek2021/tapp.html).
+    - [Raza Ahmad](https://razaahmad.org/) presents Practical Provenance Privacy Protection.
+    - [Yuta Nakamura](https://github.com/nakasan617) presents the TaPP 2020 paper on 'Efficient Provenance Alignment in Reproduced Executions'. Slides are [here](URL).
 
 - date: 2021-07-04
   description: >
-      Two new interns [Shilvi Satpati](https://www.linkedin.com/in/shilvi-satpati/) and [Shravan RaviShankar](https://www.linkedin.com/in/shravan-ravishankar-68730016a/) join DICE Lab!
+    Two new interns, [Shilvi Satpati](https://www.linkedin.com/in/shilvi-satpati/) and [Shravan RaviShankar](https://www.linkedin.com/in/shravan-ravishankar-68730016a/), join DICE Lab!
 
 - date: 2021-04-01
   description: >
-    [Dai Hai Ton That](https://www.linkedin.com/in/dai-hai-ton-that-43521b100/) has a short paper at ACM Conference on Scientific and Statistical Databases(SSDBM), 2021. The paper is 'On Lowering Merge Costs of an LSM Tree.'
- 
+    [Dai Hai Ton That](https://www.linkedin.com/in/dai-hai-ton-that-43521b100/) has a short paper at the ACM Conference on Scientific and Statistical Databases (SSDBM), 2021. The paper is 'On Lowering Merge Costs of an LSM Tree.'
+
 - date: 2021-02-01
   description: >
-      [Nithin Manne](https://www.linkedin.com/in/nithinmanne/) leaves to join a job at Argonne National Lab. Congrats Nithin!
+    [Nithin Manne](https://www.linkedin.com/in/nithinmanne/) leaves to join a job at Argonne National Lab. Congrats, Nithin!
 
 - date: 2020-12-18
   description: >
-     [Yuta Nakamura](https://github.com/nakasan617) presents Content-defined Merkel Trees at 27th IEEE International Conference on High Performance Computing, Data, and Analytics (HiPC), 2020. Slides are [here](URL).
+    [Yuta Nakamura](https://github.com/nakasan617) presents 'Content-defined Merkel Trees' at the 27th IEEE International Conference on High Performance Computing, Data, and Analytics (HiPC), 2020. Slides are [here](URL).
 
 - date: 2020-10-31
-  description: > 
-      Our paper on Content-defined Merkel Trees is accepted at 27th IEEE International Conference on High Performance Computing, Data, and Analytics (HiPC), 2020. Congrats, [Yuta](https://github.com/nakasan617) on his first paper!
+  description: >
+    Our paper on 'Content-defined Merkel Trees' is accepted at the 27th IEEE International Conference on High Performance Computing, Data, and Analytics (HiPC), 2020. Congrats to [Yuta](https://github.com/nakasan617) on his first paper!
 
 - date: 2020-08-31
   description: |
-      [James Wagner](https://www.uno.edu/profile/faculty/james_wagner), a PhD student at DePaul, advised by our collaborator, [Alex Rasin](https://www.cdm.depaul.edu/Faculty-and-Staff/pages/faculty-info.aspx?fid=1041) and co-advised by [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1) successfully defends his PhD thesis!. We wish Jay a successful career at his new position as Assistant Professor, University of New Orleans. Jay also publishes two short papers':' 
-        - ['DF-Toolkit:' Interacting with Low-Level Database Storage](URL) at VLDB, and
-        - ['ODSA:' Open Database Storage Access](URL) at EDBT.
+    [James Wagner](https://www.uno.edu/profile/faculty/james_wagner), a PhD student at DePaul, advised by our collaborator [Alex Rasin](https://www.cdm.depaul.edu/Faculty-and-Staff/pages/faculty-info.aspx?fid=1041) and co-advised by [Tanu Malik](http://facsrv.cs.depaul.edu/~tmalik1), successfully defends his PhD thesis! We wish Jay a successful career in his new position as Assistant Professor at the University of New Orleans. Jay also publishes two short papers:
+      - ['DF-Toolkit: Interacting with Low-Level Database Storage'](URL) at VLDB, and
+      - ['ODSA: Open Database Storage Access'](URL) at EDBT.
 
 - date: 2020-07-17
   description: |
-     Several accolades for DICE members at ProvenanceWeek'20':'
-     - [Raza Ahmad](https://razaahmad.org/) demonstrates 'PROV-CRT: Provenance Support for Container Runtimes'. Watch the demo [here](URL).
-     - [Yuta Nakamura](https://github.com/nakasan617) presents the paper on 'Efficient Provenance Alignment in Reproduced Executions'.
-     - [Raza Ahmad](https://razaahmad.org/) also presents his past work at SRI on Discrepancy Detection in Whole Network Provenance. 
-
-
-- date: 2020-04-01
-  description: >
-        [Yuta Nakamura](https://github.com/nakasan617) joins the lab as its first PhD student. Welcome, Yuta!
+    Several accolades for DICE members at ProvenanceWeek'20:
+    - [Raza Ahmad](https://razaahmad.org/) demonstrates 'PROV-CRT: Provenance Support for Container Runtimes'. Watch the demo [here](URL).
+    - [Yuta Nakamura](https://github.com/nakasan617) presents the paper on 'Efficient Provenance Alignment in Reproduced Executions'.
+    - [Raza Ahmad](https://razaahmad.org/) also presents his past work at SRI on discrepancy detection in whole network provenance.
 
 - date: 2020-04-01
   description: >
-        [Raza Ahmad](https://razaahmad.org/) joins the DICE Lab. Welcome, Raza!
+    [Yuta Nakamura](https://github.com/nakasan617) joins the lab as its first PhD student. Welcome, Yuta!
+
+- date: 2020-04-01
+  description: >
+    [Raza Ahmad](https://razaahmad.org/) joins the DICE Lab. Welcome, Raza!
 
 - date: 2019-11-30
   description: >
-      [Dai Hai Ton That](https://www.linkedin.com/in/dai-hai-ton-that-43521b100/) leaves [DICE](http://dice.cs.depaul.edu) to join as Research Scientist at the University of Alabama, Huntsville! 
+    [Dai Hai Ton That](https://www.linkedin.com/in/dai-hai-ton-that-43521b100/) leaves [DICE](http://dice.cs.depaul.edu) to join as a Research Scientist at the University of Alabama, Huntsville!
