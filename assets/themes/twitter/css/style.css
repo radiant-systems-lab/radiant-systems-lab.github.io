@@ -13,6 +13,12 @@
 
 .navbarleft .nav {
   float: leftt; }
+
+/* home navigation list */
+.navbar .home-nav {
+  float: left;
+  margin-right: auto; }
+
 /* posts index */
 .post > h3.title {
   position: relative;
