@@ -11,42 +11,29 @@ description: About the Radiant Lab
 The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/faculty/tanu-malik/">Dr. Tanu Malik</a> is located in the <a href="https://engineering.missouri.edu/departments/eecs/">Department of Electrical Engineering and Computer Science</a> at the <a href="http://www.missouri.edu">University of Missouri-Columbia (Mizzou)</a>. This lab is a front runner in the design of reproducible, accountable, and trustworthy data-driven systems and infrastructure. This lab aims to advance reproducible, accountable, explainable, and policy-aware data science by developing systems that enhance the reliability of data-intensive, distributed, and parallel scientific workflows through accountable and reproducible containerization. It also focuses on improving transparency in artificial intelligence by making data, algorithms, and decision-making processes within scientific workflows more interpretable and understandable.
 
 
-<div style="width:800px; height:400px; margin:auto; position:relative;">
+<div style="max-width:800px; margin:auto; position:relative;">
   <style>
     .carousel-container {
       position: relative;
       width: 100%;
-      height: 100%;
+      height: 400px;
       overflow: hidden;
+      border-radius: 10px;
     }
 
     .carousel-slide {
       display: flex;
-      width: 400%;
+      transition: transform 0.5s ease-in-out;
       height: 100%;
-      animation: slide 24s infinite;
     }
 
     .carousel-slide img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain; /* Show full image inside frame */
       flex-shrink: 0;
     }
 
-    @keyframes slide {
-      0%   { transform: translateX(0%); }
-      20%  { transform: translateX(0%); }
-      25%  { transform: translateX(-100%); }
-      45%  { transform: translateX(-100%); }
-      50%  { transform: translateX(-200%); }
-      70%  { transform: translateX(-200%); }
-      75%  { transform: translateX(-300%); }
-      95%  { transform: translateX(-300%); }
-      100% { transform: translateX(0%); }
-    }
-
-    /* Navigation Arrows */
     .nav-btn {
       position: absolute;
       top: 50%;
@@ -57,22 +44,16 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
       font-size: 24px;
       padding: 10px;
       cursor: pointer;
-      z-index: 1;
+      z-index: 2;
     }
 
     .nav-btn:hover {
       background-color: rgba(0,0,0,0.7);
     }
 
-    .prev-btn {
-      left: 10px;
-    }
+    .prev-btn { left: 10px; }
+    .next-btn { right: 10px; }
 
-    .next-btn {
-      right: 10px;
-    }
-
-    /* Dot Indicators */
     .dots {
       position: absolute;
       bottom: 10px;
@@ -80,14 +61,15 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
       transform: translateX(-50%);
       display: flex;
       gap: 10px;
-      z-index: 1;
+      z-index: 2;
     }
 
     .dot {
       width: 12px;
       height: 12px;
       border-radius: 50%;
-      background-color: rgba(255,255,255,0.6);
+      background-color: rgba(255,255,255,0.5);
+      cursor: pointer;
     }
 
     .dot.active {
@@ -96,26 +78,49 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
   </style>
 
   <div class="carousel-container">
-    <div class="carousel-slide">
+    <div class="carousel-slide" id="carouselSlide">
       <img src="images/icons/provenance.png" alt="Slide 1">
       <img src="images/icons/container.png" alt="Slide 2">
       <img src="images/icons/infrastructure.png" alt="Slide 3">
       <img src="images/icons/policy.png" alt="Slide 4">
     </div>
 
-    <!-- Navigation buttons (non-functional without JS, but stylized) -->
-    <button class="nav-btn prev-btn">&#10094;</button>
-    <button class="nav-btn next-btn">&#10095;</button>
+    <button class="nav-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="nav-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
 
-    <!-- Dots (static visual only) -->
-    <div class="dots">
-      <div class="dot active"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
+    <div class="dots" id="dotsContainer">
+      <div class="dot active" onclick="goToSlide(0)"></div>
+      <div class="dot" onclick="goToSlide(1)"></div>
+      <div class="dot" onclick="goToSlide(2)"></div>
+      <div class="dot" onclick="goToSlide(3)"></div>
     </div>
   </div>
+
+  <script>
+    const slideContainer = document.getElementById('carouselSlide');
+    const dots = document.querySelectorAll('.dot');
+    const totalSlides = dots.length;
+    let currentSlide = 0;
+
+    function updateCarousel() {
+      slideContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+      });
+    }
+
+    function moveSlide(direction) {
+      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+      updateCarousel();
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateCarousel();
+    }
+  </script>
 </div>
+
 
 
 The focus of the research performed in this lab includes but is not limited to:
