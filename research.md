@@ -22,6 +22,9 @@ Improving data-intensive, distributed, and parallel science workflows with repro
 
 <div>
     <style>
+        .research_subs {
+            margin: 0px;
+        }
         .media {
             box-sizing: border-box;
             border: 1px solid rgba(0, 0, 0, .125);
@@ -46,10 +49,12 @@ Improving data-intensive, distributed, and parallel science workflows with repro
             overflow: hidden;
             box-sizing: border-box;
             unicode-bidi: isolate;
-            font-size: 15px;
         }
         .media-heading {
             font-size: 20px;
+        }
+        .research_abstract {
+            font-size: 15px;
         }
         .research_citation {
             font-size: 13px;
@@ -66,7 +71,7 @@ Improving data-intensive, distributed, and parallel science workflows with repro
             </div>
             <div class="media-body">
                 <h4 class="media-heading">{{r.project}}</h4>
-                <p>
+                <p class="research_abstract">
                 {{r.abstract}}</p>
                 <p class="research_citation">
                 <strong>{{r.title}}. </strong> {{r.authors}}  <strong><i>, {{r.publication}}</i></strong>, {{r.year}}. 
