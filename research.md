@@ -46,10 +46,13 @@ Improving data-intensive, distributed, and parallel science workflows with repro
             overflow: hidden;
             box-sizing: border-box;
             unicode-bidi: isolate;
-            font-size: 13px;
+            font-size: 12px;
+        }
+        .media-heading {
+            font-size: 20px;
         }
         .research_citation {
-            font-size: 10px;
+            font-size: 12px;
         }
     </style>
     <ul class="research_subs"> 
