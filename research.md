@@ -59,6 +59,32 @@ Improving data-intensive, distributed, and parallel science workflows with repro
         .research_citation {
             font-size: 13px;
         }
+        .ptn-research-paper {
+            padding: 1px 5px;
+            font-size: 12px;
+            line-height: 1.5;
+            border-radius: 3px;
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            touch-action: manipulation;
+            cursor: pointer;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            text-decoration: none;
+            box-sizing: border-box;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            -webkit-text-size-adjust: 100%;
+            box-sizing: border-box;
+        }
     </style>
     <ul class="research_subs"> 
     {% assign rs = site.data.research_ras | sort: 'year' | reverse %}
@@ -75,7 +101,7 @@ Improving data-intensive, distributed, and parallel science workflows with repro
                 {{r.abstract}}</p>
                 <p class="research_citation">
                 <strong>{{r.title}}. </strong> {{r.authors}}  <strong><i>, {{r.publication}}</i></strong>, {{r.year}}. 
-                <a class="btn btn-primary btn-xs" href="{{r.link}}" role="button">Paper</a>
+                <a class="btn btn-primary btn-xs btn-research-paper" href="{{r.link}}" role="button">Paper</a>
                 </p>
             </div>
         </div>
