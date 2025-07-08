@@ -1,5 +1,10 @@
 # use image: placeholder.jpg for those w/o pics
 
+- name: Raza Ahmad
+  nickname: Raza
+  website: https://www.linkedin.com/in/sranasir/
+  image: Raza.jpg
+
 - name: A S M Shahadat Hossain
   nickname: Shahadat
   website: https://asm-shahadat.github.io/
@@ -10,13 +15,7 @@
   website: https://bhanuprakashvangala.github.io
   image: Bhanu.jpg
 
-- name: Raza Ahmad
-  nickname: Raza
-  website: https://www.linkedin.com/in/sranasir/
-  image: Raza.jpg
-
 - name: Ziyang Jia
   nickname: Zi
   website: 
   image: Ziyang.jpg
-
