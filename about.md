@@ -29,21 +29,25 @@ The focus of the research performed in this lab includes but is not limited to:
       width: 100%;
       height: 350px;
     }
+
     .slides {
       display: flex;
       width: 400%;
-      animation: slide 16s infinite;
+      animation: slide 16s linear infinite;
     }
+
     .slides img {
       width: 100%;
+      flex-shrink: 0;
       object-fit: cover;
     }
+
     @keyframes slide {
-      0%    { transform: translateX(0%); }
-      25%   { transform: translateX(-100%); }
-      50%   { transform: translateX(-200%); }
-      75%   { transform: translateX(-300%); }
-      100%  { transform: translateX(0%); }
+      0% { transform: translateX(0%); }
+      25% { transform: translateX(-100%); }
+      50% { transform: translateX(-200%); }
+      75% { transform: translateX(-300%); }
+      100% { transform: translateX(0%); }
     }
   </style>
 
@@ -56,3 +60,4 @@ The focus of the research performed in this lab includes but is not limited to:
     </div>
   </div>
 </div>
+
