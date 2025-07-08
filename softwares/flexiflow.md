@@ -1,7 +1,7 @@
 ---
 layout: page
 title: flexiflow
-permalink: /software/flexiflow/
+permalink: /softwares/flexiflow/
 ---
 
 
