@@ -14,16 +14,15 @@ description: Radiant's Research Projects
     </div>
 </div>
 
-<div>
+<!-- <div>
     <ul class="ResearchSubTab">
-    <!-- {% assign researches = site.data.reasearch_iap | sort: 'date' | reverse %}
+    {% assign researches = site.data.reasearch_iap | sort: 'date' | reverse %}
     {% for r in researches %}
       <li>
        <span><b>{{ r.date | date: "%B %-d, %Y" }}</b></span>: {{ r.description | markdownify }}
       </li>
-    {% endfor %} -->
-    test iap
+    {% endfor %}
     </ul>
-</div>
+</div> -->
 
 ---

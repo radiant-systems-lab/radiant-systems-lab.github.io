@@ -14,17 +14,15 @@ description: Radiant's Research Projects
     </div>
 </div>
 
-<div>
+<!-- <div>
     <ul class="ResearchSubTab">
-    <!-- {% assign researches = site.data.reasearch_xai | sort: 'date' | reverse %}
+    {% assign researches = site.data.reasearch_xai | sort: 'date' | reverse %}
     {% for r in researches %}
       <li>
        <span><b>{{ r.date | date: "%B %-d, %Y" }}</b></span>: {{ r.description | markdownify }}
       </li>
-    {% endfor %} -->
-    test xai
-
+    {% endfor %}
     </ul>
-</div>
+</div> -->
 
 ---
