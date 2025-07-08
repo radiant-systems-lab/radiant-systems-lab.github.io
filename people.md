@@ -54,21 +54,23 @@ See <a href="#openings">open positions.</a>
 
 ## <a name="alumni"></a>alumni
 
-<ul>
-{% assign sorted_alumni = (site.data.alumni) %}
-{% for person in sorted_alumni %}
-  <li>
-    {% if person.website %}
-    <a href="{{ person.website }}">
-      {{person.name}}
-    </a>
-    {% else %}
-      {{person.name}}
-    {% endif %}
-    {% if person.at %} (now at {{ person.at }}) {% endif %}
-  </li>
-{% endfor %}
-</ul>
+{% if site.data.alumni %}
+  <ul>
+  {% assign sorted_alumni = site.data.alumni | sort: "name" %}
+  {% for person in sorted_alumni %}
+    <li>
+      {% if person.website %}
+        <a href="{{ person.website }}">{{ person.name }}</a>
+      {% else %}
+        {{ person.name }}
+      {% endif %}
+      {% if person.at %} (now at {{ person.at }}) {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>No alumni data available.</p>
+{% endif %}
 
 ## <a name="openings"></a>openings
 
