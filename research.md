@@ -59,7 +59,7 @@ Improving data-intensive, distributed, and parallel science workflows with repro
         .research_citation {
             font-size: 13px;
         }
-        .ptn-research-paper {
+        .btn-research-paper {
             padding: 1px 5px;
             font-size: 12px;
             line-height: 1.5;
