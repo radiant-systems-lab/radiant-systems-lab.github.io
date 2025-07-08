@@ -1,0 +1,8 @@
+# Volatile data for FlexiFlow software page
+# Add fields as needed, e.g., version, release_date, contributors, etc.
+flexiflow:
+  version: ""
+  release_date: ""
+  contributors: []
+  downloads: 0
+  last_updated: ""
