@@ -1,6 +1,6 @@
 ---
 layout: page
-title: research
+title: software
 description: Radiant's Research Projects 
 ---
 
