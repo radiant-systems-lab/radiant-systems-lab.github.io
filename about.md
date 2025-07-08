@@ -21,45 +21,29 @@ The focus of the research performed in this lab includes but is not limited to:
 - **Infrastructure and Policy (INP):**  
   Engage in resource and systems optimization of infrastructure, guided by policy frameworks.
 
-<div style="max-width:800px; margin:auto;">
+<div style="max-width:600px; margin:auto; overflow:hidden; height:250px;">
   <style>
-    .slider {
-      position: relative;
-      overflow: hidden;
-      width: 100%;
-      height: 350px;
+    @keyframes slide {
+      0%   { transform: translateX(0%); }
+      25%  { transform: translateX(-100%); }
+      50%  { transform: translateX(-200%); }
+      75%  { transform: translateX(-300%); }
+      100% { transform: translateX(0%); }
     }
 
     .slides {
       display: flex;
-      width: 100%;
-      animation: slide 28s linear infinite;
-    }
-
-    .slides img {
-      width: 50%;
-      height: auto;
-      object-fit: contain;
-      margin: auto;
-    }
-
-
-    @keyframes slide {
-      0% { transform: translateX(0%); }
-      25% { transform: translateX(-100%); }
-      50% { transform: translateX(-200%); }
-      75% { transform: translateX(-300%); }
-      100% { transform: translateX(0%); }
+      animation: slide 24s linear infinite;
+      width: 400%;
     }
   </style>
 
-  <div class="slider">
-    <div class="slides">
-      <img src="images/icons/provenance.png" alt="Slide 1">
-      <img src="images/icons/container.png" alt="Slide 2">
-      <img src="images/icons/infrastructure.png" alt="Slide 3">
-      <img src="images/icons/policy.png" alt="Slide 4">
-    </div>
+  <div class="slides">
+    <img src="images/icons/provenance.png" alt="Slide 1" width="600" height="250">
+    <img src="images/icons/container.png" alt="Slide 2" width="600" height="250">
+    <img src="images/icons/infrastructure.png" alt="Slide 3" width="600" height="250">
+    <img src="images/icons/policy.png" alt="Slide 4" width="600" height="250">
   </div>
 </div>
+
 
