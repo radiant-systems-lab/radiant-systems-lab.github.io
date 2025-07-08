@@ -14,6 +14,12 @@
 .navbarleft .nav {
   float: leftt; }
 
+/* layout for navbar left section */
+.navbarleft .nav li {
+  list-style: none;
+}
+
+
 /* home navigation list */
 .navbar .home-nav {
   float: left;
@@ -48,11 +54,43 @@ p {
   color: #333;
 }
 
+/* legacy style for old news items */
 .news-font {
   font-family: 'Georgia', serif; /* or any other font like 'Roboto', 'Arial', etc. */
   font-size: 10px;
+  font-size: 1.1em;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.news-font span {
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
+/* Homepage news heading */
+.news-heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* News date on homepage */
+.news-date {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* News description on homepage */
+.news-description {
+  font-size: 18px;
+  line-height: 1.5;
+  color: #222;
+}
+
+#RecentNews li {
+  margin-bottom: 20px;
+}
 
 /* tag_box */
 .tag_box {
