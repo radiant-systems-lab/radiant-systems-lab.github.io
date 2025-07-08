@@ -15,6 +15,7 @@ description: Radiant's Research Projects
 </div>
 
 **Reproducible and Accountable Systems (RAS)**
+
 Improving data-intensive, distributed, and parallel science workflows with reproducible and accountable containers.
 
 <div>
@@ -34,13 +35,22 @@ Improving data-intensive, distributed, and parallel science workflows with repro
             display: table-cell;
             unicode-bidi: isolate;
         }
+        .media-body {
+            padding: 20px;
+            width: 10000px;
+            display: table-cell;
+            vertical-align: top;
+            overflow: hidden;
+            box-sizing: border-box;
+            unicode-bidi: isolate;
+        }
     </style>
     <ul class="research_subs"> 
     {% assign rs = site.data.research_ras | sort: 'year' | reverse %}
     {% for r in rs limit:8 %}
         <div class="media">
             <div class="media-left">
-                <a href="#">
+                <a href="{{r.link}}">
                 <img src="{{r.project_image}}" class="card-img" alt="{{r.project_image}}" style="width: 26em">
                 </a>
             </div>
