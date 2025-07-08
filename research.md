@@ -16,12 +16,14 @@ description: Radiant's Research Projects
 
 <div>
     <ul class="ResearchSubTab">
-    {% assign researches = site.data.reasearch_ras | sort: 'date' | reverse %}
+    <!-- {% assign researches = site.data.reasearch_ras | sort: 'date' | reverse %}
     {% for r in researches %}
       <li>
        <span><b>{{ r.date | date: "%B %-d, %Y" }}</b></span>: {{ r.description | markdownify }}
       </li>
-    {% endfor %}
+    {% endfor %} -->
+    test ras
+
     </ul>
 </div>
 
