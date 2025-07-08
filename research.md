@@ -14,6 +14,8 @@ description: Radiant's Research Projects
     </div>
 </div>
 
+---
+
 **Reproducible and Accountable Systems (RAS)**
 
 Improving data-intensive, distributed, and parallel science workflows with reproducible and accountable containers.
@@ -22,6 +24,7 @@ Improving data-intensive, distributed, and parallel science workflows with repro
     <style>
         .media {
             box-sizing: border-box;
+            border: 1px solid rgba(0, 0, 0, .125);
         }
         .media-left {
             background: rgb(211, 222, 234);
@@ -43,6 +46,10 @@ Improving data-intensive, distributed, and parallel science workflows with repro
             overflow: hidden;
             box-sizing: border-box;
             unicode-bidi: isolate;
+            font-size: 13px;
+        }
+        .research_citation {
+            font-size: 10px;
         }
     </style>
     <ul class="research_subs"> 
@@ -58,7 +65,7 @@ Improving data-intensive, distributed, and parallel science workflows with repro
                 <h4 class="media-heading">{{r.project}}</h4>
                 <p>
                 {{r.abstract}}</p>
-                <p>
+                <p class="research_citation">
                 <strong>{{r.title}}. </strong> {{r.authors}}  <strong><i>, {{r.publication}}</i></strong>, {{r.year}}. 
                 <a class="btn btn-primary btn-xs" href="{{r.link}}" role="button">Paper</a>
                 </p>

@@ -13,11 +13,11 @@
 - year: 2020
   project: "Provenance Difference and Alignment"
   project_image: "https://cdmdicewebprd01.dpu.depaul.edu/images/projects/ProvScope.png"
-  alt: "Provscope Logo"
+  alt: "provscope Logo"
   title: "Efficient provenance alignment in reproduced executions."
   abstract: >
     "Reproducing experiments entails repeating experiments with changes. Changes, such as a change in input arguments, a change in the invoking environment, or a change due to nondeterminism in the runtime may alter results. If results alter significantly, perusing them is not sufficient—users must analyze the impact of a change and determine if the experiment computed the same steps. Making fine-grained, stepwise comparisons can be both challenging and time-consuming. This project compares a reproduced execution with recorded system provenance of the original execution, and determine provenance alignment. The alignment is based on comparing the specific location in the program, the control flow of the execution, and data inputs."
   authors: >
     "Nakamura, Y. Malik, T. Gehani, A."
   publication: "12th International Workshop on Theory and Practice of Provenance (TaPP 2020)"
-  link: "https://vldb.org/pvldb/vol15/p1297-malik.pdf"
+  link: "https://www.usenix.org/system/files/tapp2020-paper-nakamura.pdf"
