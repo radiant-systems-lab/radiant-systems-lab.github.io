@@ -1,7 +1,5 @@
 ---
 layout: page
-title: About
-description: About the Radiant Lab
 ---
 
 ## Welcome to The RADIANT Systems Lab!
