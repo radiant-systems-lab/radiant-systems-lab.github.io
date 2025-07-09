@@ -11,22 +11,24 @@
 
 - name: Todd Nief
   website: https://toddnief.com/
-  image:
+  image: Todd.jpg
 
 - name: Shankaradithyaa Venkateswaran
   website: https://www.linkedin.com/in/shankaradithyaa-venkateswaran-12a283262/
-  image:
+  image: Shankar.jpg
 
 - name: Tvisha Malik
-  website: 
-  image:
+  website: https://www.linkedin.com/in/tvisha-malik-630b40243/?originalSubdomain=in
+  image: Tvisha.jpg
 
 - name: Anshik Sahu
   website: https://www.linkedin.com/in/anshik-sahu-0893a822b/?originalSubdomain=in
-  image:
+  image: Anshik.jpg
 
 - name: Amitabh Chaudhary
-  image:
+  website: https://uchicago.in/people/amitabh-chaudhuri
+  image: Amitabh.jpg
 
 - name: Aaron Schein
-  image:
+  website: https://www.aaronschein.com/
+  image: Aaron,jpg
