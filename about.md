@@ -139,10 +139,10 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
       showSlide(index);
     }
 
-    // Auto-transition every 4 seconds
+    // Auto-transition every 2 seconds
     setInterval(() => {
       moveSlide(1);
-    }, 4000);
+    }, 2000);
 
     // Initialize
     showSlide(0);
