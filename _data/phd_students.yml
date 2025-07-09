@@ -1,4 +1,8 @@
 # use image: placeholder.jpg for those w/o pics
+- name: Bhanu Prakash Vangala
+  nickname: Bhanu/Bobby
+  website: https://bhanuprakashvangala.github.io
+  image: Bhanu.jpg
 
 - name: Raza Ahmad
   nickname: Raza
@@ -9,11 +13,6 @@
   nickname: Shahadat
   website: https://asm-shahadat.github.io/
   image: asm-shahadat.JPG
-
-- name: Bhanu Prakash Vangala
-  nickname: Bhanu/Bobby
-  website: https://bhanuprakashvangala.github.io
-  image: Bhanu.jpg
 
 - name: Ziyang Jia
   nickname: Zi
