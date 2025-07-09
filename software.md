@@ -50,4 +50,5 @@ Funding: <a href="">NSF</a>
 
 **FlexiFlow** is a system that aims to improve performance and accuracy of end-to-end ML workflows during inference time. 
 It will soon be made open-source. 
+
 Funding: MU Seed Funding
