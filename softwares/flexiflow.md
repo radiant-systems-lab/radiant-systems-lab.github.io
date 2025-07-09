@@ -22,13 +22,16 @@ permalink: /softwares/flexiflow/
 ## about
 
 **FlexiFlow** is a new programming model that is aimed at automatic model switching to maximise performance in machine learning workflows.
+
 With the increasing use of machine learning in production systems, engineers often encounter practical problems in deploying and maintaining ML models and workflows.
 A recurring concern is the issue of soft failures—situations where the model does not crash but delivers incorrect or degraded predictions, often due to factors like data drift.
 These soft failures compromise prediction accuracy and, in turn, the overall effectiveness of the deployed system. When workflows consist of multiple steps and models, such degradations must be promptly identified and addressed. 
 Developers commonly rely on trace logs to identify problematic data batches, but exhaustively testing alternative model configurations is resource-intensive and time-consuming.
+
 In practice, only one single model is typically selected for each step based on evaluation over training data.
 However, this static selection often fails to maintain high accuracy across all real-world inputs during deployment.
 If a single model underperforms, the entire workflow may need to be re-executed from the beginning with an alternative model, significantly increasing the management burden and latency.
+
 As a solution we introduce **FlexiFlow**, a dataflow system that dynamically switches between alternate models when the current model exhibits low accuracy. 
 
 <div style="text-align:center; margin: 2em 0;">
