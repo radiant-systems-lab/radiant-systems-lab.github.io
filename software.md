@@ -46,10 +46,8 @@ Github: <br>
 Funding: <a href="">NSF</a>  
 
 -------------
-## flexiflow
+## <a href="/softwares/flexiflow/">flexiflow</a>
 
-**FlexiFlow** is a system that aims to improve performance and accuracy of end-to-end ML workflows during inference time. 	
+**FlexiFlow** is a system that aims to improve performance and accuracy of end-to-end ML workflows during inference time. 
 It will soon be made open-source. 
-Web: <a href="/softwares/flexiflow/">flexiflow</a> <br>
-Github: <a href="https://github.com/radiant-systems-lab/flexiflow">flexiflow</a> <br>
 Funding: MU Seed Funding
