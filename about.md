@@ -84,6 +84,8 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
       <img src="images/icons/container.png" alt="Slide 2">
       <img src="images/icons/infrastructure.png" alt="Slide 3">
       <img src="images/icons/policy.png" alt="Slide 4">
+      <!-- Clone of the first image for smooth transition -->
+      <img src="images/icons/provenance.png" alt="Clone Slide 1">
     </div>
 
     <button class="nav-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
@@ -101,18 +103,36 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
     let currentSlide = 0;
     const slideContainer = document.getElementById("carouselSlide");
     const dots = document.querySelectorAll(".dot");
-    const totalSlides = slideContainer.children.length;
+    const totalSlides = dots.length; // excludes clone
 
-    function showSlide(index) {
-      currentSlide = (index + totalSlides) % totalSlides;
-      slideContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
-      dots.forEach((dot, i) => {
-        dot.classList.toggle("active", i === currentSlide);
-      });
+    function showSlide(index, skipTransition = false) {
+      const realIndex = (index + totalSlides) % totalSlides;
+      currentSlide = index;
+      if (skipTransition) {
+        slideContainer.style.transition = "none";
+      } else {
+        slideContainer.style.transition = "transform 0.5s ease-in-out";
+      }
+      slideContainer.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((dot, i) => dot.classList.toggle("active", i === realIndex));
     }
 
     function moveSlide(step) {
-      showSlide(currentSlide + step);
+      if (currentSlide === totalSlides - 1 && step === 1) {
+        // Going from last real slide to clone
+        showSlide(currentSlide + 1);
+        setTimeout(() => {
+          showSlide(0, true); // jump instantly to first (real) slide
+        }, 500); // match transition duration
+      } else if (currentSlide === 0 && step === -1) {
+        // Going from first to last
+        slideContainer.style.transition = "none";
+        slideContainer.style.transform = `translateX(-${totalSlides * 100}%)`;
+        currentSlide = totalSlides;
+        setTimeout(() => moveSlide(-1), 20);
+      } else {
+        showSlide(currentSlide + step);
+      }
     }
 
     function goToSlide(index) {
@@ -150,7 +170,7 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
     .carousel-slide img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Show full image inside frame */
+      object-fit: contain;
       flex-shrink: 0;
     }
 
@@ -217,29 +237,37 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
   </div>
 
   <script>
-    const slideContainer = document.getElementById('carouselSlide');
-    const dots = document.querySelectorAll('.dot');
-    const totalSlides = dots.length;
     let currentSlide = 0;
+    const slideContainer = document.getElementById("carouselSlide");
+    const dots = document.querySelectorAll(".dot");
+    const totalSlides = slideContainer.children.length;
 
-    function updateCarousel() {
+    function showSlide(index) {
+      currentSlide = (index + totalSlides) % totalSlides;
       slideContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
       dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentSlide);
+        dot.classList.toggle("active", i === currentSlide);
       });
     }
 
-    function moveSlide(direction) {
-      currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
-      updateCarousel();
+    function moveSlide(step) {
+      showSlide(currentSlide + step);
     }
 
     function goToSlide(index) {
-      currentSlide = index;
-      updateCarousel();
+      showSlide(index);
     }
+
+    // Auto-transition every 4 seconds
+    setInterval(() => {
+      moveSlide(1);
+    }, 4000);
+
+    // Initialize
+    showSlide(0);
   </script>
 </div>
+
 
 
 The focus of the research performed in this lab includes but is not limited to:
