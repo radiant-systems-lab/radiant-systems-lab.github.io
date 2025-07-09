@@ -1,3 +1,47 @@
-- date: 2025-06-23
-  description: >
-    iap The paper 'Similarity-Based Assessment of Computational Reproducibility in Jupyter Notebooks' by A S M [Shahadat Hossain](https://www.linkedin.com/in/asm-shahadat/), Colin Brown, David Koop, and Tanu Malik got accepted at the ACM Conference on Reproducibility and Replicability (ACM REP ’25). Shahadat will present the paper in Vancouver, Canada.
+- year: 2022
+  project: "CHEX: Multiversion Replay with Ordered Checkpoints"
+  project_image: "https://cdmdicewebprd01.dpu.depaul.edu/images/projects/CHEX.png"
+  alt: "CHEX Logo"
+  title: "CHEX: Multiversion Replay with Ordered Checkpoints."
+  abstract: >
+    In scientific computing and data science disciplines, it is often necessary to share application workflows and repeat results. Current tools containerize application workflows, and share the resulting container for repeating results. These tools, due to containerization, do improve sharing of results. However, they do not improve the efficiency of replay. The multiversion replay problem arises when multiple versions of an application are containerized, and each version must be replayed to repeat results. To avoid executing each version separately, CHEX, checkpoints program state and determines when it is permissible to reuse program state across versions. It does so using system call-based execution lineage. It optimizes replay using an in-memory cache, based on a checkpoint-restore-switch system.
+  authors: >
+    Manne, N. N. Satpati, S. Malik, T. Bagchi, A. Gehani, A. Chaudhary, A.
+  publication: "Proceedings of the Very Large Databases (VLDB), 2022."
+  link: "https://vldb.org/pvldb/vol15/p1297-malik.pdf"
+
+- year: 2020
+  project: "Provenance Difference and Alignment"
+  project_image: "https://cdmdicewebprd01.dpu.depaul.edu/images/projects/ProvScope.png"
+  alt: "provscope Logo"
+  title: "Efficient provenance alignment in reproduced executions."
+  abstract: >
+    Reproducing experiments entails repeating experiments with changes. Changes, such as a change in input arguments, a change in the invoking environment, or a change due to nondeterminism in the runtime may alter results. If results alter significantly, perusing them is not sufficient—users must analyze the impact of a change and determine if the experiment computed the same steps. Making fine-grained, stepwise comparisons can be both challenging and time-consuming. This project compares a reproduced execution with recorded system provenance of the original execution, and determine provenance alignment. The alignment is based on comparing the specific location in the program, the control flow of the execution, and data inputs.
+  authors: >
+    Nakamura, Y. Malik, T. Gehani, A.
+  publication: "12th International Workshop on Theory and Practice of Provenance (TaPP 2020)"
+  link: "https://www.usenix.org/system/files/tapp2020-paper-nakamura.pdf"
+
+- year: 2018
+  project: "Utilizing Provenance in Reusable Research Objects"
+  project_image: "https://cdmdicewebprd01.dpu.depaul.edu/images/projects/ProvUse.png"
+  alt: "ProvUse Logo"
+  title: "Utilizing provenance in reusable research objects."
+  abstract: >
+    Science is conducted collaboratively, often requiring the sharing of knowledge about computational experiments. When experiments include only datasets, they can be shared using Uniform Resource Identifiers (URIs) or Digital Object Identifiers (DOIs). An experiment, however, seldom includes only datasets, but more often includes software, its past execution, provenance, and associated documentation. The Research Object has recently emerged as a comprehensive and systematic method for aggregation and identification of diverse elements of computational experiments. While a necessary method, mere aggregation is not sufficient for the sharing of computational experiments. Other users must be able to easily recompute on these shared research objects. Computational provenance is often the id to enable such reuse. We show how reusable research objects can utilize provenance to correctly repeat a previous reference execution, to construct a subset of a research object for partial reuse, and to reuse existing contents of a research object for modified reuse.
+  authors: >
+    Yuan, Z. That, D. H. T. Kothari, S. Fils, G. Malik, T.
+  publication: "Informatics"
+  link: "https://arxiv.org/pdf/1806.06452"
+
+- year: 2018
+  project: "Improving Reproducibility of Distributed Computational Experiments"
+  project_image: "https://cdmdicewebprd01.dpu.depaul.edu/images/projects/ProvDist.png"
+  alt: "Dist PTU Logo"
+  title: "Improving Reproducibility of Distributed Computational Experiments."
+  abstract: >
+    Conference and journal publications increasingly require experiments associated with a submitted article to be repeatable. Authors comply to this requirement by sharing all associated digital artifacts, ie, code, data, and environment configuration scripts. To ease aggregation of the digital artifacts, several tools have recently emerged that automate the aggregation of digital artifacts by auditing an experiment execution and building a portable container of code, data, and environment. However, current tools only package non-distributed computational experiments. Distributed computational experiments must either be packaged manually or supplemented with sufficient documentation.
+  authors: >
+    Pham, Q. Malik, T. That, D. H. T. Youngdahl, A.
+  publication: "Proceedings of the First International Workshop on Practical Reproducible Evaluation of Computer Systems"
+  link: "https://dl.acm.org/doi/pdf/10.1145/3214239.3214241"
