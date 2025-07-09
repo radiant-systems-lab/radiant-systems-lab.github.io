@@ -25,8 +25,7 @@ permalink: /softwares/flexiflow/
 The current programming paradigm is to chose the ML model with the best performance and utilize it through the entire workflow. While this may suffice, it may still lead to suboptimal performance even in simpler workflows. Take the example below:
 
 <div style="text-align:center; margin: 2em 0;">
-  <embed src="/images/softwares/FlexiFlow-Arch.png" type="application/pdf" width="90%" height="600px" style="border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);" />
-  <p style="font-size:0.9em; color:#555;">If the PDF does not display, <a href="/images/softwares/flexiflow-arch.pdf" target="_blank">click here to download or view it</a>.</p>
+  <img src="/images/softwares/FlexiFlow-Arch.png" alt="FlexiFlow Architecture Diagram" style="max-width:90%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
 </div>
 
 Supppose that Model 1 performs suboptimally on a subset of the input called Input A. This Model 1 gives Output 1 for the Input A which does not satisfy a user defined evaluation metric. For this specific input, there exists a Model 2 giving Output 2 which satisfies the evaluation metric.
