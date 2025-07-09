@@ -1,5 +1,6 @@
 ---
 layout: page
+title: about
 ---
 
 ## Welcome to The RADIANT Systems Lab!
@@ -120,7 +121,6 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
 </div>
 
 
-
 The focus of the research performed in this lab includes but is not limited to:
 
 - **Reproducible and Accountable Systems (RAS):**  
@@ -132,4 +132,4 @@ The focus of the research performed in this lab includes but is not limited to:
 - **Infrastructure and Policy (INP):**  
   Engage in resource and systems optimization of infrastructure, guided by policy frameworks.
 
-
+The history of the RADIANT Systems Lab traces back to the DICE (Data, Infrastructure, Computation, and Environments) Lab at <a href="https://www.depaul.edu/Pages/default.aspx">DePaul University</a>, which focused on foundational research in data provenance, computational reproducibility, and optimization within complex systems and virtual environments.  Today, the RADIANT Systems Lab continues this tradition and actively collaborates with researchers and scientists worldwide to advance the frontiers of reproducible and data-driven computing.
