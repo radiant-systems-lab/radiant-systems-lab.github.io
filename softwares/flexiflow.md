@@ -23,7 +23,7 @@ permalink: /softwares/flexiflow/
 
 **FlexiFlow** is a new programming model that is aimed at automatic model switching to maximise performance in machine learning workflows.
 
-<div style="display: flex; align-items: flex-start; gap: 2em; margin: 2em 0; flex-wrap: wrap;">
+<div style="display: flex; align-items: flex-start; gap: 2em; margin: 2em 0; flex-wrap: wrap; font-size: 1em;">
   <div style="flex: 2 1 350px; min-width: 250px;">
     With the increasing use of machine learning in production systems, engineers often encounter practical problems in deploying and maintaining ML models and workflows. A recurring concern is the issue of soft failures—situations where the model does not crash but delivers incorrect or degraded predictions, often due to factors like data drift. These soft failures compromise prediction accuracy and, in turn, the overall effectiveness of the deployed system. When workflows consist of multiple steps and models, such degradations must be promptly identified and addressed. Developers commonly rely on trace logs to identify problematic data batches, but exhaustively testing alternative model configurations is resource-intensive and time-consuming.
 
@@ -33,7 +33,7 @@ permalink: /softwares/flexiflow/
   </div>
   <div style="flex: 1 1 250px; min-width: 200px; text-align: center;">
     <img src="/images/softwares/FlexiFlow-Arch.png" alt="FlexiFlow Architecture Diagram" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-    <div style="font-size:1em; color:#444; margin-top:0.5em; font-style:italic;">FlexiFlow Architecture</div>
+    <div style="color:#444; margin-top:0.5em; font-style:italic;">FlexiFlow Architecture</div>
   </div>
 </div>
 
