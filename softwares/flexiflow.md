@@ -23,13 +23,13 @@ permalink: /softwares/flexiflow/
 
 **FlexiFlow** is a new programming model that is aimed at automatic model switching to maximise performance in machine learning workflows.
 
-<div style="display: flex; align-items: flex-start; gap: 2em; margin: 2em 0; flex-wrap: wrap; font-size: 1.3em;">
+<div style="display: flex; align-items: flex-start; gap: 2em; margin: 1em 0; flex-wrap: wrap; font-size: 1.3em;">
   <div style="flex: 2 1 350px; min-width: 250px;">
-    With the increasing use of machine learning in production systems, engineers often encounter practical problems in deploying and maintaining ML models and workflows. A recurring concern is the issue of soft failures—situations where the model does not crash but delivers incorrect or degraded predictions, often due to factors like data drift. These soft failures compromise prediction accuracy and, in turn, the overall effectiveness of the deployed system. When workflows consist of multiple steps and models, such degradations must be promptly identified and addressed. Developers commonly rely on trace logs to identify problematic data batches, but exhaustively testing alternative model configurations is resource-intensive and time-consuming.
+    <p>With the increasing use of machine learning in production systems, engineers often encounter practical problems in deploying and maintaining ML models and workflows. A recurring concern is the issue of soft failures—situations where the model does not crash but delivers incorrect or degraded predictions, often due to factors like data drift. These soft failures compromise prediction accuracy and, in turn, the overall effectiveness of the deployed system. When workflows consist of multiple steps and models, such degradations must be promptly identified and addressed. Developers commonly rely on trace logs to identify problematic data batches, but exhaustively testing alternative model configurations is resource-intensive and time-consuming.</p>
 
-    In practice, only one single model is typically selected for each step based on evaluation over training data. However, this static selection often fails to maintain high accuracy across all real-world inputs during deployment. If a single model underperforms, the entire workflow may need to be re-executed from the beginning with an alternative model, significantly increasing the management burden and latency.
+    <p>In practice, only one single model is typically selected for each step based on evaluation over training data. However, this static selection often fails to maintain high accuracy across all real-world inputs during deployment. If a single model underperforms, the entire workflow may need to be re-executed from the beginning with an alternative model, significantly increasing the management burden and latency.</p>
 
-    As a solution we introduce **FlexiFlow**, a dataflow system that dynamically switches between alternate models when the current model exhibits low accuracy. 
+    <p>As a solution we introduce <strong>FlexiFlow</strong>, a dataflow system that dynamically switches between alternate models when the current model exhibits low accuracy.</p>
   </div>
   <div style="flex: 1 1 250px; min-width: 200px; text-align: center;">
     <img src="/images/softwares/FlexiFlow-Arch.png" alt="FlexiFlow Architecture Diagram" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
