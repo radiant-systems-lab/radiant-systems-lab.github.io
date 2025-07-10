@@ -29,14 +29,14 @@ permalink: /softwares/flexiflow/
     <p>With the increasing use of machine learning in production systems, engineers often encounter practical problems in deploying and maintaining ML models and workflows. A recurring concern is the issue of soft failures—situations where the model does not crash but delivers incorrect or degraded predictions, often due to factors like data drift. These soft failures compromise prediction accuracy and, in turn, the overall effectiveness of the deployed system. When workflows consist of multiple steps and models, such degradations must be promptly identified and addressed. Developers commonly rely on trace logs to identify problematic data batches, but exhaustively testing alternative model configurations is resource-intensive and time-consuming.</p>
 
     <p>In practice, only one single model is typically selected for each step based on evaluation over training data. However, this static selection often fails to maintain high accuracy across all real-world inputs during deployment. If a single model underperforms, the entire workflow may need to be re-executed from the beginning with an alternative model, significantly increasing the management burden and latency.</p>
-
-    <p>As a solution we introduce <strong>FlexiFlow</strong>, a dataflow system that dynamically switches between alternate models when the current model exhibits low accuracy.</p>
   </div>
   <div style="flex: 1 1 250px; min-width: 200px; text-align: center;">
     <img src="/images/softwares/FlexiFlow-Arch.png" alt="FlexiFlow Architecture Diagram" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
     <div style="color:#444; margin-top:0.5em; font-style:italic;">FlexiFlow Architecture</div>
   </div>
 </div>
+
+As a solution we introduce <strong>FlexiFlow</strong>, a dataflow system that dynamically switches between alternate models when the current model exhibits low accuracy.
 
 **FlexiFlow** learns to rank models using a novel multi-armed bandit approach that accounts for model runtimes, probability of passing user-defined assertions, and the computational structure of the ML workflow. 
 
