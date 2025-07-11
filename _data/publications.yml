@@ -7,6 +7,7 @@
   Year: 2024
   Date: 20240119
   id: "Malik-ICDE-C36"
+  pdf_link: "/pdfs/pdfs/pubs/C36.pdf"
 
 
 - title: "Reproducible eScience: The Data Containerization Challenge"
@@ -34,6 +35,7 @@ a vision based on reproducible containers."
   Year: 2023
   Date: 20231020
   id: "Malik-eScience-C35"
+  pdf_link: "/pdfs/pdfs/pubs/C35.pdf"
 
 
 - title: "Efficient Differencing of System-level Provenance Graphs"
@@ -45,6 +47,7 @@ a vision based on reproducible containers."
   Year: 2023
   Date: 20230820
   id: "Malik-CIKM-C34"
+  pdf_link: "/pdfs/pdfs/pubs/C34.pdf"
 
 - title: "Towards Shareable and Reproducible Cloud Computing Experiments"
   Authors: "Malik, T and Khan, S"
@@ -55,6 +58,7 @@ a vision based on reproducible containers."
   Year: 2023
   Date: 20230608
   id: "Malik-CloudSummit-C33"
+  pdf_link: "/pdfs/pdfs/pubs/C33.pdf"
 
 - title: "Querying Container Provenance"
   Authors: "Modi, A., Reyad, M, Gehani, A., and Malik, T"
@@ -65,6 +69,7 @@ a vision based on reproducible containers."
   Year: 2023
   Date: 20230403
   id: "Malik-TAPP-W19"
+  pdf_link: "/pdfs/pdfs/pubs/W19.pdf"
 
 - title: "IOSPReD: I/O Specialized Packaging of Reduced Datasets and Data-Intensive Applications for Efficient Reproducibility"
   Authors: "Niddodi, C., Gehani, A., Malik, T., Mohan, S., and Rilee, M."
@@ -75,6 +80,7 @@ a vision based on reproducible containers."
   Year: 2023
   Date: 20230203
   id: "Malik-Access-J7"
+  pdf_link: "/pdfs/pdfs/pubs/J7.pdf"
 
 
 
@@ -87,6 +93,7 @@ a vision based on reproducible containers."
   Year: 2014
   Date: 20140000
   id: "Malik-SOLE14-B3"
+  pdf_link: "/pdfs/pdfs/pubs/B3.pdf"
 
 - title: "Estimating query result sizes for proxy caching in scientific database federations"
   Authors: "Malik, T. Burns, R. Chawla, N. V. Szalay, A. "
@@ -100,6 +107,7 @@ a vision based on reproducible containers."
   Day: 11
   Date: 20061111
   id: "Malik-SC06-C4"
+  pdf_link: "/pdfs/pdfs/pubs/C4.pdf"
 
 - title: "Addressing data access needs of the long-tail distribution of geoscientists"
   Authors: "Malik, T. Foster, I. "
@@ -113,6 +121,7 @@ a vision based on reproducible containers."
   Day: 22
   Date: 20120722
   id: "Malik-IGRASS12-O3"
+  pdf_link: "/pdfs/pdfs/pubs/O3.pdf"
 
 - title: "Leveraging Scientific Cyberinfrastructures to Achieve Computational Hydrologic Model Reproducibility"
   Authors: "Sadler, J. Essawy, B. Goodall, J. Voce, D. CHOI, Y. Morsy, M. Yuan, Z. Malik, T. "
@@ -138,6 +147,7 @@ a vision based on reproducible containers."
   Day: 31
   Date: 20140331
   id: "Malik-CloudDB14-C18"
+  pdf_link: "/pdfs/pdfs/pubs/C18.pdf"
 
 - title: "Rule-based classification systems for informatics"
   Authors: "Krishnamurthy, B. Malik, T. Stamatis, S. Venkatasubramanian, V. Caruthers, J. "
@@ -151,6 +161,7 @@ a vision based on reproducible containers."
   Day: 7
   Date: 20081207
   id: "Malik-eScience08-P1"
+  pdf_link: "/pdfs/pdfs/pubs/P1.pdf"
 
 - title: "JAWS: Job-aware workload scheduling for the exploration of turbulence simulations"
   Authors: "Wang, X. Perlman, E. Burns, R. Malik, T. Budavári, T. Meneveau, C. Szalay, A. "
@@ -164,6 +175,7 @@ a vision based on reproducible containers."
   Day: 13
   Date: 20101113
   id: "Malik-SC10-C11"
+  pdf_link: "/pdfs/pdfs/pubs/C11.pdf"
 
 - title: "Tracking and sketching distributed data provenance"
   Authors: "Malik, T. Nistor, L. Gehani, A. "
@@ -177,6 +189,7 @@ a vision based on reproducible containers."
   Day: 7
   Date: 20101207
   id: "Malik-eScience10-C13"
+  pdf_link: "/pdfs/pdfs/pubs/C13.pdf"
 
 - title: "Efficient provenance alignment in reproduced executions"
   Authors: "Nakamura, Y. Malik, T. Gehani, A. "
@@ -186,6 +199,7 @@ a vision based on reproducible containers."
   Year: 2020
   Date: 20200000
   id: "Malik-TaPP20-C27"
+  pdf_link: "/pdfs/pdfs/pubs/C27.pdf"
 
 - title: "Sketching distributed data provenance"
   Authors: "Malik, T. Gehani, A. Tariq, D. Zaffar, F. "
@@ -197,6 +211,7 @@ a vision based on reproducible containers."
   Year: 2013
   Date: 20130000
   id: "Malik-eScience-B1"
+  pdf_link: "/pdfs/pdfs/pubs/B1.pdf"
 
 - title: "Report on the first international workshop on incremental re-computation: Provenance and beyond"
   Authors: "Missier, P. Malik, T. Cala, J. "
@@ -212,6 +227,7 @@ a vision based on reproducible containers."
   Day: 17
   Date: 20190517
   id: "Malik-IPRB19-R4"
+  pdf_link: "/pdfs/pdfs/pubs/R4.pdf"
 
 - title: "Proactive Support for Large-Scale Data Exploration"
   Authors: "Hereld, M. Malik, T. Vishwanath, V. "
@@ -225,6 +241,7 @@ a vision based on reproducible containers."
   Day: 20
   Date: 20130520
   id: "Malik-IPDPSW13-W7"
+  pdf_link: "/pdfs/pdfs/pubs/W7.pdf"
 
 - title: "Practical passive lossy link inference"
   Authors: "Batsakis, A. Malik, T. Terzis, A. "
@@ -238,6 +255,7 @@ a vision based on reproducible containers."
   Day: 31
   Date: 20050331
   id: "Malik-PAN05-W1"
+  pdf_link: "/pdfs/pdfs/pubs/W1.pdf"
 
 
 - title: "GEN: a database interface generator for HPC programs"
@@ -251,6 +269,7 @@ a vision based on reproducible containers."
   Day: 29
   Date: 20150629
   id: "Malik-SSDBM15-W9"
+  pdf_link: "/pdfs/pdfs/pubs/W9.pdf"
 
 - title: "Cyberinfrastructure to Support Collaborative and Reproducible Computational Hydrologic Modeling"
   Authors: "Goodall, J. L. Castronova, A. M. Bandaragoda, C. Morsy, M. M. Sadler, J. M. Essawy, B. Tarboton, D. G. Malik, T. Nijssen, B. Clark, M. P. Liu, Y. Wang, S. "
@@ -271,6 +290,7 @@ a vision based on reproducible containers."
   Year: 2012
   Date: 20120000
   id: "Malik-EarthCube12-R2"
+  pdf_link: "/pdfs/pdfs/pubs/R2.pdf"
 
 - title: "Distributed data provenance for large-scale data-intensive computing"
   Authors: "Zhao, D. Shou, C. Maliky, T. Raicu, I. "
@@ -284,6 +304,7 @@ a vision based on reproducible containers."
   Day: 23
   Date: 20130923
   id: "Malik-CLUSTER13-C15"
+  pdf_link: "/pdfs/pdfs/pubs/C15.pdf"
 
 - title: "A workload-driven unit of cache replacement for mid-tier database caching"
   Authors: "Wang, X. Malik, T. Burns, R. Papadomanolakis, S. Ailamaki, A. "
@@ -297,6 +318,7 @@ a vision based on reproducible containers."
   Day: 9
   Date: 20070409
   id: "Malik-DASFAA07-C6"
+  pdf_link: "/pdfs/pdfs/pubs/C6.pdf"
 
 - title: "Improving Reproducibility of Distributed Computational Experiments"
   Authors: "Pham, Q. Malik, T. That, D. H. T. Youngdahl, A. "
@@ -309,6 +331,7 @@ a vision based on reproducible containers."
   Day: 11
   Date: 20180611
   id: "Malik-PRECS18-W13"
+  pdf_link: "/pdfs/pdfs/pubs/W13.pdf"
 
 - title: "Sharing and reproducing database applications"
   Authors: "Pham, Q. Thaler, S. Malik, T. Foster, I. Glavic, B. "
@@ -324,6 +347,7 @@ a vision based on reproducible containers."
   Day: 1
   Date: 20150801
   id: "Malik-VLDB15-C20"
+  pdf_link: "/pdfs/pdfs/pubs/C20.pdf"
 
 - title: "A Black-Box Approach to Query Cardinality Estimation."
   Authors: "Malik, T. Burns, R. C. Chawla, N. V. "
@@ -336,6 +360,7 @@ a vision based on reproducible containers."
   Day: 7
   Date: 20070107
   id: "Malik-CIDR07-C5"
+  pdf_link: "/pdfs/pdfs/pubs/C5.pdf"
 
 - title: "Ontology-based urban data exploration"
   Authors: "Balasubramani, B. S. Shivaprabhu, V. R. Krishnamurthy, S. Cruz, I. F. Malik, T. "
@@ -348,6 +373,7 @@ a vision based on reproducible containers."
   Day: 31
   Date: 20161031
   id: "Malik-SMC16-W10"
+  pdf_link: "/pdfs/pdfs/pubs/W10.pdf"
 
 - title: "Policy-based integration of provenance metadata"
   Authors: "Gehani, A. Tariq, D. Baig, B. Malik, T. "
@@ -361,6 +387,7 @@ a vision based on reproducible containers."
   Day: 6
   Date: 20110606
   id: "Malik-POLICY11-C14"
+  pdf_link: "/pdfs/pdfs/pubs/C14.pdf"
 
 - title: "Large scale data management for the sciences"
   Authors: "Malik, T. "
@@ -383,6 +410,7 @@ a vision based on reproducible containers."
   Day: 5
   Date: 20050405
   id: "Malik-ICDE05-C3"
+  pdf_link: "/pdfs/pdfs/pubs/C3.pdf"
 
 - title: "SOLE: linking research papers with science objects"
   Authors: "Pham, Q. Malik, T. Foster, I. Lauro, R. D. Montella, R. "
@@ -397,6 +425,7 @@ a vision based on reproducible containers."
   Day: 19
   Date: 20120619
   id: "Malik-IPAW12-W6"
+  pdf_link: "/pdfs/pdfs/pubs/W6.pdf"
 
 - title: "Auditing and maintaining provenance in software packages"
   Authors: "Pham, Q. Malik, T. Foster, I. "
@@ -410,6 +439,7 @@ a vision based on reproducible containers."
   Day: 9
   Date: 20140609
   id: "Malik-IPAW14-C17"
+  pdf_link: "/pdfs/pdfs/pubs/C17.pdf"
 
 - title: "Content-defined Merkle Trees  for Efficient Container Delivery"
   Authors: "Nakamura, Y. Ahmad, R. Malik, T. "
@@ -419,6 +449,7 @@ a vision based on reproducible containers."
   Year: 2020
   Date: 20200000
   id: "Malik-HiPC20-C28"
+  pdf_link: "/pdfs/pdfs/pubs/C28.pdf"
 
 - title: "Adaptive physical design for curated archives"
   Authors: "Malik, T. Wang, X. Dash, D. Chaudhary, A. Ailamaki, A. Burns, R. "
@@ -432,6 +463,7 @@ a vision based on reproducible containers."
   Day: 2
   Date: 20090602
   id: "Malik-SSDBM09-C9"
+  pdf_link: "/pdfs/pdfs/pubs/C9.pdf"
 
 - title: "Achieving Reproducible Computational Hydrologic Models by Integrating Scientific Cyberinfrastructures"
   Authors: "Essawy, B. T. Goodall, J. L. Morsy, M. M. Zell, W. Sadler, J. Malik, T. Yuan, Z. Voce, D. "
@@ -456,6 +488,7 @@ a vision based on reproducible containers."
   Month: 3
   Date: 20190300
   id: "Hai-DAPD19-J5"
+  pdf_link: "/pdfs/pdfs/pubs/J5.pdf"
 
 - title: "GeoBase: indexing NetCDF files for large-scale data analysis"
   Authors: "Malik, T. "
@@ -467,6 +500,7 @@ a vision based on reproducible containers."
   Year: 2014
   Date: 20140000
   id: "Malik-BigData14-B2"
+  pdf_link: "/pdfs/pdfs/pubs/B2.pdf"
 
 - title: "Integrating scientific cyberinfrastructures to improve reproducibility in computational hydrology: Example for HydroShare and GeoTrust"
   Authors: "Essawy, B. T. Goodall, J. L. Zell, W. Voce, D. Morsy, M. M. Sadler, J. Yuan, Z. Malik, T. "
@@ -481,6 +515,7 @@ a vision based on reproducible containers."
   Day: 1
   Date: 20180701
   id: "Essawy-EMS18-O4"
+  pdf_link: "/pdfs/pdfs/pubs/O4.pdf"
 
 - title: "GeoTrust Hub: A Platform For Sharing And Reproducing Geoscience Applications"
   Authors: "Malik, T. Tarboton, D. G. Goodall, J. L. Choi, E. Bhatt, A. Peckham, S. D. Foster, I. That, D. T. Essawy, B. Yuan, Z. Dash, P. Fils, G. Gan, T. Fadugba, O. I. Saxena, A. Valentic, T. A. "
@@ -505,6 +540,7 @@ a vision based on reproducible containers."
   Day: 1
   Date: 20111101
   id: "Malik-HPDGIS11-W5"
+  pdf_link: "/pdfs/pdfs/pubs/W5.pdf"
 
 - title: "A taxonomy for reproducible and replicable research in environmental modelling"
   Authors: "Essawy, B. T. Goodall, J. L. Voce, D. Morsy, M. M. Sadler, J. M. Choi, Y. D. Tarboton, D. G. Malik, T. "
@@ -519,6 +555,7 @@ a vision based on reproducible containers."
   Day: 1
   Date: 20201201
   id: "Essawy-EMS20-O5"
+  pdf_link: "/pdfs/pdfs/pubs/O5.pdf"
 
 - title: "Workload-Aware histograms for remote applications"
   Authors: "Malik, T. Burns, R. "
@@ -532,6 +569,7 @@ a vision based on reproducible containers."
   Day: 2
   Date: 20080902
   id: "Malik-DaWAK08-C7"
+  pdf_link: "/pdfs/pdfs/pubs/C7.pdf"
 
 - title: "Automated physical design in database caches"
   Authors: "Malik, T. Wang, X. Burns, R. Dash, D. Ailamaki, A. "
@@ -545,6 +583,7 @@ a vision based on reproducible containers."
   Day: 7
   Date: 20080407
   id: "Malik-SMDB08-W2"
+  pdf_link: "/pdfs/pdfs/pubs/W2.pdf"
 
 - title: "Web services for the virtual observatory"
   Authors: "Szalay, A. S. Budavári, T. Malik, T. Gray, J. Thakar, A. R. "
@@ -569,6 +608,7 @@ a vision based on reproducible containers."
   Month: 3
   Date: 20180300
   id: "Wagner-EDBT18-C24"
+  pdf_link: "/pdfs/pdfs/pubs/C1.pdf"
 
 - title: "Efficient querying of distributed provenance stores"
   Authors: "Gehani, A. Kim, M. Malik, T. "
@@ -581,6 +621,7 @@ a vision based on reproducible containers."
   Day: 21
   Date: 20100621
   id: "Malik-CLADE10-W4"
+  pdf_link: "/pdfs/pdfs/pubs/C2.pdf"
 
 - title: "Using Provenance for Generating Automatic Citations"
   Authors: "Malik, T. Rasin, A. Youngdahl, A. "
@@ -590,6 +631,7 @@ a vision based on reproducible containers."
   Year: 2018
   Date: 20180000
   id: "Malik-TaPP18-W14"
+  pdf_link: "/pdfs/pdfs/pubs/W3.pdf"
 
 - title: "Using provenance for repeatability"
   Authors: "Pham, Q. Malik, T. Foster, I. "
@@ -1035,6 +1077,3 @@ a vision based on reproducible containers."
   doi: "10.1109/eScience55777.2022.00015"
   Date: 20221014
   id: "Ahmad-eScience-C31"
-
-
-
