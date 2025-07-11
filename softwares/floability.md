@@ -25,12 +25,12 @@ permalink: /softwares/floability/
 Add some texts here! 
 
 <div style="display: flex; align-items: flex-start; gap: 2em; margin: 0.2em 0; flex-wrap: wrap; font-size: 20px;">
-  <div style="flex: 2 1 500px; min-width: 450px;">
+  <div style="flex: 2 1 600px; min-width: 500px;">
     <p>Add the descriptions here!</p>
 
 
   </div>
-  <div style="flex: 1 1 300px; min-width: 250px; text-align: center;">
+  <div style="flex: 1 1 500px; min-width: 450px; text-align: center;">
     <img src="/images/softwares/floability-Arch.png" alt="floability Architecture Diagram" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
     <div style="color:#444; margin-top:0.5em; font-style:italic;">floability Architecture</div>
   </div>
