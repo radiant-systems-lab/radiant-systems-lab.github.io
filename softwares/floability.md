@@ -45,13 +45,6 @@ permalink: /softwares/floability/
 <li> <a href="https://github.com/floability/floability-examples">Backpack examples</a></li> 
 </ul>
 
-
-<!--
-* [Quick start instructions](https://github.com/floability/floability-cli/blob/main/README.md) </li>
-* [Backpack specification](https://github.com/floability/floability-cli/blob/main/docs/backpack.md)
-* [Backpack examples](https://github.com/floability/floability-examples)
--->
-
 -------------
 
 ## code
@@ -62,7 +55,10 @@ You can find the entire repository here: <a href= "https://github.com/floability
 
 ## papers
 
-- Islam, M. S., Azaz, T., Ahmad, R., Hossain, A. S. M. S., Baig, F., Wang, S., Lannon, K., Malik, T., and Thain, D., "Backpacks for Notebooks: Enabling Containerized Notebook Workflows in Distributed Environments", _21st IEEE International Conference on eScience_, to appear, 2025
+<ul style="font-size: 20px;">
+<li>Islam, M. S., Azaz, T., Ahmad, R., Hossain, A. S. M. S., Baig, F., Wang, S., Lannon, K., Malik, T., and Thain, D., "Backpacks for Notebooks: Enabling Containerized Notebook Workflows in Distributed Environments", <i>21st IEEE International Conference on eScience</i>, to appear, 2025</li>
+</ul>
+
 
 -------------
 
