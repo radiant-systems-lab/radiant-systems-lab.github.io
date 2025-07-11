@@ -22,7 +22,7 @@ permalink: /softwares/floability/
 
 ## about
 
-**Floability** is a system that will enable the rapid and portable deployment of notebooks expressing complex scientific workflows across a wide range of cyberinfrastructure. The key technical challenge is that workflows are incomplete: the code by itself cannot be moved between facilities without accurately capturing the software dependencies, required datasets, and capabilities of the underlying cluster hardware. In addition it aims to solve the problem of translating notebooks to workflows and vice versa. **Floability** is collaboratively developed by the University of Notre Dame, the University of Missouri-Columbia, and the University of Illinois.
+**Floability** is a system that will enable the rapid and portable deployment of notebooks expressing complex scientific workflows across a wide range of cyberinfrastructure. The key technical challenge is that workflows are incomplete: the code by itself cannot be moved between facilities without accurately capturing the software dependencies, required datasets, and capabilities of the underlying cluster hardware. In addition it aims to solve the problem of translating notebooks to workflows and vice versa. Floability is collaboratively developed by the University of Notre Dame, the University of Missouri-Columbia, and the University of Illinois.
 
 <div style="display: flex; align-items: flex-start; gap: 2em; margin: 0.2em 0; flex-wrap: wrap; font-size: 20px;">
   <div style="flex: 2 1 600px; min-width: 500px;">
@@ -39,9 +39,9 @@ permalink: /softwares/floability/
 ## docs
 
 
-* <a href="https://github.com/floability/floability-cli/blob/main/README.md">Quick start instructions</a>
-* <a href="https://github.com/floability/floability-cli/blob/main/docs/backpack.md">Backpack specification</a>
-* <a href="https://github.com/floability/floability-examples">Backpack examples</a>
+- [Quick start instructions](https://github.com/floability/floability-cli/blob/main/README.md)
+- [Backpack specification](https://github.com/floability/floability-cli/blob/main/docs/backpack.md)
+- [Backpack examples](https://github.com/floability/floability-examples)
 
 
 -------------
@@ -54,7 +54,7 @@ You can find the entire repository here: <a href= "https://github.com/floability
 
 ## papers
 
-* Islam, M. S., Azaz, T., Ahmad, R., Hossain, A. S. M. S., Baig, F., Wang, S., Lannon, K., Malik, T., and Thain, D., "Backpacks for Notebooks: Enabling Containerized Notebook Workflows in Distributed Environments", _21st IEEE International Conference on eScience_, to appear, 2025
+- Islam, M. S., Azaz, T., Ahmad, R., Hossain, A. S. M. S., Baig, F., Wang, S., Lannon, K., Malik, T., and Thain, D., "Backpacks for Notebooks: Enabling Containerized Notebook Workflows in Distributed Environments", _21st IEEE International Conference on eScience_, to appear, 2025
 
 -------------
 
