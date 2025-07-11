@@ -37,12 +37,10 @@ Github: <a href="https://sciunit.github.io/">provscope</a> <br>
 Funding: CISE-CSR
 
 
-## floability
+## <a href="/softwares/floability/">floability</a>
 
 **Floability** is a system that will enable the rapid and portable deployment of notebooks expressing complex scientific workflows across a wide range of cyberinfrastructure. The key technical challenge is that workflows are incomplete: the code by itself cannot be moved between facilities without accurately capturing the software dependencies, required datasets, and capabilities of the underlying cluster hardware. In addition it aims to solve the problem of translating notebooks to workflows and vice versa. Floability is collaboratively developed by the University of Notre Dame, the University of Missouri-Columbia, and the University of Illinois.
 
-Web: <a href="https://floability.github.io">floability</a> <br>
-Github: <br>
 Funding: <a href="">NSF</a>  
 
 -------------
