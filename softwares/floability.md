@@ -25,7 +25,7 @@ permalink: /softwares/floability/
 Add some texts here! 
 
 <div style="display: flex; align-items: flex-start; gap: 2em; margin: 0.2em 0; flex-wrap: wrap; font-size: 20px;">
-  <div style="flex: 2 1 350px; min-width: 250px;">
+  <div style="flex: 2 1 500px; min-width: 450px;">
     <p>Add the descriptions here!</p>
 
 
