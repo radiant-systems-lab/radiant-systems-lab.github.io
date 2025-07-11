@@ -39,10 +39,18 @@ permalink: /softwares/floability/
 ## docs
 
 
-- [Quick start instructions](https://github.com/floability/floability-cli/blob/main/README.md)
-- [Backpack specification](https://github.com/floability/floability-cli/blob/main/docs/backpack.md)
-- [Backpack examples](https://github.com/floability/floability-examples)
+<ul style="font-size: 20px;">
+<li> <a href="https://github.com/floability/floability-cli/blob/main/README.md">Quick start instructions</a></li>
+<li> <a href="https://github.com/floability/floability-cli/blob/main/docs/backpack.md">Backpack specifications</a></li>
+<li> <a href="https://github.com/floability/floability-examples">Backpack examples</a></li> 
+</ul>
 
+
+<!--
+* [Quick start instructions](https://github.com/floability/floability-cli/blob/main/README.md) </li>
+* [Backpack specification](https://github.com/floability/floability-cli/blob/main/docs/backpack.md)
+* [Backpack examples](https://github.com/floability/floability-examples)
+-->
 
 -------------
 
