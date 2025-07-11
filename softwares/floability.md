@@ -22,12 +22,10 @@ permalink: /softwares/floability/
 
 ## about
 
-Add some texts here! 
+**Floability** is a system that will enable the rapid and portable deployment of notebooks expressing complex scientific workflows across a wide range of cyberinfrastructure. The key technical challenge is that workflows are incomplete: the code by itself cannot be moved between facilities without accurately capturing the software dependencies, required datasets, and capabilities of the underlying cluster hardware. In addition it aims to solve the problem of translating notebooks to workflows and vice versa. **Floability** is collaboratively developed by the University of Notre Dame, the University of Missouri-Columbia, and the University of Illinois.
 
 <div style="display: flex; align-items: flex-start; gap: 2em; margin: 0.2em 0; flex-wrap: wrap; font-size: 20px;">
   <div style="flex: 2 1 600px; min-width: 500px;">
-    <p>Add the descriptions here!</p>
-
 
   </div>
   <div style="flex: 1 1 500px; min-width: 450px; text-align: center;">
@@ -40,20 +38,23 @@ Add some texts here!
 
 ## docs
 
-**floability** docs, add the link to the documentation present in the github repository.
+<ul>
+    <li><a href="https://github.com/floability/floability-cli/blob/main/README.md">Quick start instructions</a></li>
+    <li><a href="https://github.com/floability/floability-cli/blob/main/docs/backpack.md">Backpack specification</a></li>
+    <li><a href="https://github.com/floability/floability-examples">Backpack examples</a></li>
+</ul>
 
 -------------
 
 ## code
 
-You can find the entire repository here: Link to the github repository here.
-The Dockerfile used to build the floability environment is present in root directory of the repository linked here.
+You can find the entire repository here: https://github.com/floability/floability-cli
 
 -------------
 
 ## papers
 
-Add the upcoming papers here.
+Islam, M. S., Azaz, T., Ahmad, R., Hossain, A. S. M. S., Baig, F., Wang, S., Lannon, K., Malik, T., and Thain, D., "Backpacks for Notebooks: Enabling Containerized Notebook Workflows in Distributed Environments", _21st IEEE International Conference on eScience_, to appear, 2025
 
 -------------
 
