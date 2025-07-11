@@ -54,10 +54,10 @@ Improving data-intensive, distributed, and parallel science workflows with repro
             font-size: 20px;
         }
         .research_abstract {
-            font-size: 15px;
+            font-size: 17px;
         }
         .research_citation {
-            font-size: 13px;
+            font-size: 15px;
         }
         .btn-research-paper {
             padding: 1px 5px;
@@ -101,7 +101,8 @@ Improving data-intensive, distributed, and parallel science workflows with repro
                 {{r.abstract}}</p>
                 <p class="research_citation">
                 <strong>{{r.title}}. </strong> {{r.authors}}  <strong><i>, {{r.publication}}</i></strong>, {{r.year}}. 
-                <a class="btn btn-primary btn-xs btn-research-paper" href="{{r.link}}" role="button">Paper</a>
+                <!-- <a class="btn btn-primary btn-xs btn-research-paper" href="{{r.link}}" role="button">Paper</a> -->
+                <a  href="{{r.link}}"> Read More >> </a>
                 </p>
             </div>
         </div>
