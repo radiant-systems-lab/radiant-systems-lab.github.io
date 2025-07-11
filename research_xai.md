@@ -18,7 +18,8 @@ description: Radiant's Research Projects
 ---
 
 **Explainable AI (XAI)**
-
+<!-- Advancing trustworthy and transparent machine learning by designing explainable models, interpretable outputs, and human-centered evaluation frameworks. -->
+Make data, algorithms, and decision-making processes in science workflows explainable and understandable.
 
 <div>
     <style>
