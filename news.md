@@ -4,7 +4,7 @@ title: News
 group: "navigation"
 id: "news"
 ---
-## News
+
 <!-- see also index.markdown -->
 <style>
  #RecentNews li>p {display: inline;}
