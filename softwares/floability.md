@@ -38,23 +38,23 @@ permalink: /softwares/floability/
 
 ## docs
 
-<ul>
-    <li><a href="https://github.com/floability/floability-cli/blob/main/README.md">Quick start instructions</a></li>
-    <li><a href="https://github.com/floability/floability-cli/blob/main/docs/backpack.md">Backpack specification</a></li>
-    <li><a href="https://github.com/floability/floability-examples">Backpack examples</a></li>
-</ul>
+
+* <a href="https://github.com/floability/floability-cli/blob/main/README.md">Quick start instructions</a>
+* <a href="https://github.com/floability/floability-cli/blob/main/docs/backpack.md">Backpack specification</a>
+* <a href="https://github.com/floability/floability-examples">Backpack examples</a>
+
 
 -------------
 
 ## code
 
-You can find the entire repository here: https://github.com/floability/floability-cli
+You can find the entire repository here: <a href= "https://github.com/floability/floability-cli">https://github.com/floability/floability-cli</a>
 
 -------------
 
 ## papers
 
-Islam, M. S., Azaz, T., Ahmad, R., Hossain, A. S. M. S., Baig, F., Wang, S., Lannon, K., Malik, T., and Thain, D., "Backpacks for Notebooks: Enabling Containerized Notebook Workflows in Distributed Environments", _21st IEEE International Conference on eScience_, to appear, 2025
+* Islam, M. S., Azaz, T., Ahmad, R., Hossain, A. S. M. S., Baig, F., Wang, S., Lannon, K., Malik, T., and Thain, D., "Backpacks for Notebooks: Enabling Containerized Notebook Workflows in Distributed Environments", _21st IEEE International Conference on eScience_, to appear, 2025
 
 -------------
 
