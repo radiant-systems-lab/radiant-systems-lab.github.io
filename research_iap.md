@@ -19,6 +19,7 @@ description: Radiant's Research Projects
 
 **Infrastructure and Policies (IAP)**
 <!-- Enhancing scientific innovation through scalable infrastructure, robust data governance, and ethical policy frameworks that support open, secure, and FAIR research practices. -->
+
 Engage in resource and systems optimization of infrastructure, guided by policy frameworks.
 
 <div>
