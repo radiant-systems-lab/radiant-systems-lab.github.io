@@ -1,25 +1,105 @@
-.pub-icons a {
-  margin-right: 10px;
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
+body { font-family: 'Roboto', sans-serif; }
+
+.nav.nav-tabs { margin-bottom: 20px; }
+#pub-tabs li.active a { font-weight: 600; }
+
+.pubyear {
+  font-size: 1.8em;
+  font-weight: 700;
+  margin: 40px 0 15px;
+  border-bottom: 3px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.pub-entry {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  padding: 16px;
+  margin-bottom: 20px;
+  transition: background 0.2s;
+}
+
+.pub-entry:hover {
+  background: #fafafa;
+}
+
+.pub-title {
+  margin: 0 0 6px;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+
+.pub-authors {
+  margin: 0 0 4px;
   color: #555;
+}
+
+.pub-venue {
+  margin-bottom: 12px;
+  font-style: italic;
+  color: #444;
+}
+
+.pub-icons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.pub-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid #888;
+  border-radius: 4px;
+  padding: 4px 8px;
+  background: #f5f5f5;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
   text-decoration: none;
-  font-size: 1.4em;
-}
-.pub-icons a:hover {
-  color: #000;
-}
-.pub-icons i {
-  margin-right: 10px;
-  color: #555;
-
-  font-size: 1.4em;
-
-  font-size: 1.2em;
-
-}
-.pub-icons i.disabled {
-  color: #ccc;
+  color: #333;
 }
 
-.pub-type { display: none; }
-.pub-type.active { display: block; }
+.pub-action:hover {
+  background: #e8e8e8;
+  border-color: #555;
+}
 
+.pub-section {
+  display: none;
+  margin-top: 8px;
+  padding: 12px;
+  background: #f9f9fb;
+  border-left: 4px solid #007BFF;
+  border-radius: 4px;
+}
+
+.pub-section.show {
+  display: block;
+}
+
+.pub-abstract p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.pub-bibtex pre {
+  margin: 0;
+  padding: 8px;
+  background: #eef2ff;
+  border: 1px solid #ccd;
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 768px) {
+  .pub-entry { padding: 12px; }
+  .pub-title { font-size: 1.2em; }
+  .pub-action { font-size: 0.85em; padding: 3px 6px; }
+  .pub-section { padding: 10px; }
+}
