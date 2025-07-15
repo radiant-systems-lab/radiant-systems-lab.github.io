@@ -88,6 +88,11 @@ body { font-family: 'Roboto', sans-serif; }
   line-height: 1.6;
 }
 
+.pub-abstract {
+  background: #eef2ff;
+  border: 1px solid #ccd;
+}
+
 .pub-bibtex pre {
   margin: 0;
   padding: 8px;
