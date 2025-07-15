@@ -84,12 +84,12 @@ title: Publications
             </div>
 
             {% if p.Description %}
-            <div id="abs-{{ p.id }}" class="pub-section pub-abstract">
+            <div id="abs-{{ p.id }}" class="pub-section pub-abstract" style="display:none;">
               <p>{{ p.Description }}</p>
             </div>
             {% endif %}
 
-            <div id="bib-{{ p.id }}" class="pub-section pub-bibtex">
+            <div id="bib-{{ p.id }}" class="pub-section pub-bibtex" style="display:none;">
 <pre>@article{ {{ p.id }},
   title     = { {{ p.title }} },
   author    = { {{ p.bibAuthors | default: p.Authors }} },
@@ -142,6 +142,14 @@ document.addEventListener('DOMContentLoaded', ()=> showPubType('all'));
 // toggles single section
 function toggleSection(id) {
   const el = document.getElementById(id);
-  if (el) el.classList.toggle('show');
+  if (!el) return;
+  const isHidden = el.style.display === 'none' || !el.classList.contains('show');
+  if (isHidden) {
+    el.style.display = 'block';
+    el.classList.add('show');
+  } else {
+    el.style.display = 'none';
+    el.classList.remove('show');
+  }
 }
 </script>
