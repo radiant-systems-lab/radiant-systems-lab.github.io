@@ -48,7 +48,7 @@
   font-size: 1.2em;}
 
 p {
-  font-family: 'Open Sans';
+  font-family: 'Roboto';
   font-size: 20px;
   line-height: 1.6;
   color: #333;
@@ -56,7 +56,7 @@ p {
 
 /* legacy style for old news items */
 .news-font {
-  font-family: 'Georgia', serif; /* or any other font like 'Roboto', 'Arial', etc. */
+  font-family: 'Roboto', serif; /* or any other font like 'Roboto', 'Arial', etc. */
   font-size: 10px;
   font-size: 1.1em;
   line-height: 1.5;
