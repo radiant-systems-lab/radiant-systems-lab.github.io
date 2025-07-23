@@ -218,12 +218,8 @@ p {
 }
 
 @media (max-width: 600px) {
-  .news-description {
-    font-size: 14px;
-  }
-
-  .news-date {
-    font-size: 14px;
+  .news-item {
+  margin-bottom: 1em;
   }
 
   .news-item-box {
