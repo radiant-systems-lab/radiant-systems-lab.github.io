@@ -193,3 +193,18 @@ p {
   border: 0 none;
   /*box-shadow: none;*/
 }
+
+.home-button {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #f0f0f0;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.home-button:hover {
+  background-color: #e0e0e0;
+}
