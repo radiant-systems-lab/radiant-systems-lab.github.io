@@ -38,7 +38,7 @@ The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in 
 </table>
 -->
 
-<h2 class="news-heading">Recent News</h2>
+<h3 class="news-heading">Recent News</h3>
 <ul id="RecentNews">
 {% assign news = site.data.news | sort: 'date' | reverse %}
 {% for n in news limit:8 %}
