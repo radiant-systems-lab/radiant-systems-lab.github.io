@@ -38,17 +38,6 @@ The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in 
 </table>
 -->
 
-<div class="navbarleft">
-  <div class="navbar-inner">
-      <ul class="nav">
-          <li class="news-heading">news</li>
-          <!--<li><a href="https://github.com/radiant-systems-lab">github</a></li>
-          <li><a href="https://www.discord.com">discord</a></li>
-          <li><a href="https://kn.org/blog">blog</a></li>-->
-      </ul>
-  </div>
-</div>
-
 <h2 class="news-heading">Recent News</h2>
 <ul id="RecentNews">
 {% assign news = site.data.news | sort: 'date' | reverse %}
@@ -62,10 +51,6 @@ The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in 
 {% endfor %}
 </ul>
 
-<div class="navbar">
-  <div class="navbar-inner">
-      <ul class="nav">
-          <li><a href="news.html">more news</a></li>
-      </ul>
-  </div>
+<div style="text-align: right; margin-top: 10px;">
+  <a class="home-button" href="news.html">More News →</a>
 </div>
