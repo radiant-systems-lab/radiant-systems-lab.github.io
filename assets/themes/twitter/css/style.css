@@ -12,7 +12,7 @@
   float: right; }
 
 .navbarleft .nav {
-  float: leftt; }
+  float: left; }
 
 /* layout for navbar left section */
 .navbarleft .nav li {
@@ -207,4 +207,26 @@ p {
 
 .home-button:hover {
   background-color: #e0e0e0;
+}
+
+.news-item-box {
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-left: 4px solid #007acc;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 600px) {
+  .news-description {
+    font-size: 16px;
+  }
+
+  .news-date {
+    font-size: 14px;
+  }
+
+  .news-item-box {
+    padding: 10px;
+  }
 }
