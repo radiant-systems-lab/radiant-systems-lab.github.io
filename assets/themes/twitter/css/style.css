@@ -226,3 +226,18 @@ p {
     padding: 10px;
   }
 }
+
+.footer {
+  margin-top: 40px;
+  padding: 20px 0;
+  border-top: 1px solid #e5e5e5;
+  font-size: 0.9em;
+  color: #666;
+}
+.footer a {
+  color: #337ab7;
+  text-decoration: none;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
