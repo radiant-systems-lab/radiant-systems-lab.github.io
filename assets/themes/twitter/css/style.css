@@ -88,9 +88,15 @@ p {
   color: #222;
 }
 
+#RecentNews {
+  list-style: none !important;
+  padding-left: 0;
+  margin-left: 0;
+}
+
 #RecentNews li {
+  list-style-type: none !important;
   margin-bottom: 10px;
-  list-style: none;
 }
 
 /* tag_box */
@@ -215,7 +221,6 @@ p {
   background-color: #f9f9f9;
   border-left: 4px solid #800080;
   border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 @media (max-width: 600px) {  
