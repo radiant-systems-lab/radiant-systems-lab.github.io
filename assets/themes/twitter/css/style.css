@@ -210,7 +210,7 @@ p {
 }
 
 .news-item-box {
-  padding: 15px;
+  padding: 10px;
   background-color: #f9f9f9;
   border-left: 4px solid #007acc;
   border-radius: 6px;
@@ -223,6 +223,6 @@ p {
   }
 
   .news-item-box {
-    padding: 10px;
+    padding: 5px;
   }
 }
