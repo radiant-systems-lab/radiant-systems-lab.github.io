@@ -90,6 +90,7 @@ p {
 
 #RecentNews li {
   margin-bottom: 10px;
+  list-style: none;
 }
 
 /* tag_box */
