@@ -45,7 +45,7 @@ The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in 
   <li>
     <div class="news-item-box">
       <div class="news-item">
-        <strong>{{ n.date | date: "%B %-d, %Y" }}</strong> - {{ n.description | markdownify | strip }}
+        <strong>{{ n.date | date: "%B %-d, %Y" }}</strong> - {{ n.description | markdownify | strip_html }}
       </div>
     </div>
   </li>
