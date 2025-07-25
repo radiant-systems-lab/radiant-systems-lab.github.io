@@ -81,5 +81,4 @@ keywords: machine learning, big data management, resource and system optimizatio
   </div>
 </div>
 
-<!-- The following script functionalizes the click-and-play buttons in Research Areas -->
 <script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/script.js"> </script>
