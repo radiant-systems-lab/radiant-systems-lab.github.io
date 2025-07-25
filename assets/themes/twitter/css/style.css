@@ -238,12 +238,16 @@ p {
 }
 
 #index_mission .image-placeholder {
+  display: block;
+  unicode-bidi: isolate;
   width: 50%;
   background-color: #c0c3cc;
   min-height: 400px;
 }
 
 #index_mission .text-section {
+  display: block;
+  unicode-bidi: isolate;
   width: 50%;
   padding: 30px;
   box-sizing: border-box;
