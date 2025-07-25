@@ -65,6 +65,7 @@ keywords: machine learning, big data management, resource and system optimizatio
   <a class="home-button" href="news.html">More News →</a>
 </div>
 
+
 <div id="index_research_areas" class="container">
   <div class="left-panel">
     <h3 class="section-title">Research Areas <span class="underline"></span></h3>
@@ -79,3 +80,6 @@ keywords: machine learning, big data management, resource and system optimizatio
     </div>
   </div>
 </div>
+
+<!-- The following script functionalizes the click-and-play buttons in Research Areas -->
+<script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/script.js"> </script>
