@@ -228,3 +228,38 @@ p {
   margin-bottom: 1em;
   }
 }
+
+
+/* index page Mission and Research Projects */
+/* - Mission */
+#index_mission {
+  display: block;
+  background-color: #f9f9f9;
+}
+
+#index_mission .image-placeholder {
+  width: 50%;
+  background-color: #c0c3cc;
+  min-height: 400px;
+}
+
+#index_mission .text-section {
+  width: 50%;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+#index_mission .section-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+#index_mission .underline {
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: #fbbf24;
+    margin-top: 4px;
+}
