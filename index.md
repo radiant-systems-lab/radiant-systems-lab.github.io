@@ -5,7 +5,7 @@ description: The  webpage of Radiant Systems Lab
 keywords: machine learning, big data management, resource and system optimization,  data provenance and policy frameworks, scientific workflows, DevOps solutions and practices. 
 ---
 
-<div id="index_mission">
+<div id="index_mission" class="container">
     <div class="image-placeholder"></div>
     <div class="text-section">
       <h3 class="section-title">
@@ -14,19 +14,9 @@ keywords: machine learning, big data management, resource and system optimizatio
       </h3>
       <p>
           The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in the <a href="https://engineering.missouri.edu/departments/eecs/">Department of Electrical Engineering and Computer Science</a> at the <a href="http://www.missouri.edu">University of Missouri-Columbia</a> is dedicated to advancing the path from data to informed decisions across a wide range of domains. The Lab is a front runner in the design of reproducible, accountable, and trustworthy data-driven systems and infrastructure. It is directed by <a href="https://engineering.missouri.edu/faculty/tanu-malik/">Dr. Tanu Malik</a> and member expertise spans machine learning, big data management, resource and system optimization,  data provenance and policy frameworks, scientific workflows, and DevOps solutions and practices.
-          <!-- Radiant Lab was founded with the vision to bridge the gap between groundbreaking research and real-world applications.
-          Over the years, our team has pioneered innovations across multiple disciplines, transforming theoretical insights into tangible solutions that impact communities globally.
-          Radiant Lab was founded with the vision to bridge the gap between groundbreaking research and real-world applications.
-          Over the years, our team has pioneered innovations across multiple disciplines, transforming theoretical insights into tangible solutions that impact communities globally.
-          Radiant Lab was founded with the vision to bridge the gap between groundbreaking research and real-world applications.
-          Over the years, our team has pioneered innovations across multiple disciplines, transforming theoretical insights into tangible solutions that impact communities globally. -->
       </p>
     </div>
 </div>
-
-<!-- <p>
-The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in the <a href="https://engineering.missouri.edu/departments/eecs/">Department of Electrical Engineering and Computer Science</a> at the <a href="http://www.missouri.edu">University of Missouri-Columbia</a> is dedicated to advancing the path from data to informed decisions across a wide range of domains. The Lab is a front runner in the design of reproducible, accountable, and trustworthy data-driven systems and infrastructure. It is directed by <a href="https://engineering.missouri.edu/faculty/tanu-malik/">Dr. Tanu Malik</a> and member expertise spans machine learning, big data management, resource and system optimization,  data provenance and policy frameworks, scientific workflows, and DevOps solutions and practices.
-</p> -->
 
 <!--<table class="wide">
 <tr>
@@ -73,4 +63,19 @@ The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in 
 
 <div style="text-align: right; margin-top: 10px;">
   <a class="home-button" href="news.html">More News →</a>
+</div>
+
+<div id="index_research_areas" class="container">
+  <div class="left-panel">
+    <h2 class="section-title">Research Areas <span class="underline"></span></h2>
+    <div class="image-placeholder"></div>
+    <p class="description">
+      Explore our six key research areas that define Radiant Lab’s expertise and innovation.
+    </p>
+  </div>
+  <div class="right-panel">
+    <div class="accordion">
+      <!-- JavaScript will populate this -->
+    </div>
+  </div>
 </div>

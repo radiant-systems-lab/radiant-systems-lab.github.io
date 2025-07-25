@@ -230,7 +230,7 @@ p {
 }
 
 
-/* index page Mission and Research Projects */
+/* index page Mission and Research Areas */
 /* - Mission */
 #index_mission {
   margin: 40px auto;
@@ -272,4 +272,89 @@ p {
     height: 4px;
     background-color: #fbbf24;
     margin-top: 4px;
+}
+/* Research Areas */
+#index_research_areas.container {
+  display: flex;
+  max-width: 1200px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 20px;
+}
+
+#index_research_areas .left-panel {
+  width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#index_research_areas .right-panel {
+  width: 50%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#index_research_areas .section-title {
+  font-size: 24px;
+  font-weight: bold;
+  position: relative;
+}
+
+#index_research_areas .underline {
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: #fbbf24;
+  margin-top: 4px;
+}
+
+#index_research_areas .image-placeholder {
+  background-color: #c0c3cc;
+  width: 100%;
+  height: 220px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+#index_research_areas .description {
+  font-size: 15px;
+  color: #333;
+}
+
+#index_research_areas .accordion-item {
+  margin-bottom: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+#index_research_areas .accordion-header {
+  background-color: black;
+  color: white;
+  padding: 14px 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+#index_research_areas .accordion-header.open {
+  background-color: #f3f3f3;
+  color: black;
+  border: 1px solid #ddd;
+}
+
+#index_research_areas .accordion-body {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-top: none;
+  padding: 15px 20px;
+  display: none;
+}
+
+#index_research_areas .accordion-body.open {
+  display: block;
 }
