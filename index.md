@@ -6,7 +6,9 @@ keywords: machine learning, big data management, resource and system optimizatio
 ---
 
 <div id="index_mission" class="container">
-    <div class="image-placeholder"></div>
+    <div class="image-placeholder">
+      <img style='max-width: 200%' src="https://lh3.googleusercontent.com/gps-cs-s/AC9h4nos8SaR2YBPjaukMjuWNZtTwoPgkWcGrPnfIgucIcMVA5HqdrP5J947vcCIRyJQDa_TJISTSBPLpUsUYSsT5iBO8Ow2TAPeuFYb1qLjW4M5n7_tvLRCFHdJZMfQDKXlWarG4cO7=s680-w680-h510-rw">
+    </div>
     <div class="text-section">
       <h3 class="section-title">
           Our Mission

@@ -252,6 +252,7 @@ p {
 }
 
 #index_mission .text-section {
+  background-color: whitesmoke;
   display: block;
   unicode-bidi: isolate;
   width: 50%;
