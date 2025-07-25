@@ -66,7 +66,7 @@ keywords: machine learning, big data management, resource and system optimizatio
 </div>
 
 
-<div id="index_research_areas" class="container">
+<div id="index_research_areas" class="container" style="widht: 1100px;">
   <div class="left-panel">
     <h3 class="section-title">Research Areas <span class="underline"></span></h3>
     <div class="image-placeholder"></div>
