@@ -2,28 +2,24 @@
 // index page Research Areas - click and show
 const index_researchAreas = [
   {
-    title: 'Machine Learning',
-    description: 'Developing algorithms that allow computers to learn patterns from data and make predictions or decisions.',
+    title: 'Reproducible and Accountable Systems (RAS)',
+    description: 'Improving data-intensive distributed and parallel science workflows with reproducible and accountable containers',
   },
   {
-    title: 'Computer Vision',
-    description: 'Enabling machines to interpret and process visual data from the world.',
+    title: 'Transparent and Explainable AI (XAI)',
+    description: 'Make data, algorithms, and decision-making processes in science workflows explainable and understandable.',
   },
   {
-    title: 'Natural Language Processing',
-    description: 'Teaching computers to understand and generate human language.',
+    title: 'Infrastructure and Policy (RIP)',
+    description: 'Engage in resource and systems optimization of infrastructure, guided by policy frameworks.',
   },
   {
-    title: 'Cybersecurity',
-    description: 'Protecting systems and networks from digital attacks.',
+    title: 'Big Data Management',
+    description: 'Optimizing scientific data for volume, velocity, and variety via indexing, streaming, and semantic dataspaces.',
   },
   {
-    title: 'Human-Computer Interaction',
-    description: 'Designing intuitive interfaces that improve the way humans interact with technology.',
-  },
-  {
-    title: 'Distributed Systems',
-    description: 'Studying systems whose components are located on different networked computers.',
+    title: 'Scalable Cyberinfrastructure',
+    description: 'Enables scientific research and innovation at scale by supporting advanced research through distributed, collaborative, and data-intensive capabilities.',
   },
 ];
 
