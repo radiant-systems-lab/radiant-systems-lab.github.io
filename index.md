@@ -69,19 +69,23 @@ keywords: machine learning, big data management, resource and system optimizatio
 
 
 <div id="index_research_areas" class="container" style="width: 1100px;">
-  <h3 class="section-title">Research Areas <span class="underline"></span></h3>
+  <h3 class="section-title">
+    Research Areas <span class="underline"></span>
+  </h3>
+
   <div class="left-panel">
     <div class="image-placeholder"></div>
-    <p class="description" style="font-size: 15px;">
+    <!-- inline style removed -->
+    <p class="description">
       Explore our six key research areas that define Radiant Lab’s expertise and innovation.
     </p>
   </div>
+
   <div class="right-panel">
     <div class="accordion">
-      <!-- JavaScript will populate this -->
+      <!-- JS populates this -->
     </div>
   </div>
 </div>
 
-<!-- Research Areas Clik-and-Play -->
-<script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/index_research_areas.js"> </script>
+<script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/index_research_areas.js"></script>
