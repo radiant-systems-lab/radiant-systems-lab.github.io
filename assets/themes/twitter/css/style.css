@@ -303,7 +303,7 @@ p {
   justify-content: flex-start;
 }
 
-#index_research_areas .section-title {
+.section-title {
   /* font-size: 24px; */
   font-weight: bold;
   position: relative;
@@ -328,7 +328,8 @@ p {
 }
 
 #index_research_areas .description {
-  font-size: 16px;
+  font-size: 18px;
+  line-height: 1.4;
   color: #333;
 }
 
