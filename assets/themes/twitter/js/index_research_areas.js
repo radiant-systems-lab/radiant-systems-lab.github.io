@@ -3,15 +3,11 @@
 const index_researchAreas = [
   {
     title: 'Reproducible and Accountable Systems (RAS)',
-    description: 'Improving data-intensive distributed and parallel science workflows with reproducible and accountable containers',
+    description: 'Improving data-intensive distributed and parallel science workflows with reproducible and accountable containers.',
   },
   {
     title: 'Transparent and Explainable AI (XAI)',
-    description: 'Make data, algorithms, and decision-making processes in science workflows explainable and understandable.',
-  },
-  {
-    title: 'Infrastructure and Policy (RIP)',
-    description: 'Engage in resource and systems optimization of infrastructure, guided by policy frameworks.',
+    description: 'Making data, algorithms, and decision-making processes in science workflows explainable and understandable.',
   },
   {
     title: 'Big Data Management',
@@ -19,7 +15,11 @@ const index_researchAreas = [
   },
   {
     title: 'Scalable Cyberinfrastructure',
-    description: 'Enables scientific research and innovation at scale by supporting advanced research through distributed, collaborative, and data-intensive capabilities.',
+    description: 'Enabling scientific research and innovation at scale by supporting advanced research through distributed, collaborative, and data-intensive capabilities.',
+  },
+  {
+    title: 'Infrastructure and Policy (RIP)',
+    description: 'Engaging with communities for artifact evaluation, guided by policy frameworks.',
   },
 ];
 
