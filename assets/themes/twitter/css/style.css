@@ -306,7 +306,9 @@ p {
 }
 
 #index_research_areas .left-panel {
-  padding-right: 10px;
+  background-color: #2b2b2b;
+  padding: 20px;
+  border-radius: 8px;
 }
 
 #index_research_areas .right-panel {
@@ -323,16 +325,15 @@ p {
 }
 
 /* **Larger text under the image** */
-#index_research_areas .description {
+#index_research_areas .left-panel .description {
   font-size: 18px;
   line-height: 1.5;
   margin: 0;
-
-  /* new styles: yellow background, black text */
-  background-color: #fbbf24;
-  color: #000;
-  padding: 12px;
-  border-radius: 6px;
+  
+  background-color: #fbbf24;  /* yellow box */
+  color: #000;                 /* black text */
+  padding: 12px;               /* some breathing room */
+  border-radius: 6px;          /* rounded corners (optional) */
 }
 
 #index_research_areas .accordion-item {
