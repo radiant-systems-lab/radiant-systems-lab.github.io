@@ -307,15 +307,10 @@ p {
 
 #index_research_areas .left-panel {
   padding-right: 10px;
-  flex-shrink: 0;
-  flex: 0 0 auto;
-  flex-direction: column;
-  display: flex;
 }
 
 #index_research_areas .right-panel {
   padding-left: 10px;
-  flex: 1 1 0;
 }
 
 /* Image placeholder */
@@ -329,15 +324,18 @@ p {
 
 /* **Larger text under the image** */
 #index_research_areas .left-panel .description {
-  order: -1;                /* move above the image */
-  margin-bottom: 16px;      /* space between text and image */
-  /* keep your yellow styles */
   font-size: 18px;
   line-height: 1.5;
-  background-color: #fbbf24;
-  color: #000;
+  margin: 0;
+
+  background-color: #fbbf24;  /* yellow box */
+  color: #000;                 /* black text */
   padding: 12px;
   border-radius: 6px;
+
+  width: 100%;
+  box-sizing: border-box;
+  transition: width 0.3s ease;  /* smooth expand/contract */
 }
 
 /* Accordion styling (unchanged) */
