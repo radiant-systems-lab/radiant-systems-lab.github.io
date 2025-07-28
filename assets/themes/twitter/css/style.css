@@ -275,17 +275,34 @@ p {
     margin-top: 4px;
 }
 
-/* - Research Areas */
+/* — Research Areas — */
 #index_research_areas.container {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  /* width: 1100px; */
   margin: 40px auto;
   background-color: #ffffff;
   border-radius: 10px;
   overflow: hidden;
-  /* padding: 20px; */
+}
+
+/* Title spans full width and sits tight above panels */
+#index_research_areas .section-title {
+  flex: 1 1 100%;
+  margin: 0 0 16px;     /* no top-margin, 16px below */
+  padding: 0;
+  font-weight: bold;
+  position: relative;
+}
+
+/* Panels row */
+#index_research_areas .left-panel,
+#index_research_areas .right-panel {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
 }
 
 #index_research_areas .left-panel {
@@ -296,30 +313,7 @@ p {
   padding-left: 10px;
 }
 
-#index_research_areas .left-panel,
-#index_research_areas .right-panel {
-  display: flex;
-  flex: 1 1 50%;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-#index_research_areas .section-title {
-  /* font-size: 24px; */
-  font-weight: bold;
-  position: relative;
-  flex: 1 1 100%;
-  margin-bottom: 16px;
-}
-
-#index_research_areas .underline {
-  display: block;
-  width: 80px;
-  height: 4px;
-  background-color: #fbbf24;
-  margin-top: 4px;
-}
-
+/* Image placeholder */
 #index_research_areas .image-placeholder {
   background-color: #c0c3cc;
   width: 100%;
@@ -328,17 +322,20 @@ p {
   margin: 20px 0;
 }
 
+/* **Larger text under the image** */
 #index_research_areas .description {
-  font-size: 16px;
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0;
   color: #333;
 }
 
+/* Accordion styling (unchanged) */
 #index_research_areas .accordion-item {
   margin-bottom: 10px;
   border-radius: 6px;
   overflow: hidden;
 }
-
 #index_research_areas .accordion-header {
   background-color: #483d8b;
   color: white;
@@ -350,13 +347,11 @@ p {
   font-weight: 500;
   border-radius: 6px;
 }
-
 #index_research_areas .accordion-header.open {
   background-color: #f3f3f3;
   color: black;
   border: 1px solid #ddd;
 }
-
 #index_research_areas .accordion-body {
   background-color: #fff;
   border: 1px solid #ddd;
@@ -364,7 +359,15 @@ p {
   padding: 15px 20px;
   display: none;
 }
-
 #index_research_areas .accordion-body.open {
   display: block;
+}
+
+/* Underline bar */
+#index_research_areas .underline {
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: #fbbf24;
+  margin-top: 4px;
 }
