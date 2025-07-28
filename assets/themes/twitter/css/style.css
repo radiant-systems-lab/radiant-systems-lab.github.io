@@ -278,7 +278,7 @@ p {
 /* - Research Areas */
 #index_research_areas.container {
   display: flex;
-  align-items: flex-start;
+  align-items: baseline;
   /* width: 1100px; */
   margin: 40px auto;
   background-color: #ffffff;
@@ -293,7 +293,6 @@ p {
 
 #index_research_areas .right-panel {
   padding-left: 10px;
-  padding-top: 10px;
 }
 
 #index_research_areas .left-panel,
@@ -308,6 +307,8 @@ p {
   /* font-size: 24px; */
   font-weight: bold;
   position: relative;
+  margin: 0 0 8px;
+  padding: 0;
 }
 
 #index_research_areas .underline {
