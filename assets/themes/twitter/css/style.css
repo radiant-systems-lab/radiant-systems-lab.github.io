@@ -323,19 +323,12 @@ p {
 }
 
 /* **Larger text under the image** */
-#index_research_areas .left-panel .description {
+#index_research_areas .description {
   font-size: 18px;
   line-height: 1.5;
   margin: 0;
-
-  background-color: #fbbf24;  /* yellow box */
-  color: #000;                 /* black text */
-  padding: 12px;
-  border-radius: 6px;
-
-  width: 100%;
-  box-sizing: border-box;
-  transition: width 0.3s ease;  /* smooth expand/contract */
+  color: #fff;
+  font-weight: bold;
 }
 
 /* Accordion styling (unchanged) */
