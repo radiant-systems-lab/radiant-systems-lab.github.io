@@ -76,11 +76,11 @@ keywords: machine learning, big data management, resource and system optimizatio
   <div class="left-panel">
     <div class="image-placeholder">
         <img style='max-width: 200%' src="https://cdn-ckfjm.nitrocdn.com/towyAoJaLSzAqWLbduPFHfHYUnjGziVx/assets/images/optimized/rev-29a8f61/www.lindau-nobel.org/wp-content/uploads/2017/06/iStock-483260077-crop.jpg">
+        <p class="description">
+      Explore our five key research areas that define Radiant Lab’s expertise and innovation.
+        </p>
     </div>
     <!-- inline style removed -->
-    <p class="description">
-      Explore our five key research areas that define Radiant Lab’s expertise and innovation.
-    </p>
   </div>
 
   <div class="right-panel">
