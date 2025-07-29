@@ -2,11 +2,11 @@
 // index page Research Areas - click and show
 const index_researchAreas = [
   {
-    title: 'Reproducible and Accountable Systems (RAS)',
+    title: 'Reproducible and Accountable Systems',
     description: 'Improving data-intensive distributed and parallel science workflows with reproducible and accountable containers.',
   },
   {
-    title: 'Transparent and Explainable AI (XAI)',
+    title: 'Transparent and Explainable AI',
     description: 'Making data, algorithms, and decision-making processes in science workflows explainable and understandable.',
   },
   {
@@ -18,7 +18,7 @@ const index_researchAreas = [
     description: 'Enabling scientific research and innovation at scale by supporting advanced research through distributed, collaborative, and data-intensive capabilities.',
   },
   {
-    title: 'Infrastructure and Policy (RIP)',
+    title: 'Community and Policy',
     description: 'Engaging with communities for artifact evaluation, guided by policy frameworks.',
   },
 ];
