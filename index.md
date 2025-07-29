@@ -79,7 +79,7 @@ keywords: machine learning, big data management, resource and system optimizatio
     </div>
     <!-- inline style removed -->
     <p class="description">
-      Explore our six key research areas that define Radiant Lab’s expertise and innovation.
+      Explore our five key research areas that define Radiant Lab’s expertise and innovation.
     </p>
   </div>
 
