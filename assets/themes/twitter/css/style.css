@@ -307,6 +307,8 @@ p {
 
 #index_research_areas .left-panel {
   padding-right: 10px;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
 }
 
 #index_research_areas .right-panel {
@@ -333,6 +335,9 @@ p {
   color: #000;
   padding: 12px;
   border-radius: 6px;
+
+  grid-row: 2;    /* always the second row, just under the image */
+  margin: 0 0 20px;
 }
 
 /* Accordion styling (unchanged) */
