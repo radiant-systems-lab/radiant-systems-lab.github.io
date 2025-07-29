@@ -313,6 +313,7 @@ p {
   padding-left: 10px;
 }
 
+/* Image placeholder */
 #index_research_areas .image-placeholder {
   background-color: #c0c3cc;
   width: 100%;
@@ -321,22 +322,25 @@ p {
   margin: 20px 0;
 }
 
+/* **Larger text under the image** */
 #index_research_areas .description {
   font-size: 18px;
   line-height: 1.5;
   margin: 0;
+
+  /* new styles: yellow background, black text */
   background-color: #fbbf24;
   color: #000;
   padding: 12px;
   border-radius: 6px;
 }
 
+/* Accordion styling (unchanged) */
 #index_research_areas .accordion-item {
   margin-bottom: 10px;
   border-radius: 6px;
   overflow: hidden;
 }
-
 #index_research_areas .accordion-header {
   background-color: #483d8b;
   color: white;
@@ -348,13 +352,11 @@ p {
   font-weight: 500;
   border-radius: 6px;
 }
-
 #index_research_areas .accordion-header.open {
   background-color: #f3f3f3;
   color: black;
   border: 1px solid #ddd;
 }
-
 #index_research_areas .accordion-body {
   background-color: #fff;
   border: 1px solid #ddd;
@@ -362,11 +364,11 @@ p {
   padding: 15px 20px;
   display: none;
 }
-
 #index_research_areas .accordion-body.open {
   display: block;
 }
 
+/* Underline bar */
 #index_research_areas .underline {
   display: block;
   width: 80px;
