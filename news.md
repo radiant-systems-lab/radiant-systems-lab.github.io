@@ -6,10 +6,9 @@ id: "news"
 ---
 
 <!-- see also index.markdown -->
-<h3 class="news-heading">News</h3>
 <ul id="RecentNews">
 {% assign news = site.data.news | sort: 'date' | reverse %}
-{% for n in news limit:8 %}
+{% for n in news %}
   <li>
     <div class="news-item-box">
       <div class="news-item" style="font-size: 0.9rem;">
