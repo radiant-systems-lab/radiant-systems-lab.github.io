@@ -424,3 +424,65 @@ p {
 .site-footer .quick-links li {
   margin-left: 1rem;
 }
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+.history-section {
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 2.5rem;
+}
+
+.history-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.history-underline {
+  border-bottom: 4px solid #FBBF24;
+  padding-bottom: 0.25rem;
+}
+
+.history-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .history-content {
+    flex-direction: row;
+  }
+}
+
+.image-wrapper {
+  flex: 1 1 50%;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 16rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  background-color: #D1D5DB;
+}
+
+.text-wrapper {
+  flex: 1 1 50%;
+  display: flex;
+  align-items: center;
+}
+
+.text-wrapper p {
+  color: #4B5563;
+  line-height: 1.75;
+}
