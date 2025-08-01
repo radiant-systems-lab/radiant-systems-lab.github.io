@@ -247,6 +247,7 @@ p {
   display: block;
   unicode-bidi: isolate;
   width: 50%;
+  height: 350px;
   background-color: #c0c3cc;
   min-height: 400px;
 }
