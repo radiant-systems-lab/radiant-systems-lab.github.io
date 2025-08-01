@@ -381,6 +381,14 @@ p {
   background: #f8f9fa;
   padding: 0.75rem 1rem;
   font-size: 0.875rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.site-footer .footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .site-footer a {
@@ -395,5 +403,5 @@ p {
 
 .site-footer .sponsor-logos img {
   max-height: 40px;
-  margin-right: 0.5rem;
+  margin-left: 0.5rem;
 }
