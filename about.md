@@ -143,9 +143,7 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
       background-color: #fff;
       border-radius: 0.5rem;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      padding: 2.5rem;
-      max-width: 1280px;
-      margin: 0 auto;
+      padding: 2.5rem 0;
     }
     
     .stats-title {
