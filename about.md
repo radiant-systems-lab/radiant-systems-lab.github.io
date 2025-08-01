@@ -148,3 +148,23 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
     showSlide(0);
   </script>
 </div>
+
+<div class="container">
+  <!-- History Section -->
+  <section class="history-section">
+    <h2 class="history-title">
+      <span class="history-underline">History</span>
+    </h2>
+    <div class="history-content">
+      <div class="image-wrapper">
+        <!-- Swap in your actual image path -->
+        <img src="history.jpg" alt="History image">
+      </div>
+      <div class="text-wrapper">
+        <p>
+          Founded in [Year], Radiant Lab has continuously pushed the boundaries of interdisciplinary research at Mizzou. Our journey began with a small group of visionaries committed to transforming cutting-edge theoretical insights into practical solutions that serve both academia and industry.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
