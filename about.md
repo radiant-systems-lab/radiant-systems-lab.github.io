@@ -208,6 +208,10 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
       margin-bottom: 1.5rem;
     }
     
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    
     .work-button {
       display: inline-block;
       padding: 0.5rem 1.5rem;
@@ -215,19 +219,16 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
       color: #fff;
       font-weight: 500;
       border-radius: 0.5rem;
-      text-decoration: none;
-      
       border: 1px solid transparent;
-      box-sizing: border-box;
-      transition: background 0.3s,
-                  color 0.3s,
-                  border-color 0.3s;
+      
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
     }
     
     .work-button:hover {
       background-color: #fff;
       color: #000;
-      border: #000;
+      border-color: #000;
     }
   </style>
 
