@@ -76,6 +76,114 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
     .dot.active {
       background-color: white;
     }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+    }
+    
+    .history-section {
+      background-color: #fff;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 2.5rem;
+    }
+    
+    .history-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .history-underline {
+      border-bottom: 4px solid #FBBF24;
+      padding-bottom: 0.25rem;
+    }
+    
+    .history-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .history-content {
+        flex-direction: row;
+      }
+    }
+    
+    .image-wrapper {
+      flex: 1 1 50%;
+    }
+    
+    .image-wrapper img {
+      width: 100%;
+      height: 16rem;
+      object-fit: cover;
+      border-radius: 0.5rem;
+      background-color: #D1D5DB;
+    }
+    
+    .text-wrapper {
+      flex: 1 1 50%;
+      display: flex;
+      align-items: center;
+    }
+    
+    .text-wrapper p {
+      color: #4B5563;
+      line-height: 1.75;
+    }
+    
+    .stats-section {
+      background-color: #fff;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 2.5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    
+    .stats-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .stats-underline {
+      border-bottom: 4px solid #FBBF24;
+      padding-bottom: 0.25rem;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      text-align: center;
+    }
+    
+    @media (min-width: 640px) {
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    .stats-item .stat-number {
+      display: block;
+      font-size: 1.875rem;
+      font-weight: 600;
+      color: #000;
+    }
+    
+    .stats-item .stat-label {
+      color: #4B5563;
+      margin-top: 0.25rem;
+    }
   </style>
 
   <div class="carousel-container">
@@ -167,28 +275,27 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
       </div>
     </div>
   </section>
+  <section class="stats-section">
+    <h2 class="stats-title">
+      <span class="stats-underline">Stats</span>
+    </h2>
+    <div class="stats-grid">
+      <div class="stats-item">
+        <span class="stat-number">50+</span>
+        <p class="stat-label">Publications</p>
+      </div>
+      <div class="stats-item">
+        <span class="stat-number">20</span>
+        <p class="stat-label">Team Members</p>
+      </div>
+      <div class="stats-item">
+        <span class="stat-number">10</span>
+        <p class="stat-label">Years of Excellence</p>
+      </div>
+      <div class="stats-item">
+        <span class="stat-number">5</span>
+        <p class="stat-label">Departments Collaborated</p>
+      </div>
+    </div>
+  </section>
 </div>
-
-<section class="stats-section">
-  <h2 class="stats-title">
-    <span class="stats-underline">Stats</span>
-  </h2>
-  <div class="stats-grid">
-    <div class="stats-item">
-      <span class="stat-number">50+</span>
-      <p class="stat-label">Publications</p>
-    </div>
-    <div class="stats-item">
-      <span class="stat-number">20</span>
-      <p class="stat-label">Team Members</p>
-    </div>
-    <div class="stats-item">
-      <span class="stat-number">10</span>
-      <p class="stat-label">Years of Excellence</p>
-    </div>
-    <div class="stats-item">
-      <span class="stat-number">5</span>
-      <p class="stat-label">Departments Collaborated</p>
-    </div>
-  </div>
-</section>
