@@ -182,6 +182,48 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
       color: #4B5563;
       margin-top: 0.25rem;
     }
+
+    .work-section {
+      background-color: #fff;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 2.5rem;
+    }
+    
+    /* Title styling */
+    .work-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .work-underline {
+      border-bottom: 4px solid #FBBF24;
+      padding-bottom: 0.25rem;
+    }
+    
+    .work-text {
+      color: #4B5563;
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+    
+    .work-button {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      background-color: #000;
+      color: #fff;
+      font-weight: 500;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+    }
+    
+    .work-button:hover {
+      background-color: #fff;
+      color: #000;
+      border: 1px solid #000;
+    }
   </style>
 
   <div class="carousel-container">
@@ -295,5 +337,16 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
         <p class="stat-label">Departments Collaborated</p>
       </div>
     </div>
+  </section>
+  <section class="work-section">
+    <h2 class="work-title">
+      <span class="work-underline">Work at Mizzou</span>
+    </h2>
+    <p class="work-text">
+      Interested in joining Radiant Lab? We offer opportunities for graduate students, postdoctoral researchers, and visiting scholars to contribute to groundbreaking projects. At Mizzou, you’ll collaborate with experts, access state-of-the-art facilities, and impact real-world innovations.
+    </p>
+    <a href="mailto:join@radiantlab.edu" class="work-button">
+      Join Our Team
+    </a>
   </section>
 </div>
