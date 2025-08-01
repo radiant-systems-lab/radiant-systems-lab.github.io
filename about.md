@@ -168,3 +168,27 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
     </div>
   </section>
 </div>
+
+<section class="stats-section">
+  <h2 class="stats-title">
+    <span class="stats-underline">Stats</span>
+  </h2>
+  <div class="stats-grid">
+    <div class="stats-item">
+      <span class="stat-number">50+</span>
+      <p class="stat-label">Publications</p>
+    </div>
+    <div class="stats-item">
+      <span class="stat-number">20</span>
+      <p class="stat-label">Team Members</p>
+    </div>
+    <div class="stats-item">
+      <span class="stat-number">10</span>
+      <p class="stat-label">Years of Excellence</p>
+    </div>
+    <div class="stats-item">
+      <span class="stat-number">5</span>
+      <p class="stat-label">Departments Collaborated</p>
+    </div>
+  </div>
+</section>
