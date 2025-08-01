@@ -378,7 +378,6 @@ p {
 }
 
 .site-footer {
-  /* Match header gradient, border, radius, and shadow */
   background-color: #fafafa;
   background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f2f2f2));
@@ -390,33 +389,38 @@ p {
   border-radius: 4px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.065);
   *zoom: 1;
-  overflow: visible;
-
-  /* Layout & typography */
-  padding: 0.75rem 1rem;
-  font-size: 0.875rem;
+  
   width: 100%;
   box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: #666;
 }
+
 .site-footer .footer-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .site-footer a {
   margin: 0 0.5rem;
-  color: inherit;
+  color: #666;
   text-decoration: none;
 }
+
 .site-footer a:hover {
+  color: #333;
   text-decoration: underline;
 }
+
 .site-footer .quick-links {
   list-style: none;
   padding: 0;
   margin: 0;
   display: flex;
 }
+
 .site-footer .quick-links li {
   margin-left: 1rem;
 }
