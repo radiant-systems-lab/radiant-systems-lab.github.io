@@ -230,6 +230,71 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
       color: #000;
       border-color: #000;
     }
+
+    /* Contact Us Section */
+    .contact-section {
+      background-color: #fff;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 2.5rem;
+    }
+    
+    .contact-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    
+    .contact-underline {
+      border-bottom: 4px solid #FBBF24;
+      padding-bottom: 0.25rem;
+    }
+    
+    .contact-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+    
+    @media (min-width: 768px) {
+      .contact-content {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+    }
+    
+    .contact-info {
+      flex: 1 1 50%;
+      color: #4B5563;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .contact-link {
+      color: #FBBF24;
+      text-decoration: none;
+    }
+    
+    .contact-link:hover {
+      text-decoration: underline;
+    }
+    
+    .contact-map {
+      flex: 1 1 50%;
+      height: 12rem;
+      background-color: #D1D5DB;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+    
+    .contact-map img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   </style>
 
   <div class="carousel-container">
@@ -354,5 +419,34 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
     <a href="mailto:join@radiantlab.edu" class="work-button">
       Join Our Team
     </a>
+  </section>
+
+  <section class="contact-section">
+    <h2 class="contact-title">
+      <span class="contact-underline">Contact Us</span>
+    </h2>
+    <div class="contact-content">
+      <div class="contact-info">
+        <p>
+          Email:
+          <a href="mailto:contact@radiantlab.edu" class="contact-link">
+            contact@radiantlab.edu
+          </a>
+        </p>
+        <p>
+          Phone:
+          <a href="tel:+1234567890" class="contact-link">
+            +1 (234) 567-890
+          </a>
+        </p>
+        <p>
+          Address: University of Missouri - Columbia, Naka Hall, MO 65201
+        </p>
+      </div>
+      <div class="contact-map">
+        <!-- Swap in your actual map image path -->
+        <img src="map.png" alt="Lab location map">
+      </div>
+    </div>
   </section>
 </div>
