@@ -297,6 +297,27 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
     }
   </style>
 
+  <div class="carousel-container">
+    <div class="carousel-slide" id="carouselSlide">
+      <img src="images/icons/provenance.png" alt="Slide 1">
+      <img src="images/icons/container.png" alt="Slide 2">
+      <img src="images/icons/infrastructure.png" alt="Slide 3">
+      <img src="images/icons/policy.png" alt="Slide 4">
+      <!-- Clone of the first image for smooth transition -->
+      <img src="images/icons/provenance.png" alt="Clone Slide 1">
+    </div>
+
+    <button class="nav-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="nav-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
+
+    <div class="dots" id="dotsContainer">
+      <div class="dot active" onclick="goToSlide(0)"></div>
+      <div class="dot" onclick="goToSlide(1)"></div>
+      <div class="dot" onclick="goToSlide(2)"></div>
+      <div class="dot" onclick="goToSlide(3)"></div>
+    </div>
+  </div>
+  
   <script>
     let currentSlide = 0;
     const slideContainer = document.getElementById("carouselSlide");
@@ -355,26 +376,7 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
     </h2>
     <div class="history-content">
       <div class="image-wrapper">
-        <div class="carousel-container">
-          <div class="carousel-slide" id="carouselSlide">
-            <img src="images/icons/provenance.png" alt="Slide 1">
-            <img src="images/icons/container.png" alt="Slide 2">
-            <img src="images/icons/infrastructure.png" alt="Slide 3">
-            <img src="images/icons/policy.png" alt="Slide 4">
-            <!-- Clone of the first image for smooth transition -->
-            <img src="images/icons/provenance.png" alt="Clone Slide 1">
-          </div>
-      
-          <button class="nav-btn prev-btn" onclick="moveSlide(-1)">&#10094;</button>
-          <button class="nav-btn next-btn" onclick="moveSlide(1)">&#10095;</button>
-      
-          <div class="dots" id="dotsContainer">
-            <div class="dot active" onclick="goToSlide(0)"></div>
-            <div class="dot" onclick="goToSlide(1)"></div>
-            <div class="dot" onclick="goToSlide(2)"></div>
-            <div class="dot" onclick="goToSlide(3)"></div>
-          </div>
-        </div>
+        <img src="history.jpg" alt="History image">
       </div>
       <div class="text-wrapper">
         <p>
@@ -447,4 +449,5 @@ The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, 
     </div>
   </section>
 </div>
+
 
