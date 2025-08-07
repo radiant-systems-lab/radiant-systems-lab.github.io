@@ -7,7 +7,11 @@ title: Publications
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="{{ ASSET_PATH }}/css/publications.css">
 
-# Publications
+<h2 style="font-size:1.5rem; font-weight:700; margin-top:2rem;">
+  <span style="border-bottom: 4px solid #FBBF24; padding-bottom: 0.25rem;">
+    Publications
+  </span>
+</h2>
 
 <p>
   You can also find our articles on our
