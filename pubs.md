@@ -19,17 +19,16 @@ title: Publications
      target="_blank">Google Scholar profile</a>.
 </p>
 
-<div class="navbar">
-  <div class="navbar-inner">
-    <ul id="pub-tabs" class="nav nav-tabs">
-      <li id="tab-all"         class="active"><a href="#" data-type="all">All</a></li>
-      <li id="tab-article"               ><a href="#" data-type="article">Articles</a></li>
-      <li id="tab-chapter"               ><a href="#" data-type="chapter">Chapters</a></li>
-      <li id="tab-dissertation"          ><a href="#" data-type="dissertation">Dissertations</a></li>
-      <li id="tab-editorial"             ><a href="#" data-type="editorial">Editorials</a></li>
-      <li id="tab-other"                 ><a href="#" data-type="other">Others</a></li>
-    </ul>
-  </div>
+<div class="pub-filter" style="margin-bottom: 2rem;">
+  <label for="pubTypeFilter" style="font-weight: 500; margin-right: 0.5rem;">Filter by type:</label>
+  <select id="pubTypeFilter" style="padding: 0.5rem 1rem; border: 1px solid #D1D5DB; border-radius: 0.375rem;">
+    <option value="all">All</option>
+    <option value="article">Articles</option>
+    <option value="chapter">Chapters</option>
+    <option value="dissertation">Dissertations</option>
+    <option value="editorial">Editorials</option>
+    <option value="other">Others</option>
+  </select>
 </div>
 
 {% assign pubs  = site.data.publications %}
@@ -142,6 +141,9 @@ document.querySelectorAll('#pub-tabs a').forEach(a => {
 
 // default to All
 document.addEventListener('DOMContentLoaded', ()=> showPubType('all'));
+document.getElementById("pubTypeFilter").addEventListener("change", (e) => {
+  showPubType(e.target.value);
+});
 
 // toggles single section
 function toggleSection(id) {
