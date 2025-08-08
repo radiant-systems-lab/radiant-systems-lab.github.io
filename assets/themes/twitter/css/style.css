@@ -296,6 +296,16 @@ p {
   flex-shrink: 0;
 } */
 
+.custom-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-images {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
 .carousel-buttons,
 .carousel-dots {
   position: absolute;
