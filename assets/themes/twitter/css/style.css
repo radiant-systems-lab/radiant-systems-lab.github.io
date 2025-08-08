@@ -277,7 +277,7 @@ p {
 }
 
 /* - Mission Carousel Container */
-.custom-carousel {
+/* .custom-carousel {
   position: relative;
   width: 100%;
   max-width: 600px;
@@ -294,7 +294,7 @@ p {
 .carousel-images img {
   width: 100%;
   flex-shrink: 0;
-}
+} */
 
 .carousel-buttons,
 .carousel-dots {
