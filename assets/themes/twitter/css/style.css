@@ -307,7 +307,10 @@ p {
 }
 
 .carousel-images img {
-  width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    min-width: 100%;
+    height: 490px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .carousel-buttons,
