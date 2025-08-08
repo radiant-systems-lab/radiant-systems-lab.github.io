@@ -10,7 +10,7 @@ keywords: machine learning, big data management, resource and system optimizatio
       <img style='max-width: 200%' src="https://live.staticflickr.com/8790/16890371568_c5bcc96644_b.jpg">
     </div> -->
     <div class="image-placeholder">
-      <img style='max-width: 200%' src="https://drive.google.com/uc?export=view&id=1eilNVXaT4nbW4SxQEGDWMD098UyJasGT">
+      <img style='max-width: 200%' src="https://drive.usercontent.google.com/download?id=1eilNVXaT4nbW4SxQEGDWMD098UyJasGT&export=view">
     </div>
     <!-- <div class="image-placeholder">
       <img style='max-width: 200%' src="https://drive.google.com/uc?export=view&id=1qaMV1lBuA3AnUsS4gha08f_Q2jtYLdPZ">
