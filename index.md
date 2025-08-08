@@ -5,48 +5,16 @@ description: The  webpage of Radiant Systems Lab
 keywords: machine learning, big data management, resource and system optimization,  data provenance and policy frameworks, scientific workflows, DevOps solutions and practices. 
 ---
 
-<!-- Bootstrap 5 -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<div id="index_mission" class="container d-flex flex-wrap">
-  <div class="image-placeholder me-4" style="flex: 1 1 40%;">
-    <div id="labCarousel" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner rounded">
-        <div class="carousel-item active">
-          <img src="https://live.staticflickr.com/8790/16890371568_c5bcc96644_b.jpg" class="d-block w-100" alt="Image 1">
-        </div>
-        <div class="carousel-item">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Mizzou_Engineering_Building.jpg" class="d-block w-100" alt="Image 2">
-        </div>
-        <div class="carousel-item">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/f/fc/Mizzou_campus_spring.jpg" class="d-block w-100" alt="Image 3">
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#labCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#labCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-      </button>
-    </div>
-  </div>
-
-  <div class="text-section" style="flex: 1 1 55%;">
-    <h3 class="section-title">
-      Our Mission
-      <span class="underline"></span>
-    </h3>
-    <p>
-      The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in the <a href="https://engineering.missouri.edu/departments/eecs/">Department of Electrical Engineering and Computer Science</a> at the <a href="http://www.missouri.edu">University of Missouri-Columbia</a> is dedicated to advancing the path from data to informed decisions across a wide range of domains. The Lab is a front runner in the design of reproducible, accountable, and trustworthy data-driven systems and infrastructure. It is directed by <a href="https://engineering.missouri.edu/faculty/tanu-malik/">Dr. Tanu Malik</a> and member expertise spans machine learning, big data management, resource and system optimization, data provenance and policy frameworks, scientific workflows, and DevOps solutions and practices.
-    </p>
-  </div>
-</div>
-
-<!-- <div id="index_mission" class="container">
-    <div class="image-placeholder">
+<div id="index_mission" class="container">
+    <!-- <div class="image-placeholder">
       <img style='max-width: 200%' src="https://live.staticflickr.com/8790/16890371568_c5bcc96644_b.jpg">
+    </div> -->
+    <div class="image-placeholder">
+      <img style='max-width: 200%' src="https://drive.google.com/uc?export=view&id=1eilNVXaT4nbW4SxQEGDWMD098UyJasGT">
     </div>
+    <!-- <div class="image-placeholder">
+      <img style='max-width: 200%' src="https://drive.google.com/uc?export=view&id=1qaMV1lBuA3AnUsS4gha08f_Q2jtYLdPZ">
+    </div> -->
     <div class="text-section">
       <h3 class="section-title">
           Our Mission
@@ -56,7 +24,7 @@ keywords: machine learning, big data management, resource and system optimizatio
           The <a href="https://radiant-systems-lab.github.io/">Radiant Systems Lab</a> in the <a href="https://engineering.missouri.edu/departments/eecs/">Department of Electrical Engineering and Computer Science</a> at the <a href="http://www.missouri.edu">University of Missouri-Columbia</a> is dedicated to advancing the path from data to informed decisions across a wide range of domains. The Lab is a front runner in the design of reproducible, accountable, and trustworthy data-driven systems and infrastructure. It is directed by <a href="https://engineering.missouri.edu/faculty/tanu-malik/">Dr. Tanu Malik</a> and member expertise spans machine learning, big data management, resource and system optimization,  data provenance and policy frameworks, scientific workflows, and DevOps solutions and practices.
       </p>
     </div>
-</div> -->
+</div>
 
 <!--<table class="wide">
 <tr>
