@@ -202,12 +202,18 @@ p {
 }
 
 .home-button svg {
+  width: 18px;
+  height: 18px;
   color: #333;
   transition: color 0.2s ease;
 }
 
 .home-button:hover svg {
   color: #007BFF;
+}
+
+.home-button {
+  padding: 4px;
 }
 
 .news-item-box {
