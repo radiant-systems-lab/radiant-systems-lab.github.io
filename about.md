@@ -302,7 +302,7 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
     </div>
   </div> -->
   
-<div class="container">
+<div class="container" style="padding: 0">
   <!-- History Section -->
   <section class="history-section" id="about_history">
     <div>
