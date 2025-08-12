@@ -305,9 +305,11 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
 <div class="container">
   <!-- History Section -->
   <section class="history-section" id="about_history">
-    <h2 class="history-title">
-      <span class="history-underline">History</span>
-    </h2>
+    <div>
+      <h2 class="history-title">
+        <span class="history-underline">History</span>
+      </h2>
+    </div>
     <div style="clear_box"></div>
     <div class="history-content">
       <div class="image-placeholder">
