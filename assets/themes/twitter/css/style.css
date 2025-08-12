@@ -549,6 +549,11 @@ p {
   opacity: 1;
 }
 
+#about_history .clear_box {
+  display: block;
+  clear: both;
+}
+
 
 
 .site-footer {

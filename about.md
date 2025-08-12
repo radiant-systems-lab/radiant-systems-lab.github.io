@@ -25,6 +25,7 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
     <h2 class="history-title">
       <span class="history-underline">History</span>
     </h2>
+    <div style="clear_box"></div>
     <div class="history-content">
       <div class="image-placeholder">
         <div class="custom-carousel">
@@ -118,3 +119,4 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
 </div>
 
 
+<script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/index_research_areas.js"></script>
