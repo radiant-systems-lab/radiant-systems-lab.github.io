@@ -441,6 +441,116 @@ p {
   margin-top: 4px;
 }
 
+/* About Page */
+/* - History */
+#about_history {
+  margin: 40px auto;
+  max-width: 1100px;
+  display: flex;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  unicode-bidi: isolate;
+}
+
+#about_history .image-placeholder {
+  display: block;
+  unicode-bidi: isolate;
+  width: 50%;
+  height: 350px;
+  background-color: #c0c3cc;
+  min-height: 400px;
+}
+
+#about_history .text-section {
+  background-color: whitesmoke;
+  display: block;
+  unicode-bidi: isolate;
+  width: 50%;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+#about_history .section-title {
+    /* font-size: 24px; */
+    font-weight: bold;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+#about_history .underline {
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: #fbbf24;
+    margin-top: 4px;
+}
+
+/* - History Carousel Container */
+#about_history .custom-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+#about_history .carousel-images {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+#about_history .carousel-images img {
+    min-width: 100%;
+    height: 490px;
+    object-fit: cover;
+    object-position: center;
+}
+
+#about_history .carousel-buttons,
+.carousel-dots {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  z-index: 10;
+}
+
+#about_history .carousel-buttons {
+  top: 50%;
+  transform: translateY(-50%);
+  justify-content: space-between;
+}
+
+#about_history .carousel-buttons button {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+#about_history .carousel-dots {
+  bottom: 10px;
+  gap: 6px;
+}
+
+#about_history .carousel-dots span {
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  opacity: 0.5;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#about_history .carousel-dots span.active {
+  background-color: #007bff;
+  opacity: 1;
+}
+
+
+
 .site-footer {
   background-color: #fafafa;
   background-image: -moz-linear-gradient(top, #ffffff, #f2f2f2);
