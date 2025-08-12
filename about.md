@@ -402,4 +402,4 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
 </div>
 
 
-<script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/index_research_areas.js"></script>
+<script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/about_history.js"></script>
