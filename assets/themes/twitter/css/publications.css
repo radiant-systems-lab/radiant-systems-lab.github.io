@@ -83,10 +83,10 @@ body {
 /* --- Icons & Buttons --- */
 .pub-icons {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   margin-top: 5px;
   flex-wrap: wrap;
-  margin-bottom: 1rem;
+  margin-bottom: 5px;
 }
 
 .pub-action {
