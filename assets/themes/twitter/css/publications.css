@@ -105,6 +105,16 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
+div.pub-icons {
+  display: flex !important;
+  gap: 12px !important;
+  flex-wrap: wrap;
+}
+
+.pub-icons .pub-action {
+  margin-right: 4px;
+}
+
 .pub-action:hover {
   background-color: #fff;
   color: #000;
