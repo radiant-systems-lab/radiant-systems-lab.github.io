@@ -380,18 +380,18 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
       <div class="contact-info">
         <p>
           Email:
-          <a href="mailto:contact@radiantlab.edu" class="contact-link">
-            contact@radiantlab.edu
+          <a href="mailto:tanu@missouri.edu" class="contact-link">
+            tanu at missouri dot edu
           </a>
         </p>
         <p>
           Phone:
-          <a href="tel:+1234567890" class="contact-link">
-            +1 (234) 567-890
+          <a href="tel:+5738849203" class="contact-link">
+            +1 (573) 884-9203
           </a>
         </p>
         <p>
-          Address: University of Missouri - Columbia, Naka Hall, MO 65201
+          Address: 416, S 6th St., Naka 311, Columbia, MO 65211
         </p>
       </div>
       <div class="contact-map">
@@ -404,3 +404,4 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
 
 
 <script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/about_history.js"></script>
+
