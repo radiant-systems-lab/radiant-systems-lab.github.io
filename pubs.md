@@ -71,18 +71,15 @@ title: Publications
               {% if p.Description %}
               <button class="pub-action"
                       onclick="toggleSection('abs-{{ p.id }}')">
-                <i class="fas fa-file-alt"></i> Abstract
-              </button>
+                <i class="fas fa-file-alt"></i></button>
               {% endif %}
               <button class="pub-action"
                       onclick="toggleSection('bib-{{ p.id }}')">
-                <i class="fas fa-code"></i> BibTeX
-              </button>
+                <i class="fas fa-code"></i></button>
               {% if p.pdf_link %}
               <a href="{{ p.pdf_link }}"
                  class="pub-action" target="_blank">
-                <i class="fas fa-file-pdf"></i> PDF
-              </a>
+                <i class="fas fa-file-pdf"></i></a>
               {% endif %}
             </div>
 
