@@ -391,7 +391,8 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
           </a>
         </p>
         <p>
-          Address: 416, S 6th St., Naka 311, Columbia, MO 65211
+          Address: 416, S 6th St., Naka 311
+                   Columbia, MO 65211
         </p>
       </div>
       <div class="contact-map">
@@ -404,4 +405,5 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
 
 
 <script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/about_history.js"></script>
+
 
