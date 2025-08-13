@@ -399,7 +399,7 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
       </div>
       <div class="contact-map">
         <!-- Swap in your actual map image path -->
-        <img src="map.png" alt="Lab location map">
+        <img src="assets/map.jpg" alt="Lab location map">
       </div>
     </div>
   </section>
@@ -407,6 +407,7 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
 
 
 <script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/about_history.js"></script>
+
 
 
 
