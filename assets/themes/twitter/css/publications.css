@@ -83,36 +83,26 @@ body {
 /* --- Icons & Buttons --- */
 .pub-icons {
   display: flex;
-  gap: 12px;
-  margin-top: 5px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px; /* space between buttons */
+  margin-top: 8px;
   margin-bottom: 5px;
 }
 
 .pub-action {
+  width: 36px;
+  height: 36px;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  justify-content: center;
   border: 1px solid #4B5563;
   border-radius: 0.375rem;
-  padding: 0.4rem 0.75rem;
   background-color: #000;
   color: #fff;
-  font-weight: 500;
-  font-size: 0.875rem;
+  font-size: 1rem;
   cursor: pointer;
   text-decoration: none;
   transition: background-color 0.3s, color 0.3s;
-}
-
-div.pub-icons {
-  display: flex !important;
-  gap: 12px !important;
-  flex-wrap: wrap;
-}
-
-.pub-icons .pub-action {
-  margin-right: 4px;
 }
 
 .pub-action:hover {
