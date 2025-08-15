@@ -1,6 +1,3 @@
----
-layout: page
----
 
 <!-- <div style="max-width:800px; margin:auto; position:relative;"> -->
   <style>
@@ -401,6 +398,7 @@ layout: page
 
 
 <script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/about_history.js"></script>
+
 
 
 
