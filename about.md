@@ -1,13 +1,7 @@
 ---
 layout: page
-title: about
 ---
 
-## Welcome to The RADIANT Systems Lab!
-
-
-
-The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/faculty/tanu-malik/">Dr. Tanu Malik</a> is located in the <a href="https://engineering.missouri.edu/departments/eecs/">Department of Electrical Engineering and Computer Science</a> at the <a href="http://www.missouri.edu">University of Missouri-Columbia (Mizzou)</a>. This lab is a front runner in the design of reproducible, accountable, and trustworthy data-driven systems and infrastructure. This lab aims to advance reproducible, accountable, explainable, and policy-aware data science by developing systems that enhance the reliability of data-intensive, distributed, and parallel scientific workflows through accountable and reproducible containerization. It also focuses on improving transparency in artificial intelligence by making data, algorithms, and decision-making processes within scientific workflows more interpretable and understandable.  
 <!-- <div style="max-width:800px; margin:auto; position:relative;"> -->
   <style>
     .carousel-container {
@@ -331,7 +325,7 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
       </div>
       <div class="text-wrapper">
         <p>
-          The history of the RADIANT Systems Lab traces back to the Data, Infrastructure, Computation, and Environments (DICE) Lab at <a href="https://www.depaul.edu/Pages/default.aspx">DePaul University</a>, which focused on foundational research in data provenance, computational reproducibility, and optimization within complex systems and virtual environments.  Today, the RADIANT Systems Lab continues this tradition and actively collaborates with researchers and scientists worldwide to advance the frontiers of reproducible and data-driven computing.
+          The RADIANT Systems Lab traces its origins to the Data, Infrastructure, Computation, and Environments (DICE) Lab at <a href="dice.cs.depaul.edu">DePaul University</a>, which advanced the understanding of data, infrastructure, computational problems, and environments. DICE focused on foundational research in provenance data, systems and infrastructure for computational reproducibility, optimization and decision problems within complex systems, and the exploration of virtual environments relevant to reproducibility. Building on this legacy, the RADIANT Systems Lab continues to push the frontiers of reproducible and data-driven computing, actively collaborating with researchers and scientists worldwide.
         </p>
       </div>
     </div>
@@ -407,6 +401,7 @@ The Radiant Systems Lab directed by <a href="https://engineering.missouri.edu/fa
 
 
 <script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/about_history.js"></script>
+
 
 
 
