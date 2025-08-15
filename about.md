@@ -1,3 +1,6 @@
+---
+layout: page
+---
 
 <!-- <div style="max-width:800px; margin:auto; position:relative;"> -->
   <style>
@@ -293,7 +296,7 @@
     </div>
   </div> -->
   
-<div class="container" style="padding: 0">
+<div class="container" style="padding: 0; margin-top:0;">
   <!-- History Section -->
   <section class="history-section" id="about_history">
     <div>
@@ -322,7 +325,7 @@
       </div>
       <div class="text-wrapper">
         <p>
-          The RADIANT Systems Lab traces its origins to the Data, Infrastructure, Computation, and Environments (DICE) Lab at <a href="dice.cs.depaul.edu">DePaul University</a>, which advanced the understanding of data, infrastructure, computational problems, and environments. DICE focused on foundational research in provenance data, systems and infrastructure for computational reproducibility, optimization and decision problems within complex systems, and the exploration of virtual environments relevant to reproducibility. Building on this legacy, the RADIANT Systems Lab continues to push the frontiers of reproducible and data-driven computing, actively collaborating with researchers and scientists worldwide.
+          The RADIANT Systems Lab traces its origins to the Data, Infrastructure, Computation, and Environments (DICE) Lab at <a href="https://dice.cs.depaul.edu">DePaul University</a>, which advanced the understanding of data, infrastructure, computational problems, and environments. DICE focused on foundational research in provenance data, systems and infrastructure for computational reproducibility, optimization and decision problems within complex systems, and the exploration of virtual environments relevant to reproducibility. Building on this legacy, the RADIANT Systems Lab continues to push the frontiers of reproducible and data-driven computing, actively collaborating with researchers and scientists worldwide.
         </p>
       </div>
     </div>
@@ -398,6 +401,7 @@
 
 
 <script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/about_history.js"></script>
+
 
 
 
