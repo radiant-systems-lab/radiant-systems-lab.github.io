@@ -337,19 +337,19 @@ layout: page
     </h2>
     <div class="stats-grid">
       <div class="stats-item">
-        <span class="stat-number">50+</span>
+        <span class="stat-number">77</span>
         <p class="stat-label">Publications</p>
       </div>
       <div class="stats-item">
-        <span class="stat-number">20</span>
+        <span class="stat-number">22</span>
         <p class="stat-label">Team Members</p>
       </div>
       <div class="stats-item">
-        <span class="stat-number">10</span>
+        <span class="stat-number">12+</span>
         <p class="stat-label">Years of Excellence</p>
       </div>
       <div class="stats-item">
-        <span class="stat-number">5</span>
+        <span class="stat-number">10+</span>
         <p class="stat-label">Departments Collaborated</p>
       </div>
     </div>
@@ -361,8 +361,8 @@ layout: page
     <p class="work-text">
       Interested in joining Radiant Lab? We offer opportunities for graduate students, postdoctoral researchers, and visiting scholars to contribute to groundbreaking projects. At Mizzou, you’ll collaborate with experts, access state-of-the-art facilities, and impact real-world innovations.
     </p>
-    <a href="mailto:join@radiantlab.edu" class="work-button">
-      Join Our Team
+    <a href="https://radiant-systems-lab.github.io/people.html" class="work-button">
+      Explore Open Positions
     </a>
   </section>
 
@@ -401,6 +401,7 @@ layout: page
 
 
 <script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/about_history.js"></script>
+
 
 
 
