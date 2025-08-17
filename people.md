@@ -1,7 +1,9 @@
 ---
-title: ''
+title: Radiant Members
 layout: page
 description: Radiant's members
+---
+
 ---
 
 ## <a name="director"></a>Director
