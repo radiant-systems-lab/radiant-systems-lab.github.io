@@ -1,10 +1,8 @@
 --- 
-title: People
 layout: page
 description: Radiant's members 
 --- 
 
-## <a name="director"></a>Director 
 <div class="flex-container people image-container"> 
   {% for person in site.data.faculty %} 
     {% include person_image image=person.image caption=person.name link=person.website title=person.name %} 
