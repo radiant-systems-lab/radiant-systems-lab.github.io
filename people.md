@@ -1,26 +1,9 @@
 ---
 layout: page
-title: people
 description: Radiant's members
 ---
 
-<div class="navbar">
-  <div class="navbar-inner">
-    <ul class="nav">
-      <li><a href="#director">director</a></li>
-      <li><a href="#postdocs">postdocs</a></li>
-      <li><a href="#phd">phd</a></li>
-      <li><a href="#masters">ms</a></li>
-      <li><a href="#ug">ug</a></li>
-      <li><a href="#alumni">alumni</a></li>
-      <li><a href="#openings">openings</a></li>
-    </ul>
-  </div>
-</div>
-
----
-
-## <a name="director"></a>director
+## <a name="director"></a>Director
 
 <div class="flex-container people image-container">
   {% for person in site.data.faculty %}
@@ -28,24 +11,24 @@ description: Radiant's members
   {% endfor %}
 </div>
 
-## <a name="postdocs"></a>postdocs
+## <a name="postdocs"></a>Postdocs
 See <a href="#openings">open positions.</a>
 
-## <a name="phd"></a>graduate students
+## <a name="phd"></a>Grduate Students
 <div class="flex-container people image-container">
   {% for person in site.data.phd_students %}
     {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
   {% endfor %}
 </div>
 
-## <a name="ms"></a>masters students
+## <a name="ms"></a>Master's Students
 <div class="flex-container people image-container">
   {% for person in site.data.master_students %}
     {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
 {% endfor %}
 </div>
 
-## <a name="ug"></a>undergraduate students
+## <a name="ug"></a>Undergraduate Students
 See <a href="#openings">open positions.</a>
 
 ## <a name="alumni"></a>alumni
@@ -67,4 +50,4 @@ See <a href="#openings">open positions.</a>
   <p>No alumni data available.</p>
 {% endif %}
 
-## <a name="openings"></a>openings
+## <a name="openings"></a>Current Openings
