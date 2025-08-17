@@ -1,4 +1,5 @@
 --- 
+title: People
 layout: page
 description: Radiant's members 
 --- 
