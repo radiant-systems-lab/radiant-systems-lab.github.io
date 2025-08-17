@@ -1,61 +1,8 @@
 ---
-title: Radiant Members
+title: ''
 layout: page
 description: Radiant's members
 ---
-
-<style>
-/* Flex container for people */
-.flex-container.people {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: flex-start;
-}
-
-/* Individual image container */
-.image-container > div {
-  position: relative;
-  text-align: center;
-  width: 150px; /* Adjust as needed */
-}
-
-/* Person image styling */
-.image-container img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  object-fit: cover;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease;
-}
-
-/* Hover effect */
-.image-container img:hover {
-  transform: scale(1.05);
-}
-
-/* Caption below image */
-.image-container .caption {
-  margin-top: 0.5rem;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #333;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .image-container > div {
-    width: 45%;
-  }
-}
-
-@media (max-width: 480px) {
-  .image-container > div {
-    width: 100%;
-  }
-}
-</style>
 
 ## <a name="director"></a>Director
 <div class="flex-container people image-container">
