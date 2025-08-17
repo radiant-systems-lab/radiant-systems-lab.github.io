@@ -1,7 +1,7 @@
 ---
 title: 'Radiant Members'
 layout: page
-description: lab members
+description: Radiant's members
 ---
 
 <style>
@@ -19,7 +19,7 @@ description: lab members
 h2 {
   font-family: 'Roboto Slab', serif;
   font-size: 2rem;
-  margin-bottom: 1rem;
+  margin: 60px 0 20px; /* add spacing above/below */
   position: relative;
   display: inline-block;
 }
@@ -38,6 +38,7 @@ h2::after {
   flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start;
+  margin-bottom: 40px;
 }
 
 /* Individual person card */
@@ -66,12 +67,14 @@ h2::after {
   font-size: 1rem;
   margin: 10px 0;
   color: #333;
+  background-color: transparent; /* no overlay text */
 }
 
 /* Alumni list */
 ul.alumni-list {
   list-style: none;
   padding-left: 0;
+  margin-bottom: 40px;
 }
 ul.alumni-list li {
   font-family: 'Roboto', sans-serif;
@@ -101,7 +104,7 @@ a:hover {
   border-left: 4px solid #800080;
   border-radius: 6px;
   padding: 15px 20px;
-  margin-bottom: 20px;
+  margin-bottom: 60px;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -109,6 +112,15 @@ a:hover {
 @media (max-width: 768px) {
   .flex-container {
     justify-content: center;
+  }
+  h2 {
+    font-size: 1.6rem;
+  }
+  .person {
+    width: 120px;
+  }
+  .person img {
+    height: 140px;
   }
 }
 </style>
