@@ -306,26 +306,17 @@ layout: page
     </div>
     <div class="history-content">
       <div class="image-placeholder">
-        <div class="custom-carousel">
-          <div class="carousel-images" id="carousel-images">
-            <img src="images/icons/provenance.png" alt="1" />
-            <img src="images/icons/container.png" alt="2" />
-            <img src="images/icons/infrastructure.png" alt="3" />
-          </div>
-          <div class="carousel-buttons">
-            <button onclick="prevSlide()">‹</button>
-            <button onclick="nextSlide()">›</button>
-          </div>
-          <div class="carousel-dots" id="carousel-dots">
-            <span onclick="goToSlide(0)"></span>
-            <span onclick="goToSlide(1)"></span>
-            <span onclick="goToSlide(2)"></span>
-          </div>
-        </div>
+        <!-- Static image -->
+        <img src="https://radiant-systems-lab.github.io/images/icons/depaul_map.png" alt="History Image" />
       </div>
       <div class="text-wrapper">
         <p>
-          The RADIANT Systems Lab traces its origins to the Data, Infrastructure, Computation, and Environments (DICE) Lab at <a href="https://dice.cs.depaul.edu">DePaul University</a>, which advanced the understanding of data, infrastructure, computational problems, and environments. DICE focused on foundational research in provenance data, systems and infrastructure for computational reproducibility, optimization and decision problems within complex systems, and the exploration of virtual environments relevant to reproducibility. Building on this legacy, the RADIANT Systems Lab continues to push the frontiers of reproducible and data-driven computing, actively collaborating with researchers and scientists worldwide.
+          The RADIANT Systems Lab traces its origins to the Data, Infrastructure, Computation, and Environments (DICE) Lab at 
+          <a href="https://dice.cs.depaul.edu">DePaul University</a>, which advanced the understanding of data, infrastructure, 
+          computational problems, and environments. DICE focused on foundational research in provenance data, systems and infrastructure 
+          for computational reproducibility, optimization and decision problems within complex systems, and the exploration of virtual 
+          environments relevant to reproducibility. Building on this legacy, the RADIANT Systems Lab continues to push the frontiers of 
+          reproducible and data-driven computing, actively collaborating with researchers and scientists worldwide.
         </p>
       </div>
     </div>
@@ -401,6 +392,7 @@ layout: page
 
 
 <script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/about_history.js"></script>
+
 
 
 
