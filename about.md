@@ -103,6 +103,7 @@ layout: page
     @media (min-width: 768px) {
       .history-content {
         flex-direction: row;
+        align-items: center;
       }
     }
     
@@ -304,12 +305,12 @@ layout: page
         <span class="history-underline">History</span>
       </h2>
     </div>
-    <div class="history-content" style="display: flex; align-items: center; gap: 20px;">
-      <div class="image-placeholder" style="flex: 1; text-align: center;">
+    <div class="history-content">
+      <div class="image-placeholder">
         <!-- Static image -->
-        <img src="https://radiant-systems-lab.github.io/images/icons/depaul_map.png" alt="History Image" style="max-width: 200px; height: auto;" />
+        <img src="https://radiant-systems-lab.github.io/images/icons/depaul_map.png" alt="History Image" />
       </div>
-      <div class="text-wrapper" style="flex: 2;">
+      <div class="text-wrapper">
         <p>
           The RADIANT Systems Lab traces its origins to the Data, Infrastructure, Computation, and Environments (DICE) Lab at 
           <a href="https://dice.cs.depaul.edu">DePaul University</a>, which advanced the understanding of data, infrastructure, 
@@ -392,6 +393,7 @@ layout: page
 
 
 <script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/about_history.js"></script>
+
 
 
 
