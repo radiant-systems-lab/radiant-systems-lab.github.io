@@ -1,5 +1,4 @@
 ---
-title: Radiant Members
 layout: page
 description: Radiant's members
 ---
