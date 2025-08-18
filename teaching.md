@@ -1,5 +1,4 @@
 ---
-title: Teaching
 layout: page
 ---
 
