@@ -197,6 +197,32 @@ p {
   opacity: 0.85;
 }
 
+.openings {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.opening-card {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.opening-card h3 {
+  margin-top: 0;
+  color: #004080;
+}
+
+.opening-card p {
+  margin: 0.5em 0;
+  line-height: 1.5;
+}
+
+/* Home Button Header */
+
 .home-button svg {
   width: 18px;
   height: 18px;
