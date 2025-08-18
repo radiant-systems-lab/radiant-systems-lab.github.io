@@ -35,7 +35,7 @@ See <a href="#openings">open positions.</a>
 
 ## <a name="alumni"></a>Alumni
 {% if site.data.alumni %}
-  <ul>
+  <ul class="alumni-list">
     {% assign sorted_alumni = site.data.alumni | sort: "name" %}
     {% for person in sorted_alumni %}
       <li>
@@ -44,7 +44,7 @@ See <a href="#openings">open positions.</a>
         {% else %}
           {{ person.name }}
         {% endif %}
-        {% if person.at %} (now at {{ person.at }}) {% endif %}
+        {% if person.at %} <span class="at">(now at {{ person.at }})</span> {% endif %}
       </li>
     {% endfor %}
   </ul>
