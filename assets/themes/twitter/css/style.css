@@ -18,6 +18,14 @@ h3 {
   color: #004080;
 }
 
+/* Header Active Tab */
+.nav > .active > a,
+.nav > .active > a:hover {
+  color: #fff;
+  background-color: #0088cc;
+  text-decoration: none;
+}
+
 /* Custom container */
 .container-narrow {
   margin: 0 auto;
