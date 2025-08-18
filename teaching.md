@@ -19,15 +19,15 @@ layout: page
     </p>
   </section>
 
-  <!-- Submenu Tabs -->
-  <section class="stats-section">
-    <div class="stats-grid">
-      <div class="stats-item"><span class="stat-label submenu-tab" data-tab="news">News</span></div>
-      <div class="stats-item"><span class="stat-label submenu-tab" data-tab="content">Content</span></div>
-      <div class="stats-item"><span class="stat-label submenu-tab" data-tab="schedule">Schedule</span></div>
-      <div class="stats-item"><span class="stat-label submenu-tab" data-tab="exams">Exams</span></div>
-      <div class="stats-item"><span class="stat-label submenu-tab" data-tab="grades">Grades</span></div>
-      <div class="stats-item"><span class="stat-label submenu-tab" data-tab="rules">Rules</span></div>
+  <!-- Sticky Submenu Tabs -->
+  <section class="stats-section sticky-submenu">
+    <div class="submenu-container">
+      <span class="submenu-tab active" data-tab="news">News</span>
+      <span class="submenu-tab" data-tab="content">Content</span>
+      <span class="submenu-tab" data-tab="schedule">Schedule</span>
+      <span class="submenu-tab" data-tab="exams">Exams</span>
+      <span class="submenu-tab" data-tab="grades">Grades</span>
+      <span class="submenu-tab" data-tab="rules">Rules</span>
     </div>
   </section>
 
@@ -65,6 +65,7 @@ layout: page
 </div>
 
 <style>
+/* General Links */
 .work-link {
   text-decoration: none;
   color: #000;
@@ -74,35 +75,67 @@ layout: page
   text-decoration: underline;
 }
 
-.submenu-tab {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: #F3F4F6;
+/* Course Section */
+.course-section {
+  background-color: #fff;
   border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 2rem;
+  margin-bottom: 2rem;
 }
 
-.submenu-tab:hover,
-.submenu-tab.active {
-  background-color: #FBBF24;
-  color: #000;
+/* Sticky Submenu */
+.sticky-submenu {
+  position: sticky;
+  top: 1rem;
+  z-index: 10;
+  background-color: #fff;
+  padding: 1rem 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
 }
 
-.stats-grid {
+/* Submenu Tabs */
+.submenu-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1rem;
   justify-content: center;
 }
 
-.stats-item {
-  flex: 1 1 120px;
-  text-align: center;
+.submenu-tab {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background-color: #F3F4F6;
+  border-radius: 9999px; /* pill shape */
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
 
+.submenu-tab:hover {
+  background-color: #FBBF24;
+  color: #000;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.submenu-tab.active {
+  background-color: #FBBF24;
+  color: #000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Tab Content */
 .tab-content {
   display: block;
+  margin-top: 1rem;
+}
+
+/* Container bottom spacing to avoid footer clash */
+.container {
+  padding-bottom: 4rem;
 }
 </style>
 
@@ -119,11 +152,7 @@ tabs.forEach(tab => {
     // Show selected tab content and hide others
     const selected = tab.getAttribute('data-tab');
     tabContents.forEach(tc => {
-      if(tc.id === selected) {
-        tc.style.display = 'block';
-      } else {
-        tc.style.display = 'none';
-      }
+      tc.style.display = (tc.id === selected) ? 'block' : 'none';
     });
   });
 });
