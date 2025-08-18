@@ -45,12 +45,24 @@
             </li>
           </ul>
           <ul class="nav">
-              <li><a href="{{ BASE_PATH }}/about.html">About</a></li>
-              <li><a href="{{ BASE_PATH }}/research.html">Research</a></li>
-              <li><a href="{{ BASE_PATH }}/teaching.html">Teaching</a></li>
-              <li><a href="{{ BASE_PATH }}/people.html">People</a></li>
-              <li><a href="{{ BASE_PATH }}/pubs.html">Publications</a></li>
-              <li><a href="{{ BASE_PATH }}/software.html">Software</a></li>
+            <li class="{% if page.url == '/about.html' %}active{% endif %}">
+              <a href="{{ BASE_PATH }}/about.html">About</a>
+            </li>
+            <li class="{% if page.url == '/research.html' %}active{% endif %}">
+              <a href="{{ BASE_PATH }}/research.html">Research</a>
+            </li>
+            <li class="{% if page.url == '/teaching.html' %}active{% endif %}">
+              <a href="{{ BASE_PATH }}/teaching.html">Teaching</a>
+            </li>
+            <li class="{% if page.url == '/people.html' %}active{% endif %}">
+              <a href="{{ BASE_PATH }}/people.html">People</a>
+            </li>
+            <li class="{% if page.url == '/pubs.html' %}active{% endif %}">
+              <a href="{{ BASE_PATH }}/pubs.html">Publications</a>
+            </li>
+            <li class="{% if page.url == '/software.html' %}active{% endif %}">
+              <a href="{{ BASE_PATH }}/software.html">Software</a>
+            </li>
           </ul>
         </div>
       </div>
