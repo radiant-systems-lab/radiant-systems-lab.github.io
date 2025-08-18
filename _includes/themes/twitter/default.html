@@ -45,12 +45,24 @@
             </li>
           </ul>
           <ul class="nav">
-            <li><a href="{{ BASE_PATH }}/about.html">About</a></li>
-            <li><a href="{{ BASE_PATH }}/research.html">Research</a></li>
-            <li><a href="{{ BASE_PATH }}/teaching.html">Teaching</a></li>
-            <li><a href="{{ BASE_PATH }}/people.html">People</a></li>
-            <li><a href="{{ BASE_PATH }}/pubs.html">Publications</a></li>
-            <li><a href="{{ BASE_PATH }}/software.html">Software</a></li>
+            <li {% if page.url contains 'about' %}class="active"{% endif %}>
+              <a href="{{ BASE_PATH }}/about.html">About</a>
+            </li>
+            <li {% if page.url contains 'research' %}class="active"{% endif %}>
+              <a href="{{ BASE_PATH }}/research.html">Research</a>
+            </li>
+            <li {% if page.url contains 'teaching' %}class="active"{% endif %}>
+              <a href="{{ BASE_PATH }}/teaching.html">Teaching</a>
+            </li>
+            <li {% if page.url contains 'people' %}class="active"{% endif %}>
+              <a href="{{ BASE_PATH }}/people.html">People</a>
+            </li>
+            <li {% if page.url contains 'pubs' %}class="active"{% endif %}>
+              <a href="{{ BASE_PATH }}/pubs.html">Publications</a>
+            </li>
+            <li {% if page.url contains 'software' %}class="active"{% endif %}>
+              <a href="{{ BASE_PATH }}/software.html">Software</a>
+            </li>
           </ul>
         </div>
       </div>
