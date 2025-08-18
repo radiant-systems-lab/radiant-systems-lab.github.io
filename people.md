@@ -1,4 +1,5 @@
 ---
+title: Members of Radiant Lab
 layout: page
 description: Radiant's members
 ---
