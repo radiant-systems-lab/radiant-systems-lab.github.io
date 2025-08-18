@@ -80,6 +80,6 @@ See <a href="#openings">open positions.</a>
       <strong>Location:</strong> Multi-university, multi-disciplinary center with opportunities for travel, training, and dissemination.
     </p>
 
-    <p><strong>How to Apply:</strong> Send your CV and Research Statement to <a href="mailto:tanu@missouri.edu">tanu@missouri.edu</a>.</p>
+    <p><strong>How to Apply:</strong> Send your CV and Research Statement to <a href="mailto:tanu@missouri.edu">tanu at missouri dot edu</a>.</p>
   </div>
 </div>
