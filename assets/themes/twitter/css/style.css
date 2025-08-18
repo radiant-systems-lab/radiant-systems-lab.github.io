@@ -18,6 +18,13 @@ h3 {
   color: #004080;
 }
 
+/* Header Active Tab */
+.nav li.active a {
+  font-weight: bold;
+  color: #007bff;  /* or your brand color */
+  border-bottom: 2px solid #007bff; /* underline effect */
+}
+
 /* Custom container */
 .container-narrow {
   margin: 0 auto;
