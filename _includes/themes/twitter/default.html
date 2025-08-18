@@ -44,30 +44,14 @@
               </a>
             </li>
           </ul>
-         {% assign current = page.url | replace:'/index.html','/' | relative_url %}
-         <ul class="nav">
-            <li class="{% if current == '/' | relative_url %}active{% endif %}">
-              <a href="{{ '/' | relative_url }}" aria-current="{% if current == '/' | relative_url %}page{% endif %}">Home</a>
-            </li>
-            <li class="{% capture u %}{{ '/about/' | relative_url }}{% endcapture %}{% if current == u %}active{% endif %}">
-              <a href="{{ '/about/' | relative_url }}" aria-current="{% if current == u %}page{% endif %}">About</a>
-            </li>
-            <li class="{% capture u %}{{ '/research/' | relative_url }}{% endcapture %}{% if current == u %}active{% endif %}">
-              <a href="{{ '/research/' | relative_url }}">Research</a>
-            </li>
-            <li class="{% capture u %}{{ '/teaching/' | relative_url }}{% endcapture %}{% if current == u %}active{% endif %}">
-              <a href="{{ '/teaching/' | relative_url }}">Teaching</a>
-            </li>
-            <li class="{% capture u %}{{ '/people/' | relative_url }}{% endcapture %}{% if current == u %}active{% endif %}">
-              <a href="{{ '/people/' | relative_url }}">People</a>
-            </li>
-            <li class="{% capture u %}{{ '/pubs/' | relative_url }}{% endcapture %}{% if current == u %}active{% endif %}">
-              <a href="{{ '/pubs/' | relative_url }}">Publications</a>
-            </li>
-            <li class="{% capture u %}{{ '/software/' | relative_url }}{% endcapture %}{% if current == u %}active{% endif %}">
-              <a href="{{ '/software/' | relative_url }}">Software</a>
-            </li>
-         </ul>
+          <ul class="nav">
+            <li><a href="{{ BASE_PATH }}/about.html">About</a></li>
+            <li><a href="{{ BASE_PATH }}/research.html">Research</a></li>
+            <li><a href="{{ BASE_PATH }}/teaching.html">Teaching</a></li>
+            <li><a href="{{ BASE_PATH }}/people.html">People</a></li>
+            <li><a href="{{ BASE_PATH }}/pubs.html">Publications</a></li>
+            <li><a href="{{ BASE_PATH }}/software.html">Software</a></li>
+          </ul>
         </div>
       </div>
     </div>
