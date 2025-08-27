@@ -66,8 +66,8 @@ layout: page
 
   <!-- Main area -->
   <main class="content" id="mainContent">
-    <div class="crumb">← <a href="/courses#y2025">Back to 2025</a></div>
-    <h1 class="course-title">CSC/EE 8001 — Machine Learning Systems</h1>
+    <div class="crumb">← <a href="https://radiant-systems-lab.github.io/teaching.html#y2025">Back to 2025</a></div>
+    <h1 class="course-title">CSC/EE 8001 — Designing End-to-End ML System</h1>
 
     <section id="news" class="course-sec" aria-labelledby="news-title">
       <h2 id="news-title">News</h2>
