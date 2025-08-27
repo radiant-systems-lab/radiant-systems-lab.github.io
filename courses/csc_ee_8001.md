@@ -31,6 +31,7 @@ layout: page
     border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.08);
     transform:translateY(0); transition:transform .25s ease, opacity .2s ease; opacity:.95;
     z-index:0;
+    opacity:0;
   }
 
   /* Content */
