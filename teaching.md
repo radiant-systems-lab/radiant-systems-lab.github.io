@@ -67,7 +67,7 @@ layout: page
     <section id="y2025" class="year-block" aria-labelledby="y2025-title">
       <h1 class="year-header" id="y2025-title">2025</h1>
       <ul class="course-list">
-        <li><a href="https://radiant-systems-lab.github.io/courses/csc-ee-8001/">CSC/EE 8001</a></li>
+        <li><a href="https://radiant-systems-lab.github.io/courses/csc_ee_8001/">CSC/EE 8001</a></li>
       </ul>
     </section>
 
@@ -87,9 +87,7 @@ layout: page
   const nav = document.getElementById('yearNav');
   const slider = document.getElementById('slider');
   const links = [...nav.querySelectorAll('a[href^="#"]')];
-  const sections = links
-    .map(a => document.querySelector(a.getAttribute('href')))
-    .filter(Boolean);
+  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
 
   function setActiveById(id){
     links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
@@ -100,32 +98,46 @@ layout: page
       const offsetY = liRect.top - listRect.top + nav.scrollTop - 4;
       slider.style.transform = `translateY(${offsetY}px)`;
       slider.style.height = `${liRect.height}px`;
-
       active.scrollIntoView({ block: 'nearest' });
     }
   }
 
+  let ioLocked = false;
+  let lockTimeout = null;
+  function lockIO(ms = 500){
+    ioLocked = true;
+    clearTimeout(lockTimeout);
+    lockTimeout = setTimeout(() => ioLocked = false, ms);
+  }
+  
   links.forEach(a => {
-    a.addEventListener('click', (e) => {
-      // Allow default smooth scroll, just set active early
+    a.addEventListener('click', () => {
       const id = a.getAttribute('href').substring(1);
       setActiveById(id);
+      lockIO(600); // adjust if your smooth scroll duration differs
     });
   });
 
+  if ('onscrollend' in window) {
+    window.addEventListener('scrollend', () => { ioLocked = false; });
+  }
+
   const io = new IntersectionObserver((entries) => {
-    // Pick the most visible entry
-    let top = null;
+    if (ioLocked) return;
+    const viewportH = window.innerHeight || document.documentElement.clientHeight;
+    let best = null;
     entries.forEach(en => {
-      if (en.isIntersecting) {
-        if (!top || en.intersectionRatio > top.intersectionRatio) top = en;
-      }
+      if (!en.isIntersecting) return;
+      const top = en.target.getBoundingClientRect().top;
+      const penalty = top > 0.6 * viewportH ? 100000 : 0;
+      const score = Math.abs(top) + penalty; // lower is better
+      if (!best || score < best.score) best = { id: en.target.id, score };
     });
-    if (top) setActiveById(top.target.id);
+    if (best) setActiveById(best.id);
   }, {
     root: null,
-    threshold: [0.25, 0.5, 0.75],
-    rootMargin: "-20% 0px -55% 0px"
+    threshold: [0, 0.25, 0.5, 0.75, 1],
+    rootMargin: "-15% 0px -60% 0px"
   });
 
   sections.forEach(sec => io.observe(sec));
@@ -137,7 +149,7 @@ layout: page
   }
   window.addEventListener('hashchange', () => {
     const id = location.hash.substring(1);
-    if (id) setActiveById(id);
+    if (id) { setActiveById(id); lockIO(400); }
   });
 
   const ro = new ResizeObserver(() => {
@@ -150,4 +162,8 @@ layout: page
   ro.observe(nav);
 
   initActive();
+
+  ['wheel','touchmove','keydown'].forEach(evt => {
+    window.addEventListener(evt, () => { if (!ioLocked) return; lockIO(150); }, { passive: true });
+  });
 </script>
