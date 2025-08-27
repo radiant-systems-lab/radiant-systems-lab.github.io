@@ -44,7 +44,7 @@ layout: page
   section[id]{ scroll-margin-top:90px; }
 
   /* Make sections tall enough to test scroll/spy */
-  .year-block{ min-height:70vh; padding-bottom:2rem; border-top:1px dashed #eee; margin-top:1.5rem; }
+  .year-block{ min-height:40vh; padding-bottom:2rem; border-top:1px dashed #eee; margin-top:1.5rem; }
   html{ scroll-behavior:smooth }
 </style>
 
@@ -67,7 +67,7 @@ layout: page
     <section id="y2025" class="year-block" aria-labelledby="y2025-title">
       <h1 class="year-header" id="y2025-title">2025</h1>
       <ul class="course-list">
-        <li><a href="/courses/csc-ee-8001/">CSC/EE 8001</a></li>
+        <li><a href="https://radiant-systems-lab.github.io/courses/csc-ee-8001/">CSC/EE 8001</a></li>
       </ul>
     </section>
 
@@ -97,7 +97,7 @@ layout: page
     if (active){
       const liRect = active.getBoundingClientRect();
       const listRect = nav.getBoundingClientRect();
-      const offsetY = liRect.top - listRect.top + nav.scrollTop - 4; // -4 to center better
+      const offsetY = liRect.top - listRect.top + nav.scrollTop - 4;
       slider.style.transform = `translateY(${offsetY}px)`;
       slider.style.height = `${liRect.height}px`;
 
