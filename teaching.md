@@ -67,7 +67,7 @@ layout: page
     <section id="y2025" class="year-block" aria-labelledby="y2025-title">
       <h1 class="year-header" id="y2025-title">2025</h1>
       <ul class="course-list">
-        <li><a href="https://radiant-systems-lab.github.io/courses/csc_ee_8001/">CSC/EE 8001</a></li>
+        <li><a href="https://radiant-systems-lab.github.io/courses/csc_ee_8001.html">CSC/EE 8001</a></li>
       </ul>
     </section>
 
