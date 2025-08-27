@@ -101,7 +101,6 @@ layout: page
       <h2 id="schedule-title">Schedule</h2>
       <div class="table-wrap">
         <table class="schedule-table" aria-describedby="schedule-caption">
-          <caption id="schedule-caption" style="text-align:left; padding:.25rem 0;">Course Schedule</caption>
           <thead>
             <tr>
               <th scope="col">Date</th>
