@@ -55,8 +55,6 @@ layout: page
     <nav>
       <ul class="year-nav" id="yearNav">
         <div class="slider" id="slider" aria-hidden="true"></div>
-        <li><a href="#y2027">2027</a></li>
-        <li><a href="#y2026">2026</a></li>
         <li><a href="#y2025">2025</a></li>
         <li><a href="#y2024">2024</a></li>
         <li><a href="#y2023">2023</a></li>
@@ -66,16 +64,6 @@ layout: page
 
   <!-- Main -->
   <main class="content" id="mainContent">
-    <section id="y2027" class="year-block" aria-labelledby="y2027-title">
-      <h1 class="year-header" id="y2027-title">2027</h1>
-      <ul class="course-list"><li><em>Placeholder</em></li></ul>
-    </section>
-
-    <section id="y2026" class="year-block" aria-labelledby="y2026-title">
-      <h1 class="year-header" id="y2026-title">2026</h1>
-      <ul class="course-list"><li><em>Placeholder</em></li></ul>
-    </section>
-
     <section id="y2025" class="year-block" aria-labelledby="y2025-title">
       <h1 class="year-header" id="y2025-title">2025</h1>
       <ul class="course-list">
@@ -96,7 +84,6 @@ layout: page
 </div>
 
 <script>
-  // --- ScrollSpy + Active highlight + Sliding indicator + Sidebar auto-scroll
   const nav = document.getElementById('yearNav');
   const slider = document.getElementById('slider');
   const links = [...nav.querySelectorAll('a[href^="#"]')];
@@ -108,19 +95,16 @@ layout: page
     links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
     const active = links.find(a => a.classList.contains('active'));
     if (active){
-      // Move slider to sit behind the active link
       const liRect = active.getBoundingClientRect();
       const listRect = nav.getBoundingClientRect();
       const offsetY = liRect.top - listRect.top + nav.scrollTop - 4; // -4 to center better
       slider.style.transform = `translateY(${offsetY}px)`;
       slider.style.height = `${liRect.height}px`;
 
-      // Ensure active link is visible in the sidebar
       active.scrollIntoView({ block: 'nearest' });
     }
   }
 
-  // On click, rely on native anchor scroll and update active immediately
   links.forEach(a => {
     a.addEventListener('click', (e) => {
       // Allow default smooth scroll, just set active early
@@ -129,7 +113,6 @@ layout: page
     });
   });
 
-  // ScrollSpy using IntersectionObserver (robust even with short sections)
   const io = new IntersectionObserver((entries) => {
     // Pick the most visible entry
     let top = null;
@@ -141,13 +124,12 @@ layout: page
     if (top) setActiveById(top.target.id);
   }, {
     root: null,
-    threshold: [0.25, 0.5, 0.75],         // consider section "active" when fairly visible
-    rootMargin: "-20% 0px -55% 0px"      // biases toward the section near top-middle
+    threshold: [0.25, 0.5, 0.75],
+    rootMargin: "-20% 0px -55% 0px"
   });
 
   sections.forEach(sec => io.observe(sec));
 
-  // On load or hash navigation
   function initActive(){
     const fromHash = location.hash && sections.find(s => s.id === location.hash.substring(1));
     const initial = fromHash || sections[0];
@@ -158,7 +140,6 @@ layout: page
     if (id) setActiveById(id);
   });
 
-  // Resize observer to keep slider sized with font changes/resizes
   const ro = new ResizeObserver(() => {
     const active = document.querySelector('.year-nav a.active');
     if (active){
@@ -168,6 +149,5 @@ layout: page
   });
   ro.observe(nav);
 
-  // Kickoff
   initActive();
 </script>
