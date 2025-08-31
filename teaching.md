@@ -66,9 +66,10 @@ layout: page
   <main class="content" id="mainContent">
     <section id="y2025" class="year-block" aria-labelledby="y2025-title">
       <h1 class="year-header" id="y2025-title">2025</h1>
-      <ul class="course-list">
-        <li><a href="https://radiant-systems-lab.github.io/courses/csc_ee_8001.html">CSC/EE 8001</a></li>
-      </ul>
+      <dl class="course-list">
+        <dt><a href="https://radiant-systems-lab.github.io/courses/csc_ee_8001.html">CSC/EE 8001</a></dt>
+        <dd>Machine learning systems are both complex and unique. Complex because they must balance both performance and accuracy. Unique because they're data dependent, with data varying wildly from one use case to the next. In this course we will first learn the basics of ML, and then take a deep dive into topics such as data and hypothesis selection, model performance and evaluation. We will learn how to build, deploy, diagnose and track machine-learned models. We will acquaint ourselves with both compute and data issues arising in managing a large ML pipeline. The course will be project-based and also involve reading state-of-the-art papers.</dd>
+      </dl>
     </section>
 
     <section id="y2024" class="year-block" aria-labelledby="y2024-title">
