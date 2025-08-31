@@ -78,22 +78,39 @@ layout: page
   <!-- Main area -->
   <main class="content" id="mainContent">
     <div class="crumb">← <a href="https://radiant-systems-lab.github.io/teaching.html#y2025">Back to 2025</a></div>
-    <h1 class="course-title">CSC/EE 8001 — Designing End-to-End ML System</h1>
+    <h1 class="course-title">CSC/EE 8001: Designing End-to-End ML Systems</h1>
+
+   
+
+    <p><b>Lectures</b>: Wednesday noon-2:50PM in Naka 222</p>
+<p><b>Instructor:</b> <a href="https://engineering.missouri.edu/faculty/tanu-malik/"><b>Tanu Malik</b></a></p>
+<ul>
+<li><p>Email: tanu [at] missouri.edu</p>
+</li>
+<li><p>Office Hours: Tuesday 5-6pm CT @ Naka 311</p>
+</li>
+</ul>
 
     <!-- NEWS: bullet list template -->
     <section id="news" class="course-sec" aria-labelledby="news-title">
-      <h2 id="news-title">News</h2>
+      <h2 id="news-title">Announcements</h2>
       <ul class="news-list">
         <!-- Add Content Here -->
-        <li><strong>[YYYY-MM-DD]</strong> First lecture posted; slides available under Content.</li>
-        <li><strong>[YYYY-MM-DD]</strong> Assignment 1 released; see due date in Schedule.</li>
-        <li><strong>[YYYY-MM-DD]</strong> Office hours updated for Week 2.</li>
+        <li><strong>[2025-08-29]</strong> Assignment 1 released on Canvas; see due date under Schedule.</li>
+        <li><strong>[2025-08-26]</strong> Office hours: Tuesday 5:00PM-6:00PM Naka 311. Please additionally send me email if you plan to meet on Zoom. </li>
       </ul>
     </section>
 
     <section id="content" class="course-sec" aria-labelledby="content-title">
-      <h2 id="content-title">Content</h2>
-      <p><!-- readings, slides, links --></p>
+      <h2 id="content-title">Course Goals</h2>
+      <p>This is a research-based course on systems for machine learning (ML), 
+and lies at the intersection of the fields of ML/AI, data management, and systems.  Students will learn about the landscape 
+and evolution of ML systems and the latest research. This course will cover key systems topics including systems for 
+scalable ML model building, data sourcing and preparation for ML, 
+ML platforms, and issues in ML deployment and MLOps.  
+A major component of this course is a course project on MLOps and reviewing research papers on these topics.
+The course is currently for MS students and PhD students.</p>
+<p></p>
     </section>
 
     <!-- SCHEDULE: table template -->
