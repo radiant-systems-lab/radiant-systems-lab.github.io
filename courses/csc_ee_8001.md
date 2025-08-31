@@ -122,24 +122,40 @@ The course is currently for MS students and PhD students.</p>
             <tr>
               <th scope="col">Date</th>
               <th scope="col">Details</th>
-              <th scope="col">Due Date</th>
+              <th scope="col">PDFs</th>
             </tr>
           </thead>
           <tbody>
             <!-- Eit these rows as needed -->
             <tr>
-              <td><time datetime="2025-01-15">Jan 15, 2025</time></td>
-              <td>Lecture 1 — Course intro &amp; ML systems overview</td>
+              <td><time datetime="2025-08-27">Aug 27, 2025</time></td>
+              <td>Machine Learning (ML) &amp; ML systems overview</td>
               <td>—</td>
             </tr>
             <tr>
-              <td><time datetime="2025-01-22">Jan 22, 2025</time></td>
-              <td>Assignment 1 released: Reproducible pipelines</td>
-              <td><time datetime="2025-02-05">Feb 5, 2025</time></td>
+              <td><time datetime="2025-09-03">Sep 03, 2025</time></td>
+              <td>Loss functions, Gradient Descent, Bias-Variance,
+ML development cycle</td>
+              <td>-</td>
             </tr>
             <tr>
-              <td><time datetime="2025-02-12">Feb 12, 2025</time></td>
-              <td>Guest talk — Responsible AI: fairness &amp; accountability</td>
+              <td><time datetime="2025-09-10">Sep 10, 2025</time></td>
+              <td>Neural Networks and Large scale ML systems</td>
+              <td>—</td>
+            </tr>
+                 <tr>
+              <td><time datetime="2025-09-10">Sep 17, 2025</time></td>
+              <td>Cloud Computing and DevOps for ML</td>
+              <td>—</td>
+            </tr>
+                 <tr>
+              <td><time datetime="2025-09-10">Sep 24, 2025</time></td>
+              <td>Data Selection</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><time datetime="2025-10-01">Oct 1, 2025</time></td>
+              <td>Model Performance and Model Evaluation/</td>
               <td>—</td>
             </tr>
           </tbody>
