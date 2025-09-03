@@ -42,11 +42,14 @@ layout: page
   /* Main – flat */
   .content{ background:transparent; padding:0 }
   .year-header{ margin:.25rem 0 .75rem; font-size:2rem; font-weight:700 }
-  .course-list{ margin:.5rem 0 0; padding-left:1.25rem }
-  .course-list dt{ font-size:1.25rem; font-weight:500; margin-bottom:.25rem }
-  .course-list dt a{ color:#000; text-decoration:none }
-  .course-list dt a:hover{ text-decoration:underline }
-  .course-list dd{ font-size:1.05rem; line-height:1.6; margin-bottom:1.25rem }
+
+  /* Course list with bullets */
+  .course-list{ margin:.5rem 0 0; padding-left:1.5rem; list-style:disc; }
+  .course-list li{ margin-bottom:1.5rem }
+  .course-title{ font-size:1.25rem; font-weight:500; display:block; margin-bottom:.35rem }
+  .course-title a{ color:#000; text-decoration:none }
+  .course-title a:hover{ text-decoration:underline }
+  .course-desc{ font-size:1.05rem; line-height:1.6 }
 
   section[id]{ scroll-margin-top:90px; }
   .year-block{ padding:0 0 1rem 0; margin:1rem 0 0; }
@@ -69,16 +72,20 @@ layout: page
   <main class="content" id="mainContent">
     <section id="y2025" class="year-block" aria-labelledby="y2025-title">
       <h1 class="year-header" id="y2025-title">2025</h1>
-      <dl class="course-list">
-        <dt><a href="https://radiant-systems-lab.github.io/courses/csc_ee_8001.html">CSC/EE 8001: End to End ML Systems</a></dt>
-        <dd>
-          Machine learning systems are both complex and unique. Complex because they must balance both performance and accuracy. 
-          Unique because they're data dependent, with data varying wildly from one use case to the next. In this course we will first 
-          learn the basics of ML, and then take a deep dive into topics such as data and hypothesis selection, model performance and evaluation. 
-          We will learn how to build, deploy, diagnose and track machine-learned models. We will acquaint ourselves with both compute and 
-          data issues arising in managing a large ML pipeline. The course will be project-based and also involve reading state-of-the-art papers.
-        </dd>
-      </dl>
+      <ul class="course-list">
+        <li>
+          <span class="course-title">
+            <a href="https://radiant-systems-lab.github.io/courses/csc_ee_8001.html">CSC/EE 8001: End to End ML Systems</a>
+          </span>
+          <span class="course-desc">
+            Machine learning systems are both complex and unique. Complex because they must balance both performance and accuracy. 
+            Unique because they're data dependent, with data varying wildly from one use case to the next. In this course we will first 
+            learn the basics of ML, and then take a deep dive into topics such as data and hypothesis selection, model performance and evaluation. 
+            We will learn how to build, deploy, diagnose and track machine-learned models. We will acquaint ourselves with both compute and 
+            data issues arising in managing a large ML pipeline. The course will be project-based and also involve reading state-of-the-art papers.
+          </span>
+        </li>
+      </ul>
     </section>
   </main>
 </div>
