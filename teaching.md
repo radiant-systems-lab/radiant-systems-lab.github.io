@@ -27,7 +27,7 @@ layout: page
   }
   .year-nav a{
     position:relative; display:block; padding:.55rem .7rem; border-radius:8px; text-decoration:none; color:var(--fg);
-    z-index:1; white-space:nowrap; /* keeps sidebar compact */
+    z-index:1; white-space:nowrap;
   }
   .year-nav a:hover{ background:#f6f6f6 }
   .year-nav a.active{ color:#000 }
@@ -39,15 +39,17 @@ layout: page
     transform:translateY(0); transition:transform .25s ease, opacity .2s ease; opacity:.95; z-index:0;
   }
 
-  /* Main – flat, auto width/height */
+  /* Main – flat */
   .content{ background:transparent; padding:0 }
-  .year-header{ margin:.25rem 0 .5rem; font-size:1.75rem }
+  .year-header{ margin:.25rem 0 .75rem; font-size:2rem; font-weight:700 }
   .course-list{ margin:.5rem 0 0; padding-left:1.25rem }
-  .course-list a{ color:#000; text-decoration:none }
-  .course-list a:hover{ text-decoration:underline }
+  .course-list dt{ font-size:1.25rem; font-weight:500; margin-bottom:.25rem }
+  .course-list dt a{ color:#000; text-decoration:none }
+  .course-list dt a:hover{ text-decoration:underline }
+  .course-list dd{ font-size:1.05rem; line-height:1.6; margin-bottom:1.25rem }
 
   section[id]{ scroll-margin-top:90px; }
-  .year-block{ padding:0 0 1rem 0; margin:1rem 0 0; } /* auto-size by content */
+  .year-block{ padding:0 0 1rem 0; margin:1rem 0 0; }
   html{ scroll-behavior:smooth }
 </style>
 
@@ -59,8 +61,6 @@ layout: page
       <ul class="year-nav" id="yearNav">
         <div class="slider" id="slider" aria-hidden="true"></div>
         <li><a href="#y2025">2025</a></li>
-        <li><a href="#y2024">2024</a></li>
-        <li><a href="#y2023">2023</a></li>
       </ul>
     </nav>
   </aside>
@@ -71,18 +71,14 @@ layout: page
       <h1 class="year-header" id="y2025-title">2025</h1>
       <dl class="course-list">
         <dt><a href="https://radiant-systems-lab.github.io/courses/csc_ee_8001.html">CSC/EE 8001: End to End ML Systems</a></dt>
-        <dd>Machine learning systems are both complex and unique. Complex because they must balance both performance and accuracy. Unique because they're data dependent, with data varying wildly from one use case to the next. In this course we will first learn the basics of ML, and then take a deep dive into topics such as data and hypothesis selection, model performance and evaluation. We will learn how to build, deploy, diagnose and track machine-learned models. We will acquaint ourselves with both compute and data issues arising in managing a large ML pipeline. The course will be project-based and also involve reading state-of-the-art papers.</dd>
+        <dd>
+          Machine learning systems are both complex and unique. Complex because they must balance both performance and accuracy. 
+          Unique because they're data dependent, with data varying wildly from one use case to the next. In this course we will first 
+          learn the basics of ML, and then take a deep dive into topics such as data and hypothesis selection, model performance and evaluation. 
+          We will learn how to build, deploy, diagnose and track machine-learned models. We will acquaint ourselves with both compute and 
+          data issues arising in managing a large ML pipeline. The course will be project-based and also involve reading state-of-the-art papers.
+        </dd>
       </dl>
-    </section>
-
-    <section id="y2024" class="year-block" aria-labelledby="y2024-title">
-      <h1 class="year-header" id="y2024-title">2024</h1>
-      <ul class="course-list"><li><em>Placeholder</em></li></ul>
-    </section>
-
-    <section id="y2023" class="year-block" aria-labelledby="y2023-title">
-      <h1 class="year-header" id="y2023-title">2023</h1>
-      <ul class="course-list"><li><em>Placeholder</em></li></ul>
     </section>
   </main>
 </div>
