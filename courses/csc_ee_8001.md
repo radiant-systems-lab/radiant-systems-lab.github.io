@@ -38,11 +38,40 @@ layout: page
   }
 
   /* Content */
-  .content{ background:#fff; border-radius:12px; padding:1.25rem }
-  .course-title{ margin-top:0; font-size:1.9rem }
-  .crumb{ margin-bottom:1rem; }
-  .crumb a{ text-decoration:none; color:#555 }
-  .crumb a:hover{ text-decoration:underline; }
+  .content{ 
+    background:#fff; 
+    border-radius:12px; 
+    padding:1.25rem; 
+    line-height:1.6; 
+    font-size:1rem;   /* base size for body */
+  }
+  
+  .course-title{ 
+    margin-top:0; 
+    font-size:2rem; 
+    font-weight:700; 
+  }
+  
+  .content h2{ 
+    font-size:1.5rem; 
+    font-weight:600; 
+    margin-top:2rem; 
+    margin-bottom:1rem; 
+  }
+  
+  .content p, 
+  .content li{ 
+    font-size:1rem; 
+  }
+  
+  .content .crumb{ 
+    margin-bottom:1rem; 
+    font-size:.95rem; 
+  }
+  
+  .content table{ 
+    font-size:.95rem; 
+  }
 
   /* Sections */
   section[id]{ scroll-margin-top:90px; }
