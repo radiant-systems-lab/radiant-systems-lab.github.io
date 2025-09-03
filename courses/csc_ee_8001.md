@@ -46,7 +46,7 @@ layout: page
 
   /* Sections */
   section[id]{ scroll-margin-top:90px; }
-  .course-sec{ min-height:55vh; padding-bottom:2rem; margin-top:1.25rem; }
+  .course-sec{ padding-bottom:2rem; margin-top:1.25rem; }
 
   /* News list */
   .news-list{ margin:.5rem 0 0 1.25rem; }
