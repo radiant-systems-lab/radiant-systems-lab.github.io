@@ -3,14 +3,18 @@ layout: page
 ---
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
   :root { --pill:#FBBF24; --bd:#eee; --fg:#111; }
+
+  body { font-family: 'Roboto', sans-serif; }
 
   .page-wrap { display:grid; grid-template-columns:220px 1fr; gap:1.5rem }
   @media (max-width: 900px){ .page-wrap { grid-template-columns:1fr } .sidebar{ position:static } }
 
   /* Sidebar */
   .sidebar{
-    position:sticky; top:1rem; align-self:start; background:#fff; border:1px solid var(--bd);
+    position:sticky; top:1rem; align-self:start; background:#fff;
     border-radius:12px; padding:.75rem; overflow:hidden;
   }
   .sidebar h3{ margin:.25rem .5rem .5rem; font-size:.95rem; color:#555 }
@@ -29,12 +33,12 @@ layout: page
   .slider{
     position:absolute; left:.25rem; right:.25rem; height:38px; background:var(--pill);
     border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.08);
-    transform:translateY(0); transition:transform .25s ease, opacity .2s ease; opacity:0; /* hidden until positioned */
+    transform:translateY(0); transition:transform .25s ease, opacity .2s ease; opacity:0;
     z-index:0;
   }
 
   /* Content */
-  .content{ background:#fff; border:1px solid var(--bd); border-radius:12px; padding:1.25rem }
+  .content{ background:#fff; border-radius:12px; padding:1.25rem }
   .course-title{ margin-top:0; font-size:1.9rem }
   .crumb{ margin-bottom:1rem; }
   .crumb a{ text-decoration:none; color:#555 }
@@ -42,7 +46,7 @@ layout: page
 
   /* Sections */
   section[id]{ scroll-margin-top:90px; }
-  .course-sec{ min-height:55vh; padding-bottom:2rem; border-top:1px dashed #eee; margin-top:1.25rem; }
+  .course-sec{ min-height:55vh; padding-bottom:2rem; margin-top:1.25rem; }
 
   /* News list */
   .news-list{ margin:.5rem 0 0 1.25rem; }
@@ -51,7 +55,7 @@ layout: page
   /* Schedule table */
   .table-wrap{ overflow-x:auto; }
   table.schedule-table{ width:100%; border-collapse:collapse; margin-top:.5rem; }
-  .schedule-table th, .schedule-table td{ padding:.65rem .75rem; border:1px solid var(--bd); text-align:left; vertical-align:top; }
+  .schedule-table th, .schedule-table td{ padding:.65rem .75rem; text-align:left; vertical-align:top; border:none; }
   .schedule-table thead th{ background:#f8f8f8; font-weight:600; }
   .schedule-table tbody tr:nth-child(even){ background:#fcfcfc; }
 
