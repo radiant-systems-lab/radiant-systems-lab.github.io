@@ -3,15 +3,22 @@ layout: page
 ---
 
 <style>
-  :root { --pill:#FBBF24; --bd:#eee; --fg:#111; }
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
-  .page-wrap { display:grid; grid-template-columns:220px 1fr; gap:1.5rem }
-  @media (max-width: 900px){ .page-wrap { grid-template-columns:1fr } .sidebar{ position:static } }
+  :root { --pill:#FBBF24; --fg:#111; }
 
-  /* Sidebar */
+  html, body { font-family: 'Roboto', sans-serif; }
+
+  /* Sidebar auto-width */
+  .page-wrap { display:grid; grid-template-columns:max-content 1fr; gap:1.5rem }
+  @media (max-width: 900px){
+    .page-wrap { grid-template-columns:1fr }
+    .sidebar{ position:static }
+  }
+
+  /* Sidebar – flat */
   .sidebar{
-    position:sticky; top:1rem; align-self:start; background:#fff; border:1px solid var(--bd);
-    border-radius:12px; padding:.75rem; overflow:hidden;
+    position:sticky; top:1rem; align-self:start; padding:.25rem .25rem 0; overflow:hidden; background:transparent;
   }
   .sidebar h3{ margin:.25rem .5rem .5rem; font-size:.95rem; color:#555 }
   .year-nav{
@@ -20,31 +27,27 @@ layout: page
   }
   .year-nav a{
     position:relative; display:block; padding:.55rem .7rem; border-radius:8px; text-decoration:none; color:var(--fg);
-    z-index:1; /* above slider */
+    z-index:1; white-space:nowrap; /* keeps sidebar compact */
   }
   .year-nav a:hover{ background:#f6f6f6 }
   .year-nav a.active{ color:#000 }
 
-  /* Sliding indicator behind active link */
+  /* Sliding indicator */
   .slider{
     position:absolute; left:.25rem; right:.25rem; height:38px; background:var(--pill);
     border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.08);
-    transform:translateY(0); transition:transform .25s ease, opacity .2s ease; opacity:.95;
-    z-index:0;
+    transform:translateY(0); transition:transform .25s ease, opacity .2s ease; opacity:.95; z-index:0;
   }
 
-  /* Content */
-  .content{ background:#fff; border:1px solid var(--bd); border-radius:12px; padding:1.25rem }
-  .year-header{ margin-top:0; font-size:1.75rem }
+  /* Main – flat, auto width/height */
+  .content{ background:transparent; padding:0 }
+  .year-header{ margin:.25rem 0 .5rem; font-size:1.75rem }
   .course-list{ margin:.5rem 0 0; padding-left:1.25rem }
   .course-list a{ color:#000; text-decoration:none }
   .course-list a:hover{ text-decoration:underline }
 
-  /* Ensure anchor scrolling clears sticky headers */
   section[id]{ scroll-margin-top:90px; }
-
-  /* Make sections tall enough to test scroll/spy */
-  .year-block{ min-height:40vh; padding-bottom:2rem; border-top:1px dashed #eee; margin-top:1.5rem; }
+  .year-block{ padding:0 0 1rem 0; margin:1rem 0 0; } /* auto-size by content */
   html{ scroll-behavior:smooth }
 </style>
 
@@ -115,13 +118,11 @@ layout: page
     a.addEventListener('click', () => {
       const id = a.getAttribute('href').substring(1);
       setActiveById(id);
-      lockIO(600); // adjust if your smooth scroll duration differs
+      lockIO(600);
     });
   });
 
-  if ('onscrollend' in window) {
-    window.addEventListener('scrollend', () => { ioLocked = false; });
-  }
+  if ('onscrollend' in window) window.addEventListener('scrollend', () => { ioLocked = false; });
 
   const io = new IntersectionObserver((entries) => {
     if (ioLocked) return;
@@ -131,14 +132,12 @@ layout: page
       if (!en.isIntersecting) return;
       const top = en.target.getBoundingClientRect().top;
       const penalty = top > 0.6 * viewportH ? 100000 : 0;
-      const score = Math.abs(top) + penalty; // lower is better
+      const score = Math.abs(top) + penalty;
       if (!best || score < best.score) best = { id: en.target.id, score };
     });
     if (best) setActiveById(best.id);
   }, {
-    root: null,
-    threshold: [0, 0.25, 0.5, 0.75, 1],
-    rootMargin: "-15% 0px -60% 0px"
+    root: null, threshold: [0, 0.25, 0.5, 0.75, 1], rootMargin: "-15% 0px -60% 0px"
   });
 
   sections.forEach(sec => io.observe(sec));
