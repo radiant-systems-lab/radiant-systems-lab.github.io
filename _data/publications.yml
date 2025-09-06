@@ -1,3 +1,34 @@
+- title: 'Similarity-Based Assessment of Computational Reproducibility in Jupyter Notebooks'
+  Authors: Hossain, A. S. M. S., Brown, C., Koop, D., and Malik, T.
+  Journal: 2025 ACM Conference on Reproducibility and Replicability (ACM REP '25)
+  Publisher: 2025 ACM Conference on Reproducibility and Replicability (ACM REP '25)
+  Description: Computational reproducibility refers to obtaining consistent
+results when rerunning an experiment. Jupyter Notebook, a
+web-based computational notebook application, facilitates the
+execution, publication, and sharing of computational experiments
+along with their results. However, rerunning a Jupyter Notebook
+may not always produce identical results due to factors such as
+randomness, changes in library versions, or variations in the
+computational environment. This paper introduces the
+Similarity-based Reproducibility Index (SRI) – a metric for assessing
+the reproducibility of results in Jupyter Notebooks. SRI employs
+novel methods based on similarity metrics specific to different
+types of Python objects to compare rerun outputs against original
+outputs. For each cell that produces an output in a rerun notebook,
+SRI reports a quantitative score in the range [0, 1], along with
+qualitative insights to support reproducibility assessment. The
+paper also presents an evaluation in which the proposed metric is
+applied to a set of 100 Jupyter Notebooks, demonstrating how
+various similarity metrics can be leveraged to quantify
+computational reproducibility.
+  bibAuthors: Hossain, A. S. M. S., Brown, C., Koop, D., and Malik, T.
+  Year: 2025
+  Date: 20250729
+  id: hossain2025reproducibility
+  pdf_link: /pdfs/pdfs/pubs/C37.pdf
+  Type: Article
+
+
 - title: 'Kondo: Efficient Provenance-driven Data Debloating'
   Authors: Modi, A., Tikmany, R., Malik, T., Komondoor,R., Gehani, A. and D'Souza,
     D.
