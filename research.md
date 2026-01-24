@@ -1,109 +1,172 @@
 ---
 layout: page
-title: research
-description: Radiant's Research Projects 
+title: Research
+description: Radiant's Research Projects
 ---
 
 <div class="navbar">
-    <div class="navbar-inner">
-        <ul class="nav">
-            <li><a href="#" style="text-decoration: underline;">RAS</a></li>
-            <li><a href="https://radiant-systems-lab.github.io/research_xai.html">XAI</a></li>
-            <li><a href="https://radiant-systems-lab.github.io/research_iap.html">IAP</a></li>
-        </ul>
-    </div>
+  <div class="navbar-inner">
+    <ul class="nav">
+        {% for cat in site.data.research_categories %}
+            <li><a href="#{{ cat[0] }}">{{ cat[0] }}</a></li>
+        {% endfor %}
+    </ul>
+  </div>
 </div>
 
----
+<style>
+.research-section {
+  display: none;
+}
 
-**Reproducible and Accountable Systems (RAS)**
+.research-section.active {
+  display: block;
+}
 
-Improving data-intensive, distributed, and parallel science workflows with reproducible and accountable containers.
+.research-header {
+  color: #6b21a8; /* purple */
+  margin-top: 1.5rem;
+}
+/*
+.media {
+  box-sizing: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  margin-bottom: 1rem;
+  display: table;
+  width: 100%;
+}
 
-<div>
-    <style>
-        .research_subs {
-            margin: 0px;
-        }
-        .media {
-            box-sizing: border-box;
-            border: 1px solid rgba(0, 0, 0, .125);
-        }
-        .media-left {
-            background: rgb(211, 222, 234);
-            vertical-align: middle;
-            padding-left: 10px;
-            padding-right: 10px;
-            width: 315px;
-            min-width: 315px;
-            max-width: 315px;
-            text-align: center;
-            display: table-cell;
-            unicode-bidi: isolate;
-        }
-        .media-body {
-            padding: 20px;
-            width: 10000px;
-            display: table-cell;
-            vertical-align: top;
-            overflow: hidden;
-            box-sizing: border-box;
-            unicode-bidi: isolate;
-        }
-        .media-heading {
-            font-size: 20px;
-        }
-        .research_abstract {
-            font-size: 17px;
-        }
-        .research_citation {
-            font-size: 15px;
-        }
-        .btn-research-paper {
-            padding: 1px 5px;
-            font-size: 12px;
-            line-height: 1.5;
-            border-radius: 3px;
-            color: #fff;
-            background-color: #337ab7;
-            border-color: #2e6da4;
-            display: inline-block;
-            margin-bottom: 0;
-            font-weight: 400;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: middle;
-            touch-action: manipulation;
-            cursor: pointer;
-            user-select: none;
-            background-image: none;
-            border: 1px solid transparent;
-            text-decoration: none;
-            box-sizing: border-box;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-            -webkit-text-size-adjust: 100%;
-            box-sizing: border-box;
-        }
-    </style>
-    <ul class="research_subs"> 
-    {% assign rs = site.data.research_ras | sort: 'year' | reverse %}
-    {% for r in rs limit:8 %}
-        <div class="media">
+.media-left {
+  width: 315px;
+  min-width: 315px;
+  max-width: 315px;
+  height: 220px;              
+  background: rgb(211, 222, 234);
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  overflow: hidden;
+}
+
+.media-body {
+  padding: 20px;
+  display: table-cell;
+  vertical-align: top;
+}*/
+
+.media {
+  display: flex;
+  align-items: flex-start;   
+  border: 1px solid rgba(0,0,0,.125);
+  margin-bottom: 1rem;
+}
+
+.media-left {
+  width: 315px;
+  min-width: 315px;
+  height: 220px;
+  background: rgb(211, 222, 234);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.media-body {
+  padding: 20px;
+  flex: 1;
+}
+
+</style>
+
+{% assign all_items = site.data.single_data_source %}
+
+{% for cat in site.data.research_categories %}
+<section id="{{ cat[0] }}" class="research-section">
+
+  <h2 class="research-header">{{ cat[1].title }}</h2>
+  <p>{{ cat[1].description }}</p>
+
+  {% assign shown = 0 %}
+
+  {% for item in all_items %}
+    {% if item.Research and item.Research.categories %}
+      {% if item.Research.categories contains cat[0] %}
+        {% if shown < 8 %}
+
+          {% assign r = item.Research %}
+          {% assign pub_ids = r.publicationIDs %}
+
+          <div class="media">
             <div class="media-left">
-                <a href="{{r.link}}">
-                <img src="{{r.project_image}}" class="card-img" alt="{{r.project_image}}" style="width: 26em">
-                </a>
+              {% if r.image %}
+                <img src="{{ r.image }}" style="width:100%; height:100%; object-fit: contain; ">
+              {% endif %}
             </div>
+
             <div class="media-body">
-                <h4 class="media-heading">{{r.project}}</h4>
-                <p class="research_abstract">
-                {{r.abstract}}</p>
-                <p class="research_citation">
-                <strong>{{r.title}}. </strong> {{r.authors}}  <strong><i>, {{r.publication}}</i></strong>, {{r.year}}. 
-                <!-- <a class="btn btn-primary btn-xs btn-research-paper" href="{{r.link}}" role="button">Paper</a> -->
-                <a  href="{{r.link}}"> Read More >> </a>
-                </p>
+              <h4>{{ r.researchTitle }}</h4>
+
+              {% if r.abstract %}
+                <p>{{ r.abstract }}</p>
+              {% endif %}
+
+              {% if pub_ids %}
+                {% for pid in pub_ids %}
+
+                  {%- comment -%}
+                  Step 1: Try finding a standalone publication entry
+                  {%- endcomment -%}
+                  {% assign pub_item = all_items | where: "id", pid | first %}
+
+                  {% if pub_item and pub_item.Publication %}
+                    {% assign pub = pub_item.Publication %}
+                  {% else %}
+                    {%- comment -%}
+                    Step 2: Fallback — search inside common entries
+                    {%- endcomment -%}
+                    {% assign pub = nil %}
+                    {% for it in all_items %}
+                      {% if it.entry_kind == "common" and it.Publication and it.Publication.id == pid %}
+                        {% assign pub = it.Publication %}
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+
+                  {% if pub %}
+                    <p>
+                      <strong>{{ pub.title }}.</strong>
+                      {{ pub.authors }},
+                      <strong><i>{{ pub.journal }}</i></strong>,
+                      {{ pub.date | date: "%Y" }}.
+                      <a href="{{ pub.link }}">Read More &gt;&gt;</a>
+                    </p>
+                  {% endif %}
+
+                {% endfor %}
+              {% endif %}
             </div>
-        </div>
-    {% endfor %}
+          </div>
+
+          {% assign shown = shown | plus: 1 %}
+
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+</section>
+{% endfor %}
+
+
+<script>
+function activateCategory() {
+  const hash = window.location.hash.replace("#", "") || "RAS";
+  document.querySelectorAll(".research-section").forEach(section => {
+    section.classList.toggle("active", section.id === hash);
+  });
+}
+
+window.addEventListener("hashchange", activateCategory);
+document.addEventListener("DOMContentLoaded", activateCategory);
+</script>

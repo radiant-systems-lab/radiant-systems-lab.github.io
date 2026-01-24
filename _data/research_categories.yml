@@ -1,0 +1,23 @@
+RAS:
+  code: RAS
+  title: "Reproducible and Accountable Systems (RAS)"
+  description: >
+    Improving data-intensive, distributed, and parallel science workflows
+    with reproducible and accountable containers.
+
+XAI:
+  code: XAI
+  title: "Explainable AI (XAI)"
+  description: >
+    Advancing trustworthy and transparent machine learning by designing
+    explainable models, interpretable outputs, and human-centered evaluation frameworks.
+
+IAP:
+  code: IAP
+  title: "Infrastructure and Policies (IAP)"
+  description: >
+    Enhancing scientific innovation through scalable infrastructure,
+    robust data governance, and ethical policy frameworks that support
+    open, secure, and FAIR research practices.
+
+

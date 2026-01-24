@@ -1,0 +1,196 @@
+
+
+# ********** Recent news data is written here **********
+
+- id: N-2025-01
+  News:
+    rank: 1
+    date: 2025-07-23
+    description: >
+      Ahmad Raza's manuscript accepted in Future Generation Computer Systems: "Improving Reproducibility of Interactive Notebooks using Application Virtualization"
+
+
+- id: N-2025-02
+  News:
+    rank: 2
+    date: 2025-07-03
+    description: >
+      Welcome [Ziyang Jia](https://scholar.google.com/citations?user=6orRn6QAAAAJ&hl=en) to the Radiant-Systems Lab at Mizzou as a new PhD student!
+
+
+- id: N-2025-03
+  News:
+    rank: 3
+    date: 2025-06-23
+    description: >
+      The paper ['Similarity-Based Assessment of Computational Reproducibility in Jupyter Notebooks'](/pdfs/pdfs/pubs/C37.pdf) by A S M Shahadat Hossain, Colin Brown, David Koop, and Tanu Malik got accepted at the [2025 ACM Conference on Reproducibility and Replicability (ACM REP '25)](https://acm-rep.github.io/2025/), Vancouver, Canada.
+
+
+- id: N-2025-04
+  News:
+    rank: 4
+    date: 2025-05-16
+    description: >
+     Congratulations to [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/) on graduating with his master’s degree in computer science! He is now continuing on to pursue his PhD in computer science at Mizzou.
+
+
+- id: C-2026-01
+  entry_kind: common
+  created_date: 2026-01-10
+
+  News:
+    id: N-2026-C01
+    rank: 1
+    date: 2026-01-12
+    description: >
+      We are pleased to share that the paper
+      [Efficient Workflow Reproducibility Using Containers](/pdfs/pubs/P-2026-01.pdf)
+      authored by A. Sharma and T. Malik has been accepted at
+      [ACM REP 2026](https://acm-rep.org/2026), Seattle, USA.
+
+  Research:
+    id: R-2026-C01
+    categories: [IAP]
+    rank: 1
+    year: 2026
+    researchTitle: "Efficient Workflow Reproducibility Using Containers"
+    image: "https://example.com/images/research/container-repro.png"
+    abstract: >
+      This research explores scalable infrastructure and policy-driven
+      approaches for improving reproducibility in computational workflows.
+    publicationIDs: [P-2026-01]
+
+  Publication:
+    id: P-2026-01
+    rank: 1
+    date: 2026-01-05
+    pubType: Article
+    title: "Efficient Workflow Reproducibility Using Containers"
+    link: "/pdfs/pubs/P-2026-01.pdf"
+    authors: "A. Sharma, T. Malik"
+    journal: "ACM Conference on Reproducibility and Replicability (REP)"
+    journalLink: "https://acm-rep.org/2026"
+    publisher: "ACM"
+    city: "Seattle"
+    country: "USA"
+    abstract: >
+      The paper introduces infrastructure-level optimizations to improve
+      reproducibility guarantees for containerized workflows.
+
+- id: C-2026-02
+  entry_kind: common
+  created_date: 2026-02-01
+
+  News:
+    id: N-2026-C02
+    rank: 2
+    date: 2026-02-03
+    description: >
+      Congratulations to the team on publishing a new journal article on
+      explainable machine learning systems.
+
+  Research:
+    id: R-2026-C02
+    categories: [XAI]
+    rank: 2
+    year: 2026
+    researchTitle: "Interpretable Models for Scientific Decision Making"
+    image: "https://cdmdicewebprd01.dpu.depaul.edu/images/projects/CHEX.png"
+    abstract: >
+      This project focuses on building interpretable machine learning
+      models to support transparency in scientific workflows.
+    publicationIDs: [P-2026-03]
+
+  Publication:
+    id: P-2026-02
+    rank: 2
+    date: 2026-01-28
+    pubType: Article
+    title: "Interpretable Models for Scientific Decision Making"
+    link: "/pdfs/pubs/P-2026-02.pdf"
+    authors: "L. Chen, R. Gupta, T. Malik"
+    journal: "IEEE Transactions on AI"
+    journalLink: "https://ieee.org"
+    publisher: "IEEE"
+    city: "New York"
+    country: "USA"
+    abstract: >
+      This work presents interpretable learning techniques for
+      data-intensive scientific applications.
+
+- id: N-2026-03
+  News:
+    rank: 3
+    date: 2026-03-10
+    description: >
+      Welcome [Priya Nair](https://scholar.google.com) as a new PhD student
+      joining the Radiant Systems Lab.
+
+- id: N-2026-04
+  News:
+    rank: 4
+    date: 2026-03-18
+    description: >
+      The lab hosted an invited talk on reproducible AI systems by
+      researchers from [Argonne National Lab](https://www.anl.gov).
+
+- id: P-2026-03
+  Publication:
+    rank: 3
+    date: 2026-02-15
+    pubType: Article
+    title: "Scalable Provenance Tracking for Distributed Systems"
+    link: "/pdfs/pubs/P-2026-03.pdf"
+    authors: "M. Rao, S. Patel, T. Malik"
+    journal: "Proceedings of VLDB"
+    journalLink: "https://vldb.org"
+    publisher: "VLDB Endowment"
+    city: "Amsterdam"
+    country: "Netherlands"
+    abstract: >
+      This paper presents a scalable provenance tracking mechanism
+      for large-scale distributed data systems.
+
+- id: P-2026-04
+  Publication:
+    rank: 4
+    date: 2026-02-20
+    pubType: Chapter
+    title: "Reproducibility in Data-Intensive Science"
+    link: "/pdfs/pubs/P-2026-04.pdf"
+    authors: "T. Malik, J. Smith"
+    journal: "Handbook of Data Science"
+    journalLink: "https://springer.com"
+    publisher: "Springer"
+    city: "Berlin"
+    country: "Germany"
+    abstract: >
+      A book chapter discussing challenges and best practices
+      in reproducible data-intensive research.
+
+- id: R-2026-03
+  Research:
+    categories: [RAS]
+    rank: 3
+    year: 2026
+    researchTitle: "Scalable Provenance Tracking"
+    image: "https://cdmdicewebprd01.dpu.depaul.edu/images/projects/CHEX.png"
+    abstract: >
+      This research investigates scalable provenance tracking techniques
+      for reproducible distributed systems.This research investigates scalable provenance tracking techniques
+      for reproducible distributed systems.This research investigates scalable provenance tracking techniques
+      for reproducible distributed systems.This research investigates scalable provenance tracking techniques
+      for reproducible distributed systems.
+    publicationIDs: [P-2026-03, P-2026-04, P-2026-02]
+
+- id: R-2026-04
+  Research:
+    categories: [IAP]
+    rank: 4
+    year: 2026
+    researchTitle: "Policy-Aware Reproducible Science"
+    image: "https://example.com/images/research/policy-repro.png"
+    abstract: >
+      The project studies the role of infrastructure policies
+      in enabling reproducible computational science.
+    publicationIDs: [P-2026-04]

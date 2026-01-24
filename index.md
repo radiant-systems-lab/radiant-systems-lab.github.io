@@ -38,37 +38,10 @@ keywords: machine learning, big data management, resource and system optimizatio
   </div>
 </div>
 
-<!--<table class="wide">
-<tr>
-  <td class="left">
-    <a href="publpics/rqtl2_fig1.html">
-        <img src="publpics/rqtl2_fig1c.png" alt="Broman et al. (2019) Fig 1c" title="Broman et al. (2019) Fig 1c"/>
-    </a>
-  </td>
-  <td class="right">
-    <a href="publpics/mppdiag_fig4.html">
-        <img src="publpics/mppdiag_fig4.png" alt="Broman et
-        al. (2019) Fig 4" title="Broman et al. (2019) Fig 4"/>
-    </a>
-  </td>
-</tr>
-<tr>
-  <td class="left">
-    <a href="publpics/samplemixups_fig7.html">
-        <img src="publpics/samplemixups_fig7.png" alt="Broman et al. (2015) Fig 7" title="Broman et al. (2015) Fig 7"/>
-    </a>
-  </td>
-  <td class="right">
-    <a href="publpics/mbmixups_fig3.html">
-        <img src="publpics/mbmixups_fig3.png" alt="Lobo et al. (2021) Fig 3" title="Lobo et al. (2021) Fig 3"/>
-    </a>
-  </td>
-</tr>
-</table>
--->
+
 
 <h3 class="news-heading">Recent News</h3>
-<ul id="RecentNews">
+<!--<ul id="RecentNews">
 {% assign news = site.data.news | sort: 'date' | reverse %}
 {% for n in news limit:8 %}
   <li>
@@ -79,6 +52,81 @@ keywords: machine learning, big data management, resource and system optimizatio
     </div>
   </li>
 {% endfor %}
+</ul>
+-->
+
+<!-- <ul id="RecentNews">
+{% assign news_rn = site.data.single_data_source | where: "type", "RN" %}
+{% assign news_c  = site.data.single_data_source | where: "type", "C" %}
+{% assign news    = news_rn | concat: news_c | sort: "rank" %}
+
+{% for n in news %}
+  <li>
+    <div class="news-item-box">
+      <div class="news-item" style="font-size: 0.9rem;">
+        <strong>{{ n.date | date: "%B %-d, %Y" }}</strong> -
+        {{ n.description | markdownify | replace: "<p>", "" | replace: "</p>", "" }}
+      </div>
+    </div>
+  </li>
+{% endfor %}
+</ul>
+-->
+<ul id="RecentNews">
+
+{% assign news_items = site.data.single_data_source
+  | where_exp: "i", "i.News"
+  | sort: "News.rank" %}
+
+{% assign shown = 0 %}
+
+{% for item in news_items %}
+  {% if shown >= 8 %}
+    {% break %}
+  {% endif %}
+
+  {% assign n = item.News %}
+
+  {%- comment -%}
+  Skip invalid individual news
+  {%- endcomment -%}
+  {% if item.entry_kind != "common" and n.description == nil %}
+    {% continue %}
+  {% endif %}
+
+  <li>
+    <div class="news-item-box">
+      <div class="news-item" style="font-size: 0.9rem;">
+
+        {% if n.date %}
+          <strong>{{ n.date | date: "%B %-d, %Y" }}</strong> –
+        {% endif %}
+
+        {% if item.entry_kind == "common" %}
+          {% if n.description == nil or n.description == "" %}
+            {% if item.Publication %}
+              {% assign p = item.Publication %}
+              We are pleased to share that the paper
+              <a href="{{ p.link }}">{{ p.title }}</a>
+              authored by {{ p.authors }} has been accepted at
+              <a href="{{ p.journalLink }}">{{ p.journal }}</a>,
+              {{ p.city }}, {{ p.country }}.
+            {% endif %}
+          {% else %}
+            {{ n.description | markdownify | replace: "<p>", "" | replace: "</p>", "" }}
+          {% endif %}
+        {% else %}
+          {{ n.description | markdownify | replace: "<p>", "" | replace: "</p>", "" }}
+        {% endif %}
+
+      </div>
+    </div>
+  </li>
+
+  {% assign shown = shown | plus: 1 %}
+
+{% endfor %}
+
 </ul>
 
 <div style="text-align: right; margin-top: 10px;">
