@@ -1,3 +1,41 @@
+
+- title: 'Efficient Multi-Model Orchestration for Self-Hosted Large Language Models'
+  Authors: Bhanu Prakash Vangala and Tanu Malik
+  Journal: Deployable Artificial Intelligence (DAI2025) Workshop
+  Publisher: Deployable Artificial Intelligence (DAI2025) Workshop
+  Description: Self-hosting large language models (LLMs) is increasingly
+    appealing for organizations seeking privacy, cost control,
+    and customization. Yet deploying and maintaining in-house
+    models poses challenges in GPU utilization, workload routing, and reliability. We introduce Pick and Spin, a practical
+    framework that makes self-hosted LLM orchestration scalable and economical. Built on Kubernetes, it integrates a
+    unified Helm-based deployment system, adaptive scale-tozero automation, and a hybrid routing module that balances
+    cost, latency, and accuracy using both keyword heuristics
+    and a lightweight DistilBERT classifier. We evaluate four
+    models Llama-3 (90B), Gemma-3 (27B), Qwen-3 (235B),
+    and DeepSeek-R1 (685B) across eight public benchmark
+    datasets, with five inference strategies, and two routing variants encompassing 31,019 prompts and 163,720 inference
+    runs. Pick and Spin achieves up to 21.6% higher success
+    rates, 30% lower latency, and 33% lower GPU cost per query
+    compared with static deployments. The results show that intelligent orchestration and efficient scaling enable enterprisegrade LLM performance on self-hosted infrastructure, bringing high-capacity AI within affordable reach.
+  bibAuthors: Bhanu Prakash Vangala and Tanu Malik
+  Year: 2025
+  Date: 20251127
+  id: vangala2025efficientmultimodelorchestrationselfhosted
+  pdf_link: http://arxiv.org/pdf/2512.22402
+  Type: Article
+
+- title: 'AI-Generated Code Is Not Reproducible (Yet): An Empirical Study of Dependency Gaps in LLM-Based Coding Agents'
+  Authors: Bhanu Prakash Vangala, Ali Adibifar, Ashish Gehani, Tanu Malik, 
+  Journal: Reproducible Artificial Intelligence (RAI2025) Workshop
+  Publisher: Reproducible Artificial Intelligence (RAI2025) Workshop
+  Description: The rise of Large Language Models (LLMs) as coding agents promises to accelerate software development, but their impact on generated code reproducibility remains largely unexplored. This paper presents an empirical study investigating whether LLM-generated code can be executed successfully in a clean environment with only OS packages and using only the dependencies that the model specifies. We evaluate three state-of-the-art LLM coding agents (Claude Code, OpenAI Codex, and Gemini) across 300 projects generated from 100 standardized prompts in Python, JavaScript, and Java. We introduce a three-layer dependency framework (distinguishing between claimed, working, and runtime dependencies) to quantify execution reproducibility. Our results show that only 68.3% of projects execute out-of-the-box, with substantial variation across languages (Python 89.2%, Java 44.0%). We also find a 13.5 times average expansion from declared to actual runtime dependencies, revealing significant hidden dependencies.
+  bibAuthors: Bhanu Prakash Vangala, Ali Adibifar, Ashish Gehani, Tanu Malik
+  Year: 2025
+  Date: 20251204
+  id: vangala2025aigeneratedcodereproducibleyet
+  pdf_link: https://arxiv.org/pdf/2512.22387
+  Type: Article
+
 - title: 'Similarity-Based Assessment of Computational Reproducibility in Jupyter Notebooks'
   Authors: Hossain, A. S. M. S., Brown, C., Koop, D., and Malik, T.
   Journal: 2025 ACM Conference on Reproducibility and Replicability (ACM REP '25)
