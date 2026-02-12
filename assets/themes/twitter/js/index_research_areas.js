@@ -41,27 +41,27 @@ const index_researchAreas = [
   {
     title: 'Reproducible and Accountable Systems',
     description: 'Improving data-intensive distributed and parallel science workflows with reproducible and accountable containers.',
-    image: '/images/research/RAS_Index_Image.png'
+    image: '/images/research/RAS.png'
   },
   {
     title: 'Transparent and Explainable AI',
     description: 'Making data, algorithms, and decision-making processes in science workflows explainable and understandable.',
-    image: '/images/research/RAS_Index_Image.png' 
+    image: '/images/research/TEAI.png' 
   },
   {
     title: 'Big Data Management',
     description: 'Optimizing scientific data for volume, velocity, and variety via indexing, streaming, and semantic dataspaces.',
-    image: '/images/research/RAS_Index_Image.png'
+    image: '/images/research/BDM.png'
   },
   {
     title: 'Scalable Cyberinfrastructure',
     description: 'Enabling scientific research and innovation at scale by supporting advanced research through distributed, collaborative, and data-intensive capabilities.',
-    image: '/images/research/RAS_Index_Image.png'
+    image: '/images/research/SC.png'
   },
   {
     title: 'Community and Policy',
     description: 'Engaging with communities for artifact evaluation, guided by policy frameworks.',
-    image: '/images/research/RAS_Index_Image.png'
+    image: '/images/research/CP.png'
   },
 ];
 

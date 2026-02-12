@@ -18,7 +18,7 @@ title: Publications
      target="_blank">Google Scholar profile</a>.
 </p>
 
-<div class="pub-filter" style="margin-bottom: 1rem;">
+<div class="pub-filter" style="margin-bottom:1rem;">
   <label for="pubTypeFilter" style="font-weight:500;margin-right:0.25rem;">
     Filter by type:
   </label>
@@ -33,29 +33,17 @@ title: Publications
   </select>
 </div>
 
-{% assign all_items = site.data.single_data_source %}
-{% assign pubs = "" | split: "" %}
-
 {%- comment -%}
-Normalize publications while PRESERVING parent ID
+Collect all publications safely
 {%- endcomment -%}
-{% for item in all_items %}
-  {% if item.Publication and item.Publication.date %}
-    {% assign record = 
-      "id:" | append: item.id 
-      | append: "|pub:" | append: item.Publication 
-      | split: "|" %}
-    {% assign pubs = pubs | push: item %}
-  {% endif %}
-{% endfor %}
+{% assign pubs = site.data.single_data_source
+  | where_exp: "i", "i.Publication"
+  | where_exp: "i", "i.Publication.date"
+  | sort: "Publication.date"
+  | reverse %}
 
 {%- comment -%}
-Sort by full date (latest first)
-{%- endcomment -%}
-{% assign pubs = pubs | sort: "Publication.date" | reverse %}
-
-{%- comment -%}
-Collect years
+Extract unique publication YEARS (as strings)
 {%- endcomment -%}
 {% assign years = "" | split: "" %}
 {% for item in pubs %}
@@ -71,11 +59,11 @@ Collect years
 
   {% for item in pubs %}
     {% assign p = item.Publication %}
+    {% assign uid = item.id %}
     {% assign pub_year = p.date | date: "%Y" %}
-    {% if pub_year == y %}
 
+    {% if pub_year == y %}
       {% assign type = p.pubType | default: "other" | downcase %}
-      {% assign uid = item.id %}
 
       <li class="pub-entry" data-type="{{ type }}">
         <h4 class="pub-title">{{ p.title }}</h4>
@@ -84,30 +72,40 @@ Collect years
           <div class="pub-authors">{{ p.authors }}</div>
         {% endif %}
 
-        <div class="pub-venue">
-          <em>
-            {% if p.journal %}{{ p.journal }}
-            {% elsif p.publisher %}{{ p.publisher }}
-            {% endif %}
-          </em>
-        </div>
+        {% if p.journal %}
+          <div class="pub-venue">
+            <em>{{ p.journal }}</em>
+          </div>
+        {% endif %}
 
         <div class="pub-icons">
+
           {% if p.abstract %}
-            <button class="pub-action"
-                    onclick="toggleSection('abs-{{ uid }}')">
-              <i class="fas fa-file-alt"></i>
-            </button>
-          {% endif %}
           <button class="pub-action"
-                  onclick="toggleSection('bib-{{ uid }}')">
+                  onclick="toggleSection('abs-{{ uid }}')"
+                  title="Abstract">
+            <i class="fas fa-file-alt"></i>
+          </button>
+          {% endif %}
+
+          <button class="pub-action"
+                  onclick="toggleSection('bib-{{ uid }}')"
+                  title="BibTeX">
             <i class="fas fa-code"></i>
           </button>
-          {% if p.link %}
-            <a href="{{ p.link }}" class="pub-action" target="_blank">
+
+          {%- comment -%}
+          ONLY show PDF link (hard-coded)
+          {%- endcomment -%}
+          {% if p.links and p.links.PDF %}
+            <a href="{{ p.links.PDF.url }}"
+               class="pub-action"
+               target="_blank"
+               title="{{ p.links.PDF.text }}">
               <i class="fas fa-file-pdf"></i>
             </a>
           {% endif %}
+
         </div>
 
         {% if p.abstract %}
@@ -117,17 +115,17 @@ Collect years
         {% endif %}
 
         <div id="bib-{{ uid }}" class="pub-section" style="display:none;">
-<pre>@article{ {{ uid }},
+<pre>@{{ p.pubType | downcase | default: "article" }}{ {{ p.citationKey }},
   title     = { {{ p.title }} },
   author    = { {{ p.authors }} },
 {% if p.journal %}  journal   = { {{ p.journal }} },
-{% endif %}{% if p.publisher %}  publisher = { {{ p.publisher }} },
-{% endif %}  date      = { {{ p.date | date: "%Y-%m-%d" }} },
+{% endif %}{% if p.Publisher %}  publisher = { {{ p.Publisher }} },
+{% endif %}  year      = {{ p.year }},
 }
 </pre>
-        </div>
-      </li>
+</div>
 
+      </li>
     {% endif %}
   {% endfor %}
   </ol>
@@ -140,18 +138,24 @@ function showPubType(type) {
     li.style.display =
       (type === 'all' || li.dataset.type === type) ? '' : 'none';
   });
+
   document.querySelectorAll('.pubyear').forEach(h => {
     const ol = h.nextElementSibling;
-    const visible = [...ol.children].some(li => li.style.display !== 'none');
+    const visible = [...ol.children]
+      .some(li => li.style.display !== 'none');
     h.style.display = ol.style.display = visible ? '' : 'none';
   });
 }
+
 document.addEventListener('DOMContentLoaded', () => showPubType('all'));
+
 document.getElementById('pubTypeFilter')
   .addEventListener('change', e => showPubType(e.target.value));
 
 function toggleSection(id) {
   const el = document.getElementById(id);
-  if (el) el.style.display = el.style.display === 'block' ? 'none' : 'block';
+  if (el) {
+    el.style.display = el.style.display === 'block' ? 'none' : 'block';
+  }
 }
 </script>

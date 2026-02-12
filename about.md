@@ -2,331 +2,138 @@
 layout: page
 ---
 
-<!-- <div style="max-width:800px; margin:auto; position:relative;"> -->
-  <style>
-    .carousel-container {
-      position: relative;
-      width: 100%;
-      height: 400px;
-      overflow: hidden;
-      border-radius: 10px;
-    }
+<div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid #eee; margin-bottom: 15px;">
+  <h2 style="margin: 0; border: none; padding: 0; color: #403F85; line-height: 1; font-weight: bold;">About the Lab</h2>
+  <div class="quick-jump-links" style="font-size: 0.9rem;">
+    <a href="#about_history" style="margin-right: 15px; font-weight: bold; text-decoration: none; color: #0088cc;">History</a>
+    <a href="#stats-section" style="margin-right: 15px; font-weight: bold; text-decoration: none; color: #0088cc;">Stats</a>
+    <a href="#work-section" style="margin-right: 15px; font-weight: bold; text-decoration: none; color: #0088cc;">Join Us</a>
+    <a href="#contact-section" style="font-weight: bold; text-decoration: none; color: #0088cc;">Contact</a>
+  </div>
+</div>
 
-    .carousel-slide {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
-      height: 100%;
-    }
-
-    .carousel-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      flex-shrink: 0;
-    }
-
-    .nav-btn {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: rgba(0,0,0,0.4);
-      border: none;
-      color: white;
-      font-size: 24px;
-      padding: 10px;
-      cursor: pointer;
-      z-index: 2;
-    }
-
-    .nav-btn:hover {
-      background-color: rgba(0,0,0,0.7);
-    }
-
-    .prev-btn { left: 10px; }
-    .next-btn { right: 10px; }
-
-    .dots {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 10px;
-      z-index: 2;
-    }
-
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: rgba(255,255,255,0.5);
-      cursor: pointer;
-    }
-
-    .dot.active {
-      background-color: white;
-    }
-
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      display: flex;
-      flex-direction: column;
-      gap: 4rem;
-    }
-    
-    .history-section {
-      background-color: #fff;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      padding: 2.5rem;
-    }
-    
-    .history-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    
-    .history-underline {
-      border-bottom: 4px solid #FBBF24;
-      padding-bottom: 0.25rem;
-    }
-    
-    .history-content {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-    
-    @media (min-width: 768px) {
-      .history-content {
-        flex-direction: row;
-        align-items: center;
-      }
-    }
-    
-    .image-wrapper {
-      flex: 1 1 50%;
-    }
-    
-    .image-wrapper img {
-      width: 100%;
-      height: 16rem;
-      object-fit: cover;
-      border-radius: 0.5rem;
-      background-color: #D1D5DB;
-    }
-    
-    .text-wrapper {
-      flex: 1 1 50%;
-      display: flex;
-      align-items: center;
-    }
-    
-    .text-wrapper p {
-      color: #4B5563;
-      line-height: 1.75;
-    }
-    
-    .stats-section {
-      background-color: #fff;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      padding: 2.5rem 0;
-    }
-    
-    .stats-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    
-    .stats-underline {
-      border-bottom: 4px solid #FBBF24;
-      padding-bottom: 0.25rem;
-    }
-    
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-      text-align: center;
-    }
-    
-    @media (min-width: 640px) {
-      .stats-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-    
-    .stats-item .stat-number {
-      display: block;
-      font-size: 1.875rem;
-      font-weight: 600;
-      color: #000;
-    }
-    
-    .stats-item .stat-label {
-      color: #4B5563;
-      margin-top: 0.25rem;
-    }
-
-    .work-section {
-      background-color: #fff;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      padding: 2.5rem;
-    }
-    
-    /* Title styling */
-    .work-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    
-    .work-underline {
-      border-bottom: 4px solid #FBBF24;
-      padding-bottom: 0.25rem;
-    }
-    
-    .work-text {
-      color: #4B5563;
-      line-height: 1.75;
-      margin-bottom: 1.5rem;
-    }
-    
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
-    
-    .work-button {
-      display: inline-block;
-      padding: 0.5rem 1.5rem;
-      background-color: #000;
-      color: #fff;
-      font-weight: 500;
-      border-radius: 0.5rem;
-      border: 1px solid transparent;
-      
-      text-decoration: none;
-      transition: background 0.3s, color 0.3s, border-color 0.3s;
-    }
-    
-    .work-button:hover {
-      background-color: #fff;
-      color: #000;
-      border-color: #000;
-    }
-
-    /* Contact Us Section */
-    .contact-section {
-      background-color: #fff;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      padding: 2.5rem;
-    }
-    
-    .contact-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-    }
-    
-    .contact-underline {
-      border-bottom: 4px solid #FBBF24;
-      padding-bottom: 0.25rem;
-    }
-    
-    .contact-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2rem;
-    }
-    
-    @media (min-width: 768px) {
-      .contact-content {
-        flex-direction: row;
-        align-items: flex-start;
-      }
-    }
-    
-    .contact-info {
-      flex: 1 1 50%;
-      color: #4B5563;
-      line-height: 1.5;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-    
-    .contact-link {
-      color: #FBBF24;
-      text-decoration: none;
-    }
-    
-    .contact-link:hover {
-      text-decoration: underline;
-    }
-    
-    .contact-map {
-      flex: 1 1 50%;
-      height: 12rem;
-      background-color: #D1D5DB;
-      border-radius: 0.5rem;
-      overflow: hidden;
-    }
-    
-    .contact-map img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  </style>
-  <!-- <div class="carousel-container">
-    <div class="carousel-slide" id="carouselSlide">
-      <img src="images/icons/provenance.png" alt="Slide 1">
-      <img src="images/icons/container.png" alt="Slide 2">
-      <img src="images/icons/infrastructure.png" alt="Slide 3">
-      <img src="images/icons/policy.png" alt="Slide 4">
-      <img src="images/icons/provenance.png" alt="Clone Slide 1">
-    </div>
-  </div> -->
+<style>
+  /* Reduce gaps between major sections */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Changed from 4rem to 1.5rem */
+  }
   
-<div class="container" style="padding: 0; margin-top:0;">
-  <!-- History Section -->
+  /* Tighten internal padding of sections */
+  .history-section, .stats-section, .work-section, .contact-section {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 1.5rem 2rem; /* Reduced from 2.5rem */
+  }
+
+  .history-title, .stats-title, .work-title, .contact-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #403F85;
+  }
+  
+  .history-underline, .stats-underline, .work-underline, .contact-underline {
+    border-bottom: 4px solid #FBBF24;
+    padding-bottom: 0.25rem;
+  }
+
+  .history-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .history-content { flex-direction: row; align-items: center; }
+  }
+  
+  .image-placeholder img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+  
+  .text-wrapper p, .work-text {
+    color: #4B5563;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  @media (min-width: 640px) {
+    .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  
+  .stat-number {
+    display: block;
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #403F85;
+  }
+
+  .work-button {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1.5rem;
+    background-color: #403F85;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+
+  .work-button:hover { opacity: 0.8; color: #fff; text-decoration: none; }
+
+  /* Contact Adjustments */
+  .contact-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .contact-content { flex-direction: row; }
+  }
+  
+  .contact-info { flex: 1; }
+  .contact-map { flex: 1; height: 200px; border-radius: 0.5rem; overflow: hidden; background: #eee; }
+  .contact-map img { width: 100%; height: 100%; object-fit: cover; }
+</style>
+
+<div class="container">
   <section class="history-section" id="about_history">
-    <div>
-      <h2 class="history-title">
-        <span class="history-underline">History</span>
-      </h2>
-    </div>
+    <h2 class="history-title"><span class="history-underline">History</span></h2>
     <div class="history-content">
       <div class="image-placeholder">
-        <!-- Static image -->
         <img src="https://radiant-systems-lab.github.io/images/icons/depaul_map.png" alt="History Image" />
       </div>
       <div class="text-wrapper">
         <p>
           The RADIANT Systems Lab traces its origins to the Data, Infrastructure, Computation, and Environments (DICE) Lab at 
-          <a href="https://dice.cs.depaul.edu">DePaul University</a>, which advanced the understanding of data, infrastructure, 
-          computational problems, and environments. DICE focused on foundational research in provenance data, systems and infrastructure 
-          for computational reproducibility, optimization and decision problems within complex systems, and the exploration of virtual 
-          environments relevant to reproducibility. Building on this legacy, the RADIANT Systems Lab continues to push the frontiers of 
-          reproducible and data-driven computing, actively collaborating with researchers and scientists worldwide.
+          <a href="https://dice.cs.depaul.edu">DePaul University</a>. Building on this legacy, the RADIANT Systems Lab continues 
+          to push the frontiers of reproducible and data-driven computing, actively collaborating with researchers and scientists worldwide.
         </p>
       </div>
     </div>
   </section>
   
-  <section class="stats-section">
-    <h2 class="stats-title">
-      <span class="stats-underline">Stats</span>
-    </h2>
+  <section class="stats-section" id="stats-section">
+    <h2 class="stats-title" style="text-align: center;"><span class="stats-underline">Lab Stats</span></h2>
     <div class="stats-grid">
       <div class="stats-item">
         <span class="stat-number">77</span>
@@ -342,67 +149,36 @@ layout: page
       </div>
       <div class="stats-item">
         <span class="stat-number">10+</span>
-        <p class="stat-label">Departments Collaborated</p>
+        <p class="stat-label">Collaborations</p>
       </div>
     </div>
   </section>
-  <section class="work-section">
-    <h2 class="work-title">
-      <span class="work-underline">Work at Mizzou</span>
-    </h2>
+
+  <section class="work-section" id="work-section">
+    <h2 class="work-title"><span class="work-underline">Work at Mizzou</span></h2>
     <p class="work-text">
-      Interested in joining Radiant Lab? We offer opportunities for graduate students, postdoctoral researchers, and visiting scholars to contribute to groundbreaking projects. At Mizzou, you’ll collaborate with experts, access state-of-the-art facilities, and impact real-world innovations.
+      Interested in joining Radiant Lab? We offer opportunities for graduate students, postdoctoral researchers, and visiting scholars to contribute to groundbreaking projects.
     </p>
-    <a href="https://radiant-systems-lab.github.io/people.html" class="work-button">
-      Explore Open Positions
-    </a>
+    <a href="https://radiant-systems-lab.github.io/people.html" class="work-button">Explore Open Positions</a>
   </section>
 
-  <section class="contact-section">
-    <h2 class="contact-title">
-      <span class="contact-underline">Contact Us</span>
-    </h2>
+  <section class="contact-section" id="contact-section">
+    <h2 class="contact-title"><span class="contact-underline">Contact Us</span></h2>
     <div class="contact-content">
       <div class="contact-info">
+        <p>Email: <a href="mailto:tanu@missouri.edu" style="color:#0088cc;">tanu@missouri.edu</a></p>
+        <p>Phone: <a href="tel:+5738849203" style="color:#0088cc;">+1 (573) 884-9203</a></p>
         <p>
-          Email:
-          <a href="mailto:tanu@missouri.edu" class="contact-link">
-            tanu at missouri dot edu
-          </a>
-        </p>
-        <p>
-          Phone:
-          <a href="tel:+5738849203" class="contact-link">
-            +1 (573) 884-9203
-          </a>
-        </p>
-        <p>
-          <span style="display:inline-block; width:70px;">Address:</span>
+          <strong>Address:</strong><br>
           416, S 6th St., Naka 311<br>
-          <span style="display:inline-block; width:70px;"></span>
           Columbia, MO 65211
         </p>
       </div>
       <div class="contact-map">
-        <!-- Swap in your actual map image path -->
         <img src="assets/map.jpg" alt="Lab location map">
       </div>
     </div>
   </section>
 </div>
 
-
 <script src="https://radiant-systems-lab.github.io/assets/themes/twitter/js/about_history.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
