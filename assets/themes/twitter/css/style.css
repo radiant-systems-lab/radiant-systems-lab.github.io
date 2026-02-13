@@ -2706,6 +2706,21 @@ body:has(.page-publications) .content {
   padding-top: 0 !important;
 }
 
+body:has(.page-publications) .container-narrow {
+  width: 100%;
+}
+
+body:has(.page-publications) .row-fluid,
+body:has(.page-publications) .row-fluid > .span12,
+body:has(.page-publications) .page-publications,
+body:has(.page-publications) .page-publications .page-hero,
+body:has(.page-publications) .page-publications .pub-controls-panel,
+body:has(.page-publications) .page-publications .pub-year-groups {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
 body:has(.page-publications) h1,
 body:has(.page-publications) h2,
 body:has(.page-publications) h3,
@@ -2909,7 +2924,12 @@ body:has(.page-publications) .page-publications .pub-select-option:focus {
 
 body:has(.page-publications) .page-publications .pub-year-groups {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
+  width: 100%;
+  min-height: 320px;
+  align-content: start;
+  position: relative;
 }
 
 body:has(.page-publications) .page-publications .pub-year-group {
@@ -2918,6 +2938,8 @@ body:has(.page-publications) .page-publications .pub-year-group {
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(17, 17, 17, 0.06);
   padding: 18px 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 body:has(.page-publications) .page-publications .pub-year-group.is-hidden {
@@ -2937,7 +2959,10 @@ body:has(.page-publications) .page-publications .pub-year-list {
   margin: 0;
   padding-left: 24px;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 body:has(.page-publications) .page-publications .pub-year-list > li::marker {
@@ -2947,6 +2972,8 @@ body:has(.page-publications) .page-publications .pub-year-list > li::marker {
 
 body:has(.page-publications) .page-publications .pub-entry {
   margin: 0;
+  width: 100%;
+  min-width: 0;
 }
 
 body:has(.page-publications) .page-publications .pub-entry.is-hidden {
@@ -2960,6 +2987,27 @@ body:has(.page-publications) .page-publications .pub-card {
   background: var(--mu-white);
   padding: 14px 16px;
   box-shadow: 0 1px 0 rgba(17, 17, 17, 0.04);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body:has(.page-publications) .page-publications .pub-no-results {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--mu-border);
+  border-left: 5px solid var(--mu-gold);
+  border-radius: 10px;
+  background: var(--mu-white);
+  color: #3f3f3f;
+  font-weight: 600;
+  z-index: 2;
+}
+
+body:has(.page-publications) .page-publications .pub-no-results[hidden] {
+  display: none !important;
 }
 
 body:has(.page-publications) .page-publications .pub-top-row {
@@ -3117,6 +3165,10 @@ body:has(.page-publications) .page-publications .pub-bibtex pre {
 
   body:has(.page-publications) .page-publications .pub-card {
     padding: 12px 14px;
+  }
+
+  body:has(.page-publications) .page-publications .pub-year-groups {
+    min-height: 240px;
   }
 }
 

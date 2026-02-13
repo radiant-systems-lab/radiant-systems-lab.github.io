@@ -183,13 +183,19 @@ title: Publications
         </ol>
       </section>
     {% endfor %}
+    <div id="pub-no-results" class="pub-no-results" role="status" aria-live="polite" hidden>
+      No publications match the selected filters.
+    </div>
   </div>
 </div>
 
 <script>
+let publicationBaselineHeight = 0;
+
 function applyPublicationFilters() {
   const typeFilter = document.getElementById("pubTypeFilter");
   const yearFilter = document.getElementById("pubYearFilter");
+  const noResultsEl = document.getElementById("pub-no-results");
   const selectedType = typeFilter ? typeFilter.value : "all";
   const selectedYear = yearFilter ? yearFilter.value : "all";
 
@@ -205,6 +211,17 @@ function applyPublicationFilters() {
     const hasVisible = group.querySelector(".pub-entry:not(.is-hidden)");
     group.classList.toggle("is-hidden", !hasVisible);
   });
+
+  const visibleCount = document.querySelectorAll(".page-publications .pub-entry:not(.is-hidden)").length;
+  if (noResultsEl) {
+    if (visibleCount === 0) {
+      noResultsEl.removeAttribute("hidden");
+    } else {
+      noResultsEl.setAttribute("hidden", "hidden");
+    }
+  }
+
+  lockPublicationResultsHeight();
 }
 
 function closeAllCustomFilters(exceptSelect) {
@@ -326,6 +343,28 @@ function initializeCustomFilters() {
   window.addEventListener("resize", setEqualCustomFilterWidth);
 }
 
+function lockPublicationResultsHeight() {
+  const listEl = document.getElementById("pub-list");
+  const typeFilter = document.getElementById("pubTypeFilter");
+  const yearFilter = document.getElementById("pubYearFilter");
+  if (!listEl || !typeFilter || !yearFilter) return;
+
+  const isDefaultView = typeFilter.value === "all" && yearFilter.value === "all";
+  if (!isDefaultView && publicationBaselineHeight > 0) {
+    listEl.style.minHeight = `${publicationBaselineHeight}px`;
+    return;
+  }
+
+  const measuredHeight = listEl.scrollHeight;
+  if (measuredHeight > publicationBaselineHeight) {
+    publicationBaselineHeight = measuredHeight;
+  }
+
+  if (publicationBaselineHeight > 0) {
+    listEl.style.minHeight = `${publicationBaselineHeight}px`;
+  }
+}
+
 function toggleSection(id, triggerEl) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -350,5 +389,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initializeCustomFilters();
   applyPublicationFilters();
+
+  requestAnimationFrame(lockPublicationResultsHeight);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(lockPublicationResultsHeight);
+  }
+  window.addEventListener("load", lockPublicationResultsHeight);
+  window.addEventListener("resize", lockPublicationResultsHeight);
 });
 </script>
