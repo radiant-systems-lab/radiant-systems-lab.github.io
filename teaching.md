@@ -2,171 +2,126 @@
 layout: page
 ---
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+<div class="page-teaching">
+  <div class="page-hero">
+    <h2><i class="fa-solid fa-chalkboard-user"></i> Teaching</h2>
+    <div class="quick-jump-links">
+      <a href="#y2025">2025</a>
+    </div>
+  </div>
 
-  :root { --pill:#FBBF24; --fg:#111; }
+  <div class="teaching-layout">
+    <aside class="teaching-sidebar" aria-label="Year navigation">
+      <h3><i class="fa-regular fa-calendar"></i> Years</h3>
+      <nav>
+        <ul class="teaching-year-nav" id="yearNav">
+          <span class="slider" id="yearSlider" aria-hidden="true"></span>
+          <li><a href="#y2025">2025</a></li>
+        </ul>
+      </nav>
+    </aside>
 
-  html, body { font-family: 'Roboto', sans-serif; }
+    <main class="teaching-main" id="mainContent">
+      <section id="y2025" class="teaching-year-block" aria-labelledby="y2025-title">
+        <h1 class="teaching-year-header" id="y2025-title">2025</h1>
 
-  /* Sidebar auto-width */
-  .page-wrap { display:grid; grid-template-columns:max-content 1fr; gap:1.5rem }
-  @media (max-width: 900px){
-    .page-wrap { grid-template-columns:1fr }
-    .sidebar{ position:static }
-  }
-
-  /* Sidebar – flat */
-  .sidebar{
-    position:sticky; top:1rem; align-self:start; padding:.25rem .25rem 0; overflow:hidden; background:transparent;
-  }
-  .sidebar h3{ margin:.25rem .5rem .5rem; font-size:.95rem; color:#555 }
-  .year-nav{
-    position:relative; list-style:none; margin:0; padding:.25rem; display:flex; flex-direction:column; gap:.35rem;
-    max-height:70vh; overflow:auto; scroll-behavior:smooth;
-  }
-  .year-nav a{
-    position:relative; display:block; padding:.55rem .7rem; border-radius:8px; text-decoration:none; color:var(--fg);
-    z-index:1; white-space:nowrap;
-  }
-  .year-nav a:hover{ background:#f6f6f6 }
-  .year-nav a.active{ color:#000 }
-
-  /* Sliding indicator */
-  .slider{
-    position:absolute; left:.25rem; right:.25rem; height:38px; background:var(--pill);
-    border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.08);
-    transform:translateY(0); transition:transform .25s ease, opacity .2s ease; opacity:.95; z-index:0;
-  }
-
-  /* Main – flat */
-  .content{ background:transparent; padding:0 }
-  .year-header{ margin:.25rem 0 .75rem; font-size:2rem; font-weight:700 }
-
-  /* Course list with bullets */
-  .course-list{ margin:.5rem 0 0; padding-left:1.5rem; list-style:disc; }
-  .course-list li{ margin-bottom:1.5rem }
-  .course-title{ font-size:1.25rem; font-weight:500; display:block; margin-bottom:.35rem }
-  .course-title a{ color:#000; text-decoration:none }
-  .course-title a:hover{ text-decoration:underline }
-  .course-desc{ font-size:1.05rem; line-height:1.6 }
-
-  section[id]{ scroll-margin-top:90px; }
-  .year-block{ padding:0 0 1rem 0; margin:1rem 0 0; }
-  html{ scroll-behavior:smooth }
-</style>
-
-<div class="page-wrap">
-  <!-- Sidebar -->
-  <aside class="sidebar" aria-label="Year navigation">
-    <h3>Years</h3>
-    <nav>
-      <ul class="year-nav" id="yearNav">
-        <div class="slider" id="slider" aria-hidden="true"></div>
-        <li><a href="#y2025">2025</a></li>
-      </ul>
-    </nav>
-  </aside>
-
-  <!-- Main -->
-  <main class="content" id="mainContent">
-    <section id="y2025" class="year-block" aria-labelledby="y2025-title">
-      <h1 class="year-header" id="y2025-title">2025</h1>
-      <ul class="course-list">
-        <li>
-          <span class="course-title">
-            <a href="https://radiant-systems-lab.github.io/courses/csc_ee_8001.html">CSC/EE 8001: End to End ML Systems</a>
-          </span>
-          <span class="course-desc">
-            Machine learning systems are both complex and unique. Complex because they must balance both performance and accuracy. 
-            Unique because they're data dependent, with data varying wildly from one use case to the next. In this course we will first 
-            learn the basics of ML, and then take a deep dive into topics such as data and hypothesis selection, model performance and evaluation. 
-            We will learn how to build, deploy, diagnose and track machine-learned models. We will acquaint ourselves with both compute and 
-            data issues arising in managing a large ML pipeline. The course will be project-based and also involve reading state-of-the-art papers.
-          </span>
-        </li>
-      </ul>
-    </section>
-  </main>
+        <article class="teaching-course-card">
+          <h3 class="teaching-course-title">
+            <a href="/courses/csc_ee_8001.html">CSC/EE 8001: End-to-End ML Systems</a>
+          </h3>
+          <p class="teaching-course-desc">
+            Machine learning systems are both complex and unique. Complex because they must balance both performance and accuracy.
+            Unique because they are data-dependent, with data varying widely across use cases. This course covers ML foundations,
+            then dives into data and hypothesis selection, model performance and evaluation, deployment, diagnostics, and MLOps issues
+            in large pipelines. The course is project-based and includes state-of-the-art paper discussions.
+          </p>
+        </article>
+      </section>
+    </main>
+  </div>
 </div>
 
 <script>
-  const nav = document.getElementById('yearNav');
-  const slider = document.getElementById('slider');
-  const links = [...nav.querySelectorAll('a[href^="#"]')];
-  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+(() => {
+  const nav = document.getElementById("yearNav");
+  const slider = document.getElementById("yearSlider");
+  if (!nav || !slider) return;
 
-  function setActiveById(id){
-    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
-    const active = links.find(a => a.classList.contains('active'));
-    if (active){
-      const liRect = active.getBoundingClientRect();
-      const listRect = nav.getBoundingClientRect();
-      const offsetY = liRect.top - listRect.top + nav.scrollTop - 4;
-      slider.style.transform = `translateY(${offsetY}px)`;
-      slider.style.height = `${liRect.height}px`;
-      active.scrollIntoView({ block: 'nearest' });
-    }
+  const links = Array.from(nav.querySelectorAll('a[href^="#"]'));
+  const sections = links
+    .map((a) => document.querySelector(a.getAttribute("href")))
+    .filter(Boolean);
+
+  function setActiveById(id) {
+    links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === `#${id}`));
+    const active = links.find((a) => a.classList.contains("active"));
+    if (!active) return;
+
+    const activeRect = active.getBoundingClientRect();
+    const navRect = nav.getBoundingClientRect();
+    const offsetY = activeRect.top - navRect.top + nav.scrollTop - 2;
+    slider.style.transform = `translateY(${offsetY}px)`;
+    slider.style.height = `${activeRect.height}px`;
+    active.scrollIntoView({ block: "nearest" });
   }
 
   let ioLocked = false;
   let lockTimeout = null;
-  function lockIO(ms = 500){
+  function lockIO(ms = 500) {
     ioLocked = true;
     clearTimeout(lockTimeout);
-    lockTimeout = setTimeout(() => ioLocked = false, ms);
+    lockTimeout = setTimeout(() => {
+      ioLocked = false;
+    }, ms);
   }
-  
-  links.forEach(a => {
-    a.addEventListener('click', () => {
-      const id = a.getAttribute('href').substring(1);
+
+  links.forEach((a) => {
+    a.addEventListener("click", () => {
+      const id = a.getAttribute("href").slice(1);
       setActiveById(id);
       lockIO(600);
     });
   });
 
-  if ('onscrollend' in window) window.addEventListener('scrollend', () => { ioLocked = false; });
+  const io = new IntersectionObserver(
+    (entries) => {
+      if (ioLocked) return;
+      const viewportH = window.innerHeight || document.documentElement.clientHeight;
+      let best = null;
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const top = entry.target.getBoundingClientRect().top;
+        const penalty = top > 0.6 * viewportH ? 100000 : 0;
+        const score = Math.abs(top) + penalty;
+        if (!best || score < best.score) best = { id: entry.target.id, score };
+      });
+      if (best) setActiveById(best.id);
+    },
+    { root: null, threshold: [0, 0.25, 0.5, 0.75, 1], rootMargin: "-15% 0px -60% 0px" }
+  );
 
-  const io = new IntersectionObserver((entries) => {
-    if (ioLocked) return;
-    const viewportH = window.innerHeight || document.documentElement.clientHeight;
-    let best = null;
-    entries.forEach(en => {
-      if (!en.isIntersecting) return;
-      const top = en.target.getBoundingClientRect().top;
-      const penalty = top > 0.6 * viewportH ? 100000 : 0;
-      const score = Math.abs(top) + penalty;
-      if (!best || score < best.score) best = { id: en.target.id, score };
-    });
-    if (best) setActiveById(best.id);
-  }, {
-    root: null, threshold: [0, 0.25, 0.5, 0.75, 1], rootMargin: "-15% 0px -60% 0px"
-  });
+  sections.forEach((section) => io.observe(section));
 
-  sections.forEach(sec => io.observe(sec));
-
-  function initActive(){
-    const fromHash = location.hash && sections.find(s => s.id === location.hash.substring(1));
+  function initActive() {
+    const fromHash = location.hash && sections.find((s) => s.id === location.hash.slice(1));
     const initial = fromHash || sections[0];
-    setActiveById(initial.id);
+    if (initial) setActiveById(initial.id);
   }
-  window.addEventListener('hashchange', () => {
-    const id = location.hash.substring(1);
-    if (id) { setActiveById(id); lockIO(400); }
+
+  window.addEventListener("hashchange", () => {
+    const id = location.hash.slice(1);
+    if (!id) return;
+    setActiveById(id);
+    lockIO(400);
   });
 
   const ro = new ResizeObserver(() => {
-    const active = document.querySelector('.year-nav a.active');
-    if (active){
-      const id = active.getAttribute('href').substring(1);
-      setActiveById(id);
-    }
+    const active = nav.querySelector("a.active");
+    if (!active) return;
+    setActiveById(active.getAttribute("href").slice(1));
   });
   ro.observe(nav);
 
   initActive();
-
-  ['wheel','touchmove','keydown'].forEach(evt => {
-    window.addEventListener(evt, () => { if (!ioLocked) return; lockIO(150); }, { passive: true });
-  });
+})();
 </script>
