@@ -1,0 +1,38 @@
+RAS:
+  code: RAS
+  title: "Reproducible and Accountable Systems (RAS)"
+  description: >
+    Improving data-intensive, distributed, and parallel science workflows
+    with reproducible and accountable containers.
+
+TEAI:
+  code: TEAI
+  title: "Transparent and Explainable AI (TEAI)"
+  description: >
+    Advancing trustworthy and transparent machine learning by designing
+    explainable models, interpretable outputs, and human-centered evaluation frameworks.
+
+BDM:
+  code: BDM
+  title: "Big Data Management (BDM)"
+  description: >
+    Optimizing scientific data for volume, velocity, and variety via indexing, streaming, and semantic dataspaces.
+
+SC:
+  code: SC
+  title: "Scalable Cyberinfrastructure (SC)"
+  description: >
+    Enabling scientific research and innovation at scale by supporting advanced research through distributed, collaborative, and data-intensive capabilities.
+    
+
+CP:
+  code: CP
+  title: "Community and Policy (CP)"
+  description: >
+    Enhancing scientific innovation through scalable infrastructure,
+    robust data governance, and ethical policy frameworks that support
+    open, secure, and FAIR research practices.
+
+
+
+
