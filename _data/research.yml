@@ -1,0 +1,81 @@
+RAS:
+  - id: R-2026-01
+    Research:
+      rank: 2
+      pubID: P-2024-85
+
+  - id: R-2026-02
+    Research:
+      rank: 1
+      pubID: P-2024-84
+
+TEAI:
+
+  - id: R-2026-01
+    Research:
+      rank: 4
+      pubID: P-2025-87
+  
+  - id: R-2026-04
+    Research:
+      rank: 3
+      pubID: P-2024-88
+  
+  - id: R-2026-03
+    Research:
+      rank: 2
+      pubID: P-2023-82 
+
+  - id: R-2026-02
+    Research:
+      rank: 1
+      pubID: P-2022-78   
+
+BDM:
+  - id: R-2026-01
+    Research:
+      rank: 4
+      pubID: P-2021-75
+
+  - id: R-2026-02
+    Research:
+      rank: 3
+      pubID: P-2021-89
+
+  - id: R-2026-03
+    Research:
+      rank: 2
+      pubID: P-2020-63
+
+  - id: R-2026-04
+    Research:
+      rank: 1
+      pubID: P-2019-60
+ 
+  
+SC:
+  - id: R-2026-01
+    Research:
+      rank: 1
+      pubID: P-2014-91
+
+  - id: R-2026-02
+    Research:
+      rank: 2
+      pubID: P-2021-90 
+
+CP:
+  - id: R-2026-01
+    Research:
+      rank: 3
+      pubID: P-2024-93
+  
+  - id: R-2026-02
+    Research:
+      rank: 2
+      pubID: P-2023-92
+
+  - id: R-2026-03
+    Research:
+      rank: 1
+      pubID: P-2020-70

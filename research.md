@@ -1,109 +1,109 @@
 ---
 layout: page
-title: research
-description: Radiant's Research Projects 
 ---
 
-<div class="navbar">
-    <div class="navbar-inner">
-        <ul class="nav">
-            <li><a href="#" style="text-decoration: underline;">RAS</a></li>
-            <li><a href="https://radiant-systems-lab.github.io/research_xai.html">XAI</a></li>
-            <li><a href="https://radiant-systems-lab.github.io/research_iap.html">IAP</a></li>
-        </ul>
+<div class="page-research">
+  <div class="research-header-row">
+    <div class="research-heading-block">
+      <h1 class="research-main-title"><i class="fa-solid fa-microscope"></i> Research</h1>
+      <p class="research-subtitle">Select an area to view related projects and publications.</p>
     </div>
+    <div class="research-tabs-wrap" aria-label="Research areas">
+      <ul class="research-tabs">
+        {% for cat in site.data.research_categories %}
+          <li><a href="#{{ cat[0] }}" id="link-{{ cat[0] }}">{{ cat[0] }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  {% assign publications = site.data.single_data_source %}
+  {% assign research_groups = site.data.research %}
+
+  {% for cat in site.data.research_categories %}
+    {% assign cat_id = cat[0] %}
+    <section id="{{ cat_id }}" class="research-section">
+      <h2 class="cat-title"><i class="fa-solid fa-layer-group"></i> {{ cat[1].title }}</h2>
+      <p class="cat-desc">{{ cat[1].description }}</p>
+
+      {% if research_groups[cat_id] %}
+        {% assign items = research_groups[cat_id] | sort: "Research.rank" | reverse %}
+
+        {% for item in items %}
+          {% assign target_id = item.Research.pubID %}
+          {% assign found_pub = nil %}
+
+          {% for p in publications %}
+            {% if p.id == target_id %}
+              {% assign found_pub = p.Publication %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+
+          {% if found_pub %}
+            <article class="pub-container">
+              <div class="pub-image-box">
+                {% if found_pub.image and found_pub.image != "" %}
+                  <img src="{{ found_pub.image }}" alt="Figure for {{ found_pub.title }}">
+                {% else %}
+                  <div class="pub-image-placeholder"><i class="fa-regular fa-image"></i> Figure</div>
+                {% endif %}
+              </div>
+              <div class="pub-details">
+                <h3>{{ found_pub.title }}</h3>
+
+                <div class="pub-abstract">
+                  {{ found_pub.abstract }}
+                </div>
+
+                <div class="pub-citation">
+                  {% if found_pub.authors %}
+                    <div class="citation-row"><i class="fa-solid fa-users"></i> {{ found_pub.authors }}</div>
+                  {% endif %}
+                  {% if found_pub.journal %}
+                    <div class="citation-row"><i class="fa-regular fa-newspaper"></i> <em>{{ found_pub.journal }}</em></div>
+                  {% endif %}
+                  {% if found_pub.year %}
+                    <div class="citation-row"><i class="fa-regular fa-calendar"></i> {{ found_pub.year }}</div>
+                  {% endif %}
+                </div>
+
+                {% if found_pub.links.PDF %}
+                  <a href="{{ found_pub.links.PDF.url }}" class="pub-link" target="_blank">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Read Publication
+                  </a>
+                {% endif %}
+              </div>
+            </article>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <p>Data content for this category is currently being updated.</p>
+      {% endif %}
+    </section>
+  {% endfor %}
 </div>
 
----
+<script>
+function routeResearchTabs() {
+  const links = Array.from(document.querySelectorAll(".research-tabs a"));
+  const sections = Array.from(document.querySelectorAll(".research-section"));
+  const first = "{{ site.data.research_categories | first | first }}";
+  const hash = window.location.hash.replace("#", "");
+  const validIds = new Set(sections.map(s => s.id));
+  const active = validIds.has(hash) ? hash : first;
 
-**Reproducible and Accountable Systems (RAS)**
+  sections.forEach(s => {
+    s.classList.toggle("active", s.id === active);
+  });
 
-Improving data-intensive, distributed, and parallel science workflows with reproducible and accountable containers.
+  links.forEach(a => {
+    const isActive = a.getAttribute("href") === "#" + active;
+    a.classList.toggle("active-link", isActive);
+    a.setAttribute("aria-current", isActive ? "true" : "false");
+  });
+}
 
-<div>
-    <style>
-        .research_subs {
-            margin: 0px;
-        }
-        .media {
-            box-sizing: border-box;
-            border: 1px solid rgba(0, 0, 0, .125);
-        }
-        .media-left {
-            background: rgb(211, 222, 234);
-            vertical-align: middle;
-            padding-left: 10px;
-            padding-right: 10px;
-            width: 315px;
-            min-width: 315px;
-            max-width: 315px;
-            text-align: center;
-            display: table-cell;
-            unicode-bidi: isolate;
-        }
-        .media-body {
-            padding: 20px;
-            width: 10000px;
-            display: table-cell;
-            vertical-align: top;
-            overflow: hidden;
-            box-sizing: border-box;
-            unicode-bidi: isolate;
-        }
-        .media-heading {
-            font-size: 20px;
-        }
-        .research_abstract {
-            font-size: 17px;
-        }
-        .research_citation {
-            font-size: 15px;
-        }
-        .btn-research-paper {
-            padding: 1px 5px;
-            font-size: 12px;
-            line-height: 1.5;
-            border-radius: 3px;
-            color: #fff;
-            background-color: #337ab7;
-            border-color: #2e6da4;
-            display: inline-block;
-            margin-bottom: 0;
-            font-weight: 400;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: middle;
-            touch-action: manipulation;
-            cursor: pointer;
-            user-select: none;
-            background-image: none;
-            border: 1px solid transparent;
-            text-decoration: none;
-            box-sizing: border-box;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-            -webkit-text-size-adjust: 100%;
-            box-sizing: border-box;
-        }
-    </style>
-    <ul class="research_subs"> 
-    {% assign rs = site.data.research_ras | sort: 'year' | reverse %}
-    {% for r in rs limit:8 %}
-        <div class="media">
-            <div class="media-left">
-                <a href="{{r.link}}">
-                <img src="{{r.project_image}}" class="card-img" alt="{{r.project_image}}" style="width: 26em">
-                </a>
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">{{r.project}}</h4>
-                <p class="research_abstract">
-                {{r.abstract}}</p>
-                <p class="research_citation">
-                <strong>{{r.title}}. </strong> {{r.authors}}  <strong><i>, {{r.publication}}</i></strong>, {{r.year}}. 
-                <!-- <a class="btn btn-primary btn-xs btn-research-paper" href="{{r.link}}" role="button">Paper</a> -->
-                <a  href="{{r.link}}"> Read More >> </a>
-                </p>
-            </div>
-        </div>
-    {% endfor %}
+window.addEventListener("hashchange", routeResearchTabs);
+document.addEventListener("DOMContentLoaded", routeResearchTabs);
+</script>

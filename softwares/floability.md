@@ -1,91 +1,102 @@
 ---
 layout: page
-title: floability
+title: Floability
 permalink: /softwares/floability/
 ---
 
-
-<!-- Navigation Bar -->
-<div class="navbar">
-    <div class="navbar-inner">
-        <ul class="nav">
-            <li><a href="#about">about</a></li>
-            <li><a href="#docs">docs</a></li>
-            <li><a href="#code">code</a></li>
-            <li><a href="#papers">papers</a></li>
-            <li><a href="#team">team</a></li>
-            <li><a href="#collaborators">collaborators</a></li>
-        </ul>
+<div class="page-floability">
+  <div class="page-hero">
+    <div class="page-hero-copy">
+      <h2><i class="fa-solid fa-diagram-project"></i> Floability</h2>
+      <p class="page-subtitle">
+        Portable notebook workflows for distributed scientific cyberinfrastructure.
+      </p>
     </div>
-</div>
-
-
-## about
-
-**Floability** is a system that will enable the rapid and portable deployment of notebooks expressing complex scientific workflows across a wide range of cyberinfrastructure. The key technical challenge is that workflows are incomplete: the code by itself cannot be moved between facilities without accurately capturing the software dependencies, required datasets, and capabilities of the underlying cluster hardware. In addition it aims to solve the problem of translating notebooks to workflows and vice versa. Floability is collaboratively developed by the University of Notre Dame, the University of Missouri-Columbia, and the University of Illinois.
-
-<div style="display: flex; align-items: flex-start; gap: 2em; margin: 0.2em 0; flex-wrap: wrap;">
-  <div style="flex: 2 1 600px; min-width: 500px;">
-
+    <div class="quick-jump-links">
+      <a href="#flo-about">About</a>
+      <a href="#flo-docs">Docs</a>
+      <a href="#flo-code">Code</a>
+      <a href="#flo-papers">Papers</a>
+      <a href="#flo-team">Team</a>
+      <a href="#flo-collaborators">Collaborators</a>
+    </div>
   </div>
-  <div style="flex: 1 1 500px; min-width: 450px; text-align: center;">
-    <img src="/images/softwares/floability-Arch.png" alt="floability Architecture Diagram" style="max-width:100%; height:auto; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-    <div style="color:#444; margin-top:0.5em; font-style:italic;">floability Architecture</div>
-  </div>
-</div>
 
--------------
+  <section class="project-section" id="flo-about">
+    <h3 class="section-title"><i class="fa-solid fa-circle-info"></i> About</h3>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          <strong>Floability</strong> is a system that enables rapid and portable deployment of notebooks
+          expressing complex scientific workflows across a wide range of cyberinfrastructure.
+          The key challenge is that workflows are often incomplete: code alone cannot move between facilities
+          without accurately capturing software dependencies, required datasets, and cluster capabilities.
+        </p>
+        <p>
+          Floability also addresses translation between notebooks and workflows. The project is collaboratively
+          developed by the University of Notre Dame, the University of Missouri-Columbia, and the University of Illinois.
+        </p>
+      </div>
+      <figure class="about-figure">
+        <img src="/images/softwares/floability-Arch.png" alt="Floability architecture diagram">
+        <figcaption>Floability Architecture</figcaption>
+      </figure>
+    </div>
+  </section>
 
-## docs
+  <section class="project-section" id="flo-docs">
+    <h3 class="section-title"><i class="fa-regular fa-file-lines"></i> Docs</h3>
+    <ul class="resource-list">
+      <li><a href="https://github.com/floability/floability-cli/blob/main/README.md" target="_blank">Quick start instructions</a></li>
+      <li><a href="https://github.com/floability/floability-cli/blob/main/docs/backpack.md" target="_blank">Backpack specifications</a></li>
+      <li><a href="https://github.com/floability/floability-examples" target="_blank">Backpack examples</a></li>
+    </ul>
+  </section>
 
+  <section class="project-section" id="flo-code">
+    <h3 class="section-title"><i class="fa-solid fa-code"></i> Code</h3>
+    <p>The primary repository for Floability is available on GitHub.</p>
+    <div class="project-links">
+      <a class="project-link" href="https://github.com/floability/floability-cli" target="_blank">
+        <i class="fa-brands fa-github"></i> floability-cli
+      </a>
+      <a class="project-link" href="https://github.com/floability/floability-examples" target="_blank">
+        <i class="fa-solid fa-box-archive"></i> Examples
+      </a>
+    </div>
+  </section>
 
-<ul style="font-size: 20px;">
-<li> <a href="https://github.com/floability/floability-cli/blob/main/README.md">Quick start instructions</a></li>
-<li> <a href="https://github.com/floability/floability-cli/blob/main/docs/backpack.md">Backpack specifications</a></li>
-<li> <a href="https://github.com/floability/floability-examples">Backpack examples</a></li> 
-</ul>
+  <section class="project-section" id="flo-papers">
+    <h3 class="section-title"><i class="fa-regular fa-newspaper"></i> Papers</h3>
+    <ul class="resource-list">
+      <li>
+        Islam, M. S., Azaz, T., Ahmad, R., Hossain, A. S. M. S., Baig, F., Wang, S., Lannon, K.,
+        Malik, T., and Thain, D., "Backpacks for Notebooks: Enabling Containerized Notebook Workflows in
+        Distributed Environments", <em>21st IEEE International Conference on eScience</em>, to appear, 2025.
+      </li>
+    </ul>
+  </section>
 
--------------
+  <section class="project-section" id="flo-team">
+    <h3 class="section-title"><i class="fa-solid fa-people-group"></i> Team</h3>
+    <div class="team-gallery people image-container">
+      {% assign floability_team = site.data.floability_lab %}
+      {% for person in floability_team %}
+        {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+      {% endfor %}
+    </div>
+  </section>
 
-## code
-
-You can find the entire repository here: <a href= "https://github.com/floability/floability-cli">https://github.com/floability/floability-cli</a>
-
--------------
-
-## papers
-
-<ul style="font-size: 20px;">
-<li>Islam, M. S., Azaz, T., Ahmad, R., Hossain, A. S. M. S., Baig, F., Wang, S., Lannon, K., Malik, T., and Thain, D., "Backpacks for Notebooks: Enabling Containerized Notebook Workflows in Distributed Environments", <i>21st IEEE International Conference on eScience</i>, to appear, 2025</li>
-</ul>
-
-
--------------
-
-## team
-
-<div class="flex-container people image-container">
-{% assign floability_team = site.data.floability_lab %}
-{% for person in floability_team %}
-  {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
-{% endfor %}
-</div>
-
--------------
-
-
-## collaborators
-
-<div style="display: flex; flex-wrap: wrap; gap: 1.5em 2em;">
-  <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
-  {% assign collaborators = site.data.floability_collaborators %}
-  {% for person in collaborators %}
-    <li style="margin-bottom: 1em; padding: 1em; border-radius: 8px; background: #f8f8f8; box-shadow: 0 1px 4px rgba(0,0,0,0.04);">
-      <span style="font-weight: bold; font-size: 1.1em;">
-        <a href="{{ person.website }}" target="_blank" style="color: #2a6496; text-decoration: none;">{{ person.name }}</a>
-      </span><br>
-      <span style="color: #555; font-size: 0.98em;">{{ person.affliation }}</span>
-    </li>
-  {% endfor %}
-  </ul>
+  <section class="project-section" id="flo-collaborators">
+    <h3 class="section-title"><i class="fa-solid fa-handshake"></i> Collaborators</h3>
+    <ul class="collab-list">
+      {% assign collaborators = site.data.floability_collaborators %}
+      {% for person in collaborators %}
+        <li class="collab-item">
+          <a href="{{ person.website }}" target="_blank">{{ person.name }}</a>
+          <span>{{ person.affliation }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
 </div>
