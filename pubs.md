@@ -12,7 +12,7 @@ title: Publications
       </p>
       <p class="scholar-line">
         You can also browse our
-        <a href="https://scholar.google.com/citations?hl=en&user=ZvYwdsUAAAAJ" target="_blank">Google Scholar profile</a>.
+        <a href="https://scholar.google.com/citations?hl=en&user=ZvYwdsUAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar profile</a>.
       </p>
     </div>
   </div>
@@ -154,7 +154,7 @@ title: Publications
                     {% if p.links and p.links.PDF %}
                       <a href="{{ p.links.PDF.url }}"
                          class="pub-action"
-                         target="_blank"
+                         target="_blank" rel="noopener noreferrer"
                          title="{{ p.links.PDF.text }}">
                         <i class="fas fa-file-pdf"></i>
                       </a>
@@ -302,22 +302,78 @@ function initializeCustomFilters() {
     const initial = options.find((opt) => opt.dataset.value === hiddenInput.value) || options[0];
     setFilterValue(selectEl, initial.dataset.value, (initial.textContent || "").trim());
 
+    const openSelect = () => {
+      closeAllCustomFilters(selectEl);
+      selectEl.classList.add("open");
+      trigger.setAttribute("aria-expanded", "true");
+    };
+
     trigger.addEventListener("click", () => {
       const isOpen = selectEl.classList.contains("open");
-      closeAllCustomFilters(selectEl);
       if (!isOpen) {
-        selectEl.classList.add("open");
-        trigger.setAttribute("aria-expanded", "true");
+        openSelect();
+      } else {
+        closeAllCustomFilters();
       }
     });
 
-    options.forEach((optionEl) => {
+    trigger.addEventListener("keydown", (event) => {
+      const currentIndex = Math.max(0, options.findIndex((opt) => opt.classList.contains("is-active")));
+
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        openSelect();
+        const nextIndex =
+          event.key === "ArrowDown"
+            ? (currentIndex + 1) % options.length
+            : (currentIndex - 1 + options.length) % options.length;
+        options[nextIndex].focus();
+        return;
+      }
+
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openSelect();
+        options[currentIndex].focus();
+      }
+    });
+
+    options.forEach((optionEl, optionIndex) => {
       optionEl.addEventListener("click", () => {
         const value = optionEl.dataset.value || "all";
         const label = (optionEl.textContent || "").trim() || "All";
         setFilterValue(selectEl, value, label);
         closeAllCustomFilters();
         applyPublicationFilters();
+        trigger.focus();
+      });
+
+      optionEl.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          options[(optionIndex + 1) % options.length].focus();
+          return;
+        }
+        if (event.key === "ArrowUp") {
+          event.preventDefault();
+          options[(optionIndex - 1 + options.length) % options.length].focus();
+          return;
+        }
+        if (event.key === "Home") {
+          event.preventDefault();
+          options[0].focus();
+          return;
+        }
+        if (event.key === "End") {
+          event.preventDefault();
+          options[options.length - 1].focus();
+          return;
+        }
+        if (event.key === "Escape") {
+          event.preventDefault();
+          closeAllCustomFilters();
+          trigger.focus();
+        }
       });
     });
   });

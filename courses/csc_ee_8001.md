@@ -54,7 +54,7 @@ layout: page
       <section id="schedule" class="course-section" aria-labelledby="schedule-title">
         <h2 id="schedule-title"><i class="fa-regular fa-calendar-days"></i> Schedule</h2>
         <div class="table-wrap">
-          <table class="schedule-table" aria-describedby="schedule-caption">
+          <table class="schedule-table">
             <thead>
               <tr>
                 <th scope="col">Date</th>
@@ -127,6 +127,20 @@ layout: page
     .map((a) => document.querySelector(a.getAttribute("href")))
     .filter(Boolean);
 
+  function keepLinkVisibleInsideNav(linkEl) {
+    if (!linkEl) return;
+    const top = linkEl.offsetTop;
+    const bottom = top + linkEl.offsetHeight;
+    const viewTop = nav.scrollTop;
+    const viewBottom = viewTop + nav.clientHeight;
+
+    if (top < viewTop) {
+      nav.scrollTop = Math.max(0, top - 6);
+    } else if (bottom > viewBottom) {
+      nav.scrollTop = bottom - nav.clientHeight + 6;
+    }
+  }
+
   function setActiveById(id) {
     links.forEach((a) => {
       const isActive = a.getAttribute("href") === `#${id}`;
@@ -143,7 +157,7 @@ layout: page
     slider.style.transform = `translateY(${offsetY}px)`;
     slider.style.height = `${activeRect.height}px`;
     slider.style.opacity = "0.96";
-    active.scrollIntoView({ block: "nearest" });
+    keepLinkVisibleInsideNav(active);
   }
 
   let ioLocked = false;

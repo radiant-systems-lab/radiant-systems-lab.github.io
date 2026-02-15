@@ -69,7 +69,7 @@ layout: page
                 </div>
 
                 {% if found_pub.links.PDF %}
-                  <a href="{{ found_pub.links.PDF.url }}" class="pub-link" target="_blank">
+                  <a href="{{ found_pub.links.PDF.url }}" class="pub-link" target="_blank" rel="noopener noreferrer">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i> Read Publication
                   </a>
                 {% endif %}

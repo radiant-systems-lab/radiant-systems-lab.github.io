@@ -89,7 +89,7 @@ permalink: /softwares/flexiflow/
       {% assign collaborators = site.data.flexiflow_collaborators %}
       {% for person in collaborators %}
         <li class="collab-item">
-          <a href="{{ person.website }}" target="_blank">{{ person.name }}</a>
+          <a href="{{ person.website }}" target="_blank" rel="noopener noreferrer">{{ person.name }}</a>
           <span>{{ person.affliation }}</span>
         </li>
       {% endfor %}

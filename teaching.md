@@ -52,6 +52,20 @@ layout: page
     .map((a) => document.querySelector(a.getAttribute("href")))
     .filter(Boolean);
 
+  function keepLinkVisibleInsideNav(linkEl) {
+    if (!linkEl) return;
+    const top = linkEl.offsetTop;
+    const bottom = top + linkEl.offsetHeight;
+    const viewTop = nav.scrollTop;
+    const viewBottom = viewTop + nav.clientHeight;
+
+    if (top < viewTop) {
+      nav.scrollTop = Math.max(0, top - 6);
+    } else if (bottom > viewBottom) {
+      nav.scrollTop = bottom - nav.clientHeight + 6;
+    }
+  }
+
   function setActiveById(id) {
     links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === `#${id}`));
     const active = links.find((a) => a.classList.contains("active"));
@@ -62,7 +76,7 @@ layout: page
     const offsetY = activeRect.top - navRect.top + nav.scrollTop - 2;
     slider.style.transform = `translateY(${offsetY}px)`;
     slider.style.height = `${activeRect.height}px`;
-    active.scrollIntoView({ block: "nearest" });
+    keepLinkVisibleInsideNav(active);
   }
 
   let ioLocked = false;

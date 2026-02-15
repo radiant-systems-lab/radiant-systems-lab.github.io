@@ -13,7 +13,7 @@ description: Radiant's Research Projects
       </p>
     </div>
     <div class="quick-jump-links">
-      <a href="https://github.com/radiant-systems-lab/" target="_blank">Lab GitHub</a>
+      <a href="https://github.com/radiant-systems-lab/" target="_blank" rel="noopener noreferrer">Lab GitHub</a>
       <a href="#sciunit">Sciunit</a>
       <a href="#provscope">ProvScope</a>
       <a href="#floability">Floability</a>
@@ -24,7 +24,7 @@ description: Radiant's Research Projects
   <section class="software-list">
     <article class="software-card" id="sciunit">
       <div class="software-card-top">
-        <h3><i class="fa-solid fa-box-open"></i> <a href="https://radiant-systems-lab.github.io/SciunitSite/" target="_blank">Sciunit</a></h3>
+        <h3><i class="fa-solid fa-box-open"></i> <a href="https://radiant-systems-lab.github.io/SciunitSite/" target="_blank" rel="noopener noreferrer">Sciunit</a></h3>
         <span class="software-badge">Reproducibility Toolkit</span>
       </div>
 
@@ -37,13 +37,13 @@ description: Radiant's Research Projects
       </p>
 
       <div class="software-links">
-        <a class="software-link" href="https://radiant-systems-lab.github.io/SciunitSite/" target="_blank">
+        <a class="software-link" href="https://radiant-systems-lab.github.io/SciunitSite/" target="_blank" rel="noopener noreferrer">
           <i class="fa-solid fa-globe"></i> Website
         </a>
-        <a class="software-link" href="https://github.com/radiant-systems-lab/sciunit" target="_blank">
+        <a class="software-link" href="https://github.com/radiant-systems-lab/sciunit" target="_blank" rel="noopener noreferrer">
           <i class="fa-brands fa-github"></i> GitHub
         </a>
-        <a class="software-link" href="https://github.com/depaul-dice/sciunit/wiki" target="_blank">
+        <a class="software-link" href="https://github.com/depaul-dice/sciunit/wiki" target="_blank" rel="noopener noreferrer">
           <i class="fa-solid fa-book"></i> Documentation
         </a>
       </div>
@@ -66,7 +66,7 @@ description: Radiant's Research Projects
       </p>
 
       <div class="software-links">
-        <a class="software-link" href="https://github.com/radiant-systems-lab/ProvScope" target="_blank">
+        <a class="software-link" href="https://github.com/radiant-systems-lab/ProvScope" target="_blank" rel="noopener noreferrer">
           <i class="fa-brands fa-github"></i> GitHub
         </a>
       </div>
@@ -91,7 +91,7 @@ description: Radiant's Research Projects
         <a class="software-link" href="/softwares/floability/">
           <i class="fa-solid fa-arrow-up-right-from-square"></i> Project Page
         </a>
-        <a class="software-link" href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2516579" target="_blank">
+        <a class="software-link" href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2516579" target="_blank" rel="noopener noreferrer">
           <i class="fa-solid fa-hand-holding-dollar"></i> NSF Award
         </a>
       </div>

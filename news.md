@@ -57,7 +57,7 @@ id: "news"
               {% for link_item in pub.links %}
                 {% assign link_key = link_item[0] %}
                 {% assign link_data = link_item[1] %}
-                {% capture html_link %}<a href="{{ link_data.url }}" target="_blank">{{ link_data.text }}</a>{% endcapture %}
+                {% capture html_link %}<a href="{{ link_data.url }}" target="_blank" rel="noopener noreferrer">{{ link_data.text }}</a>{% endcapture %}
                 {% capture lt1 %}[[PUB: {{ link_key }}]]{% endcapture %}{% capture lt2 %}[[PUB:{{ link_key }}]]{% endcapture %}
                 {% assign rendered = rendered | replace: lt1, html_link | replace: lt2, html_link %}
               {% endfor %}

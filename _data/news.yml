@@ -10,8 +10,9 @@
 - id: N-2026-48
   News:
     rank: 48
+    date: 2026-01-26
     description: >
-      [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/) presents [[AI-Generated Code Is Not Reproducible (Yet): An Empirical Study of Dependency Gaps in LLM-Based Coding Agents]] and [[Efficient Multi-Model Orchestration for Self-Hosted Large Language Models]] at the [AAAI 2026](https://aaai.org/conference/aaai/aaai-26/), Singapore.
+      [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/) presents [[AI-Generated Code Is Not Reproducible (Yet): An Empirical Study of Dependency Gaps in LLM-Based Coding Agents]] on Jan 26th and [[Efficient Multi-Model Orchestration for Self-Hosted Large Language Models]] on Jan27th at the [AAAI 2026](https://aaai.org/conference/aaai/aaai-26/), Singapore.
       
 - id: N-2026-47
   News:
