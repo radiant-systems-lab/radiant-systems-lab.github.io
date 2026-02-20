@@ -4,7 +4,10 @@ layout: page
 
 <div class="page-teaching">
   <div class="page-hero">
-    <h2><i class="fa-solid fa-chalkboard-user"></i> Teaching</h2>
+    <div class="page-hero-copy">
+      <h2><i class="fa-solid fa-chalkboard-user"></i> Teaching</h2>
+      <p class="page-subtitle">Explore current course offerings and project-driven learning experiences.</p>
+    </div>
     <div class="quick-jump-links">
       <a href="#y2025">2025</a>
     </div>

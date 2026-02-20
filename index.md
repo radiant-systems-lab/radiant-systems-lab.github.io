@@ -4,8 +4,11 @@ title: The Radiant Systems Lab
 description: The webpage of Radiant Systems Lab
 ---
 
-<div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid #eee; margin-bottom: 15px;">
-  <h2 style="margin: 0; border: none; padding: 0; color: #403F85; line-height: 1; font-weight: bold;">The Radiant Systems Lab</h2>
+<div class="index-header-row" style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid #eee; margin-bottom: 15px;">
+  <div class="index-heading-block">
+    <h2 style="margin: 0; border: none; padding: 0; color: #403F85; line-height: 1; font-weight: bold;">The Radiant Systems Lab</h2>
+    <p class="page-subtitle index-page-subtitle">Advancing reproducible, scalable, and trustworthy data-driven systems.</p>
+  </div>
   <div class="quick-jump-links" style="font-size: 0.9rem;">
     <a href="#recent-news-section" style="margin-right: 15px; font-weight: bold; text-decoration: none; color: #0088cc;">Recent News</a>
     <a href="#research-areas-section" style="font-weight: bold; text-decoration: none; color: #0088cc;">Research Areas</a>
