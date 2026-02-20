@@ -44,7 +44,12 @@
               </a>
             </li>
           </ul>
-          <ul class="nav">
+          <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="site-primary-nav" aria-expanded="false">
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+          </button>
+          <ul class="nav" id="site-primary-nav">
             <li {% if page.url contains 'about' %}class="active"{% endif %}>
               <a href="{{ BASE_PATH }}/about.html">About</a>
             </li>
@@ -85,10 +90,10 @@
         <!-- Center: contact & social -->
         <div class="footer-section">
           <a href="https://radiant-systems-lab.github.io/about.html">Contact Us</a>
-          <a href="https://github.com/radiant-systems-lab" target="_blank" aria-label="GitHub">
+          <a href="https://github.com/radiant-systems-lab" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
             <i class="fab fa-github"></i>
           </a>
-          <a href="https://linkedin.com/in/tanu-malik-53513628" target="_blank" aria-label="LinkedIn">
+          <a href="https://linkedin.com/in/tanu-malik-53513628" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
             <i class="fab fa-linkedin"></i>
           </a>
         </div>
@@ -103,5 +108,83 @@
         </ul>
       </div>
     </footer>
+    <script>
+      (function () {
+        var navToggle = document.querySelector('.nav-toggle');
+        var navList = document.getElementById('site-primary-nav');
+        if (!navToggle || !navList) return;
+
+        function setMenuOpen(isOpen) {
+          navList.classList.toggle('is-open', isOpen);
+          navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        }
+
+        navToggle.addEventListener('click', function () {
+          setMenuOpen(!navList.classList.contains('is-open'));
+        });
+
+        navList.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            if (window.matchMedia('(max-width: 992px)').matches) {
+              setMenuOpen(false);
+            }
+          });
+        });
+
+        document.addEventListener('click', function (event) {
+          if (!event.target.closest('.navbar .container-narrow')) {
+            setMenuOpen(false);
+          }
+        });
+
+        window.addEventListener('resize', function () {
+          if (window.innerWidth > 992) {
+            setMenuOpen(false);
+          }
+        });
+
+        function shortQuickLinkLabel(href, label) {
+          var h = (href || '').toLowerCase();
+          if (h.indexOf('#recent-news-section') !== -1) return 'News';
+          if (h.indexOf('#research-areas-section') !== -1) return 'Areas';
+          if (h.indexOf('#about_history') !== -1) return 'History';
+          if (h.indexOf('#stats-section') !== -1) return 'Stats';
+          if (h.indexOf('#work-section') !== -1) return 'Jobs';
+          if (h.indexOf('#contact-section') !== -1) return 'Contact';
+          if (h.indexOf('#phd') !== -1) return 'Grad';
+          if (h.indexOf('#ms') !== -1) return 'MS';
+          if (h.indexOf('#alumni') !== -1) return 'Alumni';
+          if (h.indexOf('#openings') !== -1) return 'Jobs';
+          if (h.indexOf('#y2025') !== -1) return '2025';
+          if (h.indexOf('github.com/radiant-systems-lab/') !== -1) return 'GitHub';
+          if (h.indexOf('#sciunit') !== -1) return 'Sciunit';
+          if (h.indexOf('#provscope') !== -1) return 'Prov';
+          if (h.indexOf('#floability') !== -1) return 'Flo';
+          if (h.indexOf('#flexiflow') !== -1) return 'Flex';
+          if (h.indexOf('#flo-about') !== -1 || h.indexOf('#flex-about') !== -1) return 'About';
+          if (h.indexOf('#flo-docs') !== -1 || h.indexOf('#flex-docs') !== -1) return 'Docs';
+          if (h.indexOf('#flo-code') !== -1 || h.indexOf('#flex-code') !== -1) return 'Code';
+          if (h.indexOf('#flo-papers') !== -1 || h.indexOf('#flex-papers') !== -1) return 'Papers';
+          if (h.indexOf('#flo-team') !== -1 || h.indexOf('#flex-team') !== -1) return 'Team';
+          if (h.indexOf('#flo-collaborators') !== -1 || h.indexOf('#flex-collaborators') !== -1) return 'Collab';
+          if (!label) return 'Link';
+          var first = label.split(' ')[0];
+          return first.length > 6 ? first.slice(0, 6) : first;
+        }
+
+        document.querySelectorAll('.quick-jump-links a').forEach(function (link) {
+          var label = (link.textContent || '').replace(/\s+/g, ' ').trim();
+          if (label && !link.getAttribute('aria-label')) {
+            link.setAttribute('aria-label', label);
+          }
+          if (!link.getAttribute('title') && link.getAttribute('aria-label')) {
+            link.setAttribute('title', link.getAttribute('aria-label'));
+          }
+          if (!link.getAttribute('data-short-label')) {
+            link.setAttribute('data-short-label', shortQuickLinkLabel(link.getAttribute('href') || '', link.getAttribute('aria-label') || label));
+          }
+        });
+      })();
+    </script>
   </body>
 </html>

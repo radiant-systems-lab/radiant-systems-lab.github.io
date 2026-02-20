@@ -6,7 +6,10 @@ description: Radiant's members
 
 <div class="page-people">
   <div class="page-hero">
-    <h2><i class="fa-solid fa-people-group"></i> Members of Radiant Lab</h2>
+    <div class="page-hero-copy">
+      <h2><i class="fa-solid fa-people-group"></i> Members of Radiant Lab</h2>
+      <p class="page-subtitle">Meet our current team, alumni, and open research positions.</p>
+    </div>
     <div class="quick-jump-links">
       <a href="#phd">Graduate Students</a>
       <a href="#ms">Master's Students</a>

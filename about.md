@@ -4,7 +4,10 @@ layout: page
 
 <div class="page-about">
   <div class="page-hero">
-    <h2><i class="fa-solid fa-circle-info"></i> About the Lab</h2>
+    <div class="page-hero-copy">
+      <h2><i class="fa-solid fa-circle-info"></i> About the Lab</h2>
+      <p class="page-subtitle">Discover our history, impact, and opportunities to collaborate with the Radiant Systems Lab.</p>
+    </div>
     <div class="quick-jump-links">
       <a href="#about_history">History</a>
       <a href="#stats-section">Stats</a>

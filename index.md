@@ -4,8 +4,11 @@ title: The Radiant Systems Lab
 description: The webpage of Radiant Systems Lab
 ---
 
-<div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid #eee; margin-bottom: 15px;">
-  <h2 style="margin: 0; border: none; padding: 0; color: #403F85; line-height: 1; font-weight: bold;">The Radiant Systems Lab</h2>
+<div class="index-header-row" style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid #eee; margin-bottom: 15px;">
+  <div class="index-heading-block">
+    <h2 style="margin: 0; border: none; padding: 0; color: #403F85; line-height: 1; font-weight: bold;">The Radiant Systems Lab</h2>
+    <p class="page-subtitle index-page-subtitle">Advancing reproducible, scalable, and trustworthy data-driven systems.</p>
+  </div>
   <div class="quick-jump-links" style="font-size: 0.9rem;">
     <a href="#recent-news-section" style="margin-right: 15px; font-weight: bold; text-decoration: none; color: #0088cc;">Recent News</a>
     <a href="#research-areas-section" style="font-weight: bold; text-decoration: none; color: #0088cc;">Research Areas</a>
@@ -48,18 +51,18 @@ description: The webpage of Radiant Systems Lab
   <div class="image-placeholder">
     <div class="custom-carousel">
       <div class="carousel-images" id="carousel-images">
-        <img src="https://live.staticflickr.com/8790/16890371568_c5bcc96644_b.jpg" alt="1" />
-        <img src="https://showme.missouri.edu/wp-content/uploads/2022/01/011922JesseHall1.jpg" alt="2" />
-        <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/University_of_Missouri_-_Memorial_Union.jpg" alt="3" />
+        <img src="https://live.staticflickr.com/8790/16890371568_c5bcc96644_b.jpg" alt="University of Missouri campus building" />
+        <img src="https://showme.missouri.edu/wp-content/uploads/2022/01/011922JesseHall1.jpg" alt="Jesse Hall at the University of Missouri" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/University_of_Missouri_-_Memorial_Union.jpg" alt="University of Missouri Memorial Union" />
       </div>
       <div class="carousel-buttons">
-        <button onclick="prevSlide()">‹</button>
-        <button onclick="nextSlide()">›</button>
+        <button type="button" onclick="prevSlide()" aria-label="Show previous slide">&#8249;</button>
+        <button type="button" onclick="nextSlide()" aria-label="Show next slide">&#8250;</button>
       </div>
-      <div class="carousel-dots" id="carousel-dots">
-        <span onclick="goToSlide(0)"></span>
-        <span onclick="goToSlide(1)"></span>
-        <span onclick="goToSlide(2)"></span>
+      <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="Mission carousel slides">
+        <button type="button" onclick="goToSlide(0)" aria-label="Go to slide 1"></button>
+        <button type="button" onclick="goToSlide(1)" aria-label="Go to slide 2"></button>
+        <button type="button" onclick="goToSlide(2)" aria-label="Go to slide 3"></button>
       </div>
     </div>
   </div>
@@ -110,7 +113,7 @@ description: The webpage of Radiant Systems Lab
           {% for link_item in pub.links %}
             {% assign link_key = link_item[0] %}
             {% assign link_data = link_item[1] %}
-            {% capture html_link %}<a href="{{ link_data.url }}" target="_blank">{{ link_data.text }}</a>{% endcapture %}
+            {% capture html_link %}<a href="{{ link_data.url }}" target="_blank" rel="noopener noreferrer">{{ link_data.text }}</a>{% endcapture %}
             {% capture lt1 %}[[PUB: {{ link_key }}]]{% endcapture %}{% capture lt2 %}[[PUB:{{ link_key }}]]{% endcapture %}
             {% assign rendered = rendered | replace: lt1, html_link | replace: lt2, html_link %}
           {% endfor %}
@@ -133,7 +136,7 @@ description: The webpage of Radiant Systems Lab
 </ul>
 
 <div style="text-align: right; margin-bottom: 2px;">
-  <a class="home-button" href="news.html" style="font-size: 0.85rem;">More News →</a>
+  <a class="home-button" href="news.html" style="font-size: 0.85rem;">More News &rarr;</a>
 </div>
 
 <div id="research-areas-section" style="margin-top: 5px;">

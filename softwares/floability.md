@@ -47,9 +47,9 @@ permalink: /softwares/floability/
   <section class="project-section" id="flo-docs">
     <h3 class="section-title"><i class="fa-regular fa-file-lines"></i> Docs</h3>
     <ul class="resource-list">
-      <li><a href="https://github.com/floability/floability-cli/blob/main/README.md" target="_blank">Quick start instructions</a></li>
-      <li><a href="https://github.com/floability/floability-cli/blob/main/docs/backpack.md" target="_blank">Backpack specifications</a></li>
-      <li><a href="https://github.com/floability/floability-examples" target="_blank">Backpack examples</a></li>
+      <li><a href="https://github.com/floability/floability-cli/blob/main/README.md" target="_blank" rel="noopener noreferrer">Quick start instructions</a></li>
+      <li><a href="https://github.com/floability/floability-cli/blob/main/docs/backpack.md" target="_blank" rel="noopener noreferrer">Backpack specifications</a></li>
+      <li><a href="https://github.com/floability/floability-examples" target="_blank" rel="noopener noreferrer">Backpack examples</a></li>
     </ul>
   </section>
 
@@ -57,10 +57,10 @@ permalink: /softwares/floability/
     <h3 class="section-title"><i class="fa-solid fa-code"></i> Code</h3>
     <p>The primary repository for Floability is available on GitHub.</p>
     <div class="project-links">
-      <a class="project-link" href="https://github.com/floability/floability-cli" target="_blank">
+      <a class="project-link" href="https://github.com/floability/floability-cli" target="_blank" rel="noopener noreferrer">
         <i class="fa-brands fa-github"></i> floability-cli
       </a>
-      <a class="project-link" href="https://github.com/floability/floability-examples" target="_blank">
+      <a class="project-link" href="https://github.com/floability/floability-examples" target="_blank" rel="noopener noreferrer">
         <i class="fa-solid fa-box-archive"></i> Examples
       </a>
     </div>
@@ -93,7 +93,7 @@ permalink: /softwares/floability/
       {% assign collaborators = site.data.floability_collaborators %}
       {% for person in collaborators %}
         <li class="collab-item">
-          <a href="{{ person.website }}" target="_blank">{{ person.name }}</a>
+          <a href="{{ person.website }}" target="_blank" rel="noopener noreferrer">{{ person.name }}</a>
           <span>{{ person.affliation }}</span>
         </li>
       {% endfor %}
