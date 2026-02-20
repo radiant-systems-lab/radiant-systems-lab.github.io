@@ -1392,6 +1392,11 @@ body:has(#index_mission) #index_research_areas .accordion-body a:hover {
     font-size: 1.7rem;
   }
 
+  body:has(#index_mission) #index_mission .image-placeholder {
+    height: 280px !important;
+    min-height: 0 !important;
+  }
+
   body:has(#index_mission) #index_mission .text-section {
     padding: 22px;
   }
