@@ -167,7 +167,7 @@ title: Publications
                     </div>
                   {% endif %}
 
-                  <div id="bib-{{ uid }}" class="pub-section pub-bibtex" hidden>
+                  <div id="bib-{{ uid }}" class="pub-section pub-bibtex" hidden{% if p.bibFile %} data-bib-url="{{ p.bibFile | escape }}"{% endif %}>
 <pre>@{{ bib_type }}{ {{ bib_key }},
   title     = { {{ p.title }} },
   author    = { {{ p.authors }} },
@@ -421,6 +421,52 @@ function lockPublicationResultsHeight() {
   }
 }
 
+function loadBibtexIfConfigured(sectionEl) {
+  if (!sectionEl || !sectionEl.classList.contains("pub-bibtex")) return;
+
+  const bibUrl = (sectionEl.dataset.bibUrl || "").trim();
+  if (!bibUrl) return;
+
+  const isLoaded = sectionEl.dataset.bibLoaded === "true";
+  const isLoading = sectionEl.dataset.bibLoading === "true";
+  if (isLoaded || isLoading) return;
+
+  const preEl = sectionEl.querySelector("pre");
+  if (!preEl) return;
+
+  const fallbackBib = preEl.textContent || "";
+  sectionEl.dataset.bibLoading = "true";
+  preEl.textContent = "Loading BibTeX...";
+
+  let requestUrl = bibUrl;
+  if (!/^https?:\/\//i.test(requestUrl) && !requestUrl.startsWith("/")) {
+    requestUrl = `/${requestUrl.replace(/^\.?\//, "")}`;
+  }
+  requestUrl = encodeURI(requestUrl);
+  fetch(requestUrl)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to fetch BibTeX (${response.status})`);
+      }
+      return response.text();
+    })
+    .then((bibText) => {
+      const cleanedBib = bibText.trim();
+      if (!cleanedBib) {
+        throw new Error("BibTeX file is empty");
+      }
+      preEl.textContent = cleanedBib;
+      sectionEl.dataset.bibLoaded = "true";
+    })
+    .catch((error) => {
+      preEl.textContent = fallbackBib;
+      console.warn("BibTeX dynamic load failed, using fallback.", error);
+    })
+    .finally(() => {
+      sectionEl.dataset.bibLoading = "false";
+    });
+}
+
 function toggleSection(id, triggerEl) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -428,6 +474,7 @@ function toggleSection(id, triggerEl) {
   const willOpen = el.hasAttribute("hidden");
   if (willOpen) {
     el.removeAttribute("hidden");
+    loadBibtexIfConfigured(el);
   } else {
     el.setAttribute("hidden", "hidden");
   }

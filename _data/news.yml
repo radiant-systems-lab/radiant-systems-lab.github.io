@@ -7,6 +7,21 @@
 #      [[PUB: title]] by [[PUB: authors]] has been accepted at [[PUB: journal]].
 #      Read the [[PUB: PDF]] or view the [[PUB: DOI]].
 
+- id: N-2026-50
+  News:
+    rank: 50
+    date: 2026-02-20
+    description: >
+      Presentation on [[Lessons Learned from a Multi-Model Question Answering Pipeline on the Chameleon Testbed]] by [[Deshan Wattegama]] has been selected for the [[Sixth Chameleon User Meeting]], taking place April 15–16, 2026 at [[NCAR's Mesa Lab]] in Boulder, Colorado. 
+
+- id: N-2026-49
+  News:
+    rank: 49
+    date: 2026-02-11
+    pubID: P-2026-96
+    description: >
+      The Paper [[PUB: title]] by [[PUB: authors]] got accepted at the [[PUB: journal]]. Congrats Talha, Aziz and Raza, Ahmad!
+
 - id: N-2026-48
   News:
     rank: 48
@@ -19,7 +34,7 @@
     rank: 47
     pubID: P-2025-95
     description: >
-      The paper [[PUB: Title]] by Bhanu Prakash Vangala and  Tanu Malik got accepted at the [[PUB: Workshop]]. Congrats Bhanu!
+      The paper [[PUB: title]] by [[PUB: authors]] got accepted at the [[PUB: workshop]]. Congrats Bhanu!
       
 - id: N-2026-46
   News:
@@ -46,8 +61,9 @@
   News:
     rank: 43
     date: 2025-06-23
+    pubID: P-2025-86
     description: >
-      The paper ['Similarity-Based Assessment of Computational Reproducibility in Jupyter Notebooks'](/pdfs/pdfs/pubs/C37.pdf) by A S M Shahadat Hossain, Colin Brown, David Koop, and Tanu Malik got accepted at the [2025 ACM Conference on Reproducibility and Replicability (ACM REP '25)](https://acm-rep.github.io/2025/), Vancouver, Canada.
+      The paper ['Similarity-Based Assessment of Computational Reproducibility in Jupyter Notebooks'](/pdfs/pdfs/pubs/C37.pdf) by [[PUB: authors]] got accepted at the [2025 ACM Conference on Reproducibility and Replicability (ACM REP '25)](https://acm-rep.github.io/2025/), Vancouver, Canada.
       
 - id: N-2025-42
   News:
@@ -166,7 +182,7 @@
     rank: 26
     date: 2022-10-13
     description: >
-      'Reproducible Notebook Containers using Application Virtualization' **wins** <s>nominated as</s> the **Best Student Paper** at eScience'22! Congrats [Raza Ahmad](https://www.linkedin.com/in/sranasir/) and [Nithin Manne](https://www.linkedin.com/in/nithinmanne/).
+      'Reproducible Notebook Containers using Application Virtualization' nominated as the [[Best Student Paper]] at eScience'22! Congrats [Raza Ahmad](https://www.linkedin.com/in/sranasir/) and [Nithin Manne](https://www.linkedin.com/in/nithinmanne/).
       
 - id: N-2022-25
   News:
