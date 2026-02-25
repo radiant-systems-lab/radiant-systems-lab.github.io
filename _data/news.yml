@@ -7,12 +7,19 @@
 #      [[PUB: title]] by [[PUB: authors]] has been accepted at [[PUB: journal]].
 #      Read the [[PUB: PDF]] or view the [[PUB: DOI]].
 
+- id: N-2026-51
+  News:
+    rank: 51
+    date: 2026-02-20
+    description: >
+      Presentation on [[Lessons Learned from a Multi-Model Question Answering Pipeline on the Chameleon Testbed]] by [[Deshan Wattegama]] has been selected for the [[Sixth Chameleon User Meeting]], taking place April 15–16, 2026 at [[NCAR's Mesa Lab]] in Boulder, Colorado. 
+
 - id: N-2026-50
   News:
     rank: 50
     date: 2026-02-20
     description: >
-      Presentation on [[Lessons Learned from a Multi-Model Question Answering Pipeline on the Chameleon Testbed]] by [[Deshan Wattegama]] has been selected for the [[Sixth Chameleon User Meeting]], taking place April 15–16, 2026 at [[NCAR's Mesa Lab]] in Boulder, Colorado. 
+      Presentation on [[Evaluating Dependency Gaps in LLM-Generated Code]] by [[Bhanu Prakash Vangala]] has been selected for the [[Sixth Chameleon User Meeting]], taking place April 15–16, 2026 at [[NCAR's Mesa Lab]] in Boulder, Colorado. Congratulations Bhanu!
 
 - id: N-2026-49
   News:
