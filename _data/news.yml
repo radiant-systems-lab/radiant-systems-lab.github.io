@@ -7,6 +7,15 @@
 #      [[PUB: title]] by [[PUB: authors]] has been accepted at [[PUB: journal]].
 #      Read the [[PUB: PDF]] or view the [[PUB: DOI]].
 
+- id: N-2026-51
+  News:
+    rank: 51
+    date: 2026-03-19
+    description: >
+      The paper [[Semantically-Aligned Data Carving for Robust Reproducibility]] got accepted to [ACM PEARC](https://pearc.acm.org/pearc26/) which is happening on July 26-30 2026, Minneapolis, MN.
+
+
+
 - id: N-2026-50
   News:
     rank: 50
