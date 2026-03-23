@@ -31,10 +31,9 @@
 - id: N-2026-49
   News:
     rank: 49
-    date: 2026-02-11
     pubID: P-2026-96
     description: >
-      The Paper [[PUB: title]] by [[PUB: authors]] got accepted at the [[PUB: journal]]. Congrats Talha, Azaz and Raza, Ahmad!
+      The Paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB: journal]]. Congrats Talha, Azaz and Raza, Ahmad!
 
 - id: N-2026-48
   News:
@@ -48,14 +47,14 @@
     rank: 47
     pubID: P-2025-95
     description: >
-      The paper [[PUB: title]] by [[PUB: authors]] got accepted at the [[PUB: workshop]]. Congrats Bhanu!
+      The paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB: workshop]]. Congrats Bhanu!
       
 - id: N-2026-46
   News:
     rank: 46
     pubID: P-2025-94
     description: >
-      The paper [[PUB: Title]] by Bhanu Prakash Vangala and  Tanu Malik got accepted at the [[PUB: Workshop]]. Congrats Bhanu!
+      The paper [[PUB:links:title]] by Bhanu Prakash Vangala and  Tanu Malik got accepted at the [[PUB: Workshop]]. Congrats Bhanu!
       
 - id: N-2025-45
   News:
