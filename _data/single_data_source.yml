@@ -40,6 +40,9 @@
       PDF:
         text: "PDF"
         url: "/pdfs/pdfs/pubs/IEEE_CCGrid_25.pdf"
+      title:
+        text: "Efficiently Reproducing Distributed Workflows in Notebook-based Systems"
+        url: "/pdfs/pdfs/pubs/IEEE_CCGrid_25.pdf"
     Publisher: 'IEEE'
     DOI: ''
 
@@ -50,7 +53,7 @@
     date: '2025-12-04'
     pubType: article
     categories: []
-    #title: 'AI-Generated Code Is Not Reproducible (Yet): An Empirical Study of Dependency Gaps in LLM-Based Coding Agents'
+    title: 'AI-Generated Code Is Not Reproducible (Yet): An Empirical Study of Dependency Gaps in LLM-Based Coding Agents'
     authors: 'Vangala, B. P., Adibifar, A., Gehani, A., and Malik, T.'
     journal: 'Reproducible Artificial Intelligence (RAI2025) Workshop'
     year: 2025
@@ -89,7 +92,7 @@
       PDF:
         text: "PDF"
         url: "http://arxiv.org/pdf/2512.22402"
-      Title:
+      title:
         text: "Efficient Multi-Model Orchestration for Self-Hosted Large Language Models"
         url: "https://arxiv.org/pdf/2512.22387"
       Workshop:
