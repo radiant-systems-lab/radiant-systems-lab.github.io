@@ -7,98 +7,161 @@
 #      [[PUB: title]] by [[PUB: authors]] has been accepted at [[PUB: journal]].
 #      Read the [[PUB: PDF]] or view the [[PUB: DOI]].
 
-- id: N-2026-52
+- id: N-2026-61
   News:
-    rank: 52
+    rank: 61
+    date: 2026-08-14
+    description: >
+      [Tanu Malik](https://engineering.missouri.edu/faculty/tanu-malik/) presents [[Backpacks and Black Boxes: Reproducible Science When AI Writes the Code]] as an invited keynote at [IEEE eScience 2026](https://www.escience-conference.org/2026/keynotes) on October 1, 2026.
+
+- id: N-2026-60
+  News:
+    rank: 60
+    pubID: P-2026-100
+    description: >
+      The paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB:journal]]. Congrats Alex!
+
+- id: N-2026-59
+  News:
+    rank: 59
+    date: 2026-07-20
+    description: >
+      The paper [[AI-Generated Code Is Not Reproducible (Yet): An Empirical Study of Dependency Gaps in LLM-Based Coding Agents]] by [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/), Ashish Gehani, and Tanu Malik got accepted at the [4th ACM Conference on Reproducibility and Replicability (ACM REP '26)](https://acm-rep.github.io/2026/). Congrats Bhanu!
+
+- id: N-2026-58
+  News:
+    rank: 58
+    date: 2026-07-13
+    description: >
+      The paper [[Pick and Spin: Cold-Start-Aware Routing for Self-Hosted LLM Serving]] by [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/) and Tanu Malik got accepted at the [IEEE World Congress on Cloud (CLOUD), 2026](https://services.conferences.computer.org/2026/cloud/). Congrats Bhanu!
+
+- id: N-2026-57
+  News:
+    rank: 57
     date: 2026-03-19
     description: >
-      The paper [[Semantically-Aligned Data Carving for Robust Reproducibility]] got accepted to [ACM PEARC](https://pearc.acm.org/pearc26/) which is happening on July 26-30 2026, Minneapolis, MN.
+      The paper [[Semantically-Aligned Data Carving for Robust Reproducibility]] got accepted to [ACM PEARC](https://pearc.acm.org/pearc26/), which was held July 26-30, 2026 in Minneapolis, Minnesota.
 
-- id: N-2026-51
+- id: N-2026-56
   News:
-    rank: 51
+    rank: 56
     date: 2026-02-20
     description: >
       Presentation on [[Lessons Learned from a Multi-Model Question Answering Pipeline on the Chameleon Testbed]] by [[Deshan Wattegama]] has been selected for the [[Sixth Chameleon User Meeting]], taking place April 15–16, 2026 at [[NCAR's Mesa Lab]] in Boulder, Colorado. 
 
-- id: N-2026-50
+- id: N-2026-55
   News:
-    rank: 50
+    rank: 55
     date: 2026-02-20
     description: >
       Presentation on [[Evaluating Dependency Gaps in LLM-Generated Code]] by [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/) has been selected for the [[Sixth Chameleon User Meeting]], taking place April 15–16, 2026 at [[NCAR's Mesa Lab]] in Boulder, Colorado. Congratulations Bhanu!
 
-- id: N-2026-49
+- id: N-2026-54
   News:
-    rank: 49
+    rank: 54
     pubID: P-2026-96
     description: >
       The Paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB: journal]]. Congrats Talha, Azaz and Raza, Ahmad!
 
-- id: N-2026-48
+- id: N-2026-53
   News:
-    rank: 48
+    rank: 53
     date: 2026-01-26
     description: >
       [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/) presents [[AI-Generated Code Is Not Reproducible (Yet): An Empirical Study of Dependency Gaps in LLM-Based Coding Agents]] on Jan 26th and [[Efficient Multi-Model Orchestration for Self-Hosted Large Language Models]] on Jan27th at the [AAAI 2026](https://aaai.org/conference/aaai/aaai-26/), Singapore.
       
-- id: N-2026-47
+- id: N-2026-52
   News:
-    rank: 47
+    rank: 52
     pubID: P-2025-95
     description: >
       The paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB: workshop]]. Congrats Bhanu!
       
-- id: N-2026-46
+- id: N-2026-51
   News:
-    rank: 46
+    rank: 51
     pubID: P-2025-94
     description: >
       The paper [[PUB:links:title]] by Bhanu Prakash Vangala and  Tanu Malik got accepted at the [[PUB: Workshop]]. Congrats Bhanu!
-      
-- id: N-2025-45
+
+- id: N-2025-50
   News:
-    rank: 45
+    rank: 50
+    pubID: P-2025-102
+    description: >
+      The paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB:journal]]. Congrats Raffay!
+
+- id: N-2025-49
+  News:
+    rank: 49
+    pubID: P-2025-103
+    description: >
+      The paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB:journal]]. Congrats Saiful, Talha, and Raza!
+
+- id: N-2025-48
+  News:
+    rank: 48
     date: 2025-07-23
     description: >
       [[Ahmad Raza's manuscript]] accepted in Future Generation Computer Systems [[Improving Reproducibility of Interactive Notebooks using Application Virtualization]].
       
-- id: N-2025-44
+- id: N-2025-47
   News:
-    rank: 44
+    rank: 47
     date: 2025-07-03
     description: >
       Welcome [Ziyang Jia](https://scholar.google.com/citations?user=6orRn6QAAAAJ&hl=en) to the Radiant-Systems Lab at Mizzou as a new PhD student!
       
-- id: N-2025-43
+- id: N-2025-46
   News:
-    rank: 43
+    rank: 46
     date: 2025-06-23
     pubID: P-2025-86
     description: >
       The paper ['Similarity-Based Assessment of Computational Reproducibility in Jupyter Notebooks'](/pdfs/pdfs/pubs/C37.pdf) by [[PUB: authors]] got accepted at the [2025 ACM Conference on Reproducibility and Replicability (ACM REP '25)](https://acm-rep.github.io/2025/), Vancouver, Canada.
-      
-- id: N-2025-42
+
+- id: N-2025-45
   News:
-    rank: 42
+    rank: 45
+    pubID: P-2025-87
+    description: >
+      The paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB:journal]]. Congrats Yuta!
+
+- id: N-2025-44
+  News:
+    rank: 44
     date: 2025-05-16
     description: >
       Congratulations to [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/) on graduating with his master’s degree in computer science! He is now continuing on to pursue his PhD in computer science at Mizzou.
       
-- id: N-2025-41
+- id: N-2025-43
   News:
-    rank: 41
+    rank: 43
     date: 2025-05-01
     description: >
       Welcome [Shankaradithyaa Venkateswaran](https://www.linkedin.com/in/shankaradithyaa-venkateswaran-12a283262/?original_referer=https%3A%2F%2Fwww%2Egoogle%2Ecom%2F&originalSubdomain=in), an undergraduate student from IISc, joining as a research intern in the lab!
       
-- id: N-2025-40
+- id: N-2025-42
   News:
-    rank: 40
+    rank: 42
     date: 2025-03-14
     description: >
       Congratulations to [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/) on receiving the Outstanding Masters Student Award at the Mizzou Engineering Awards Banquet 2025!
-      
+
+- id: N-2024-41
+  News:
+    rank: 41
+    pubID: P-2024-88
+    description: >
+      The paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB:journal]]. Congrats Raza and Yuta!
+
+- id: N-2024-40
+  News:
+    rank: 40
+    date: 2024-09-16
+    description: >
+      The paper [[FAIR Assessment of Cloud-based Experiments]] by Krishna Kamath, Nicole Brewer, and Tanu Malik got accepted at the [4th Workshop on Reproducible Workflows, Data Management, and Security (ReWoRDS)](https://sites.google.com/view/rewords24/home). Congrats Krishna and Nicole!
+
 - id: N-2024-39
   News:
     rank: 39
