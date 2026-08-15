@@ -2,6 +2,171 @@
 #bibFile: "directory path or link to bib file"
 
 
+- id: P-2025-103
+  Publication:
+    rank: 103
+    date: '2025-09-15'
+    pubType: article
+    categories: [RAS]
+    title: 'Backpacks for Notebooks: Enabling Containerized Notebook Workflows in Distributed Environments'
+    authors: 'Islam, M. S., Azaz, T., Ahmad, R., Hossain, A. S. M. S., Baig, F., Wang, S., Lannon, K., Malik, T., and Thain, D.'
+    journal: '2025 IEEE International Conference on eScience (eScience)'
+    year: 2025
+    citationKey: 'Islam-eScience-2025-C43'
+    abstract: >
+      This paper introduces a notebook backpack that captures a distributed workflow together with its resource and configuration requirements. Automated tracing and provisioning allow notebook workflows to execute portably across HPC clusters with minimal notebook changes and low overhead.
+    image: ''
+    links:
+      PDF:
+        text: 'Publication'
+        url: 'https://doi.org/10.1109/eScience65000.2025.00028'
+      title:
+        text: 'Backpacks for Notebooks: Enabling Containerized Notebook Workflows in Distributed Environments'
+        url: 'https://doi.org/10.1109/eScience65000.2025.00028'
+    Publisher: 'IEEE'
+    DOI: '10.1109/eScience65000.2025.00028'
+
+- id: P-2025-102
+  Publication:
+    rank: 102
+    date: '2025-09-15'
+    pubType: article
+    categories: [RAS]
+    title: 'SCALPEL: Structured Content Access Logging and Pruning for Efficient Layouts'
+    authors: 'Atiq, R., Gehani, A., Malik, T., and Zaffar, F.'
+    journal: '2025 IEEE International Conference on eScience (eScience)'
+    year: 2025
+    citationKey: 'Atiq-eScience-2025-C44'
+    abstract: >
+      SCALPEL records application-specific access to structured scientific data and retains only the values, partitions, or chunks needed for later execution. Its HDF5- and Dask-aware carving modes substantially reduce reproducibility-container sizes for data-intensive scientific workflows.
+    image: ''
+    links:
+      PDF:
+        text: 'Publication'
+        url: 'https://doi.org/10.1109/eScience65000.2025.00021'
+      title:
+        text: 'SCALPEL: Structured Content Access Logging and Pruning for Efficient Layouts'
+        url: 'https://doi.org/10.1109/eScience65000.2025.00021'
+    Publisher: 'IEEE'
+    DOI: '10.1109/eScience65000.2025.00021'
+
+- id: P-2026-101
+  Publication:
+    rank: 101
+    date: '2026-07-26'
+    pubType: article
+    categories: [RAS]
+    title: 'Semantically-Aligned Data Carving for Robust Reproducibility'
+    authors: 'Atiq, R., Gehani, A., Malik, T., and Zaffar, F.'
+    journal: 'Practice and Experience in Advanced Research Computing 2026 (PEARC 2026)'
+    year: 2026
+    citationKey: 'Atiq-PEARC-2026-C46'
+    abstract: >
+      This work presents a unified approach to carving only the data objects used by reproducible workflows across HDF5 and netCDF4. By mapping their shared data models and interposing on library calls, the method reduces packaged datasets while preserving correct re-execution.
+    image: ''
+    links:
+      PDF:
+        text: 'Publication'
+        url: 'https://doi.org/10.1145/3785462.3815793'
+      title:
+        text: 'Semantically-Aligned Data Carving for Robust Reproducibility'
+        url: 'https://doi.org/10.1145/3785462.3815793'
+    Publisher: 'ACM'
+    DOI: '10.1145/3785462.3815793'
+
+- id: P-2026-100
+  Publication:
+    rank: 100
+    date: '2026-07-20'
+    pubType: article
+    categories: [RAS]
+    title: 'Porting Linux-based Application Virtualization Tools to Apple Silicon - Challenges and Experiences'
+    authors: 'Crossen, A., and Malik, T.'
+    journal: "4th ACM Conference on Reproducibility and Replicability (ACM REP '26)"
+    year: 2026
+    citationKey: 'Crossen-ACMREP-2026-C49'
+    abstract: ''
+    image: ''
+    links:
+      title:
+        text: 'Porting Linux-based Application Virtualization Tools to Apple Silicon - Challenges and Experiences'
+        url: 'https://acm-rep.github.io/2026/accepted'
+    Publisher: 'ACM'
+    DOI: ''
+
+- id: P-2004-99
+  Publication:
+    rank: 99
+    date: '2004-07-01'
+    pubType: article
+    categories: [BDM]
+    title: 'The Second Data Release of the Sloan Digital Sky Survey'
+    authors: 'Abazajian, K., et al.'
+    journal: 'The Astronomical Journal, Volume 128'
+    year: 2004
+    citationKey: 'Abazajian-AJ-2004-J1'
+    abstract: >
+      This article describes the Sloan Digital Sky Survey's second public data release, including its imaging and spectroscopic datasets, improved processing pipelines, measured data products, and tools for accessing the release.
+    image: ''
+    links:
+      PDF:
+        text: 'PDF'
+        url: 'https://iopscience.iop.org/article/10.1086/421365/pdf'
+      title:
+        text: 'The Second Data Release of the Sloan Digital Sky Survey'
+        url: 'https://doi.org/10.1086/421365'
+    Publisher: 'American Astronomical Society'
+    DOI: '10.1086/421365'
+
+- id: P-2023-98
+  Publication:
+    rank: 98
+    date: '2023-03-22'
+    pubType: chapter
+    categories: [RAS]
+    title: 'Improving Reproducibility of Geoscience Models with Sciunit'
+    authors: 'Ahmad, R., Choi, Y. D., Goodall, J. L., Tarboton, D., Nassar, A., and Malik, T.'
+    journal: 'Recent Advancement in Geoinformatics and Data Science'
+    year: 2023
+    citationKey: 'Ahmad-GSA-2023-J13'
+    abstract: >
+      This chapter surveys geoscience applications that use Sciunit to package, share, and repeat computational workflows. It classifies their reproducibility requirements and explains how Sciunit supports applications across hydrology, solid-earth science, and space science.
+    image: ''
+    links:
+      PDF:
+        text: 'Publication'
+        url: 'https://doi.org/10.1130/2022.2558(07)'
+      title:
+        text: 'Improving Reproducibility of Geoscience Models with Sciunit'
+        url: 'https://doi.org/10.1130/2022.2558(07)'
+    Publisher: 'Geological Society of America'
+    DOI: '10.1130/2022.2558(07)'
+
+- id: P-2026-97
+  Publication:
+    rank: 97
+    date: '2026-02-01'
+    pubType: article
+    categories: [RAS]
+    title: 'Improving Reproducibility of Interactive Notebooks Using Application Virtualization'
+    authors: 'Ahmad, R., Manne, N. N., and Malik, T.'
+    journal: 'Future Generation Computer Systems, Volume 175'
+    year: 2026
+    citationKey: 'Ahmad-FGCS-2026-J15'
+    abstract: >
+      This journal article extends application-virtualization methods for interactive notebooks. It studies how notebook code, software, and data dependencies can be packaged so interactive computations can be reproduced consistently across computing environments.
+    image: ''
+    links:
+      PDF:
+        text: 'Publication'
+        url: 'https://doi.org/10.1016/j.future.2025.108043'
+      title:
+        text: 'Improving Reproducibility of Interactive Notebooks Using Application Virtualization'
+        url: 'https://doi.org/10.1016/j.future.2025.108043'
+    Publisher: 'Elsevier'
+    DOI: '10.1016/j.future.2025.108043'
+
+
 - id: P-2026-96
   Publication:
     rank: 96
