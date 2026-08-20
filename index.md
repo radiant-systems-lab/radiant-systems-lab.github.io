@@ -15,8 +15,8 @@ description: The webpage of Radiant Systems Lab
     <p class="page-subtitle index-page-subtitle">Advancing reproducible, scalable, and trustworthy data-driven systems.</p>
   </div>
   <div class="quick-jump-links" style="font-size: 0.9rem;">
-    <a href="#recent-news-section" style="margin-right: 15px; font-weight: bold; text-decoration: none; color: #0088cc;">Recent News</a>
-    <a href="#research-areas-section" style="font-weight: bold; text-decoration: none; color: #0088cc;">Research Areas</a>
+    <a href="#recent-news-section" data-short-label="News" style="margin-right: 15px; font-weight: bold; text-decoration: none; color: #0088cc;">Recent News</a>
+    <a href="#research-areas-section" data-short-label="Areas" style="font-weight: bold; text-decoration: none; color: #0088cc;">Research Areas</a>
   </div>
 </div>
 
