@@ -1,0 +1,113 @@
+<article class="tutorial-card" id="{{ include.item.id }}" aria-labelledby="{{ include.item.id }}-title">
+  <div class="tutorial-card-top">
+    <div>
+      <p class="tutorial-card-eyebrow">{{ include.tutorial.event.name }}</p>
+      <h4 id="{{ include.item.id }}-title">{{ include.tutorial.title }}</h4>
+    </div>
+    <span class="tutorial-status tutorial-status-{{ include.tutorial.status }}">{{ include.tutorial.status | capitalize }}</span>
+  </div>
+
+  <div class="tutorial-meta">
+    <div class="tutorial-meta-item">
+      <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+      <span>
+        {% if include.tutorial.displayDate %}
+          {{ include.tutorial.displayDate }}
+        {% else %}
+          {{ include.tutorial.date | date: "%B %-d, %Y" }}
+        {% endif %}
+      </span>
+    </div>
+    <div class="tutorial-meta-item">
+      <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+      <span>{{ include.tutorial.location }}</span>
+    </div>
+    <div class="tutorial-meta-item">
+      <i class="fa-solid fa-building-columns" aria-hidden="true"></i>
+      <a href="{{ include.tutorial.event.url }}" target="_blank" rel="noopener noreferrer">{{ include.tutorial.event.name }}</a>
+    </div>
+  </div>
+
+  {% if include.tutorial.instructors and include.tutorial.instructors.size > 0 %}
+    <p class="tutorial-instructors">
+      <strong>Instructors:</strong>
+      {% for instructor in include.tutorial.instructors %}
+        {% if instructor.url %}<a href="{{ instructor.url }}" target="_blank" rel="noopener noreferrer">{{ instructor.name }}</a>{% else %}{{ instructor.name }}{% endif %}{% unless forloop.last %}{% if forloop.rindex == 2 %}, and {% else %}, {% endif %}{% endunless %}
+      {% endfor %}
+    </p>
+  {% endif %}
+
+  <p class="tutorial-summary">{{ include.tutorial.summary }}</p>
+
+  {% if include.tutorial.categories and include.tutorial.categories.size > 0 %}
+    <div class="tutorial-categories" aria-label="Related research areas">
+      {% for category in include.tutorial.categories %}
+        {% assign category_data = site.data.research_categories[category] %}
+        <a href="/research.html#{{ category }}" title="{{ category_data.title | default: category }}">{{ category }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if include.tutorial.relatedPublications.size > 0 or include.tutorial.relatedSoftware.size > 0 %}
+    <section class="tutorial-related" aria-labelledby="{{ include.item.id }}-related-title">
+      <h5 id="{{ include.item.id }}-related-title">Related Research</h5>
+      <div class="tutorial-related-grid">
+        {% if include.tutorial.relatedPublications.size > 0 %}
+          <div class="tutorial-related-group">
+            <h6><i class="fa-solid fa-book-open" aria-hidden="true"></i> Publications</h6>
+            <ul>
+              {% for publication in include.tutorial.relatedPublications %}
+                <li>
+                  {% if publication.url and publication.url != "" %}
+                    <a href="{{ publication.url }}" target="_blank" rel="noopener noreferrer">{{ publication.title }}</a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        {% if include.tutorial.relatedSoftware.size > 0 %}
+          <div class="tutorial-related-group">
+            <h6><i class="fa-solid fa-code-branch" aria-hidden="true"></i> Software and Projects</h6>
+            <ul>
+              {% for software in include.tutorial.relatedSoftware %}
+                <li>
+                  {% if software.url and software.url != "" %}
+                    <a href="{{ software.url }}" target="_blank" rel="noopener noreferrer">{{ software.title }}</a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+
+  <div class="tutorial-links" aria-label="Tutorial links and materials">
+    <a class="tutorial-link" href="{{ include.tutorial.event.url }}" target="_blank" rel="noopener noreferrer">
+      <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Event Page
+    </a>
+    {% if include.tutorial.links.slides and include.tutorial.links.slides != "" %}
+      <a class="tutorial-link tutorial-link-secondary" href="{{ include.tutorial.links.slides }}" target="_blank" rel="noopener noreferrer">
+        <i class="fa-regular fa-file-powerpoint" aria-hidden="true"></i> Slides
+      </a>
+    {% endif %}
+    {% if include.tutorial.links.code and include.tutorial.links.code != "" %}
+      <a class="tutorial-link tutorial-link-secondary" href="{{ include.tutorial.links.code }}" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-code" aria-hidden="true"></i> Code
+      </a>
+    {% endif %}
+    {% if include.tutorial.links.notebooks and include.tutorial.links.notebooks != "" %}
+      <a class="tutorial-link tutorial-link-secondary" href="{{ include.tutorial.links.notebooks }}" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-book-open" aria-hidden="true"></i> Notebooks
+      </a>
+    {% endif %}
+    {% if include.tutorial.links.recording and include.tutorial.links.recording != "" %}
+      <a class="tutorial-link tutorial-link-secondary" href="{{ include.tutorial.links.recording }}" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-circle-play" aria-hidden="true"></i> Recording
+      </a>
+    {% endif %}
+  </div>
+</article>
