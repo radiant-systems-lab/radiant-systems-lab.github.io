@@ -2,6 +2,76 @@
 #bibFile: "directory path or link to bib file"
 
 
+- id: P-2026-106
+  Publication:
+    rank: 106
+    date: '2026-09-28'
+    pubType: article
+    categories: [RAS, SC]
+    title: 'Declare, Resolve, Reuse: A Portable Data Layer for Notebook Workflows Across HPC Systems'
+    authors: 'Islam, M. S., Band, R., Zhou, J., Malik, T., Lannon, K., and Thain, D.'
+    journal: '22nd IEEE International Conference on eScience (eScience 2026)'
+    year: 2026
+    citationKey: 'Islam-eScience-2026-C50'
+    image: ''
+    links:
+      PDF:
+        text: 'Publication'
+        url: 'https://www.escience-conference.org/2026/papers'
+      title:
+        text: 'Declare, Resolve, Reuse: A Portable Data Layer for Notebook Workflows Across HPC Systems'
+        url: 'https://www.escience-conference.org/2026/papers'
+    Publisher: 'IEEE'
+    DOI: ''
+
+- id: P-2026-105
+  Publication:
+    rank: 105
+    date: '2026-07-20'
+    pubType: article
+    categories: [TEAI]
+    title: 'AI-Generated Code Is Not Reproducible (Yet): An Empirical Study of Dependency Gaps in LLM-Based Coding Agents'
+    authors: 'Vangala, B. P., Gehani, A., and Malik, T.'
+    journal: "4th ACM Conference on Reproducibility and Replicability (ACM REP '26)"
+    year: 2026
+    citationKey: 'Vangala-ACMREP-2026-C48'
+    abstract: >
+      The rise of Large Language Models (LLMs) as coding agents promises to accelerate software development, but their impact on generated code reproducibility remains largely unexplored. This paper presents an empirical study investigating whether LLM-generated code can be executed successfully in a clean environment with only OS packages and using only the dependencies that the model specifies. We evaluate three state-of-the-art LLM coding agents (Claude Code, OpenAI Codex, and Gemini) across 300 projects generated from 100 standardized prompts in Python, JavaScript, and Java. We introduce a three-layer dependency framework—distinguishing between claimed, working, and runtime dependencies—to quantify execution reproducibility. Our results show that only 68.3% of projects execute out-of-the-box, with substantial variation across languages (Python 89.2%, Java 44.0%). We also find a 13.5× average expansion from declared to actual runtime dependencies, revealing significant hidden dependencies.
+    image: ''
+    links:
+      PDF:
+        text: 'PDF'
+        url: 'https://arxiv.org/pdf/2512.22387'
+      title:
+        text: 'AI-Generated Code Is Not Reproducible (Yet): An Empirical Study of Dependency Gaps in LLM-Based Coding Agents'
+        url: 'https://acm-rep.github.io/2026/accepted/'
+    Publisher: 'ACM'
+    DOI: ''
+
+- id: P-2026-104
+  Publication:
+    rank: 104
+    date: '2026-07-13'
+    pubType: article
+    categories: [SC, TEAI]
+    title: 'Pick and Spin: Cold-Start-Aware Routing for Self-Hosted LLM Serving'
+    authors: 'Vangala, B. P., and Malik, T.'
+    journal: '2026 IEEE International Conference on Cloud Computing (CLOUD 2026)'
+    year: 2026
+    citationKey: 'Vangala-CLOUD-2026-C47'
+    abstract: >
+      Self-hosting large language models (LLMs) is increasingly appealing for organizations seeking privacy, cost control, and customization. Yet deploying and maintaining in-house models poses challenges in GPU utilization, workload routing, and reliability. We introduce Pick and Spin, a practical framework that makes self-hosted LLM orchestration scalable and economical. Built on Kubernetes, it integrates a unified Helm-based deployment system, adaptive scale-to-zero automation, and a hybrid routing module that balances cost, latency, and accuracy using both keyword heuristics and a lightweight DistilBERT classifier. We evaluate four models—Llama-3 (90B), Gemma-3 (27B), Qwen-3 (235B), and DeepSeek-R1 (685B)—across eight public benchmark datasets, with five inference strategies and two routing variants encompassing 31,019 prompts and 163,720 inference runs. Pick and Spin achieves up to 21.6% higher success rates, 30% lower latency, and 33% lower GPU cost per query compared with static deployments. The results show that intelligent orchestration and efficient scaling enable enterprise-grade LLM performance on self-hosted infrastructure, bringing high-capacity AI within affordable reach.
+    image: ''
+    links:
+      PDF:
+        text: 'PDF'
+        url: 'https://arxiv.org/pdf/2512.22402'
+      title:
+        text: 'Pick and Spin: Cold-Start-Aware Routing for Self-Hosted LLM Serving'
+        url: 'https://services.conferences.computer.org/2026/cloud-program/'
+    Publisher: 'IEEE'
+    DOI: ''
+
 - id: P-2025-103
   Publication:
     rank: 103
@@ -14,12 +84,12 @@
     year: 2025
     citationKey: 'Islam-eScience-2025-C43'
     abstract: >
-      This paper introduces a notebook backpack that captures a distributed workflow together with its resource and configuration requirements. Automated tracing and provisioning allow notebook workflows to execute portably across HPC clusters with minimal notebook changes and low overhead.
+      Notebooks have become widely adopted in the scientific community due to their interactive interface and ease of sharing. However, using notebooks to execute large-scale scientific workflows remains challenging. Scientific workflows are typically distributed and require resource provisioning and data management prior to execution. Because notebooks do not natively embed workflow specifications, users often resort to inserting custom configuration steps directly within notebook cells to enable provisioning. This practice undermines reproducibility, as the same notebook may not run consistently across different cluster environments. In this paper, we introduce the concept of a notebook backpack—a companion specification that captures the embedded workflow along with all relevant configuration elements. We describe how notebook tracing can be leveraged to automatically populate the backpack. We then describe an integrated tool that provisions a backpack on distributed resources. Using real-world case studies, we demonstrate that the backpack abstraction enables minimal modification of the notebook, portable execution, and cross-site reproducibility of notebook-based workflows on HPC clusters without significantly increasing notebook execution time.
     image: ''
     links:
       PDF:
-        text: 'Publication'
-        url: 'https://doi.org/10.1109/eScience65000.2025.00028'
+        text: 'PDF'
+        url: '/pdfs/pdfs/pubs/C43.pdf'
       title:
         text: 'Backpacks for Notebooks: Enabling Containerized Notebook Workflows in Distributed Environments'
         url: 'https://doi.org/10.1109/eScience65000.2025.00028'
@@ -38,12 +108,12 @@
     year: 2025
     citationKey: 'Atiq-eScience-2025-C44'
     abstract: >
-      SCALPEL records application-specific access to structured scientific data and retains only the values, partitions, or chunks needed for later execution. Its HDF5- and Dask-aware carving modes substantially reduce reproducibility-container sizes for data-intensive scientific workflows.
+      Containerizing scientific workflows helps ensure their reproducibility. Including all data required for deterministic re-execution aids the process. In data-intensive climate science and other high-performance computing domains, workflows routinely process large-scale data archives through parallel frameworks such as Dask. Packaging these archives inflates container images, with vast swaths of data that are never accessed by the application driving up transfer costs and hindering deployment. We present SCALPEL, a framework for semantic carving—selectively retaining only the data an application actually consumes during analysis, while excluding data that is accessed but not used. We provide two complementary carving modes, each operating at a different level of observability: (1) value-level carving, which traces data access at the resolution of individual rows (in tabular datasets) or specific multidimensional elements (in array datasets), enabling deterministic re-execution with precisely the same inputs; and (2) partition/chunk-level carving, a configurable alternative that tracks data access at the coarser granularity of table partitions or array chunks, facilitating flexible re-execution that can accommodate additional inputs within these broader segments. By interposing on HDF5 I/O operations and Dask’s execution layer, both widely adopted technologies for large-scale data storage and parallel computation, we capture application-specific data access patterns, achieving reductions in container size by several orders of magnitude. We demonstrate these reductions in data-intensive scientific workflows, including precipitation-driven climate modeling and other geophysical workloads.
     image: ''
     links:
       PDF:
-        text: 'Publication'
-        url: 'https://doi.org/10.1109/eScience65000.2025.00021'
+        text: 'PDF'
+        url: '/pdfs/pdfs/pubs/C44.pdf'
       title:
         text: 'SCALPEL: Structured Content Access Logging and Pruning for Efficient Layouts'
         url: 'https://doi.org/10.1109/eScience65000.2025.00021'
@@ -62,12 +132,12 @@
     year: 2026
     citationKey: 'Atiq-PEARC-2026-C46'
     abstract: >
-      This work presents a unified approach to carving only the data objects used by reproducible workflows across HDF5 and netCDF4. By mapping their shared data models and interposing on library calls, the method reduces packaged datasets while preserving correct re-execution.
+      Reproducibility is integral to scientific progress. Containerization facilitates scientific reproducibility but often results in excessive storage footprints when applied to data-intensive workflows, as entire datasets are frequently packaged despite only partial access at runtime. While data carving can mitigate this, distinct file formats typically require specialized reduction tools. This paper demonstrates that a unified data carving architecture is achievable for distinct formats when a principled mapping exists between their underlying data models. Focusing on the structural correspondence between HDF5 and netCDF4, we introduce a framework that leverages this mapping to interpose on library calls and selectively extract only the format-defined data objects accessed during execution. By abstracting the carving logic based on the shared data model, our system produces slimmed-down datasets containing only the necessary files and data objects, regardless of which high-level API the application utilizes. Evaluation on geophysical and climate workloads confirms that this unified approach substantially reduces container size while maintaining application correctness, incurring moderate I/O overhead during the initial carving phase and minimal overhead during re-execution.
     image: ''
     links:
       PDF:
-        text: 'Publication'
-        url: 'https://doi.org/10.1145/3785462.3815793'
+        text: 'PDF'
+        url: '/pdfs/pdfs/pubs/C46.pdf'
       title:
         text: 'Semantically-Aligned Data Carving for Robust Reproducibility'
         url: 'https://doi.org/10.1145/3785462.3815793'
@@ -85,12 +155,14 @@
     journal: "4th ACM Conference on Reproducibility and Replicability (ACM REP '26)"
     year: 2026
     citationKey: 'Crossen-ACMREP-2026-C49'
-    abstract: ''
     image: ''
     links:
+      PDF:
+        text: 'Publication'
+        url: 'https://acm-rep.github.io/2026/accepted/'
       title:
         text: 'Porting Linux-based Application Virtualization Tools to Apple Silicon - Challenges and Experiences'
-        url: 'https://acm-rep.github.io/2026/accepted'
+        url: 'https://acm-rep.github.io/2026/accepted/'
     Publisher: 'ACM'
     DOI: ''
 
@@ -154,12 +226,12 @@
     year: 2026
     citationKey: 'Ahmad-FGCS-2026-J15'
     abstract: >
-      This journal article extends application-virtualization methods for interactive notebooks. It studies how notebook code, software, and data dependencies can be packaged so interactive computations can be reproduced consistently across computing environments.
+      Notebooks have become widely popular in scientific computing, serving as both web-based interactive interfaces for program workflows and lightweight containers for sharing code and its output. However, reproducing notebooks across different target environments remains challenging because they do not include the computational environment in which they were executed. As a result, while notebooks are shareable, they are often not reproducible. Application virtualization (AV) methods enable both shareability and reproducibility of applications across diverse environments. However, AV-based tools typically encapsulate non-interactive, batch applications, making them unsuitable for interactive computational environments like Jupyter notebooks. We introduce FLINC2, an easy-to-use user-space tool designed to create reproducible notebook containers. FLINC2 virtualizes the notebook process to enable interactive computation while capturing the environment and all data dependencies accessed by the notebook. Unlike current methods, FLINC2 virtualizes the process without introducing any changes to the content of the notebook. By collecting provenance during virtualization, FLINC2 ensures consistent notebook behavior across different environments. Additionally, it facilitates seamless export of notebook containers to non-notebook environments. We explore how FLINC2 integrates with notebook ecosystems and conduct experiments using a dataset of notebooks from the domains of hydrology, data science, and earth science to demonstrate its application and generalizability. Our results show that FLINC2 generates lighter weight containers compared to equivalent non-interactive batch containers without introducing any changes to notebook platforms, while maintaining the same interactive workflow of notebooks.
     image: ''
     links:
       PDF:
-        text: 'Publication'
-        url: 'https://doi.org/10.1016/j.future.2025.108043'
+        text: 'PDF'
+        url: '/pdfs/pdfs/pubs/J15.pdf'
       title:
         text: 'Improving Reproducibility of Interactive Notebooks Using Application Virtualization'
         url: 'https://doi.org/10.1016/j.future.2025.108043'
@@ -259,7 +331,7 @@
         url: "http://arxiv.org/pdf/2512.22402"
       title:
         text: "Efficient Multi-Model Orchestration for Self-Hosted Large Language Models"
-        url: "https://arxiv.org/pdf/2512.22387"
+        url: "https://arxiv.org/pdf/2512.22402"
       Workshop:
         text: "Deployable Artificial Intelligence (DAI2025) Workshop"
         url: "https://dai-workshop.github.io/"

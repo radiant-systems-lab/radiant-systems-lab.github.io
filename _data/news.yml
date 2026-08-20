@@ -7,40 +7,54 @@
 #      [[PUB: title]] by [[PUB: authors]] has been accepted at [[PUB: journal]].
 #      Read the [[PUB: PDF]] or view the [[PUB: DOI]].
 
-- id: N-2026-61
+- id: N-2026-63
   News:
-    rank: 61
+    rank: 63
+    date: 2026-08-20
+    description: >
+      Md Saiful Islam, Douglas Thain, A S M Shahadat Hossain, and Tanu Malik will present the tutorial [[Portable By Design: Deploying Notebook-based Scientific Workflows across HPC Clusters]] at [IEEE eScience 2026](https://www.escience-conference.org/2026/tutorials), held September 28-October 2, 2026 in Naples, Italy.
+
+- id: N-2026-62
+  News:
+    rank: 62
     date: 2026-08-14
     description: >
       [Tanu Malik](https://engineering.missouri.edu/faculty/tanu-malik/) presents [[Backpacks and Black Boxes: Reproducible Science When AI Writes the Code]] as an invited keynote at [IEEE eScience 2026](https://www.escience-conference.org/2026/keynotes) on October 1, 2026.
 
+- id: N-2026-61
+  News:
+    rank: 61
+    pubID: P-2026-100
+    description: >
+      The paper [[Porting Linux-based Application Virtualization Tools to Apple Silicon - Challenges and Experiences]] by [[PUB:authors]] got accepted at the [4th ACM Conference on Reproducibility and Replicability (ACM REP '26)](https://acm-rep.github.io/2026/). Congrats Alex!
+
 - id: N-2026-60
   News:
     rank: 60
-    pubID: P-2026-100
+    date: 2026-07-20
     description: >
-      The paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB:journal]]. Congrats Alex!
+      The paper [AI-Generated Code Is Not Reproducible (Yet): An Empirical Study of Dependency Gaps in LLM-Based Coding Agents](https://arxiv.org/pdf/2512.22387) by [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/), Ashish Gehani, and Tanu Malik got accepted at the [4th ACM Conference on Reproducibility and Replicability (ACM REP '26)](https://acm-rep.github.io/2026/). Congrats Bhanu!
 
 - id: N-2026-59
   News:
     rank: 59
-    date: 2026-07-20
+    date: 2026-07-16
     description: >
-      The paper [[AI-Generated Code Is Not Reproducible (Yet): An Empirical Study of Dependency Gaps in LLM-Based Coding Agents]] by [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/), Ashish Gehani, and Tanu Malik got accepted at the [4th ACM Conference on Reproducibility and Replicability (ACM REP '26)](https://acm-rep.github.io/2026/). Congrats Bhanu!
+      The paper [[Declare, Resolve, Reuse: A Portable Data Layer for Notebook Workflows Across HPC Systems]] by Md Saiful Islam, Reyer Band, Jin Zhou, Tanu Malik, Kevin Lannon, and Douglas Thain got accepted at the [22nd IEEE International Conference on eScience (eScience 2026)](https://www.escience-conference.org/2026/papers). Congrats Saiful!
 
 - id: N-2026-58
   News:
     rank: 58
-    date: 2026-07-13
+    pubID: P-2026-104
     description: >
-      The paper [[Pick and Spin: Cold-Start-Aware Routing for Self-Hosted LLM Serving]] by [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/) and Tanu Malik got accepted at the [IEEE World Congress on Cloud (CLOUD), 2026](https://services.conferences.computer.org/2026/cloud/). Congrats Bhanu!
+      The paper [Pick and Spin: Cold-Start-Aware Routing for Self-Hosted LLM Serving](https://arxiv.org/pdf/2512.22402) by [[PUB:authors]] got accepted at the [2026 IEEE International Conference on Cloud Computing (CLOUD 2026)](https://services.conferences.computer.org/2026/cloud-program/). Congrats Bhanu!
 
 - id: N-2026-57
   News:
     rank: 57
     date: 2026-03-19
     description: >
-      The paper [[Semantically-Aligned Data Carving for Robust Reproducibility]] got accepted to [ACM PEARC](https://pearc.acm.org/pearc26/), which was held July 26-30, 2026 in Minneapolis, Minnesota.
+      The paper [Semantically-Aligned Data Carving for Robust Reproducibility](/pdfs/pdfs/pubs/C46.pdf) by Ashish Gehani, Raffay Atiq, Tanu Malik, and Fareed Zaffar got accepted at [ACM PEARC](https://pearc.acm.org/pearc26/), which was held July 26-30, 2026 in Minneapolis, Minnesota. Congrats Raffay!
 
 - id: N-2026-56
   News:
@@ -61,7 +75,7 @@
     rank: 54
     pubID: P-2026-96
     description: >
-      The Paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB: journal]]. Congrats Talha, Azaz and Raza, Ahmad!
+      The paper [Efficiently Reproducing Distributed Workflows in Notebook-based Systems](/pdfs/pdfs/pubs/IEEE_CCGrid_25.pdf) by [[PUB:authors]] got accepted at the [26th IEEE International Symposium on Cluster, Cloud, and Internet Computing (CCGrid 2026)](https://ccgrid2026.org/). Congrats Talha, Azaz, and Raza Ahmad!
 
 - id: N-2026-53
   News:
@@ -89,21 +103,21 @@
     rank: 50
     pubID: P-2025-102
     description: >
-      The paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB:journal]]. Congrats Raffay!
+      The paper [SCALPEL: Structured Content Access Logging and Pruning for Efficient Layouts](/pdfs/pdfs/pubs/C44.pdf) by [[PUB:authors]] got accepted at the [2025 IEEE International Conference on eScience](https://www.escience-conference.org/2025/). Congrats Raffay!
 
 - id: N-2025-49
   News:
     rank: 49
     pubID: P-2025-103
     description: >
-      The paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB:journal]]. Congrats Saiful, Talha, and Raza!
+      The paper [Backpacks for Notebooks: Enabling Containerized Notebook Workflows in Distributed Environments](/pdfs/pdfs/pubs/C43.pdf) by [[PUB:authors]] got accepted at the [2025 IEEE International Conference on eScience](https://www.escience-conference.org/2025/). Congrats Saiful, Talha, and Raza!
 
 - id: N-2025-48
   News:
     rank: 48
     date: 2025-07-23
     description: >
-      [[Ahmad Raza's manuscript]] accepted in Future Generation Computer Systems [[Improving Reproducibility of Interactive Notebooks using Application Virtualization]].
+      [[Ahmad Raza's manuscript]] [Improving Reproducibility of Interactive Notebooks using Application Virtualization](/pdfs/pdfs/pubs/J15.pdf) was accepted in [Future Generation Computer Systems](https://doi.org/10.1016/j.future.2025.108043).
       
 - id: N-2025-47
   News:
@@ -125,7 +139,7 @@
     rank: 45
     pubID: P-2025-87
     description: >
-      The paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB:journal]]. Congrats Yuta!
+      The paper [Accurate Differential Analysis using Record and Selective Replay](/pdfs/pdfs/pubs/C41.pdf) by [[PUB:authors]] got accepted at the [37th International Conference on Scalable Scientific Data Management](https://ssdbm.org/2025/). Congrats Yuta!
 
 - id: N-2025-44
   News:
@@ -153,14 +167,14 @@
     rank: 41
     pubID: P-2024-88
     description: >
-      The paper [[PUB:links:title]] by [[PUB:authors]] got accepted at the [[PUB:journal]]. Congrats Raza and Yuta!
+      The paper [Accurate Path Prediction of Provenance Traces](/pdfs/pdfs/pubs/C40.pdf) by [[PUB:authors]] got accepted at the [33rd ACM International Conference on Information and Knowledge Management (CIKM)](https://www.cikm2024.org/). Congrats Raza and Yuta!
 
 - id: N-2024-40
   News:
     rank: 40
     date: 2024-09-16
     description: >
-      The paper [[FAIR Assessment of Cloud-based Experiments]] by Krishna Kamath, Nicole Brewer, and Tanu Malik got accepted at the [4th Workshop on Reproducible Workflows, Data Management, and Security (ReWoRDS)](https://sites.google.com/view/rewords24/home). Congrats Krishna and Nicole!
+      The paper [FAIR Assessment of Cloud-based Experiments](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10678673) by Krishna Kamath, Nicole Brewer, and Tanu Malik got accepted at the [4th Workshop on Reproducible Workflows, Data Management, and Security (ReWoRDS)](https://sites.google.com/view/rewords24/home). Congrats Krishna and Nicole!
 
 - id: N-2024-39
   News:
