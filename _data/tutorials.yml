@@ -1,0 +1,36 @@
+# Research tutorial records rendered by tutorials.md.
+# Keep records in descending Tutorial.rank order. IDs use T-YYYY-NN.
+# Set status to "upcoming" or "past" and update it after the event.
+# Optional material links are rendered only when a verified URL is present.
+
+- id: T-2026-01
+  Tutorial:
+    rank: 1
+    title: 'Portable By Design: Deploying Notebook-based Scientific Workflows across HPC Clusters'
+    date: '2026-09-28'
+    endDate: '2026-10-02'
+    displayDate: 'September 28-October 2, 2026'
+    status: upcoming
+    instructors:
+      - name: 'Md Saiful Islam'
+        url: 'https://www.linkedin.com/in/saifulislampi'
+      - name: 'Douglas Thain'
+        url: 'https://www3.nd.edu/~dthain/'
+      - name: 'A S M Shahadat Hossain'
+        url: 'https://asm-shahadat.github.io/'
+      - name: 'Tanu Malik'
+        url: 'https://engineering.missouri.edu/faculty/tanu-malik/'
+    event:
+      name: 'IEEE eScience 2026'
+      url: 'https://www.escience-conference.org/2026/tutorials'
+    location: 'Naples, Italy'
+    categories: [RAS, SC]
+    summary: >
+      This research tutorial focuses on portable deployment of notebook-based scientific workflows across heterogeneous HPC clusters. It connects workflow configuration, dependency capture, data portability, and reproducible execution practices for researchers working across computing environments.
+    links:
+      slides: ''
+      code: ''
+      notebooks: ''
+      recording: ''
+    relatedPublications: []
+    relatedSoftware: []

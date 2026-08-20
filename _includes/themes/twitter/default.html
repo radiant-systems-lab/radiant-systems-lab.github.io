@@ -56,6 +56,9 @@
             <li {% if page.url contains 'research' %}class="active"{% endif %}>
               <a href="{{ BASE_PATH }}/research.html">Research</a>
             </li>
+            <li {% if page.url contains 'tutorials' %}class="active"{% endif %}>
+              <a href="{{ BASE_PATH }}/tutorials.html">Tutorials</a>
+            </li>
             <li {% if page.url contains 'teaching' %}class="active"{% endif %}>
               <a href="{{ BASE_PATH }}/teaching.html">Teaching</a>
             </li>
@@ -102,6 +105,7 @@
         <ul class="footer-section quick-links">
           <li><a href="{{ BASE_PATH }}/about.html">About</a></li>
           <li><a href="{{ BASE_PATH }}/research.html">Research</a></li>
+          <li><a href="{{ BASE_PATH }}/tutorials.html">Tutorials</a></li>
           <li><a href="{{ BASE_PATH }}/people.html">People</a></li>
           <li><a href="{{ BASE_PATH }}/pubs.html">Publications</a></li>
           <li><a href="{{ BASE_PATH }}/software.html">Software</a></li>
@@ -143,11 +147,13 @@
           }
         });
 
-        function shortQuickLinkLabel(href, label) {
-          var h = (href || '').toLowerCase();
-          if (h.indexOf('#recent-news-section') !== -1) return 'News';
-          if (h.indexOf('#research-areas-section') !== -1) return 'Areas';
-          if (h.indexOf('#about_history') !== -1) return 'History';
+          function shortQuickLinkLabel(href, label) {
+            var h = (href || '').toLowerCase();
+            if (h.indexOf('#recent-news-section') !== -1) return 'News';
+            if (h.indexOf('#research-areas-section') !== -1) return 'Areas';
+            if (h.indexOf('#upcoming') !== -1) return 'Upcoming';
+            if (h.indexOf('#past') !== -1) return 'Past';
+            if (h.indexOf('#about_history') !== -1) return 'History';
           if (h.indexOf('#stats-section') !== -1) return 'Stats';
           if (h.indexOf('#work-section') !== -1) return 'Jobs';
           if (h.indexOf('#contact-section') !== -1) return 'Contact';
