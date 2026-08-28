@@ -9,7 +9,7 @@ layout: page
       <p class="page-subtitle">Explore current course offerings and project-driven learning experiences.</p>
     </div>
     <div class="quick-jump-links">
-      <a href="#y2025">2025</a>
+      <a href="#y2026">2026</a>
     </div>
   </div>
 
@@ -19,14 +19,14 @@ layout: page
       <nav>
         <ul class="teaching-year-nav" id="yearNav">
           <span class="slider" id="yearSlider" aria-hidden="true"></span>
-          <li><a href="#y2025">2025</a></li>
+          <li><a href="#y2026">2026</a></li>
         </ul>
       </nav>
     </aside>
 
     <main class="teaching-main" id="mainContent">
-      <section id="y2025" class="teaching-year-block" aria-labelledby="y2025-title">
-        <h1 class="teaching-year-header" id="y2025-title">2025</h1>
+      <section id="y2026" class="teaching-year-block" aria-labelledby="y2026-title">
+        <h1 class="teaching-year-header" id="y2026-title">2026</h1>
 
         <article class="teaching-course-card">
           <h3 class="teaching-course-title">
@@ -34,9 +34,11 @@ layout: page
           </h3>
           <p class="teaching-course-desc">
             Machine learning systems are both complex and unique. Complex because they must balance both performance and accuracy.
-            Unique because they are data-dependent, with data varying widely across use cases. This course covers ML foundations,
-            then dives into data and hypothesis selection, model performance and evaluation, deployment, diagnostics, and MLOps issues
-            in large pipelines. The course is project-based and includes state-of-the-art paper discussions.
+            Unique because they’re data dependent, with data varying wildly from one use case to the next. In this course we will learn
+            why and how to build systems that learn from data. We will learn that it requires more than understanding algorithms—it
+            demands expertise spanning data pipelines, model development, optimization for deployment constraints, and operational
+            practices. We will acquaint ourselves with both compute and data issues arising in managing a large ML pipeline. The course
+            will be project-based.
           </p>
         </article>
       </section>

@@ -11,7 +11,9 @@ layout: page
           <span class="slider" id="courseSlider" aria-hidden="true"></span>
           <li><a href="#announcements">Announcements</a></li>
           <li><a href="#content">Course Goals</a></li>
+          <li><a href="#prerequisites">Prerequisites</a></li>
           <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#project">Project</a></li>
           <li><a href="#exams">Exams</a></li>
           <li><a href="#grades">Grades</a></li>
           <li><a href="#rules">Rules</a></li>
@@ -29,26 +31,44 @@ layout: page
       <div class="course-meta">
         <p><strong><i class="fa-regular fa-clock"></i> Lectures:</strong> Wednesday noon-2:50PM in Naka 222</p>
         <p><strong><i class="fa-solid fa-user-tie"></i> Instructor:</strong> <a href="https://engineering.missouri.edu/faculty/tanu-malik/">Tanu Malik</a></p>
-        <p><strong><i class="fa-regular fa-envelope"></i> Email:</strong> tanu [at] missouri.edu</p>
+        <p><strong><i class="fa-regular fa-envelope"></i> Email:</strong> tanu@missouri.edu</p>
         <p><strong><i class="fa-solid fa-door-open"></i> Office Hours:</strong> Tuesday 5:00PM-6:00PM CT @ Naka 311</p>
       </div>
 
       <section id="announcements" class="course-section" aria-labelledby="announcements-title">
         <h2 id="announcements-title"><i class="fa-solid fa-bullhorn"></i> Announcements</h2>
         <ul class="news-list">
-          <li><strong>[2025-08-29]</strong> Assignment 1 released on Canvas; see due date under Schedule.</li>
-          <li><strong>[2025-08-26]</strong> Office hours: Tuesday 5:00PM-6:00PM Naka 311. Please also send email if you plan to meet on Zoom.</li>
+          <li><strong>[2026-09-02]</strong> Labs 1&ndash;3 (Hello + Cloud) are due September 6.</li>
+          <li><strong>[2026-08-26]</strong> Welcome to Designing End-to-End ML Systems! The <a href="/Miz-E2EML-SyllabusF26.pdf">Fall 2026 syllabus</a> and course schedule are now available.</li>
         </ul>
       </section>
 
       <section id="content" class="course-section" aria-labelledby="content-title">
         <h2 id="content-title"><i class="fa-solid fa-diagram-project"></i> Course Goals</h2>
         <p>
-          This is a research-based course on systems for machine learning (ML), at the intersection of ML/AI, data management, and systems.
-          Students will learn about the landscape and evolution of ML systems and current research. Topics include scalable model-building systems,
-          data sourcing and preparation, ML platforms, deployment concerns, and MLOps. A major component is a project focused on MLOps and research paper reviews.
-          The course is currently for MS and PhD students.
+          The objective is to transition students from &ldquo;using models&rdquo; to &ldquo;engineering systems.&rdquo; By the end,
+          students will have built a complete end-to-end ML pipeline and optimized it for real-world deployment constraints.
         </p>
+        <ul>
+          <li>Comprehend the need for Machine Learning Systems and why ML system is beyond the model.</li>
+          <li>Trace the end-to-end ML pipeline from data to deployment. Identify throughput, I/O, memory allocations, FLOPs bottlenecks at each pipeline stage.</li>
+          <li>Experiment with batching strategies for inference (static, dynamic, continuous). Calculate the throughput-latency tradeoff for a given SLA.</li>
+          <li>Quantify the impact of data quality and quantization on model performance</li>
+          <li>Comprehend model drift (data drift, concept drift) and explain why it matters for production systems. Design a monitoring pipeline that detects drift before accuracy degrades.</li>
+        </ul>
+      </section>
+
+      <section id="prerequisites" class="course-section" aria-labelledby="prerequisites-title">
+        <h2 id="prerequisites-title"><i class="fa-solid fa-list-check"></i> Prerequisites</h2>
+        <p>
+          If you are not sure that you have satisfied the prerequisites, speak to the instructor before the second lecture.
+          Prerequisite courses and experience include:
+        </p>
+        <ul>
+          <li>This is a programming heavy course. Expertise with Python is a must. Significant expertise in handling infrastructure, debugging, and being able to learn at an abstract level.</li>
+          <li>Familiarity with basic probability theory and linear algebra.</li>
+          <li>Student must have taken some introduction class on data science or be willing to take it along with the course.</li>
+        </ul>
       </section>
 
       <section id="schedule" class="course-section" aria-labelledby="schedule-title">
@@ -57,40 +77,90 @@ layout: page
           <table class="schedule-table">
             <thead>
               <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Details</th>
+                <th scope="col">Dates</th>
+                <th scope="col">Description</th>
                 <th scope="col">PDFs</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><time datetime="2025-08-27">Aug 27, 2025</time></td>
-                <td>Machine Learning (ML) and ML systems overview</td>
+                <td><time datetime="2026-08-26">Aug 26th</time></td>
+                <td>Introduction to ML Systems</td>
+                <td><a href="/course_pdfs/E2E_ML/Introduction.pdf">Introduction</a></td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-09-02">Sept 2nd</time></td>
+                <td>Types of ML Systems</td>
                 <td>&mdash;</td>
               </tr>
               <tr>
-                <td><time datetime="2025-09-03">Sep 03, 2025</time></td>
-                <td>Loss functions, Gradient Descent, Bias-Variance, and ML development cycle</td>
+                <td><time datetime="2026-09-09">Sept 9th</time></td>
+                <td>ML Workflows</td>
                 <td>&mdash;</td>
               </tr>
               <tr>
-                <td><time datetime="2025-09-10">Sep 10, 2025</time></td>
-                <td>Neural Networks and large-scale ML systems</td>
+                <td><time datetime="2026-09-16">Sept 16th</time></td>
+                <td>Data Engineering</td>
                 <td>&mdash;</td>
               </tr>
               <tr>
-                <td><time datetime="2025-09-17">Sep 17, 2025</time></td>
-                <td>Cloud Computing and DevOps for ML</td>
+                <td><time datetime="2026-09-23">Sept 23rd</time></td>
+                <td>Model Development and Frameworks</td>
                 <td>&mdash;</td>
               </tr>
               <tr>
-                <td><time datetime="2025-09-24">Sep 24, 2025</time></td>
+                <td><time datetime="2026-09-30">Sept 30th</time></td>
+                <td>Model Training</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-10-07">Oct 7th</time></td>
+                <td>Midterm-1 and Project Presentations</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-10-14">Oct 14th</time></td>
+                <td>Optimization Principles</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-10-21">Oct 21st</time></td>
                 <td>Data Selection</td>
                 <td>&mdash;</td>
               </tr>
               <tr>
-                <td><time datetime="2025-10-01">Oct 1, 2025</time></td>
-                <td>Model performance and model evaluation</td>
+                <td><time datetime="2026-10-28">Oct 28th</time></td>
+                <td>Model Compression and Benchmarking</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-11-04">Nov 4th</time></td>
+                <td>Model Deployment</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-11-11">Nov 11th</time></td>
+                <td>Model Serving</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-11-18">Nov 18th</time></td>
+                <td>Midterm-2 and Project Presentations</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-12-02">Dec 2nd</time></td>
+                <td>LLMs</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-12-09">Dec 9th</time></td>
+                <td>Agentic AI</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <td><time datetime="2026-12-16">Dec 16th</time></td>
+                <td>Final Project Presentations</td>
                 <td>&mdash;</td>
               </tr>
             </tbody>
@@ -98,19 +168,104 @@ layout: page
         </div>
       </section>
 
+      <section id="project" class="course-section" aria-labelledby="project-title">
+        <h2 id="project-title"><i class="fa-solid fa-diagram-project"></i> Project</h2>
+        <p>
+          The course project is completed in three phases. Together, the three phases build a complete end-to-end ML pipeline.
+        </p>
+      </section>
+
       <section id="exams" class="course-section" aria-labelledby="exams-title">
         <h2 id="exams-title"><i class="fa-regular fa-pen-to-square"></i> Exams</h2>
-        <p></p>
+        <p>
+          There are two midterm exams, held according to the dates listed in the course schedule.
+        </p>
       </section>
 
       <section id="grades" class="course-section" aria-labelledby="grades-title">
         <h2 id="grades-title"><i class="fa-solid fa-scale-balanced"></i> Grades</h2>
-        <p></p>
+        <h3>Assessment</h3>
+        <div class="table-wrap">
+          <table class="grade-table">
+            <thead>
+              <tr>
+                <th scope="col">Component</th>
+                <th scope="col">Weight</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Assignments (5 Quizzes, 5 Reflections, Labs)</td>
+                <td>25%</td>
+              </tr>
+              <tr>
+                <td>Midterm</td>
+                <td>30%</td>
+              </tr>
+              <tr>
+                <td>Final Project</td>
+                <td>40%</td>
+              </tr>
+              <tr>
+                <td>Participation</td>
+                <td>5%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Grade Boundaries</h3>
+        <div class="table-wrap">
+          <table class="grade-table">
+            <thead>
+              <tr>
+                <th scope="col">Letter Grade</th>
+                <th scope="col">Percentage &ge;</th>
+                <th scope="col">Letter Grade</th>
+                <th scope="col">Percentage &ge;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>A+</td><td>95</td><td>C+</td><td>77</td></tr>
+              <tr><td>A</td><td>92</td><td>C</td><td>73</td></tr>
+              <tr><td>A-</td><td>90</td><td>C-</td><td>70</td></tr>
+              <tr><td>B+</td><td>88</td><td>D</td><td>60</td></tr>
+              <tr><td>B</td><td>84</td><td>F</td><td>Below 60</td></tr>
+              <tr><td>B-</td><td>80</td><td aria-hidden="true">&mdash;</td><td aria-hidden="true">&mdash;</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section id="rules" class="course-section" aria-labelledby="rules-title">
         <h2 id="rules-title"><i class="fa-solid fa-gavel"></i> Rules</h2>
-        <p></p>
+        <h3>Course Expectations</h3>
+        <ul>
+          <li>Students are expected to complete the labs on a weekly basis as the lectures proceed.</li>
+          <li>Lecture discussions, lab assignments, and the course project are the core delivery mechanisms for the course material.</li>
+          <li>Lecture topics may include quizzes and discussions to gauge comprehension and attendance. Missed participation events cannot be made up and receive a grade of zero.</li>
+        </ul>
+
+        <h3>Labs and Deadlines</h3>
+        <ul>
+          <li>All labs are an individual effort. Understanding of the labs will be assessed through in-class exercises and quizzes.</li>
+          <li>Each lab must be submitted by the end of the week. Late submissions are not allowed unless acute circumstances have been communicated in a timely manner.</li>
+          <li>Exceptions may be made for an illness documented by a medical professional or when the instructor receives advance notice concerning illness, family-related matters, or career-related matters.</li>
+          <li>Information-technology problems, failures, or challenges are not appropriate excuses for late work.</li>
+        </ul>
+
+        <h3>Communication</h3>
+        <ul>
+          <li>The subject of course-related email must contain &ldquo;CS.&rdquo; Otherwise, a response is not guaranteed.</li>
+          <li>All electronic interactions are an extension of the classroom and must remain respectful and professional.</li>
+        </ul>
+
+        <h3>AI and Academic Integrity</h3>
+        <ul>
+          <li>Unless explicitly permitted as part of an assignment, students may not use ChatGPT or similar tools to solve course assignments.</li>
+          <li>All exercises and projects are intended to be an individual effort. Unauthorized collaboration or copying will result in a grade of zero for all students involved.</li>
+          <li>Academic-dishonesty violations involving programming exercises or projects will be reported to the Office of Academic Integrity.</li>
+        </ul>
       </section>
     </main>
   </div>

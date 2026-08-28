@@ -637,7 +637,7 @@ body:has(.page-software) .page-software .quick-jump-links a:focus-visible {
 .quick-jump-links a[href="#ms"] { --qj-icon: "\f007"; }
 .quick-jump-links a[href="#alumni"] { --qj-icon: "\f0c0"; }
 .quick-jump-links a[href="#openings"] { --qj-icon: "\f0b1"; }
-.quick-jump-links a[href="#y2025"] { --qj-icon: "\f073"; }
+.quick-jump-links a[href="#y2026"] { --qj-icon: "\f073"; }
 .quick-jump-links a[href*="github.com/radiant-systems-lab/"] {
   --qj-icon: "\f09b";
   --qj-icon-font: "Font Awesome 6 Brands";
@@ -3409,6 +3409,38 @@ body:has(.page-course) .page-course .course-section h2 i {
   margin-right: 8px;
 }
 
+body:has(.page-course) .page-course .course-section > p {
+  margin: 0 0 14px;
+  color: #2f2f2f;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+body:has(.page-course) .page-course .course-section > ul:not(.news-list),
+body:has(.page-course) .page-course .course-section > ol {
+  margin: 0;
+  padding-left: 1.6rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+body:has(.page-course) .page-course .course-section > ul:not(.news-list) li,
+body:has(.page-course) .page-course .course-section > ol li {
+  margin-bottom: 9px;
+  padding-left: 4px;
+}
+
+body:has(.page-course) .page-course .course-section > ul:not(.news-list) li:last-child,
+body:has(.page-course) .page-course .course-section > ol li:last-child {
+  margin-bottom: 0;
+}
+
+body:has(.page-course) .page-course .course-section > ul:not(.news-list) li::marker,
+body:has(.page-course) .page-course .course-section > ol li::marker {
+  color: var(--mu-black);
+  font-weight: 700;
+}
+
 body:has(.page-course) .page-course .news-list {
   margin: 0;
   padding-left: 20px;
@@ -3423,7 +3455,8 @@ body:has(.page-course) .page-course .table-wrap {
   overflow-x: auto;
 }
 
-body:has(.page-course) .page-course .schedule-table {
+body:has(.page-course) .page-course .schedule-table,
+body:has(.page-course) .page-course .grade-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -3433,26 +3466,40 @@ body:has(.page-course) .page-course .schedule-table {
 }
 
 body:has(.page-course) .page-course .schedule-table th,
-body:has(.page-course) .page-course .schedule-table td {
+body:has(.page-course) .page-course .schedule-table td,
+body:has(.page-course) .page-course .grade-table th,
+body:has(.page-course) .page-course .grade-table td {
   padding: 10px 12px;
   text-align: left;
   vertical-align: top;
   border-bottom: 1px solid var(--mu-border);
 }
 
-body:has(.page-course) .page-course .schedule-table thead th {
+body:has(.page-course) .page-course .schedule-table thead th,
+body:has(.page-course) .page-course .grade-table thead th {
   background: #111;
   color: #fff;
   font-weight: 700;
   border-bottom: 0;
 }
 
-body:has(.page-course) .page-course .schedule-table tbody tr:nth-child(even) {
+body:has(.page-course) .page-course .schedule-table tbody tr:nth-child(even),
+body:has(.page-course) .page-course .grade-table tbody tr:nth-child(even) {
   background: #fffef8;
 }
 
-body:has(.page-course) .page-course .schedule-table tbody tr:last-child td {
+body:has(.page-course) .page-course .schedule-table tbody tr:last-child td,
+body:has(.page-course) .page-course .grade-table tbody tr:last-child td {
   border-bottom: 0;
+}
+
+body:has(.page-course) .page-course .course-section > h3 {
+  margin: 16px 0 8px;
+  font-size: 1.05rem;
+}
+
+body:has(.page-course) .page-course .course-section > h2 + h3 {
+  margin-top: 0;
 }
 
 @media (max-width: 992px) {
