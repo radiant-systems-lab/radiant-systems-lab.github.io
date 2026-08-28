@@ -23,7 +23,7 @@ layout: page
 
     <main class="course-main" id="mainContent">
       <div class="course-crumb">
-        <a href="/teaching.html#y2025"><i class="fa-solid fa-arrow-left"></i> Back to 2025</a>
+        <a href="/teaching.html#y2026"><i class="fa-solid fa-arrow-left"></i> Back to Teaching</a>
       </div>
 
       <h1 class="course-page-title">CSC/EE 8001: Designing End-to-End ML Systems</h1>
