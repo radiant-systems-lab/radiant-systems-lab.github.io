@@ -179,7 +179,7 @@ def _(mo):
               <li>Say which thing runs out first: memory, time, or power.</li>
             </ol>
             <div class="meta">
-              <div><dt>Time</dt><dd>about 15 min</dd></div>
+              <div><dt>Time</dt><dd>about 20 min</dd></div>
               <div><dt>Before this</dt><dd>Week 1</dd></div>
               <div><dt>Marked?</dt><dd>no, the quiz is</dd></div>
             </div>
@@ -309,12 +309,22 @@ def _(mo):
         label="Model size, in millions of numbers",
         show_value=True,
     )
-    size
-    return MODELS, size
+    precision = mo.ui.radio(
+        options={
+            "4 bytes each, full precision": 4.0,
+            "2 bytes each, half": 2.0,
+            "1 byte each, quantised": 1.0,
+        },
+        value="4 bytes each, full precision",
+        inline=True,
+        label="How much space each number takes",
+    )
+    mo.vstack([size, precision])
+    return MODELS, precision, size
 
 
 @app.cell(hide_code=True)
-def _(MODELS, size):
+def _(MODELS, precision, size):
     HOMES = [
         # name, where, memory it has (MB), read speed (GB/s), must answer within (ms)
         ("Data centre", "a rack of accelerators", 80_000.0, 2039.0, 500.0),
@@ -324,8 +334,9 @@ def _(MODELS, size):
     ]
 
     params_m = float(size.value)
-    # Four bytes for every number in the model. This is the space it takes up.
-    model_mb = params_m * 4.0
+    bytes_each = float(precision.value)
+    # Space taken up is simply how many numbers there are times how big each one is.
+    model_mb = params_m * bytes_each
     describe = dict(MODELS).get(params_m, "")
 
     results = []
@@ -340,11 +351,11 @@ def _(MODELS, size):
             "ok": fits and in_time,
             "over": model_mb / _mem if _mem else float("inf"),
         })
-    return describe, model_mb, params_m, results
+    return bytes_each, describe, model_mb, params_m, results
 
 
 @app.cell(hide_code=True)
-def _(LAB_CSS, describe, mo, model_mb, params_m, results):
+def _(LAB_CSS, bytes_each, describe, mo, model_mb, params_m, results):
     _ = LAB_CSS
 
     def _size(mb):
@@ -386,7 +397,7 @@ def _(LAB_CSS, describe, mo, model_mb, params_m, results):
 
     mo.vstack([
         mo.md(f"**{params_m:g} million numbers**, which is {describe}. "
-              f"That takes up **{_size(model_mb)}**."),
+              f"At {bytes_each:g} bytes each that takes up **{_size(model_mb)}**."),
         mo.Html(f'<div class="w2-homes">{_cards}</div>'),
     ])
     return
@@ -497,7 +508,111 @@ def _(q2, q2_render):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Part 3: Your decision""")
+    mo.md(r"""## Part 3: When it does not fit""")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    Suppose the machine is fixed. It is the camera you already bought, or the phone your users
+    already own. You cannot make it bigger. The model does not fit. Now what?
+
+    There are only two moves available, and one of them is usually not.
+
+    You can **get a bigger machine**, which is often out of the question: you are not going to
+    ship everyone a new phone. Or you can **make the model smaller**, which is where nearly all
+    the engineering effort goes.
+
+    The bluntest way to make a model smaller has nothing to do with the model at all. It is
+    just arithmetic about how you store numbers.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    ### Storing the same number in less space
+
+    A model is a long list of numbers. By default each one is kept to high precision and takes
+    **four bytes**. But nothing forces that. You can round them off and keep each in **two
+    bytes**, or **one**.
+
+    Do that and the model halves, then halves again, without removing a single number from it.
+    Go back to the slider above and switch between the three settings. Watch homes reopen.
+
+    | How each number is stored | A 110 million number model | What it costs you |
+    | - | - | - |
+    | 4 bytes, full precision | 440 MB | nothing, this is the original |
+    | 2 bytes, half | 220 MB | usually almost no accuracy |
+    | 1 byte, quantised | 110 MB | a little accuracy, sometimes none |
+
+    This is called **quantisation**, and it is the first thing anyone reaches for. It is close
+    to free at 2 bytes. At 1 byte you start paying, and how much you pay depends on the model
+    and on what it is being asked to do.
+
+    It is also not unlimited. Four times smaller is roughly where this particular trick runs
+    out, and a 7 billion number model that needs 27 GB is still 6.8 GB after it. Real
+    deployments stack other techniques on top, which is what several later weeks are about.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.Html(
+        """
+        <div class="w2-question">
+          <span class="lbl">Worth knowing</span>
+          <p>"A GPT-4 class model is about 1.8 trillion numbers. Even at two bytes each that is
+          roughly 3.6 terabytes. A phone has about 8 gigabytes. That is a gap of some 450
+          times, and no amount of rounding closes it."</p>
+        </div>
+        """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(ask):
+    q3, q3_render, q3_sum = ask(
+        "**Quick check.** You halve the space each number takes. What happens to the model?",
+        {
+            "It has half as many numbers in it": "a",
+            "It keeps every number, but each is stored less precisely, so the whole thing is half the size": "b",
+            "It becomes twice as fast at arithmetic but the same size": "c",
+            "It has to be retrained from scratch": "d",
+        },
+        "b",
+        {
+            "a": ("Nothing is removed. Every number is still there, which is why the model still "
+                  "behaves in almost the same way."),
+            "b": ("The list is the same length; each entry is just kept more roughly. Half the "
+                  "space, and usually very little accuracy lost at two bytes."),
+            "c": ("It often does speed things up, because there is less to read from memory. But "
+                  "the headline effect is size, and size is what decides whether it fits."),
+            "d": ("Usually not. It is normally applied to a model that has already been trained, "
+                  "which is a large part of why it is the first thing people try."),
+        },
+    )
+    q3
+    return q3, q3_render, q3_sum
+
+
+@app.cell(hide_code=True)
+def _(q3, q3_render):
+    q3_render(q3.value)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""## Part 4: Your decision""")
     return
 
 
@@ -637,6 +752,7 @@ def _(mo, reflect_form):
 
 @app.cell(hide_code=True)
 def _(
+    bytes_each,
     decision_choice,
     decision_why,
     describe,
@@ -647,6 +763,8 @@ def _(
     q1_sum,
     q2,
     q2_sum,
+    q3,
+    q3_sum,
     takeaway_text,
 ):
     _ = done
@@ -671,7 +789,7 @@ def _(
             <div class="w2-report">
               <div class="row">
                 <span class="k">Model you left it on</span>
-                <span class="v">{params_m:g} million numbers, {describe}</span>
+                <span class="v">{params_m:g} million numbers at {bytes_each:g} bytes each, {describe}</span>
               </div>
               <div class="row">
                 <span class="k">Where you would run it</span>
@@ -693,6 +811,10 @@ def _(
                 <span class="k">Quick check 2</span>
                 <span class="v">{_check(q2_sum(q2.value))}</span>
               </div>
+              <div class="row">
+                <span class="k">Quick check 3</span>
+                <span class="v">{_check(q3_sum(q3.value))}</span>
+              </div>
             </div>
             """
         ),
@@ -702,6 +824,7 @@ def _(
 
 @app.cell(hide_code=True)
 def _(
+    bytes_each,
     decision_choice,
     decision_why,
     done,
@@ -712,11 +835,14 @@ def _(
     q1_sum,
     q2,
     q2_sum,
+    q3,
+    q3_sum,
     takeaway_text,
 ):
     _ = done
     _a1 = q1_sum(q1.value)
     _a2 = q2_sum(q2.value)
+    _a3 = q3_sum(q3.value)
 
     def _word(ok):
         return "not answered" if ok is None else ("correct" if ok else "not correct")
@@ -724,11 +850,13 @@ def _(
     submission = {
         "lab": "CSC/EE 8001 - Week 2",
         "model_size_millions": params_m,
+        "bytes_per_number": bytes_each,
         "where_i_would_run_it": decision_choice,
         "why": decision_why,
         "what_runs_out_first": takeaway_text,
         "check_1_why_a_microcontroller": {"answer": _a1[0], "correct": _a1[1]},
         "check_2_what_stops_a_phone": {"answer": _a2[0], "correct": _a2[1]},
+        "check_3_halving_the_bytes": {"answer": _a3[0], "correct": _a3[1]},
     }
 
     report_text = chr(10).join([
@@ -736,7 +864,7 @@ def _(
         "=" * 40,
         "",
         "MODEL I LEFT IT ON",
-        f"  {params_m:g} million numbers",
+        f"  {params_m:g} million numbers at {bytes_each:g} bytes each",
         "",
         "WHERE I WOULD RUN IT",
         f"  {decision_choice}",
@@ -752,6 +880,8 @@ def _(
         f"    {_a1[0]}  [{_word(_a1[1])}]",
         "  What stops a model running on a phone",
         f"    {_a2[0]}  [{_word(_a2[1])}]",
+        "  What halving the bytes per number does",
+        f"    {_a3[0]}  [{_word(_a3[1])}]",
     ])
 
     mo.accordion({
