@@ -48,14 +48,13 @@ def _(mo):
         def render(value):
             if value is None:
                 return mo.callout(
-                    mo.md("Pick an answer and I will explain it. Nothing here is marked, so "
-                          "guess if you are not sure."),
+                    mo.md("Pick an answer and I will explain it."),
                     kind="neutral",
                 )
             ok = value == correct
             body = ("**Correct.** " if ok else "**Not quite.** ") + explain[value]
             if not ok:
-                body += BREAK + f"The answer is *{labels[correct]}*. Have another go if you like."
+                body += BREAK + f"The answer is *{labels[correct]}*."
             return mo.callout(mo.md(body), kind="success" if ok else "warn")
 
         return radio, render
@@ -834,11 +833,7 @@ def _(mo):
     That is everything you need. You know the fixed cost, the per-item cost, how many people
     arrive, and what you promised them.
 
-    Do not work it out on paper. Genuinely guess. Then we will look at the real numbers
-    together and see whether your instinct was right.
-
-    **Nothing in this lab is marked.** Guess badly if that is what you actually think. Plenty
-    of people get this one wrong, and the ones who do tend to remember it longest.
+    Nothing here is marked, and the answer is on the next screen either way.
     """
     )
     return
@@ -1179,7 +1174,6 @@ one.
 do this with what we have"*. Saying that clearly, with the numbers to back it up, is a proper
 engineering result, not a failure to find the trick.
 
-Try dragging the second slider above and watch the green band move.
 """
             ),
         }),
@@ -1486,9 +1480,7 @@ def _(
     if QUIZ_URL:
         _next = mo.vstack([
             mo.md(
-                "## You are done" + BR + "That is the lab. Nothing here was marked, and nothing "
-                "was sent anywhere. When you are ready, the short quiz on this material is "
-                "in Canvas."
+                "## You are done" + BR + "The Week 1 quiz is in Canvas."
             ),
             mo.Html(
                 f'<a class="handin-btn" href="{QUIZ_URL}" target="_blank" '
@@ -1497,16 +1489,13 @@ def _(
         ])
     else:
         _next = mo.md(
-            "## You are done" + BR + "That is the lab. Nothing here was marked, and nothing was "
-            "sent anywhere. When you are ready, take the short **Week 1 quiz in Canvas**. It "
-            "covers what you just did, so do it while this is fresh."
+            "## You are done" + BR + "The Week 1 quiz is in Canvas."
         )
 
     mo.vstack([
         _next,
         mo.accordion({
-            "Keep a copy of what you did": mo.vstack([
-                mo.md("Useful for the quiz, and for your own notes."),
+            "A copy of what you did": mo.vstack([
                 _downloads,
                 mo.md("```" + chr(10) + report_text + chr(10) + "```"),
             ]),
@@ -1519,7 +1508,7 @@ def _(
 def _(decision_choice, mo):
     _ = decision_choice
     mo.vstack([
-        mo.md("### Check yourself\n\nAnswer from memory, then open each one."),
+        mo.md("### Check yourself"),
         mo.accordion({
             "Why can a GPU that finishes an inference in 18.9 ms not serve 200 requests per second?":
                 mo.md(
