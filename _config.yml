@@ -2,7 +2,21 @@
 # For more see: https://github.com/mojombo/jekyll/wiki/Permalinks
 permalink: /:categories/:year/:month/:day/:title
 
-exclude: [".rvmrc", ".rbenv-version", "ReadMe.md", "Rakefile", "changelog.md", "License.md", "Makefile", "Gemfile", "Gemfile.lock"]
+exclude: [".rvmrc", ".rbenv-version", "ReadMe.md", "README.md", "Rakefile", "changelog.md",
+          "License.md", "Makefile", "Gemfile", "Gemfile.lock",
+          "FilterSingleDataSource.py",
+          # Lab build tooling. The generated bundles under labs/<slug>/ and the
+          # shared labs/runtime/ ARE published; only the sources and tools are not.
+          # labs/_src/ and labs/.venv/ are already ignored by Jekyll ("_" and "." prefixes).
+          "labs/build_labs.py", "labs/README.md"]
+
+# Jekyll drops files whose names begin with "_" or "." . marimo's bundler emits
+# several real modules with those names (vite externals, lodash internals), and
+# without this they 404 at runtime and the labs fail to boot. Verify after any
+# marimo upgrade with:  python labs/build_labs.py --check-published
+# Patterns are matched against each entry's basename, so they cannot be paths.
+include: ["_baseSet-*.js", "_hasPath-*.js", "_initCloneObject-*.js",
+          "__vite-browser-external-*.js"]
 highlighter: rouge
 
 # Themes are encouraged to use these universal variables

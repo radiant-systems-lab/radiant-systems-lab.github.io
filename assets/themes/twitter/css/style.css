@@ -5159,3 +5159,211 @@ body:has(#index_mission) #index_mission .carousel-images img {
     margin: 0;
   }
 }
+
+/* ── COURSE LABS ─────────────────────────────────────────────────── */
+
+body:has(.page-course) .page-course .lab-grid {
+  display: grid;
+  gap: 14px;
+  margin: 4px 0 6px;
+}
+
+body:has(.page-course) .page-course .lab-card {
+  scroll-margin-top: 18px;
+  padding: 18px 20px;
+  border: 1px solid var(--mu-border);
+  border-left: 5px solid var(--mu-gold);
+  border-radius: 12px;
+  background: var(--mu-white);
+  box-shadow: 0 8px 20px rgba(17, 17, 17, 0.06);
+}
+
+body:has(.page-course) .page-course .lab-card-coming-soon {
+  border-left-color: #d9d9d9;
+  background: #fbfbfb;
+  box-shadow: none;
+}
+
+body:has(.page-course) .page-course .lab-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+body:has(.page-course) .page-course .lab-card-eyebrow {
+  margin: 0 0 5px;
+  color: #6a5314;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+body:has(.page-course) .page-course .lab-card h4 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  color: var(--mu-black);
+  font-size: 1.22rem;
+  line-height: 1.3;
+}
+
+body:has(.page-course) .page-course .lab-card h4 a {
+  color: var(--mu-black);
+  text-decoration: underline;
+  text-decoration-color: var(--mu-gold);
+  text-decoration-thickness: 2px;
+}
+
+body:has(.page-course) .page-course .lab-card h4 a:hover {
+  background: var(--mu-gold-soft);
+}
+
+body:has(.page-course) .page-course .lab-status {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border: 1px solid #f2dfaa;
+  border-radius: 999px;
+  background: var(--mu-gold-soft);
+  color: #62490a;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+body:has(.page-course) .page-course .lab-status-coming-soon,
+body:has(.page-course) .page-course .lab-status-archived {
+  border-color: #d9d9d9;
+  background: #f2f2f2;
+  color: #4a4a4a;
+}
+
+body:has(.page-course) .page-course .lab-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 12px 0 0;
+  color: var(--mu-subtext);
+  font-size: 0.88rem;
+}
+
+body:has(.page-course) .page-course .lab-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+body:has(.page-course) .page-course .lab-meta-item i {
+  color: var(--mu-gold);
+}
+
+body:has(.page-course) .page-course .lab-summary {
+  margin: 12px 0 0;
+  color: #2f2f2f;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+body:has(.page-course) .page-course .lab-objectives {
+  margin: 12px 0 0;
+  font-size: 0.94rem;
+}
+
+body:has(.page-course) .page-course .lab-objectives > summary {
+  cursor: pointer;
+  color: #6a5314;
+  font-weight: 700;
+  /* The default disclosure marker is painted outside the content box, so it hangs
+     to the left of the card's text column and breaks the left edge. Draw our own
+     inside the flow instead, so the whole line starts where the title does. */
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+body:has(.page-course) .page-course .lab-objectives > summary::-webkit-details-marker {
+  display: none;
+}
+
+body:has(.page-course) .page-course .lab-objectives > summary::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 7px solid var(--mu-gold);
+  transition: transform 0.15s ease;
+}
+
+body:has(.page-course) .page-course .lab-objectives[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+body:has(.page-course) .page-course .lab-objectives > summary:hover {
+  color: var(--mu-black);
+}
+
+body:has(.page-course) .page-course .lab-objectives ul {
+  margin: 8px 0 0 14px;
+  padding-left: 20px;
+  color: #2f2f2f;
+}
+
+body:has(.page-course) .page-course .lab-objectives li {
+  margin-bottom: 5px;
+  line-height: 1.55;
+}
+
+body:has(.page-course) .page-course .lab-objectives li::marker {
+  color: var(--mu-gold);
+}
+
+body:has(.page-course) .page-course .lab-links {
+  margin-top: 14px;
+}
+
+body:has(.page-course) .page-course .lab-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 1px solid #f2dfaa;
+  border-radius: 999px;
+  background: var(--mu-gold-soft);
+  color: #62490a;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+body:has(.page-course) .page-course a.lab-link:hover {
+  border-color: var(--mu-gold);
+  background: var(--mu-gold);
+  color: var(--mu-black);
+}
+
+body:has(.page-course) .page-course .lab-link-disabled {
+  border-color: #e0e0e0;
+  background: #f2f2f2;
+  color: #6f6f6f;
+  cursor: not-allowed;
+}
+
+@media (max-width: 992px) {
+  body:has(.page-course) .page-course .lab-card {
+    padding: 16px;
+  }
+
+  body:has(.page-course) .page-course .lab-card-top {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

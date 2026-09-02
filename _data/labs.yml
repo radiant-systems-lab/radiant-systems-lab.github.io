@@ -1,0 +1,67 @@
+# Lab records for CSC/EE 8001: Designing End-to-End ML Systems.
+# Rendered by the #labs section of courses/csc_ee_8001.md via _includes/lab_card.html.
+#
+# Keep records in ascending `number` order.
+#   status : available | coming-soon | archived
+#   kind   : notebook  -> interactive marimo/WASM bundle committed under labs/<slug>/
+#            page      -> plain Jekyll page under labs/<slug>/
+#   url    : site-absolute path; must match the directory the bundle is built into.
+#
+# Lab sources live in labs/_src/<slug>/notebook.py and are compiled with
+# `python labs/build_labs.py`. The generated bundles are committed.
+
+- id: week_01
+  number: 1
+  week: 1
+  slug: week_01
+  title: 'Why the Model Is Not the System'
+  status: available
+  kind: notebook
+  topic: 'Introduction to ML Systems'
+  due: '2026-09-02'
+  estimated_minutes: 30
+  url: /labs/week_01/
+  summary: >
+    Training a model is the part you already know how to do. This lab is about the part
+    that decides whether anyone ever gets to use it. It ends with a decision you have to
+    defend: 200 people a second, one machine, and a promise about how long they wait.
+  objectives:
+    - 'Explain why a good accuracy score does not mean a system is ready to use.'
+    - 'Say where the time actually goes when a system answers a request.'
+    - 'Defend a design decision with numbers instead of a hunch.'
+
+- id: week_02
+  number: 2
+  week: 2
+  slug: lab_02_cloud
+  title: 'Cloud Setup'
+  status: coming-soon
+  kind: notebook
+  topic: 'Types of ML Systems'
+  due: '2026-09-06'
+  estimated_minutes: 60
+  url: /labs/lab_02_cloud/
+  summary: >
+    Stand up the shared cloud environment used for the rest of the course and
+    measure what the environment costs you before any model is involved.
+  objectives:
+    - 'Provision and verify the course cloud environment.'
+    - 'Measure baseline compute, memory, and I/O available to your workloads.'
+
+- id: week_03
+  number: 3
+  week: 3
+  slug: lab_03_pipeline
+  title: 'First End-to-End Pipeline'
+  status: coming-soon
+  kind: notebook
+  topic: 'ML Workflows'
+  due: '2026-09-06'
+  estimated_minutes: 90
+  url: /labs/lab_03_pipeline/
+  summary: >
+    Trace a minimal pipeline from raw data to a served prediction and identify
+    where time is actually spent.
+  objectives:
+    - 'Trace the end-to-end path from data to deployment.'
+    - 'Identify the dominant bottleneck stage and support the claim with numbers.'

@@ -1,0 +1,67 @@
+{% assign lab = include.lab %}
+{% assign is_available = false %}
+{% if lab.status == 'available' %}{% assign is_available = true %}{% endif %}
+
+<article class="lab-card lab-card-{{ lab.status }}" id="{{ lab.id }}" aria-labelledby="{{ lab.id }}-title">
+  <div class="lab-card-top">
+    <div class="lab-card-heading">
+      <p class="lab-card-eyebrow">Week {{ lab.week }}{% if lab.topic %} &middot; {{ lab.topic }}{% endif %}</p>
+      <h4 id="{{ lab.id }}-title">
+        {% if is_available %}
+          <a href="{{ lab.url }}">{{ lab.title }}</a>
+        {% else %}
+          {{ lab.title }}
+        {% endif %}
+      </h4>
+    </div>
+    <span class="lab-status lab-status-{{ lab.status }}">
+      {% if lab.status == 'available' %}Available
+      {% elsif lab.status == 'coming-soon' %}Coming soon
+      {% else %}{{ lab.status | replace: '-', ' ' | capitalize }}{% endif %}
+    </span>
+  </div>
+
+  <div class="lab-meta">
+    {% if lab.due %}
+      <div class="lab-meta-item">
+        <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+        <span>Due <time datetime="{{ lab.due }}">{{ lab.due | date: "%B %-d, %Y" }}</time></span>
+      </div>
+    {% endif %}
+    {% if lab.estimated_minutes %}
+      <div class="lab-meta-item">
+        <i class="fa-regular fa-clock" aria-hidden="true"></i>
+        <span>~{{ lab.estimated_minutes }} min</span>
+      </div>
+    {% endif %}
+    {% if lab.kind == 'notebook' %}
+      <div class="lab-meta-item">
+        <i class="fa-solid fa-flask" aria-hidden="true"></i>
+        <span>Runs in your browser</span>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if lab.summary %}<p class="lab-summary">{{ lab.summary }}</p>{% endif %}
+
+  {% if lab.objectives and lab.objectives.size > 0 %}
+    <details class="lab-objectives">
+      <summary>Learning objectives</summary>
+      <ul>
+        {% for objective in lab.objectives %}<li>{{ objective }}</li>{% endfor %}
+      </ul>
+    </details>
+  {% endif %}
+
+  <div class="lab-links">
+    {% if is_available %}
+      <a class="lab-link" href="{{ lab.url }}">
+        <i class="fa-solid fa-play" aria-hidden="true"></i> Open Week {{ lab.week }}
+      </a>
+    {% else %}
+      <span class="lab-link lab-link-disabled" aria-disabled="true">
+        <i class="fa-solid fa-lock" aria-hidden="true"></i> Not yet released
+      </span>
+    {% endif %}
+  </div>
+</article>

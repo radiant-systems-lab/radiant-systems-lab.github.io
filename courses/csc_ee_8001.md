@@ -13,6 +13,7 @@ layout: page
           <li><a href="#content">Course Goals</a></li>
           <li><a href="#prerequisites">Prerequisites</a></li>
           <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#labs">Class Labs</a></li>
           <li><a href="#project">Project</a></li>
           <li><a href="#exams">Exams</a></li>
           <li><a href="#grades">Grades</a></li>
@@ -165,6 +166,22 @@ layout: page
               </tr>
             </tbody>
           </table>
+        </div>
+      </section>
+
+      <section id="labs" class="course-section" aria-labelledby="labs-title">
+        <h2 id="labs-title"><i class="fa-solid fa-flask"></i> Class Labs</h2>
+        <p>
+          One class lab a week, following the lectures. Each runs entirely in your browser, so
+          there is nothing to install and nothing to set up. Work through them in order, because
+          each one builds on the week before. Every lab ends by writing a short report for you to
+          download and hand in.
+        </p>
+        <div class="lab-grid">
+          {% assign course_labs = site.data.labs | sort: "number" %}
+          {% for lab in course_labs %}
+            {% include lab_card.html lab=lab %}
+          {% endfor %}
         </div>
       </section>
 
