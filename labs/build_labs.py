@@ -115,9 +115,10 @@ def hoist_runtime(out: Path) -> None:
         if not item.is_file() or item.name == "index.html":
             continue
         rel = item.relative_to(out)
-        # marimo ships an assistant prompt file with the export; it is not web content.
-        # Its .nojekyll only has meaning at a site root, and this site *is* Jekyll-built.
-        if rel.name in ("CLAUDE.md", ".nojekyll"):
+        # The export drops a couple of files that are not web content: an editor
+        # prompt file at the top level, and a .nojekyll that only has meaning at a
+        # site root (and this site *is* Jekyll-built, so it must not be honoured).
+        if (rel.parent == Path(".") and rel.suffix == ".md") or rel.name == ".nojekyll":
             item.unlink()
             continue
         dest = runtime / rel
