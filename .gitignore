@@ -7,3 +7,4 @@ labs/.venv
 labs/.build
 __pycache__/
 labs/week_02/
+labs/_src/quizzes.md
