@@ -15,21 +15,6 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _():
-    # ---------------------------------------------------------------------------
-    # WHERE THE GRADED QUIZ LIVES.
-    #
-    # Nothing in this lab is marked. Assessment is a short quiz in Canvas that
-    # students take once they have finished here.
-    #
-    # Paste the Canvas quiz link below and the lab ends with a button pointing at
-    # it. Leave it empty and the lab just tells them to go and find it in Canvas.
-    # ---------------------------------------------------------------------------
-    QUIZ_URL = ""
-    return (QUIZ_URL,)
-
-
-@app.cell(hide_code=True)
 def _(mo):
     def ask(prompt, options, correct, explain):
         """A quick check you can answer as many times as you like.
@@ -38,7 +23,8 @@ def _(mo):
         Canvas, so there is nothing to protect here: changing your mind and seeing
         why the other answer was wrong is the whole point.
 
-        Returns (radio, render). Pass radio.value to render().
+        Returns (radio, render, summarise). Pass radio.value to render(); the
+        report uses summarise() to include the answer at the end of the lab.
         """
         labels = {value: label for label, value in options.items()}
         BREAK = chr(10) + chr(10)          # a blank line, i.e. a new paragraph
@@ -57,7 +43,13 @@ def _(mo):
                 body += BREAK + f"The answer is *{labels[correct]}*."
             return mo.callout(mo.md(body), kind="success" if ok else "warn")
 
-        return radio, render
+        def summarise(value):
+            """(what they picked, whether it was right) for the end-of-lab report."""
+            if value is None:
+                return "not answered", None
+            return labels[value], value == correct
+
+        return radio, render, summarise
     return (ask,)
 
 
@@ -330,7 +322,7 @@ def _(mo):
         Parts 1 to 3 are the why: the number that explains this course, the gap between a
         model that works and a system you can use, and why this is harder than ordinary
         software. Parts 4 to 8 are the real thing: a decision your manager is waiting on, the
-        evidence to settle it, and a report you hand in.</p>
+        evidence to settle it, and a summary of what you decided.</p>
 
         """
     )
@@ -432,7 +424,7 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(ask):
-    q0, q0_render = ask(
+    q0, q0_render, q0_sum = ask(
         "**Quick check.** Why do most ML projects never make it to production?",
         {
             'Because the models being used are not accurate enough yet': 'a',
@@ -453,7 +445,7 @@ def _(ask):
         },
     )
     q0
-    return q0, q0_render
+    return q0, q0_render, q0_sum
 
 
 @app.cell(hide_code=True)
@@ -661,7 +653,7 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(ask):
-    q3, q3_render = ask(
+    q3, q3_render, q3_sum = ask(
         "**Quick check.** What usually happens when a deployed ML system goes wrong?",
         {
             'It throws an error you can find in the logs': 'a',
@@ -683,7 +675,7 @@ def _(ask):
         },
     )
     q3
-    return q3, q3_render
+    return q3, q3_render, q3_sum
 
 
 @app.cell(hide_code=True)
@@ -1298,7 +1290,20 @@ def _(answers_form, mo):
 
 
 @app.cell(hide_code=True)
-def _(batch, decision_choice, defence_text, meets_sla, mo, p95_ms, predict_choice, predict_reason):
+def _(
+    batch,
+    decision_choice,
+    defence_text,
+    meets_sla,
+    mo,
+    p95_ms,
+    predict_choice,
+    predict_reason,
+    q0,
+    q0_sum,
+    q3,
+    q3_sum,
+):
     _p95 = "overloaded" if p95_ms == float("inf") else f"{p95_ms:.0f} ms"
     _label = {
         "tiny": "as small as possible (1-4)",
@@ -1318,10 +1323,20 @@ def _(batch, decision_choice, defence_text, meets_sla, mo, p95_ms, predict_choic
         "ship_scale": "Ship it, and add a second machine",
         "hold": "Do not ship it",
     }
+    def _check(summary):
+        text, ok = summary
+        if ok is None:
+            return '<em>not answered</em>'
+        mark = '<span class="tick">right</span>' if ok else '<span class="cross">wrong</span>'
+        return f"{text} ({mark})"
+
+    _c1 = _check(q0_sum(q0.value))
+    _c2 = _check(q3_sum(q3.value))
+
     _warn = ("" if _optimal else
              f'<div class="row"><span class="k">Worth another look</span>'
-             f'<span class="v">Batch {_chosen} is outside the 6 to 19 range that actually '
-             f'works. Read the full answer again before you hand this in.</span></div>')
+             f'<span class="v">Batch {_chosen} is outside the 6 to 19 range that '
+             f'works.</span></div>')
 
     mo.vstack([
         mo.md("## Your Week 1 report"),
@@ -1354,28 +1369,19 @@ def _(batch, decision_choice, defence_text, meets_sla, mo, p95_ms, predict_choic
                 <span class="k">Why</span>
                 <span class="v quote">{defence_text}</span>
               </div>
+              <div class="row">
+                <span class="k">Quick check 1</span>
+                <span class="v">{_c1}</span>
+              </div>
+              <div class="row">
+                <span class="k">Quick check 2</span>
+                <span class="v">{_c2}</span>
+              </div>
               {_warn}
             </div>
             """
         ),
         mo.md("""
-    ### Four things worth remembering
-
-    - **The 94% never came up again.** Not once. Everything that decided this was about the
-      machine and the people waiting. You will see this pattern in every lab this semester.
-    - **The obvious answer was the worst one.** "Send them one at a time so nobody waits" sounds
-      completely sensible, and it breaks the service outright. Sensible-sounding is not the same
-      as correct, which is why we make you commit to a guess and then check it.
-    - **One dial moved three things at once, in different directions.** Turning up the batch size
-      made one part of the wait shorter and two parts longer. Most of the work in this course is
-      finding out which part is actually holding you back.
-    - **Ask "can it cope?" before "is it fast?"** Batches of 1 to 4 never even got to the
-      question of speed, because they simply could not keep up. Survival first, then speed.
-    - **A model that misses your deadline is worth nothing, however good it is.** There are
-      well known architectures that beat older ones by a point or two of accuracy while costing
-      four times the compute and three times the memory traffic. On a leaderboard that is a
-      win. Inside a promise like this one it can be a model you are simply not allowed to use.
-      Being top of a leaderboard and being right for your system are different things.
     """),
     ])
     return
@@ -1383,7 +1389,6 @@ def _(batch, decision_choice, defence_text, meets_sla, mo, p95_ms, predict_choic
 
 @app.cell(hide_code=True)
 def _(
-    QUIZ_URL,
     batch,
     decision_choice,
     defence_text,
@@ -1394,6 +1399,10 @@ def _(
     p95_ms,
     predict_choice,
     predict_reason,
+    q0,
+    q0_sum,
+    q3,
+    q3_sum,
     takeaway_text,
 ):
     mo.stop(decision_choice is None or defence_text == "")
@@ -1405,6 +1414,12 @@ def _(
     }
     _p95 = "overloaded" if p95_ms == float("inf") else f"{p95_ms:.0f} ms"
     _correct = predict_choice == "moderate"
+
+    _a1 = q0_sum(q0.value)
+    _a2 = q3_sum(q3.value)
+
+    def _verdict_word(ok):
+        return "not answered" if ok is None else ("correct" if ok else "not correct")
 
     submission = {
         "lab": "CSC/EE 8001 - Week 1",
@@ -1418,6 +1433,8 @@ def _(
         "meets_150ms_target": meets_sla,
         "your_decision": decision_choice,
         "your_defence": defence_text,
+        "check_1_why_projects_fail": {"answer": _a1[0], "correct": _a1[1]},
+        "check_2_how_ml_breaks": {"answer": _a2[0], "correct": _a2[1]},
         "what_stopped_the_biggest_model": takeaway_text,
     }
 
@@ -1448,6 +1465,12 @@ def _(
         "MY REASONING",
         f"  {defence_text}",
         "",
+        "QUICK CHECKS",
+        f"  Why most ML projects never reach production",
+        f"    {_a1[0]}  [{_verdict_word(_a1[1])}]",
+        f"  What happens when a deployed ML system goes wrong",
+        f"    {_a2[0]}  [{_verdict_word(_a2[1])}]",
+        "",
         "WHAT STOPPED THE BIGGEST MODEL FROM BEING USABLE",
         f"  {takeaway_text}",
     ])
@@ -1475,32 +1498,12 @@ def _(
         gap=1,
     )
 
-    BR = chr(10) + chr(10)          # a blank line, i.e. a new paragraph
-
-    if QUIZ_URL:
-        _next = mo.vstack([
-            mo.md(
-                "## You are done" + BR + "The Week 1 quiz is in Canvas."
-            ),
-            mo.Html(
-                f'<a class="handin-btn" href="{QUIZ_URL}" target="_blank" '
-                f'rel="noopener noreferrer">Take the Week 1 quiz</a>'
-            ),
-        ])
-    else:
-        _next = mo.md(
-            "## You are done" + BR + "The Week 1 quiz is in Canvas."
-        )
-
-    mo.vstack([
-        _next,
-        mo.accordion({
-            "A copy of what you did": mo.vstack([
-                _downloads,
-                mo.md("```" + chr(10) + report_text + chr(10) + "```"),
-            ]),
-        }),
-    ])
+    mo.accordion({
+        "A copy of what you did": mo.vstack([
+            _downloads,
+            mo.md("```" + chr(10) + report_text + chr(10) + "```"),
+        ]),
+    })
     return
 
 
