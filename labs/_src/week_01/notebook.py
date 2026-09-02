@@ -200,9 +200,6 @@ def _(mo):
           .rl-barhead { margin: 0 0 4px; font-size: 1.2rem; color: #111; font-weight: 700; }
 
 
-          .rl-credit { color: #7a7a7a; font-size: .82rem; line-height: 1.55;
-                       border-top: 1px solid #eee; padding-top: 12px; margin-top: 20px; }
-          .rl-credit a { color: #6a5314; }
         </style>
         """
     )
@@ -1637,21 +1634,6 @@ def _(decision_choice, mo):
                 ),
         }),
     ])
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.Html(
-        """
-        <p class="rl-credit">
-          The format of these labs, guess first then look at the evidence then decide,
-          is adapted with thanks from the interactive labs in
-          <a href="https://mlsysbook.ai/">Machine Learning Systems</a> by Vijay Janapa Reddi
-          (Harvard), licensed CC BY-NC-SA 4.0. The content of this lab is written for CSC/EE 8001.
-        </p>
-        """
-    )
     return
 
 
