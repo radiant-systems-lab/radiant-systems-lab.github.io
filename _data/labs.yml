@@ -19,7 +19,7 @@
   kind: notebook
   topic: 'Introduction to ML Systems'
   due: '2026-09-02'
-  estimated_minutes: 30
+  estimated_minutes: 10
   url: /labs/week_01/
   summary: >
     Training a model is the part you already know how to do. This lab is about the part

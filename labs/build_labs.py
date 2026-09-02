@@ -22,6 +22,7 @@ Requires marimo. Install it into the repo-local venv:
 from __future__ import annotations
 
 import argparse
+import ast
 import os
 import re
 import shutil
@@ -53,6 +54,13 @@ def discover(only: list[str]) -> list[Path]:
 def build(src: Path) -> Path:
     out = LABS_DIR / src.name
     notebook = src / "notebook.py"
+
+    # marimo's exporter does not reject a notebook that fails to parse, so a syntax
+    # error would ship a broken bundle and only surface in a student's browser.
+    try:
+        ast.parse(notebook.read_text(encoding="utf-8"), filename=str(notebook))
+    except SyntaxError as exc:
+        sys.exit(f"{src.name}: notebook.py does not parse\n  line {exc.lineno}: {exc.msg}")
 
     # marimo refuses to overwrite without --force; clear the directory ourselves so
     # assets renamed between marimo versions do not accumulate as orphans.

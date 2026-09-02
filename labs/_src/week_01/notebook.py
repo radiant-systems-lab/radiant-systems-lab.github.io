@@ -17,79 +17,49 @@ def _():
 @app.cell(hide_code=True)
 def _():
     # ---------------------------------------------------------------------------
-    # WHERE STUDENTS HAND THIS IN.
+    # WHERE THE GRADED QUIZ LIVES.
     #
-    # Leave HANDIN_URL empty and the lab simply asks them to download the report
-    # and upload it wherever you normally collect work. Nothing breaks.
+    # Nothing in this lab is marked. Assessment is a short quiz in Canvas that
+    # students take once they have finished here.
     #
-    # To collect answers automatically instead:
-    #   1. Build a form in Microsoft Forms (a Quiz if you want it auto-marked).
-    #   2. Open it, choose "Collect responses", then "Get pre-filled URL".
-    #   3. Fill every question in with the placeholder word shown below, generate
-    #      the link, and paste the whole thing here.
-    #
-    # Placeholders the lab will substitute, spelled exactly like this:
-    #   GUESSHERE       what they guessed
-    #   REASONHERE      why they guessed it
-    #   BATCHHERE       the batch size they settled on
-    #   WAITHERE        the wait their choice produces
-    #   DECISIONHERE    ship / ship with a second machine / do not ship
-    #   WHYHERE         their reasoning for that decision
-    #   STOPPEDHERE     what they said actually decided whether it could ship
+    # Paste the Canvas quiz link below and the lab ends with a button pointing at
+    # it. Leave it empty and the lab just tells them to go and find it in Canvas.
     # ---------------------------------------------------------------------------
-    HANDIN_URL = ""
-    return (HANDIN_URL,)
+    QUIZ_URL = ""
+    return (QUIZ_URL,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    def one_shot(prompt, options, correct, explain):
-        """Build a multiple choice question that can only be answered once.
+    def ask(prompt, options, correct, explain):
+        """A quick check you can answer as many times as you like.
 
-        Students get a single attempt on purpose. If they could keep changing the
-        answer until the box turned green, the question would measure nothing and
-        they would learn nothing from getting it wrong.
+        These are for thinking with, not for marking. The graded quiz lives in
+        Canvas, so there is nothing to protect here: changing your mind and seeing
+        why the other answer was wrong is the whole point.
 
-        Returns (form, render). Pass the latched answer to render(): None shows the
-        question, anything else shows their answer and the explanation, with no way
-        back to the options.
+        Returns (radio, render). Pass radio.value to render().
         """
         labels = {value: label for label, value in options.items()}
         BREAK = chr(10) + chr(10)          # a blank line, i.e. a new paragraph
 
-        form = (
-            mo.md("{choice}")
-            .batch(choice=mo.ui.radio(options=options, label=prompt))
-            .form(
-                submit_button_label="Lock in my answer",
-                bordered=True,
-                validate=lambda v: None if v and v.get("choice") else "Choose an answer first.",
-            )
-        )
+        radio = mo.ui.radio(options=options, label=prompt)
 
-        def render(locked):
-            if locked is None:
-                return mo.vstack([
-                    form,
-                    mo.callout(
-                        mo.md("One answer each, so have a think first. You are **not marked "
-                              "on getting these right**. They are here so you find out "
-                              "what you actually think, and the explanation afterwards is the "
-                              "part that matters."),
-                        kind="neutral",
-                    ),
-                ])
-            ok = locked == correct
-            body = ("**Correct.** " if ok else "**Not quite.** ") + explain[locked]
+        def render(value):
+            if value is None:
+                return mo.callout(
+                    mo.md("Pick an answer and I will explain it. Nothing here is marked, so "
+                          "guess if you are not sure."),
+                    kind="neutral",
+                )
+            ok = value == correct
+            body = ("**Correct.** " if ok else "**Not quite.** ") + explain[value]
             if not ok:
-                body += BREAK + f"The answer was: *{labels[correct]}*"
-            return mo.vstack([
-                mo.md(prompt + BREAK + f"You answered: *{labels[locked]}*"),
-                mo.callout(mo.md(body), kind="success" if ok else "danger"),
-            ])
+                body += BREAK + f"The answer is *{labels[correct]}*. Have another go if you like."
+            return mo.callout(mo.md(body), kind="success" if ok else "warn")
 
-        return form, render
-    return (one_shot,)
+        return radio, render
+    return (ask,)
 
 
 @app.cell(hide_code=True)
@@ -305,7 +275,7 @@ def _(mo):
             <span class="rl-chip">Where the time goes</span>
             <span class="rl-chip">No prerequisites</span>
             <span class="rl-chip-plain rl-chip">Lab v1.0.0</span>
-            <span class="rl-chip-plain rl-chip">Report made on your machine</span>
+            <span class="rl-chip-plain rl-chip">Nothing here is marked</span>
           </div>
         </div>
         """
@@ -338,9 +308,9 @@ def _(mo):
               <li>Defend a design decision with numbers instead of a hunch.</li>
             </ol>
             <div class="meta">
-              <div><dt>Time</dt><dd>about 30 min</dd></div>
+              <div><dt>Time</dt><dd>about 10 min</dd></div>
               <div><dt>You need</dt><dd>nothing</dd></div>
-              <div><dt>Hand in</dt><dd>one short report</dd></div>
+              <div><dt>Marked?</dt><dd>no, the quiz is</dd></div>
             </div>
           </aside>
         </div>
@@ -462,9 +432,8 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo, one_shot):
-    get_q0, set_q0 = mo.state(None)
-    q0_form, q0_render = one_shot(
+def _(ask):
+    q0, q0_render = ask(
         "**Quick check.** Why do most ML projects never make it to production?",
         {
             'Because the models being used are not accurate enough yet': 'a',
@@ -484,19 +453,13 @@ def _(mo, one_shot):
                   "the answer here is bigger than dataset size."),
         },
     )
-    return get_q0, set_q0, q0_form, q0_render
+    q0
+    return q0, q0_render
 
 
 @app.cell(hide_code=True)
-def _(q0_form, get_q0, set_q0):
-    if q0_form.value is not None and get_q0() is None:
-        set_q0(q0_form.value["choice"])
-    return
-
-
-@app.cell(hide_code=True)
-def _(get_q0, q0_render):
-    q0_render(get_q0())
+def _(q0, q0_render):
+    q0_render(q0.value)
     return
 
 
@@ -698,9 +661,8 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo, one_shot):
-    get_q3, set_q3 = mo.state(None)
-    q3_form, q3_render = one_shot(
+def _(ask):
+    q3, q3_render = ask(
         "**Quick check.** What usually happens when a deployed ML system goes wrong?",
         {
             'It throws an error you can find in the logs': 'a',
@@ -721,19 +683,13 @@ def _(mo, one_shot):
                   "free though. Somebody has to choose the threshold and build the fallback."),
         },
     )
-    return get_q3, set_q3, q3_form, q3_render
+    q3
+    return q3, q3_render
 
 
 @app.cell(hide_code=True)
-def _(q3_form, get_q3, set_q3):
-    if q3_form.value is not None and get_q3() is None:
-        set_q3(q3_form.value["choice"])
-    return
-
-
-@app.cell(hide_code=True)
-def _(get_q3, q3_render):
-    q3_render(get_q3())
+def _(q3, q3_render):
+    q3_render(q3.value)
     return
 
 
@@ -881,9 +837,8 @@ def _(mo):
     Do not work it out on paper. Genuinely guess. Then we will look at the real numbers
     together and see whether your instinct was right.
 
-    Your guess is recorded once and not changed afterwards, which is the only reason it tells
-    you anything. **Nobody is marking you on whether it was right.** Plenty of people get this
-    one wrong, and the ones who do tend to remember it best.
+    **Nothing in this lab is marked.** Guess badly if that is what you actually think. Plenty
+    of people get this one wrong, and the ones who do tend to remember it longest.
     """
     )
     return
@@ -891,7 +846,6 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    get_guess, set_guess = mo.state(None)
     guess_form = (
         mo.md("""
         {choice}
@@ -927,28 +881,25 @@ def _(mo):
         )
     )
     guess_form
-    return get_guess, guess_form, set_guess
+    return (guess_form,)
 
 
 @app.cell(hide_code=True)
-def _(guess_form, get_guess, mo, set_guess):
-    # Latch the first guess. Once it is in, it is in: the whole point of guessing
-    # before you look is lost if you can quietly revise it after seeing the answer.
-    if guess_form.value is not None and get_guess() is None:
-        set_guess((guess_form.value["choice"], guess_form.value["why"].strip()))
-
-    _locked = get_guess()
+def _(guess_form, mo):
+    # The gate stays, because guessing before you look is the point. The guess is
+    # not locked though: nothing here is marked, so changing your mind is fine.
     mo.stop(
-        _locked is None,
+        guess_form.value is None,
         mo.callout(
             mo.md(
-                "Choose an answer, say why, then press **Submit my guess**. You get one "
-                "attempt, and the rest of the lab opens up once you commit."
+                "Pick an answer, say why in a few words, then press **Submit my guess**. "
+                "The rest of the lab opens up once you do."
             ),
             kind="warn",
         ),
     )
-    predict_choice, predict_reason = _locked
+    predict_choice = guess_form.value["choice"]
+    predict_reason = guess_form.value["why"].strip()
     prediction_locked = True
     return predict_choice, predict_reason, prediction_locked
 
@@ -1438,7 +1389,7 @@ def _(batch, decision_choice, defence_text, meets_sla, mo, p95_ms, predict_choic
 
 @app.cell(hide_code=True)
 def _(
-    HANDIN_URL,
+    QUIZ_URL,
     batch,
     decision_choice,
     defence_text,
@@ -1449,7 +1400,6 @@ def _(
     p95_ms,
     predict_choice,
     predict_reason,
-    quote,
     takeaway_text,
 ):
     mo.stop(decision_choice is None or defence_text == "")
@@ -1531,56 +1481,37 @@ def _(
         gap=1,
     )
 
-    if HANDIN_URL:
-        # Everything is already filled in, so handing in is one click and a glance.
-        _fill = {
-            "GUESSHERE": _names[predict_choice],
-            "REASONHERE": predict_reason,
-            "BATCHHERE": str(int(batch.value)),
-            "WAITHERE": _p95,
-            "DECISIONHERE": _decision_words.get(decision_choice, decision_choice),
-            "WHYHERE": defence_text,
-            "STOPPEDHERE": takeaway_text,
-        }
-        _link = HANDIN_URL
-        for _placeholder, _answer in _fill.items():
-            _link = _link.replace(_placeholder, quote(_answer, safe=""))
+    BR = chr(10) + chr(10)          # a blank line, i.e. a new paragraph
 
-        _handin = mo.vstack([
+    if QUIZ_URL:
+        _next = mo.vstack([
             mo.md(
-                "## Last step: hand it in\n\nYour answers are already filled in for you. Open "
-                "it, check it looks right, and press submit. That is the whole hand-in."
+                "## You are done" + BR + "That is the lab. Nothing here was marked, and nothing "
+                "was sent anywhere. When you are ready, the short quiz on this material is "
+                "in Canvas."
             ),
             mo.Html(
-                f'<a class="handin-btn" href="{_link}" target="_blank" '
-                f'rel="noopener noreferrer">Hand in my Week 1 answers</a>'
+                f'<a class="handin-btn" href="{QUIZ_URL}" target="_blank" '
+                f'rel="noopener noreferrer">Take the Week 1 quiz</a>'
             ),
-            mo.accordion({
-                "Want your own copy too?": mo.vstack([
-                    mo.md("Nothing is saved inside this page, so grab a copy if you would "
-                          "like one."),
-                    _downloads,
-                ]),
-            }),
         ])
     else:
-        _handin = mo.vstack([
-            mo.md(
-                "## Last step: hand it in\n\nDownload your report and upload it wherever your "
-                "class work goes. That is everything. Nothing here is sent anywhere on its "
-                "own, so this file is the only copy."
-            ),
-            _downloads,
-            mo.accordion({
-                "The download did not work. What now?": mo.md(
-                    "Copy everything below into a document and hand that in instead. It says "
-                    "exactly the same thing.\n\n"
-                    f"```\n{report_text}\n```"
-                ),
-            }),
-        ])
+        _next = mo.md(
+            "## You are done" + BR + "That is the lab. Nothing here was marked, and nothing was "
+            "sent anywhere. When you are ready, take the short **Week 1 quiz in Canvas**. It "
+            "covers what you just did, so do it while this is fresh."
+        )
 
-    _handin
+    mo.vstack([
+        _next,
+        mo.accordion({
+            "Keep a copy of what you did": mo.vstack([
+                mo.md("Useful for the quiz, and for your own notes."),
+                _downloads,
+                mo.md("```" + chr(10) + report_text + chr(10) + "```"),
+            ]),
+        }),
+    ])
     return
 
 
