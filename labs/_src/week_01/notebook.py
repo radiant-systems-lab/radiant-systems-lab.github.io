@@ -742,20 +742,6 @@ def _(get_q3, q3_render):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    /// admonition | One honest note
-    It can feel uncomfortable to commit to an answer you are unsure about, especially in
-    writing where you cannot quietly change your mind. That discomfort is the mechanism
-    working, not a sign you are unprepared. Guess anyway.
-    ///
-    """
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
     mo.md(r"""## Part 4: A real decision""")
     return
 
