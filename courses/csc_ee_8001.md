@@ -86,12 +86,12 @@ layout: page
               <tr>
                 <td><time datetime="2026-08-26">Aug 26th</time></td>
                 <td>Introduction to ML Systems</td>
-                <td><a href="/course_pdfs/E2E_ML/Introduction.pdf">Introduction</a></td>
+                <td><a href="/course_pdfs/E2E_ML/Week_1_Introduction.pdf">Introduction</a></td>
               </tr>
               <tr>
                 <td><time datetime="2026-09-02">Sept 2nd</time></td>
                 <td>Types of ML Systems</td>
-                <td>&mdash;</td>
+                <td><a href="/course_pdfs/E2E_ML/Week_2_MLSystemTypes.pdf">ML System Types</a></td>
               </tr>
               <tr>
                 <td><time datetime="2026-09-09">Sept 9th</time></td>
