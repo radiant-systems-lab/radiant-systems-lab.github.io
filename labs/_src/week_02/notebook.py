@@ -133,9 +133,11 @@ def _(mo):
                     align-items: center; gap: 12px; }
           @media (max-width: 640px) { .w2-bar { grid-template-columns: 110px 1fr 78px; } }
           .w2-bar .t { color: #4a4a4a; font-size: .87rem; line-height: 1.3; }
-          .w2-bar .track { background: #f4f4f4; border: 1px solid #ececec;
+          .w2-bar .track { display: block; background: #f4f4f4; border: 1px solid #ececec;
                            border-radius: 6px; height: 28px; overflow: hidden; }
-          .w2-bar .fill { height: 100%; background: #dcdcdc; }
+          /* A span is inline by default, so it ignores height and percentage width.
+             Both of these have to be blocks or the bar renders empty. */
+          .w2-bar .fill { display: block; height: 100%; background: #c9c9c9; }
           .w2-bar.win .fill { background: #f1b82d; }
           .w2-bar.win .t { color: #111; font-weight: 700; }
           .w2-bar .n { text-align: right; font-weight: 800; font-size: .9rem; color: #111; }
@@ -156,9 +158,9 @@ def _(mo):
         <div class="w2-hero">
           <p class="w2-eyebrow">CSC/EE 8001 &middot; Week 2</p>
           <h1>Where Does It Actually Run?</h1>
-          <p class="sub">Last week the thing that stopped you was time. This week it is space.
-          The same model can be perfectly sensible in one place and physically impossible a
-          few centimetres away.</p>
+          <p class="sub">A model has to live on a real machine somewhere. This lab is about
+          two questions you have to answer before it can: will it fit, and once it fits, how
+          long does it take to reply?</p>
           <div class="w2-chips">
             <span class="w2-chip">Four kinds of machine</span>
             <span class="w2-chip">What fits where</span>
@@ -177,22 +179,25 @@ def _(mo):
         <h2>Before we start</h2>
         <div class="w2-split">
           <div class="body">
-            <p>People say a model is "deployed" as though that were one thing. It is not. A
-            model can end up running in a data centre the size of a warehouse, or on a chip
-            smaller than your thumbnail, and those two jobs have almost nothing in common.</p>
-            <p>What is surprising is how far apart they are. Not twice as different. Not ten
-            times. The gap between the biggest and smallest place you might put a model is
-            about a <strong>billion</strong> times, in both memory and electricity.</p>
-            <p>That is the whole lab. Once you have felt that gap, a lot of decisions that
-            looked arbitrary start looking obvious.</p>
+            <p>Start with what a model actually is, physically, once training is finished.</p>
+            <p><strong>It is a very long list of numbers.</strong> That is genuinely all. When
+            someone says "a model with 25 million parameters", they mean there are 25 million
+            numbers written down. Show it a photo and the computer does arithmetic with those
+            numbers until an answer falls out the other end.</p>
+            <p>That matters here for one reason. Numbers take up room, and they have to be
+            somewhere the computer can reach quickly. So before a model can run anywhere, two
+            things have to be true. <strong>The list has to fit</strong>, and <strong>the
+            computer has to be able to read through it fast enough</strong> that whoever asked
+            is still waiting.</p>
+            <p>This lab is those two questions, in that order.</p>
           </div>
           <aside class="w2-aside">
             <h4>By the end you can</h4>
             <ol>
-              <li>Name the four places a model normally runs and what limits each one.</li>
-              <li>Work out whether a given model can fit somewhere before you try.</li>
-              <li>Say which thing runs out first: memory, time, or power.</li>
-              <li>Work out whether moving bytes or doing arithmetic is the real bottleneck.</li>
+              <li>Work out on paper whether a model will fit on a given machine.</li>
+              <li>Say what to do when it does not.</li>
+              <li>Break the time it takes to answer into three parts, and find the slow one.</li>
+              <li>Explain why that answer changes when you send more work at once.</li>
             </ol>
             <div class="meta">
               <div><dt>Time</dt><dd>about 30 min</dd></div>
@@ -212,7 +217,7 @@ def _(mo):
         """
         <div class="w2-question">
           <span class="lbl">The question this lab answers</span>
-          <p>"I have a model. Can this particular machine actually run it?"</p>
+          <p>"I have a model and a machine. Will it fit, and will it be quick enough?"</p>
         </div>
         """
     )
@@ -221,7 +226,7 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Part 1: Four places a model can live""")
+    mo.md(r"""## Part 1: The machine it has to live on""")
     return
 
 
@@ -229,9 +234,11 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    Almost everything you will build ends up in one of four places. They are usually described
-    as a spectrum, from enormous and plugged into the grid, down to tiny and running off a coin
-    cell.
+    The list of numbers has to sit in the computer's **memory**. Not on its hard disk, which is
+    too slow to be useful here, but in the fast working memory the processor can reach directly.
+
+    How much of that memory you get depends entirely on the machine, and machines vary far more
+    than most people expect. Almost everything you build ends up on one of these four.
 
     | Where | Answers in | Electricity | Memory it has |
     | - | - | - | - |
@@ -240,13 +247,23 @@ def _(mo):
     | **A phone** | 5 to 50 ms | 3 to 5 watts | gigabytes, but you only get a slice |
     | **A microcontroller** | 1 to 10 ms | 50 to 100 milliwatts | kilobytes |
 
-    Read the electricity column again. The top row is **megawatts**, roughly what a small town
-    draws. The bottom row is **milliwatts**, less than a hearing aid. Same column, nine zeros
-    apart. Memory is the same story: terabytes at the top, kilobytes at the bottom.
+    Look at the electricity column twice. The top row is **megawatts**, about what a small town
+    uses. The bottom row is **milliwatts**, less than a hearing aid. Nine zeros between them.
+    Memory does the same thing: terabytes down to kilobytes.
 
-    And notice the direction of the speed column. The machine with the least power is expected
-    to answer the **fastest**. That is not a mistake. A microcontroller is usually sitting
-    inside something physical that is happening right now, and it has nowhere to send the work.
+    Why so far apart? Because of what each one is plugged into. The data centre is on the mains,
+    in a building built to carry the heat away. The little chip is running off a battery that
+    someone has to get a ladder out to change, and they would rather do that every two years
+    than every two weeks.
+
+    Now look at the speed column, which runs the other way. The machine with almost nothing has
+    to answer the **fastest**.
+
+    That is not a mistake either. When you ask a data centre something, you are a person at the
+    end of a network, and people will wait half a second without minding. The little chip is not
+    answering a person. It is inside a door that is closing, or a motor that is turning, and
+    those do not wait. It also has nobody to hand the job to. The phone can ask a server, the
+    server can ask a data centre, and the chip stuck on the wall can ask nobody.
     """
     )
     return
@@ -265,7 +282,7 @@ def _(ask):
         "b",
         {
             "a": ("The opposite, by a wide margin. A microcontroller does roughly a billionth of "
-                  "the arithmetic per second that a data centre rack does."),
+                  "the sums per second that a rack in a data centre does."),
             "b": ("Sending the work somewhere else costs a network round trip, and a lot of "
                   "things cannot wait or have nowhere to send it. A doorbell in a house with bad "
                   "wifi still has to work."),
@@ -287,7 +304,7 @@ def _(q1, q1_render):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Part 2: Try it""")
+    mo.md(r"""## Part 2: Will it fit?""")
     return
 
 
@@ -295,13 +312,26 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    Here are four real machines and a set of real models. Drag the slider and watch which homes
-    stay open to you.
+    Now the first of the two questions. Given a model and a machine, will the list of numbers
+    fit in the memory that machine has?
 
-    Two things decide it. **Does the model fit in the memory that machine has**, and **can it be
-    read fast enough** to answer in time. That second one matters more than people expect: to
-    produce one answer, the machine has to read every single number in the model, so a bigger
-    model is slower for a reason that has nothing to do with cleverness.
+    You can work this out on paper, and it is worth seeing how simple it is.
+
+    Each number in the list normally takes up **four bytes**. So a model with 25 million numbers
+    takes 25 million times four, which is 100 million bytes, or about **100 MB**. Compare that
+    against the memory of the machine, and you have your answer.
+
+    The cards below do exactly that sum for four machines at once. They also check the second
+    question, how long the machine takes to read the whole list, but leave that for now. Drag
+    the slider and watch which machines stay open to you.
+
+    /// admonition | Each card is one example chip, not a whole category
+    Chips in the same row differ wildly. An Arduino Uno has **2 KB** of memory. The ESP32 in a
+    smart plug has about **520 KB**. That is 250 times, inside one row, and a model that runs
+    happily on one will not load at all on the other.
+
+    So "will it run on a microcontroller" has no answer. **"Will it run on this chip"** does.
+    ///
     """
     )
     return
@@ -343,10 +373,10 @@ def _(mo):
 def _(MODELS, precision, size):
     HOMES = [
         # name, where, memory it has (MB), read speed (GB/s), must answer within (ms)
-        ("Data centre", "a rack of accelerators", 80_000.0, 2039.0, 500.0),
-        ("Local server", "a machine in the building", 8_000.0, 200.0, 100.0),
-        ("Phone", "in someone's pocket", 1_500.0, 50.0, 50.0),
-        ("Microcontroller", "inside a device", 0.5, 0.2, 10.0),
+        ("Data centre", "one big accelerator", 80_000.0, 2039.0, 500.0),
+        ("Local server", "a workstation card", 8_000.0, 200.0, 100.0),
+        ("Phone", "what one app is allowed", 1_500.0, 50.0, 50.0),
+        ("Microcontroller", "an ESP32, roughly", 0.5, 0.2, 10.0),
     ]
 
     params_m = float(size.value)
@@ -445,22 +475,21 @@ def _(mo):
         {
             "What you should have noticed": mo.md(
                 """
-**The homes close from the bottom up, and they close early.** The microcontroller is out
-before you reach a model most people would call small. A 3.5 million number model, which is
-already stripped down and built for phones, is about 28 times too big for it.
+**Places drop out from the bottom, and they drop out early.** The microcontroller is gone
+before you reach anything most people would call a big model. MobileNet was built to be small
+and to run on phones, and it is still about 28 times too big for a microcontroller.
 
-**Memory runs out long before speed does.** Look at how the cards fail. Almost every red card
-says "will not fit", not "too slow". Once something fits, it is usually fast enough. This is
-worth remembering, because people reach for faster chips when the thing that actually stopped
-them was space.
+**Memory runs out long before speed does.** Read the red cards again. They nearly all say "will
+not fit", not "too slow". Once something fits, it is usually quick enough. People buy faster
+chips when what actually stopped them was space.
 
-**Nothing about the model changed.** It is the same numbers in the same order the whole way
-along. What changed is where you asked it to live. Last week the same point arrived through
-time; this week it arrives through space.
+**The model never changed.** Same numbers, same order, the whole way along. All that changed was
+where you asked it to live. Last week that point came at you through time. This week it comes
+through space.
 
-**And the top does not stay open forever either.** The 7 billion number model is 28 GB. That
-fits in a data centre and nowhere else on this list, which is exactly why the chat models you
-use every day are somewhere else, answering over a network, rather than on your laptop.
+**The top runs out too.** A 7 billion number model is 27 GB. Only the data centre can hold it.
+That is why the chat tools you use every day answer over a network instead of running on your
+laptop.
 """
             ),
             "Why reading the model is what takes the time": mo.md(
@@ -480,9 +509,8 @@ For ResNet-50 at 100 MB on a data centre accelerator, that is about 0.05 millise
 phone, about 2 milliseconds. Both comfortably inside their budgets, which is why that model is
 everywhere.
 
-The sum is rough. It ignores the actual arithmetic, and it assumes one answer at a time. But it
-gets you the right order of magnitude in ten seconds, and the right order of magnitude is
-usually the decision.
+This is rough. It ignores the sums themselves, and it assumes one answer at a time. But it gets
+you close enough in about ten seconds, and close enough is usually all you need to decide.
 """
             ),
         }
@@ -495,15 +523,15 @@ def _(ask):
     q2, q2_render, q2_sum = ask(
         "**Quick check.** A model will not run on your phone. Looking at the cards above, what is most often the reason?",
         {
-            "The phone's processor is not fast enough at arithmetic": "a",
+            "The phone is not fast enough at doing the sums": "a",
             "The model is simply too big to fit in the memory the phone gives an app": "b",
             "The phone is not accurate enough": "c",
             "The model was trained on the wrong kind of hardware": "d",
         },
         "b",
         {
-            "a": ("Sometimes, but it is rarely what stops you first. Notice how many of the red "
-                  "cards said 'will not fit' rather than 'too slow'."),
+            "a": ("Sometimes, but it is rarely what stops you first. Look at how many red cards "
+                  "said 'will not fit' rather than 'too slow'."),
             "b": ("Space runs out before speed does, almost every time. That is why so much of "
                   "this course is about making models smaller rather than machines faster."),
             "c": ("Accuracy belongs to the model, not the phone. The same model gives the same "
@@ -524,7 +552,7 @@ def _(q2, q2_render):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Part 3: When it does not fit""")
+    mo.md(r"""## Part 3: What to do when it does not fit""")
     return
 
 
@@ -532,17 +560,12 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    Suppose the machine is fixed. It is the camera you already bought, or the phone your users
-    already own. You cannot make it bigger. The model does not fit. Now what?
+    You will have found sizes where some of the cards go red. That happens constantly in real
+    work, and the machine is usually not something you get to change. It is the camera already
+    screwed to the wall, or the phone your users already own.
 
-    There are only two moves available, and one of them is usually not.
-
-    You can **get a bigger machine**, which is often out of the question: you are not going to
-    ship everyone a new phone. Or you can **make the model smaller**, which is where nearly all
-    the engineering effort goes.
-
-    The bluntest way to make a model smaller has nothing to do with the model at all. It is
-    just arithmetic about how you store numbers.
+    So the model has to get smaller. And there is a way to do that which does not touch the
+    model's design at all.
     """
     )
     return
@@ -554,12 +577,18 @@ def _(mo):
         r"""
     ### Storing the same number in less space
 
-    A model is a long list of numbers. By default each one is kept to high precision and takes
-    **four bytes**. But nothing forces that. You can round them off and keep each in **two
-    bytes**, or **one**.
+    Remember the sum from Part 2: size is the count of numbers times four bytes each.
 
-    Do that and the model halves, then halves again, without removing a single number from it.
-    Go back to the slider above and switch between the three settings. Watch homes reopen.
+    There are two ways to make that smaller, and only one of them is easy. You could use fewer
+    numbers, which means designing a different model and retraining it. Or you could **keep
+    every number and store each one in less space**.
+
+    Four bytes is simply the default. It holds a number to far more decimal places than most
+    models need. Round each one off a little and it fits in **two bytes**. Round harder and it
+    fits in **one**.
+
+    The list stays exactly as long. Nothing is deleted. But the whole thing halves, then halves
+    again. Go back to the slider in Part 2 and switch between the three settings.
 
     | How each number is stored | A 110 million number model | What it costs you |
     | - | - | - |
@@ -601,7 +630,7 @@ def _(ask):
         {
             "It has half as many numbers in it": "a",
             "It keeps every number, but each is stored less precisely, so the whole thing is half the size": "b",
-            "It becomes twice as fast at arithmetic but the same size": "c",
+            "It runs twice as fast but stays the same size": "c",
             "It has to be retrained from scratch": "d",
         },
         "b",
@@ -610,8 +639,9 @@ def _(ask):
                   "behaves in almost the same way."),
             "b": ("The list is the same length; each entry is just kept more roughly. Half the "
                   "space, and usually very little accuracy lost at two bytes."),
-            "c": ("It often does speed things up, because there is less to read from memory. But "
-                  "the headline effect is size, and size is what decides whether it fits."),
+            "c": ("It usually does speed things up too, because there is less to fetch. But the "
+                  "main thing it changes is size, and size is what decides whether it fits at "
+                  "all."),
             "d": ("Usually not. It is normally applied to a model that has already been trained, "
                   "which is a large part of why it is the first thing people try."),
         },
@@ -628,7 +658,7 @@ def _(q3, q3_render):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Part 4: What a task's time is actually made of""")
+    mo.md(r"""## Part 4: Fitting is not the same as being fast enough""")
     return
 
 
@@ -636,28 +666,40 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    So far the question has been whether a model fits. Now assume it does. How long does it
-    take to produce one answer?
+    That was the first question settled. The model fits. Now the second one, which is the
+    harder half: somebody has asked it something, and they are waiting. How long do they wait?
 
-    It turns out to be three things, and you add them up.
+    Here is the part people skip. To produce one single answer, the computer has to **read every
+    number in the model**. All of them. It cannot use some and ignore the rest, because they all
+    contribute to the answer.
 
-    **Moving the bytes.** Everything the machine needs has to travel from memory to the part
-    that does the arithmetic. That takes however many bytes you need, divided by how fast the
-    machine can move them.
+    So reading is not free, and on a big model it is not quick either.
 
-    **Doing the arithmetic.** Count the operations, divide by how many the machine gets through
-    per second. With one honest correction: no machine ever reaches its advertised speed. If it
-    only manages 60 per cent of what is printed on the box, use 60 per cent.
+    A useful way to picture the whole thing is making a sandwich. You walk to the fridge and get
+    the things out. You make the sandwich. And there is a little faff around it, washing your
+    hands, finding a plate. Three steps, and the time is all three added up.
 
-    **Everything else.** Launching the work, waiting for things to synchronise, the general tax
-    of being a computer. Usually small, occasionally not.
+    A computer answering a question does exactly those three.
 
-    That is the whole method:
+    **It fetches.** It pulls the model's numbers out of memory. Memory is the fridge, and the
+    walk is not instant.
 
-    > **time = bytes to move / how fast it moves them + operations / how fast it computes + overhead**
+    **It does the sums.** Multiplying and adding, millions of times over. This is the bit
+    everyone pictures when they imagine a computer working, and it is often not the slow bit.
 
-    Nothing clever. What makes it useful is that it tells you *which of the three is the
-    problem*, and therefore which one is worth spending money on.
+    **And there is a little setup.** Starting the job off, waiting for parts of it to line up.
+    Usually a few milliseconds.
+
+    > **time = fetching + doing the sums + setup**
+
+    Now, why does anyone bother writing that down?
+
+    Because of this. Suppose fetching takes ten seconds and the sums take one. You go out and
+    buy a computer that does sums twice as fast. What actually improves? Almost nothing. You
+    still spend ten seconds walking to the fridge.
+
+    **So before spending anything on making something faster, work out which of the three you
+    are stuck on.** The next part is you doing that.
     """
     )
     return
@@ -667,10 +709,22 @@ def _(mo):
 def _(mo):
     mo.Html(
         """
+        <p style="color:#3a3a3a; line-height:1.7;"><strong>Working out each one.</strong>
+        Both of the first two are the same kind of sum you already know: how much, divided by how
+        fast.</p>
+        <ul style="color:#3a3a3a; line-height:1.75; font-size:1rem;">
+          <li><strong>Fetching.</strong> How many bytes, divided by how many bytes a second the
+              machine can pull from memory. 40 megabytes at 100 megabytes a second is 0.4
+              seconds. Exactly like 40 miles at 100 miles an hour.</li>
+          <li><strong>The sums.</strong> How many operations, divided by how many the machine
+              does per second. One warning: no chip ever runs at the speed printed on the box.
+              If yours manages 60 per cent of it, use 60 per cent.</li>
+          <li><strong>Setup.</strong> Just a number someone measured. A few milliseconds.</li>
+        </ul>
         <div class="w2-question">
-          <span class="lbl">Before you go on</span>
-          <p>"Every one of those three has to come out in seconds. If your units do not resolve
-          to seconds, you have made a mistake somewhere."</p>
+          <span class="lbl">One check that catches most mistakes</span>
+          <p>"All three have to come out in seconds. If yours do not, something has gone wrong
+          before you got to the answer."</p>
         </div>
         """
     )
@@ -679,7 +733,7 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Part 5: Find out what is actually slowing it down""")
+    mo.md(r"""## Part 5: Working out which of the three is the slow one""")
     return
 
 
@@ -687,10 +741,14 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    Here is a request arriving at a service. The machine moves **100 MB per second** and there
-    is a fixed **5 ms** of overhead on every request.
+    Here is a request arriving at a service, with all three numbers worked out for you as you
+    change them.
 
-    Work out where the time goes.
+    About the machine: it pulls **100 megabytes a second** out of memory, and every request
+    carries a fixed **5 milliseconds** of setup however small the job is.
+
+    The three sliders describe the job you hand it. The first two are the sums from before, both
+    of them just *how much, divided by how fast*. Move them and watch where the time goes.
     """
     )
     return
@@ -700,15 +758,15 @@ def _(mo):
 def _(mo):
     bytes_mb = mo.ui.slider(
         5, 200, value=40, step=5,
-        label="Bytes this request has to move (MB)", show_value=True,
+        label="How much it has to fetch (megabytes)", show_value=True,
     )
     ops_gf = mo.ui.slider(
         0.5, 20.0, value=2.0, step=0.5,
-        label="Arithmetic it has to do (billions of operations)", show_value=True,
+        label="How many sums it has to do (billions)", show_value=True,
     )
     machine_gf = mo.ui.slider(
         4, 48, value=12, step=2,
-        label="What the machine actually manages (billion operations per second)",
+        label="How many sums the machine really manages per second (billions)",
         show_value=True,
     )
     mo.vstack([bytes_mb, ops_gf, machine_gf])
@@ -726,10 +784,10 @@ def _(bytes_mb, machine_gf, ops_gf):
     t_total = t_data + t_compute + t_over
 
     terms = [
-        ("Moving the bytes", t_data, f"{bytes_mb.value:g} MB at {BANDWIDTH_MBPS:g} MB/s"),
-        ("Doing the arithmetic", t_compute,
-         f"{ops_gf.value:g} billion at {machine_gf.value:g} billion/s"),
-        ("Everything else", t_over, "fixed overhead"),
+        ("Fetching", t_data, f"{bytes_mb.value:g} MB to fetch, at {BANDWIDTH_MBPS:g} MB a second"),
+        ("Doing the sums", t_compute,
+         f"{ops_gf.value:g} billion sums, at {machine_gf.value:g} billion a second"),
+        ("Setup", t_over, "the same every time"),
     ]
     biggest = max(terms, key=lambda x: x[1])[0]
 
@@ -757,7 +815,7 @@ def _(LAB_CSS, biggest, mo, t_total, terms):
     mo.Html(
         f"""
         <div class="w2-bars">{_rows}</div>
-        <div class="w2-total"><span>Total for one request</span><b>{t_total:.0f} ms</b></div>
+        <div class="w2-total"><span>How long that person waits</span><b>{t_total:.0f} ms</b></div>
         """
     )
     return
@@ -767,13 +825,14 @@ def _(LAB_CSS, biggest, mo, t_total, terms):
 def _(biggest, mo, saved_pct, t_total, t_total_2x):
     mo.vstack([
         mo.callout(
-            mo.md(f"**{biggest}** is the biggest of the three. That is your bottleneck."),
+            mo.md(f"**{biggest}** is the biggest of the three. That is the one holding "
+                  f"you up, and the only one worth paying to fix."),
             kind="info",
         ),
         mo.md(
-            f"Now suppose you buy a machine with **twice the arithmetic speed**. The total goes "
-            f"from **{t_total:.0f} ms** to **{t_total_2x:.0f} ms**. That is "
-            f"**{saved_pct:.0f} per cent** faster, for double the money."
+            f"Say you buy a machine that does sums **twice as fast**. The wait goes from "
+            f"**{t_total:.0f} ms** down to **{t_total_2x:.0f} ms**. You paid twice as much "
+            f"and got **{saved_pct:.0f} per cent**."
         ),
     ])
     return
@@ -785,20 +844,25 @@ def _(mo):
         {
             "What to take from that": mo.md(
                 """
-Leave the sliders where they started and the three terms come out at **400 ms**, **167 ms** and
-**5 ms**. Moving the bytes takes more than twice as long as the arithmetic. The machine finishes
-computing and then sits there waiting for data.
+Where the sliders started, the three numbers were **400**, **167** and **5** milliseconds.
 
-Buying twice the arithmetic speed in that situation improves the total by about **15 per cent**.
-Not nothing, but you doubled your spend to shave a seventh off. If you had doubled the memory
-speed instead, you would have taken 200 ms off a 572 ms request.
+Fetching took more than twice as long as the sums. So for most of that request, the computer had
+already finished its maths and was sitting there waiting for data to arrive. Back at the fridge.
 
-**The rule this gives you: only upgrading the biggest term buys you much.** Money spent on any
-other term is mostly wasted, and the arithmetic above is how you find out which is which before
-you spend it.
+Now look at what the upgrades buy you.
 
-Drag the arithmetic slider up to 20 billion operations and watch the verdict change. Same
-method, different answer, and now the expensive GPU is exactly the right purchase.
+- A processor **twice as fast** cuts 167 down to 83. You save 84 ms out of 572. About **15 per
+  cent**.
+- Memory **twice as fast** cuts 400 down to 200. You save 200 ms out of 572. About **35 per
+  cent**.
+
+Same money. One of them is more than twice as good, and it is not the one most people reach for.
+
+**So: find the biggest of the three before you spend anything.** That is really all this is for.
+
+Try dragging the sums slider up to 20 billion. Now the sums are the big number, and the fast
+processor becomes the right buy. Neither component is better than the other. It depends entirely
+on the job you are giving it.
 """
             ),
         }
@@ -839,7 +903,7 @@ def _(q4, q4_render):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Part 6: The bottleneck is not a property of the model""")
+    mo.md(r"""## Part 6: The slow step can change, without you changing the model""")
     return
 
 
@@ -847,20 +911,36 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    People say things like "transformers are memory-bound" and "convolutional networks are
-    compute-bound" as though it were a fact about the architecture. It is not, and here is the
-    counter-example.
+    You can now find the slow step. The last thing to know is that the answer is not fixed. It
+    moves, and you are the one who moves it.
 
-    First, a correction to something Part 2 quietly glossed over. **A model in memory is not
-    just its weights.** Running it also produces intermediate results at every layer, and those
-    are usually the bigger number. For ResNet-50 the weights are about **97.5 MB**, loaded once
-    however many images you push through, and the intermediates are about **20 MB per image**.
+    Back to the sandwiches.
 
-    So the bytes you move are `97.5 + 20 x images`. The arithmetic is `7.7 billion x images`.
+    Making one sandwich: you walk to the fridge, get everything out, make it, put it back. Most
+    of your time went on walking.
 
-    Notice the two grow at different rates. Double the images and you double the arithmetic
-    exactly, but you do not double the bytes, because the weights are paid for once and then
-    shared. Drag the slider and watch what that does.
+    Making eight: you still walk to the fridge **once**. That walk is now shared between all
+    eight, so per sandwich it hardly counts. What takes the time now is buttering and cutting,
+    and you have to do that eight times over.
+
+    **Same fridge, same walk, same sandwich. Different answer about what is slowing you down.**
+
+    Computers do precisely this, and it is why "that model is slow because of memory" is not a
+    fact you can look up anywhere.
+
+    To see it, there is one detail Part 2 left out. A model does not only need room for its own
+    numbers. While it runs it also scribbles down working-out at each step, the way you would on
+    paper, then throws it away. For ResNet-50, a common image model:
+
+    - its own numbers come to about **97.5 MB**, and those are fetched **once**, no matter how
+      many images you send through together
+    - the working-out is about **20 MB for every image**, so that part grows
+
+    The sums come to about **7.7 billion for every image**, so those grow too.
+
+    Send eight images at once and you do eight times the sums. But you do not fetch eight times
+    the bytes, because the 97.5 MB was fetched once and shared between them. That is the walk to
+    the fridge, and it is what shifts the balance.
     """
     )
     return
@@ -871,7 +951,7 @@ def _(mo):
     batch = mo.ui.slider(
         steps=[1, 2, 3, 4, 8, 16, 32, 64],
         value=1,
-        label="Images sent through together",
+        label="How many images you send at once",
         show_value=True,
     )
     batch
@@ -886,9 +966,9 @@ def _(batch):
     MACHINE_DEMANDS = 153.0     # what this accelerator needs per byte to stay busy
 
     b = int(batch.value)
-    d_vol_mb = WEIGHTS_MB + ACT_MB * b
+    fetched_mb = WEIGHTS_MB + ACT_MB * b
     ops = FLOPS_PER_IMAGE * b
-    supplied = ops / (d_vol_mb * 1e6)          # operations per byte the workload offers
+    supplied = ops / (fetched_mb * 1e6)          # sums the job offers per byte fetched
     ceiling = FLOPS_PER_IMAGE / (ACT_MB * 1e6)  # where it flattens out, however big the batch
     compute_bound = supplied > MACHINE_DEMANDS
     return (
@@ -896,37 +976,37 @@ def _(batch):
         b,
         ceiling,
         compute_bound,
-        d_vol_mb,
+        fetched_mb,
         ops,
         supplied,
     )
 
 
 @app.cell(hide_code=True)
-def _(LAB_CSS, MACHINE_DEMANDS, compute_bound, d_vol_mb, mo, ops, supplied):
+def _(LAB_CSS, MACHINE_DEMANDS, compute_bound, fetched_mb, mo, ops, supplied):
     _ = LAB_CSS
     _scale = max(supplied, MACHINE_DEMANDS) * 1.1
     mo.Html(
         f"""
         <div class="w2-bars">
           <div class="w2-bar{' win' if compute_bound else ''}">
-            <span class="t">The work offers<br><span style="color:#8a8a8a;font-size:.78rem">
-            {ops / 1e9:.1f} billion operations over {d_vol_mb:.0f} MB</span></span>
+            <span class="t">Sums the job offers<br><span style="color:#8a8a8a;font-size:.78rem">
+            {ops / 1e9:.1f} billion sums for every {fetched_mb:.0f} MB fetched</span></span>
             <span class="track"><span class="fill"
               style="width:{supplied / _scale * 100:.1f}%"></span></span>
             <span class="n">{supplied:.0f}</span>
           </div>
           <div class="w2-bar{'' if compute_bound else ' win'}">
-            <span class="t">The machine needs<br><span style="color:#8a8a8a;font-size:.78rem">
-            to keep its arithmetic busy</span></span>
+            <span class="t">Sums the machine wants<br><span style="color:#8a8a8a;font-size:.78rem">
+            to avoid sitting idle</span></span>
             <span class="track"><span class="fill"
               style="width:{MACHINE_DEMANDS / _scale * 100:.1f}%"></span></span>
             <span class="n">{MACHINE_DEMANDS:.0f}</span>
           </div>
         </div>
-        <p style="color:#6f6f6f;font-size:.85rem;margin:2px 0 0">Both numbers are operations per
-        byte. If the work offers less than the machine needs, the machine runs out of data and
-        waits.</p>
+        <p style="color:#6f6f6f;font-size:.85rem;margin:2px 0 0">Both bars count sums per byte
+        fetched. If the job offers fewer than the machine wants, the machine finishes early and
+        waits around.</p>
         """
     )
     return
@@ -935,14 +1015,14 @@ def _(LAB_CSS, MACHINE_DEMANDS, compute_bound, d_vol_mb, mo, ops, supplied):
 @app.cell(hide_code=True)
 def _(b, compute_bound, mo, supplied):
     if compute_bound:
-        _msg = (f"At {b} image{'s' if b > 1 else ''} the work offers {supplied:.0f} operations "
-                f"per byte, more than the machine needs. **The arithmetic is now the "
-                f"bottleneck.**")
+        _msg = (f"With {b} image{'s' if b > 1 else ''} at a time, the job hands over "
+                f"{supplied:.0f} sums for every byte fetched. The machine only wanted 153, so "
+                f"it has plenty to get on with. **Now the sums are what take the time.**")
         _kind = "success"
     else:
-        _msg = (f"At {b} image{'s' if b > 1 else ''} the work offers only {supplied:.0f} "
-                f"operations per byte. **The machine is starved**, finishing its arithmetic and "
-                f"waiting for bytes.")
+        _msg = (f"With {b} image{'s' if b > 1 else ''} at a time, the job only hands over "
+                f"{supplied:.0f} sums for every byte fetched, and the machine wanted 153. "
+                f"**It finishes early and waits.** Most of the time goes on fetching.")
         _kind = "warn"
     mo.callout(mo.md(_msg), kind=_kind)
     return
@@ -954,27 +1034,40 @@ def _(ceiling, mo):
         {
             "What just happened": mo.md(
                 f"""
-**One image:** the work offers 66 operations per byte, the machine wants 153. It starves. The
-time is dominated by moving bytes.
+First, what the two numbers on the bars mean.
 
-**Four images:** they cross over. Three is still just short.
+The top one belongs to the job: how many sums it hands over for every byte fetched. Send more
+images at once and this number changes.
 
-**Eight images:** 239 offered against 153 needed. The machine is fed, and now the arithmetic is
-what takes the time.
+The bottom one belongs to the machine: how many sums it can get through for every byte it can
+fetch. For this one that is **153**, and it never changes.
 
-Same model. Same card. Same numbers inside the model, unchanged. **Only the batch size moved**,
-and the bottleneck swapped ends. So "is ResNet-50 compute-bound or memory-bound?" is not a
-question with an answer. It is bound by whichever term is bigger *in the situation you are
-actually running it*, and you get to move that.
+Compare the two and you have your answer. If the job offers fewer sums per byte than the machine
+wants, the machine finishes early and waits. If it offers more, the machine is what is holding
+you up.
 
-**It does stop, though.** Push the slider to 64 and the number barely grows any more. The
-ceiling is about **{ceiling:.0f}** operations per byte, and no batch size gets past it, because
-once the intermediates dwarf the weights there is no fixed cost left to spread out. That ceiling
-belongs to the architecture.
+Now watch what happened.
 
-So why does anyone run batches of 512? Not to change the regime, which was settled by about
-batch 4. For throughput: to amortise the fixed overhead and keep the machine busy. Which is a
-different argument, and the one you met in Week 1.
+**One image.** The job offers 66 sums per byte. The machine wanted 153. It is bored. Most of the
+time goes on fetching.
+
+**Four images.** They cross over.
+
+**Eight images.** The job now offers 239. The machine has plenty to do, and the sums become the
+slow part.
+
+Nothing about the model changed. Same numbers inside it, same card underneath it. **All you
+changed was how many images you sent at once.** So if someone asks you whether ResNet-50 is
+limited by memory or by computing, the honest answer is "it depends how you run it", and how you
+run it is your choice.
+
+**It does stop helping, though.** Push the slider to 64 and the number barely moves. The highest
+it can ever go is about **{ceiling:.0f}**. Once the working-out is much bigger than the model's
+own numbers, there is no fridge trip left to share out. That limit comes from how the model is
+built, and no batch size gets past it.
+
+So why do people run 512 images at once? Not for this. That was settled by about four. They do
+it to stop the machine sitting idle between jobs, which is the throughput problem from Week 1.
 """
             ),
         }
@@ -1016,7 +1109,7 @@ def _(q5, q5_render):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Part 7: Your decision""")
+    mo.md(r"""## Part 7: Putting it to work""")
     return
 
 
