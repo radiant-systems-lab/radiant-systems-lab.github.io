@@ -127,6 +127,21 @@ def _(mo):
           .w2-report .cross { color: #c62828; font-weight: 800; }
           .w2-report .quote { border-left: 3px solid #f1b82d; padding-left: 12px;
                               color: #333; font-style: italic; }
+
+          .w2-bars { display: flex; flex-direction: column; gap: 10px; margin: 16px 0; }
+          .w2-bar { display: grid; grid-template-columns: 150px 1fr 100px;
+                    align-items: center; gap: 12px; }
+          @media (max-width: 640px) { .w2-bar { grid-template-columns: 110px 1fr 78px; } }
+          .w2-bar .t { color: #4a4a4a; font-size: .87rem; line-height: 1.3; }
+          .w2-bar .track { background: #f4f4f4; border: 1px solid #ececec;
+                           border-radius: 6px; height: 28px; overflow: hidden; }
+          .w2-bar .fill { height: 100%; background: #dcdcdc; }
+          .w2-bar.win .fill { background: #f1b82d; }
+          .w2-bar.win .t { color: #111; font-weight: 700; }
+          .w2-bar .n { text-align: right; font-weight: 800; font-size: .9rem; color: #111; }
+          .w2-total { border-top: 1px solid #eee; margin-top: 12px; padding-top: 10px;
+                      display: flex; justify-content: space-between; font-size: .95rem; }
+          .w2-total b { color: #111; }
         </style>
         """
     )
@@ -177,9 +192,10 @@ def _(mo):
               <li>Name the four places a model normally runs and what limits each one.</li>
               <li>Work out whether a given model can fit somewhere before you try.</li>
               <li>Say which thing runs out first: memory, time, or power.</li>
+              <li>Work out whether moving bytes or doing arithmetic is the real bottleneck.</li>
             </ol>
             <div class="meta">
-              <div><dt>Time</dt><dd>about 20 min</dd></div>
+              <div><dt>Time</dt><dd>about 30 min</dd></div>
               <div><dt>Before this</dt><dd>Week 1</dd></div>
               <div><dt>Marked?</dt><dd>no, the quiz is</dd></div>
             </div>
@@ -612,7 +628,395 @@ def _(q3, q3_render):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Part 4: Your decision""")
+    mo.md(r"""## Part 4: What a task's time is actually made of""")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    So far the question has been whether a model fits. Now assume it does. How long does it
+    take to produce one answer?
+
+    It turns out to be three things, and you add them up.
+
+    **Moving the bytes.** Everything the machine needs has to travel from memory to the part
+    that does the arithmetic. That takes however many bytes you need, divided by how fast the
+    machine can move them.
+
+    **Doing the arithmetic.** Count the operations, divide by how many the machine gets through
+    per second. With one honest correction: no machine ever reaches its advertised speed. If it
+    only manages 60 per cent of what is printed on the box, use 60 per cent.
+
+    **Everything else.** Launching the work, waiting for things to synchronise, the general tax
+    of being a computer. Usually small, occasionally not.
+
+    That is the whole method:
+
+    > **time = bytes to move / how fast it moves them + operations / how fast it computes + overhead**
+
+    Nothing clever. What makes it useful is that it tells you *which of the three is the
+    problem*, and therefore which one is worth spending money on.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.Html(
+        """
+        <div class="w2-question">
+          <span class="lbl">Before you go on</span>
+          <p>"Every one of those three has to come out in seconds. If your units do not resolve
+          to seconds, you have made a mistake somewhere."</p>
+        </div>
+        """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""## Part 5: Find out what is actually slowing it down""")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    Here is a request arriving at a service. The machine moves **100 MB per second** and there
+    is a fixed **5 ms** of overhead on every request.
+
+    Work out where the time goes.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    bytes_mb = mo.ui.slider(
+        5, 200, value=40, step=5,
+        label="Bytes this request has to move (MB)", show_value=True,
+    )
+    ops_gf = mo.ui.slider(
+        0.5, 20.0, value=2.0, step=0.5,
+        label="Arithmetic it has to do (billions of operations)", show_value=True,
+    )
+    machine_gf = mo.ui.slider(
+        4, 48, value=12, step=2,
+        label="What the machine actually manages (billion operations per second)",
+        show_value=True,
+    )
+    mo.vstack([bytes_mb, ops_gf, machine_gf])
+    return bytes_mb, machine_gf, ops_gf
+
+
+@app.cell(hide_code=True)
+def _(bytes_mb, machine_gf, ops_gf):
+    BANDWIDTH_MBPS = 100.0
+    OVERHEAD_MS = 5.0
+
+    t_data = float(bytes_mb.value) / BANDWIDTH_MBPS * 1000.0
+    t_compute = float(ops_gf.value) / float(machine_gf.value) * 1000.0
+    t_over = OVERHEAD_MS
+    t_total = t_data + t_compute + t_over
+
+    terms = [
+        ("Moving the bytes", t_data, f"{bytes_mb.value:g} MB at {BANDWIDTH_MBPS:g} MB/s"),
+        ("Doing the arithmetic", t_compute,
+         f"{ops_gf.value:g} billion at {machine_gf.value:g} billion/s"),
+        ("Everything else", t_over, "fixed overhead"),
+    ]
+    biggest = max(terms, key=lambda x: x[1])[0]
+
+    # What a machine twice as fast would actually buy you.
+    t_total_2x = t_data + (t_compute / 2.0) + t_over
+    saved_pct = (t_total - t_total_2x) / t_total * 100.0
+    return biggest, saved_pct, t_total, t_total_2x, terms
+
+
+@app.cell(hide_code=True)
+def _(LAB_CSS, biggest, mo, t_total, terms):
+    _ = LAB_CSS
+    _widest = max(t[1] for t in terms) or 1.0
+    _rows = ""
+    for _label, _ms, _detail in terms:
+        _pct = _ms / _widest * 100.0
+        _win = " win" if _label == biggest else ""
+        _rows += f"""
+        <div class="w2-bar{_win}">
+          <span class="t">{_label}<br><span style="color:#8a8a8a;font-size:.78rem">{_detail}</span></span>
+          <span class="track"><span class="fill" style="width:{_pct:.1f}%"></span></span>
+          <span class="n">{_ms:.0f} ms</span>
+        </div>
+        """
+    mo.Html(
+        f"""
+        <div class="w2-bars">{_rows}</div>
+        <div class="w2-total"><span>Total for one request</span><b>{t_total:.0f} ms</b></div>
+        """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(biggest, mo, saved_pct, t_total, t_total_2x):
+    mo.vstack([
+        mo.callout(
+            mo.md(f"**{biggest}** is the biggest of the three. That is your bottleneck."),
+            kind="info",
+        ),
+        mo.md(
+            f"Now suppose you buy a machine with **twice the arithmetic speed**. The total goes "
+            f"from **{t_total:.0f} ms** to **{t_total_2x:.0f} ms**. That is "
+            f"**{saved_pct:.0f} per cent** faster, for double the money."
+        ),
+    ])
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.accordion(
+        {
+            "What to take from that": mo.md(
+                """
+Leave the sliders where they started and the three terms come out at **400 ms**, **167 ms** and
+**5 ms**. Moving the bytes takes more than twice as long as the arithmetic. The machine finishes
+computing and then sits there waiting for data.
+
+Buying twice the arithmetic speed in that situation improves the total by about **15 per cent**.
+Not nothing, but you doubled your spend to shave a seventh off. If you had doubled the memory
+speed instead, you would have taken 200 ms off a 572 ms request.
+
+**The rule this gives you: only upgrading the biggest term buys you much.** Money spent on any
+other term is mostly wasted, and the arithmetic above is how you find out which is which before
+you spend it.
+
+Drag the arithmetic slider up to 20 billion operations and watch the verdict change. Same
+method, different answer, and now the expensive GPU is exactly the right purchase.
+"""
+            ),
+        }
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(ask):
+    q4, q4_render, q4_sum = ask(
+        "**Quick check.** Your request spends 400 ms moving bytes and 167 ms computing. Your budget buys one upgrade. Which?",
+        {
+            "A processor twice as fast": "a",
+            "Memory twice as fast": "b",
+            "Both, split evenly": "c",
+            "Neither: reduce the overhead instead": "d",
+        },
+        "b",
+        {
+            "a": ("This is the reflex, and it buys about 15 per cent. You would be paying to "
+                  "speed up the part that was already waiting around."),
+            "b": ("Halving the 400 ms term takes 200 ms off a 572 ms request, roughly 35 per "
+                  "cent. Three times the improvement, for the same money."),
+            "c": ("Splitting a budget across both gets you less than putting all of it on the "
+                  "term that dominates. Diagnose first, then spend."),
+            "d": ("The overhead is 5 ms of 572. Even removing it entirely is under one per cent."),
+        },
+    )
+    q4
+    return q4, q4_render, q4_sum
+
+
+@app.cell(hide_code=True)
+def _(q4, q4_render):
+    q4_render(q4.value)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""## Part 6: The bottleneck is not a property of the model""")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    People say things like "transformers are memory-bound" and "convolutional networks are
+    compute-bound" as though it were a fact about the architecture. It is not, and here is the
+    counter-example.
+
+    First, a correction to something Part 2 quietly glossed over. **A model in memory is not
+    just its weights.** Running it also produces intermediate results at every layer, and those
+    are usually the bigger number. For ResNet-50 the weights are about **97.5 MB**, loaded once
+    however many images you push through, and the intermediates are about **20 MB per image**.
+
+    So the bytes you move are `97.5 + 20 x images`. The arithmetic is `7.7 billion x images`.
+
+    Notice the two grow at different rates. Double the images and you double the arithmetic
+    exactly, but you do not double the bytes, because the weights are paid for once and then
+    shared. Drag the slider and watch what that does.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    batch = mo.ui.slider(
+        steps=[1, 2, 3, 4, 8, 16, 32, 64],
+        value=1,
+        label="Images sent through together",
+        show_value=True,
+    )
+    batch
+    return (batch,)
+
+
+@app.cell(hide_code=True)
+def _(batch):
+    WEIGHTS_MB = 97.5
+    ACT_MB = 20.0
+    FLOPS_PER_IMAGE = 7.7e9
+    MACHINE_DEMANDS = 153.0     # what this accelerator needs per byte to stay busy
+
+    b = int(batch.value)
+    d_vol_mb = WEIGHTS_MB + ACT_MB * b
+    ops = FLOPS_PER_IMAGE * b
+    supplied = ops / (d_vol_mb * 1e6)          # operations per byte the workload offers
+    ceiling = FLOPS_PER_IMAGE / (ACT_MB * 1e6)  # where it flattens out, however big the batch
+    compute_bound = supplied > MACHINE_DEMANDS
+    return (
+        MACHINE_DEMANDS,
+        b,
+        ceiling,
+        compute_bound,
+        d_vol_mb,
+        ops,
+        supplied,
+    )
+
+
+@app.cell(hide_code=True)
+def _(LAB_CSS, MACHINE_DEMANDS, compute_bound, d_vol_mb, mo, ops, supplied):
+    _ = LAB_CSS
+    _scale = max(supplied, MACHINE_DEMANDS) * 1.1
+    mo.Html(
+        f"""
+        <div class="w2-bars">
+          <div class="w2-bar{' win' if compute_bound else ''}">
+            <span class="t">The work offers<br><span style="color:#8a8a8a;font-size:.78rem">
+            {ops / 1e9:.1f} billion operations over {d_vol_mb:.0f} MB</span></span>
+            <span class="track"><span class="fill"
+              style="width:{supplied / _scale * 100:.1f}%"></span></span>
+            <span class="n">{supplied:.0f}</span>
+          </div>
+          <div class="w2-bar{'' if compute_bound else ' win'}">
+            <span class="t">The machine needs<br><span style="color:#8a8a8a;font-size:.78rem">
+            to keep its arithmetic busy</span></span>
+            <span class="track"><span class="fill"
+              style="width:{MACHINE_DEMANDS / _scale * 100:.1f}%"></span></span>
+            <span class="n">{MACHINE_DEMANDS:.0f}</span>
+          </div>
+        </div>
+        <p style="color:#6f6f6f;font-size:.85rem;margin:2px 0 0">Both numbers are operations per
+        byte. If the work offers less than the machine needs, the machine runs out of data and
+        waits.</p>
+        """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(b, compute_bound, mo, supplied):
+    if compute_bound:
+        _msg = (f"At {b} image{'s' if b > 1 else ''} the work offers {supplied:.0f} operations "
+                f"per byte, more than the machine needs. **The arithmetic is now the "
+                f"bottleneck.**")
+        _kind = "success"
+    else:
+        _msg = (f"At {b} image{'s' if b > 1 else ''} the work offers only {supplied:.0f} "
+                f"operations per byte. **The machine is starved**, finishing its arithmetic and "
+                f"waiting for bytes.")
+        _kind = "warn"
+    mo.callout(mo.md(_msg), kind=_kind)
+    return
+
+
+@app.cell(hide_code=True)
+def _(ceiling, mo):
+    mo.accordion(
+        {
+            "What just happened": mo.md(
+                f"""
+**One image:** the work offers 66 operations per byte, the machine wants 153. It starves. The
+time is dominated by moving bytes.
+
+**Four images:** they cross over. Three is still just short.
+
+**Eight images:** 239 offered against 153 needed. The machine is fed, and now the arithmetic is
+what takes the time.
+
+Same model. Same card. Same numbers inside the model, unchanged. **Only the batch size moved**,
+and the bottleneck swapped ends. So "is ResNet-50 compute-bound or memory-bound?" is not a
+question with an answer. It is bound by whichever term is bigger *in the situation you are
+actually running it*, and you get to move that.
+
+**It does stop, though.** Push the slider to 64 and the number barely grows any more. The
+ceiling is about **{ceiling:.0f}** operations per byte, and no batch size gets past it, because
+once the intermediates dwarf the weights there is no fixed cost left to spread out. That ceiling
+belongs to the architecture.
+
+So why does anyone run batches of 512? Not to change the regime, which was settled by about
+batch 4. For throughput: to amortise the fixed overhead and keep the machine busy. Which is a
+different argument, and the one you met in Week 1.
+"""
+            ),
+        }
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(ask):
+    q5, q5_render, q5_sum = ask(
+        "**Quick check.** Is ResNet-50 compute-bound or memory-bound?",
+        {
+            "Compute-bound, it is a convolutional network": "a",
+            "Memory-bound, it has to read all its weights": "b",
+            "The question is malformed: it depends on the batch size and the machine": "c",
+            "It depends only on which machine you run it on": "d",
+        },
+        "c",
+        {
+            "a": ("You just watched it be memory-bound at one image. The architecture does not "
+                  "decide this on its own."),
+            "b": ("True at batch 1, false by batch 8. Same model, same card, only the batch "
+                  "changed."),
+            "c": ("A model does not carry a regime around with it. It is bound by whichever term "
+                  "is larger in the setup you are actually running, and batch size moves that."),
+            "d": ("The machine is half of it. The other half is how you feed it, which is why "
+                  "the batch slider changed the verdict without touching the hardware."),
+        },
+    )
+    q5
+    return q5, q5_render, q5_sum
+
+
+@app.cell(hide_code=True)
+def _(q5, q5_render):
+    q5_render(q5.value)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""## Part 7: Your decision""")
     return
 
 
@@ -765,6 +1169,10 @@ def _(
     q2_sum,
     q3,
     q3_sum,
+    q4,
+    q4_sum,
+    q5,
+    q5_sum,
     takeaway_text,
 ):
     _ = done
@@ -815,6 +1223,14 @@ def _(
                 <span class="k">Quick check 3</span>
                 <span class="v">{_check(q3_sum(q3.value))}</span>
               </div>
+              <div class="row">
+                <span class="k">Quick check 4</span>
+                <span class="v">{_check(q4_sum(q4.value))}</span>
+              </div>
+              <div class="row">
+                <span class="k">Quick check 5</span>
+                <span class="v">{_check(q5_sum(q5.value))}</span>
+              </div>
             </div>
             """
         ),
@@ -837,12 +1253,18 @@ def _(
     q2_sum,
     q3,
     q3_sum,
+    q4,
+    q4_sum,
+    q5,
+    q5_sum,
     takeaway_text,
 ):
     _ = done
     _a1 = q1_sum(q1.value)
     _a2 = q2_sum(q2.value)
     _a3 = q3_sum(q3.value)
+    _a4 = q4_sum(q4.value)
+    _a5 = q5_sum(q5.value)
 
     def _word(ok):
         return "not answered" if ok is None else ("correct" if ok else "not correct")
@@ -857,6 +1279,8 @@ def _(
         "check_1_why_a_microcontroller": {"answer": _a1[0], "correct": _a1[1]},
         "check_2_what_stops_a_phone": {"answer": _a2[0], "correct": _a2[1]},
         "check_3_halving_the_bytes": {"answer": _a3[0], "correct": _a3[1]},
+        "check_4_which_upgrade": {"answer": _a4[0], "correct": _a4[1]},
+        "check_5_bound_by_what": {"answer": _a5[0], "correct": _a5[1]},
     }
 
     report_text = chr(10).join([
@@ -882,6 +1306,10 @@ def _(
         f"    {_a2[0]}  [{_word(_a2[1])}]",
         "  What halving the bytes per number does",
         f"    {_a3[0]}  [{_word(_a3[1])}]",
+        "  Which upgrade to buy",
+        f"    {_a4[0]}  [{_word(_a4[1])}]",
+        "  Whether a model has a fixed bottleneck",
+        f"    {_a5[0]}  [{_word(_a5[1])}]",
     ])
 
     mo.accordion({
