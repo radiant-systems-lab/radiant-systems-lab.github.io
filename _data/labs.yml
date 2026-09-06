@@ -33,20 +33,24 @@
 - id: week_02
   number: 2
   week: 2
-  slug: lab_02_cloud
-  title: 'Cloud Setup'
-  status: coming-soon
+  slug: week_02
+  title: 'Where Does It Actually Run?'
+  status: available
   kind: notebook
   topic: 'Types of ML Systems'
-  due: '2026-09-06'
-  estimated_minutes: 60
-  url: /labs/lab_02_cloud/
+  due: '2026-09-09'
+  estimated_minutes: 30
+  url: /labs/week_02/
   summary: >
-    Stand up the shared cloud environment used for the rest of the course and
-    measure what the environment costs you before any model is involved.
+    A trained model is really just a very long list of numbers, and those numbers have
+    to live on a real machine. Will they fit? And once they do, how long does the machine
+    take to read them all before it can answer anyone? Two questions, four machines, and
+    an ending that catches most people out.
   objectives:
-    - 'Provision and verify the course cloud environment.'
-    - 'Measure baseline compute, memory, and I/O available to your workloads.'
+    - 'Work out on paper whether a model will fit on a given machine.'
+    - 'Say what to do when it does not fit.'
+    - 'Split the time it takes to answer into three parts and find the slow one.'
+    - 'Explain why the slow part changes when you send more work at once.'
 
 - id: week_03
   number: 3
