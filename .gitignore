@@ -7,3 +7,6 @@ labs/.venv
 labs/.build
 __pycache__/
 labs/_src/quizzes.md
+
+# marimo session cache, written by a non-WASM `marimo export html` run
+labs/_src/**/__marimo__/

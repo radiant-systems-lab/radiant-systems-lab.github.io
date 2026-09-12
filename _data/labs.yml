@@ -55,17 +55,22 @@
 - id: week_03
   number: 3
   week: 3
-  slug: lab_03_pipeline
-  title: 'First End-to-End Pipeline'
-  status: coming-soon
+  slug: week_03
+  title: 'The Constraint You Found Too Late'
+  status: available
   kind: notebook
   topic: 'ML Workflows'
-  due: '2026-09-06'
-  estimated_minutes: 90
-  url: /labs/lab_03_pipeline/
+  due: '2026-09-16'
+  estimated_minutes: 45
+  url: /labs/week_03/
   summary: >
-    Trace a minimal pipeline from raw data to a served prediction and identify
-    where time is actually spent.
+    Four months of work, a model that scores 95 per cent, and a tablet it was never going
+    to fit on. This lab is about the stages of an ML project, the direction trouble travels
+    along them, and what each stage has to hand the next one so that a problem gets caught
+    by a machine rather than by a patient.
   objectives:
-    - 'Trace the end-to-end path from data to deployment.'
-    - 'Identify the dominant bottleneck stage and support the claim with numbers.'
+    - 'Name the five stages, and say what makes them a loop rather than a line.'
+    - 'Trace a deployment constraint backwards to the stages that have to absorb it.'
+    - 'Say what one stage owes the next, and what breaks when it is not handed over.'
+    - 'Explain how a system can fail while every log line says it is healthy.'
+    - 'Say what a scheduler does that a timer cannot.'
