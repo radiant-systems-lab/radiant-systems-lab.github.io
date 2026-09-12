@@ -7,6 +7,20 @@
 #      [[PUB: title]] by [[PUB: authors]] has been accepted at [[PUB: journal]].
 #      Read the [[PUB: PDF]] or view the [[PUB: DOI]].
 
+- id: N-2026-65
+  News:
+    rank: 65
+    date: 2026-09-11
+    description: >
+      The paper [[Amortized Bayesian Inversion of Multi-Contrast Neutron Reflectometry]] by Roberto D. Herrera, Mithilesh Gollapelli, Upasana Roy, Konstantina Sokratous, Minh D. Phan, Prasad Calyam, Clintin Stober, and Tanu Malik got accepted at the [13th IEEE International Conference on Data Science and Advanced Analytics (DSAA 2026)](https://dsaa2026.dsaa.co/), held October 6-9, 2026 in New Delhi, India. Congrats Roberto and Mithilesh!
+
+- id: N-2026-64
+  News:
+    rank: 64
+    date: 2026-09-11
+    description: >
+      The paper [CAMP: Consumption-Aware Memory Prediction for Scientific Workflows](/pdfs/pdfs/pubs/IEEE_WORKS_26.pdf) by Nagarjuna Chowdary Kandimalla, [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/), and Tanu Malik got accepted at the [21st Workshop on Workflows in Support of Large-Scale Science (WORKS 2026)](https://works-workshop.org/), held with [SC26](https://sc26.supercomputing.org/program/workshops/) on November 15, 2026 in Chicago, Illinois. Congrats Nagarjuna and Bhanu!
+
 - id: N-2026-63
   News:
     rank: 63
