@@ -483,7 +483,13 @@
       return b;
     }
 
-    var email, pass, code, f;
+    var email, pass, again, code, f;
+
+    function samePassword() {
+      if (pass.input.value !== again.input.value) {
+        throw new Error("The two passwords do not match.");
+      }
+    }
     if (name === "signin") {
       card.appendChild(el("h1", { id: "rl-title", text: h.title }));
       card.appendChild(el("p", { class: "rl-sub", text:
@@ -514,10 +520,12 @@
       card.appendChild(el("p", { class: "rl-sub", text:
         "Use your University of Missouri email. We will send a code to check it is yours." }));
       email = input("University email", "email", "email", "username", { value: pendingEmail });
-      pass = input("Choose a password", "password", "password", "new-password", { minlength: "8" });
-      f = form([email.label, pass.label], "Create account", function () {
+      pass = input("New password", "password", "password", "new-password", { minlength: "8" });
+      again = input("Retype new password", "password", "password2", "new-password", { minlength: "8" });
+      f = form([email.label, pass.label, again.label], "Create account", function () {
         pendingEmail = email.input.value.trim();
         if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(pendingEmail)) throw new Error("Enter a valid email address.");
+        samePassword();
         return cognito("SignUp", {
           Username: username(pendingEmail),
           Password: pass.input.value,
@@ -579,7 +587,9 @@
       card.appendChild(el("p", { class: "rl-sub", text: "Enter the code from the email and a new password." }));
       code = input("Code", "text", "code", "one-time-code", { inputmode: "numeric", maxlength: "6" });
       pass = input("New password", "password", "password", "new-password", { minlength: "8" });
-      f = form([code.label, pass.label], "Set password and sign in", function () {
+      again = input("Retype new password", "password", "password2", "new-password", { minlength: "8" });
+      f = form([code.label, pass.label, again.label], "Set password and sign in", function () {
+        samePassword();
         return cognito("ConfirmForgotPassword", {
           Username: username(pendingEmail), ConfirmationCode: code.input.value.trim(),
           Password: pass.input.value,
