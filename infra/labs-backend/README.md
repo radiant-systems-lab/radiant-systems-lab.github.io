@@ -109,14 +109,14 @@ misbehaving script could cost.
 ## Things to know
 
 - **No emails.** Cognito's built-in sender (`no-reply@verificationemail.com`) is
-  held by university mail filters, so the sign-in page does not ask students for
-  emailed codes. New accounts wait for an admin to approve them under "Accounts
-  waiting for approval" on the dashboard. A forgotten password is handled with
-  "Find an account": the admin resets it, gets a temporary password that works for
-  7 days, and the student types it in the normal Password box and then chooses
-  their own. Only an owner can approve, reset or remove an owner's or admin's
-  account. To bring emailed codes back once delivery works (for example through
-  Amazon SES with your own domain), add `emailCodes: true` to `labs/gate/config.js`.
+  held by university mail filters, so the sign-in page never asks for emailed
+  codes. New accounts wait under "Student accounts" on the dashboard until an
+  admin approves them. For a typo or a forgotten password, the admin deletes the
+  account and the student creates it again, then the admin approves it. Saved
+  work is stored by email address, not by account, so it is kept. Only an owner
+  can approve or delete an owner's or admin's account. To bring emailed codes
+  back once delivery works (for example through Amazon SES with your own domain),
+  add `emailCodes: true` to `labs/gate/config.js`.
 - **Data.** Student answers tied to names are education records under FERPA.
   Check that this AWS account is approved for them before using it with a class.
 - **Viewing.** The labs are static files on GitHub Pages. The sign-in screen stops

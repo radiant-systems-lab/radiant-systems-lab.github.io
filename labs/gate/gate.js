@@ -18,8 +18,9 @@
  *                     data-lab="week_04" (default: taken from the URL)
  *
  * Emailed codes (verification, password reset) are off unless config.js sets
- * `emailCodes: true`: university mail holds Cognito's messages, so students are
- * approved and given temporary passwords by an instructor on the dashboard.
+ * `emailCodes: true`: university mail holds Cognito's messages. Instead an
+ * instructor approves new accounts on the dashboard, and a forgotten password
+ * means the account is deleted and created again (saved work is kept).
  *
  * For previewing a lab locally without AWS, set `mock: true` in config.js.
  * Sign-in is skipped and the API is faked in this browser's localStorage;
@@ -145,8 +146,8 @@
     });
   }
 
-  var WRONG_LOGIN = "Wrong email or password. Check the address you typed. If you still " +
-    "cannot get in, ask your instructor, who can reset your password.";
+  var WRONG_LOGIN = "Wrong email or password. Check the address you typed, or use " +
+    "Forgot password? below.";
 
   function friendly(data) {
     var type = String(data.__type || "").split("#").pop();
@@ -154,9 +155,6 @@
     switch (type) {
       case "NotAuthorizedException":
         if (/disabled/i.test(msg)) return "This account has been disabled.";
-        if (/temporary password has expired/i.test(msg)) {
-          return "That temporary password has expired. Ask your instructor for a new one.";
-        }
         return WRONG_LOGIN;
       case "UserNotFoundException":
         return WRONG_LOGIN;
@@ -324,30 +322,28 @@
       db.progress[m[1]].lockedBy = email;
       persist();
       out = row(m[1]);
-    } else if (path === "/admin/accounts/pending") {
+    } else if (path === "/admin/accounts") {
+      db.approved = db.approved || [];
       out = { accounts: db.pending.map(function (a) {
-        return { username: username(a), email: a, createdAt: now, staff: false };
-      }) };
+        return { username: username(a), email: a, status: "UNCONFIRMED", approved: false,
+                 createdAt: now, staff: false, you: false };
+      }).concat(db.approved.concat([address]).map(function (a) {
+        return { username: username(a), email: a, status: "CONFIRMED", approved: true,
+                 createdAt: now, staff: a === address, you: a === address };
+      })) };
     } else if (path === "/admin/accounts/confirm") {
+      db.approved = db.approved || [];
       out = { results: body.usernames.map(function (u) {
-        var before = db.pending.length;
+        var match = db.pending.filter(function (a) { return username(a) === u; });
         db.pending = db.pending.filter(function (a) { return username(a) !== u; });
-        return { username: u, confirmed: db.pending.length < before };
+        db.approved = db.approved.concat(match);
+        return { username: u, confirmed: match.length > 0 };
       }) };
       persist();
-    } else if (path === "/admin/accounts/reset-password") {
-      out = { username: username(body.email), temporaryPassword: "kqmt-4829-bxrp", expiresInDays: 7 };
-    } else if ((m = path.match(/^\/admin\/accounts\/(.+)$/)) && method === "GET") {
-      var wanted = username(decodeURIComponent(m[1]));
-      var waitingFor = db.pending.filter(function (a) { return username(a) === wanted; })[0];
-      if (!waitingFor && wanted !== email) return fail(404, "There is no account for " + wanted + ".");
-      out = { username: wanted, email: waitingFor || address, createdAt: now,
-              status: waitingFor ? "UNCONFIRMED" : "CONFIRMED",
-              statusText: waitingFor ? "Waiting for approval" : "Active",
-              staff: !waitingFor, owner: !waitingFor, enabled: true };
     } else if ((m = path.match(/^\/admin\/accounts\/(.+)$/)) && method === "DELETE") {
       var dropped = decodeURIComponent(m[1]);
       db.pending = db.pending.filter(function (a) { return username(a) !== dropped; });
+      db.approved = (db.approved || []).filter(function (a) { return username(a) !== dropped; });
       persist();
       out = { username: dropped, removed: true };
     } else if (path === "/admin/admins" && method === "GET") {
@@ -523,8 +519,6 @@
           : "Sign in to open the lab. Your answers save as you go, so you can come back to them later." }));
       email = input("University email", "email", "email", "username", { value: pendingEmail });
       pass = input("Password", "password", "password", "current-password");
-      card.appendChild(el("p", { class: "rl-note", style: "margin:-6px 0 12px", text:
-        "Got a temporary password from your instructor? Type it in the Password box." }));
       f = form([email.label, pass.label], "Sign in", function () {
         pendingEmail = email.input.value.trim();
         return signIn(pendingEmail, pass.input.value).catch(function (e) {
@@ -612,24 +606,24 @@
       ]));
       card.appendChild(el("p", { class: "rl-note", text:
         "No email is sent, so there is nothing to wait for in your inbox. If that address " +
-        "has a typo, create the account again with the right one and tell your instructor." }));
+        "has a typo, tell your instructor so they can delete it, then create the account " +
+        "again with the right address." }));
       card.appendChild(el("div", { class: "rl-links" }, [
         link("Back to sign in", "signin"), link("Create the account again", "signup"),
       ]));
     } else if (name === "forgot" && !EMAIL_CODES) {
       card.appendChild(el("h1", { id: "rl-title", text: "Forgot your password?" }));
       card.appendChild(el("p", { class: "rl-sub", text:
-        "Ask your instructor to reset it. They will give you a temporary password." }));
+        "Tell your instructor. Then:" }));
       var steps = el("ol");
       [
-        "Go back to the sign-in screen.",
-        "Enter your university email, and type the temporary password in the Password box.",
-        "You will then be asked to choose a new password of your own.",
+        "Your instructor deletes your account.",
+        "You create it again with the same email and a new password.",
+        "Your instructor approves it, and you sign in.",
       ].forEach(function (t) { steps.appendChild(el("li", { text: t })); });
       card.appendChild(steps);
       card.appendChild(el("p", { class: "rl-note", text:
-        "No email is sent, and there is no code to enter. The temporary password works " +
-        "for 7 days." }));
+        "Everything you saved in the labs is kept. No email is sent." }));
       var back = el("button", { class: "rl-btn", type: "button", text: "Back to sign in" });
       back.addEventListener("click", function () { showView("signin"); });
       card.appendChild(back);
@@ -666,8 +660,8 @@
     } else if (name === "newpass") {
       card.appendChild(el("h1", { id: "rl-title", text: "Choose your own password" }));
       card.appendChild(el("p", { class: "rl-sub", text:
-        "You signed in with a temporary password from your instructor. Pick a new one " +
-        "that only you know." }));
+        "Your account was set up with a temporary password. Pick a new one that only " +
+        "you know." }));
       pass = input("New password", "password", "password", "new-password", { minlength: "8" });
       again = input("Retype new password", "password", "password2", "new-password", { minlength: "8" });
       f = form([pass.label, again.label], "Save password and continue", function () {

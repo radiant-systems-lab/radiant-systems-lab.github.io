@@ -131,11 +131,10 @@ class FakeCognito:
     def add(self, username, email, status="UNCONFIRMED"):
         self.users[username] = {"status": status, "email": email, "verified": "false"}
 
-    def list_users(self, UserPoolId, Limit, Filter, PaginationToken=None):
-        wanted = Filter.split('"')[1]
-        users = [{"Username": u, "UserCreateDate": self.now,
+    def list_users(self, UserPoolId, Limit, PaginationToken=None):
+        users = [{"Username": u, "UserCreateDate": self.now, "UserStatus": v["status"],
                   "Attributes": [{"Name": "email", "Value": v["email"]}]}
-                 for u, v in self.users.items() if v["status"] == wanted]
+                 for u, v in self.users.items()]
         # Serve two pages so the paging loop is exercised.
         if PaginationToken is None and len(users) > 1:
             return {"Users": users[:1], "PaginationToken": "next"}
@@ -144,10 +143,7 @@ class FakeCognito:
     def admin_get_user(self, UserPoolId, Username):
         if Username not in self.users:
             raise UserNotFound()
-        u = self.users[Username]
-        return {"Username": Username, "UserStatus": u["status"], "Enabled": True,
-                "UserCreateDate": self.now,
-                "UserAttributes": [{"Name": "email", "Value": u["email"]}]}
+        return {"Username": Username, "UserStatus": self.users[Username]["status"]}
 
     def admin_confirm_sign_up(self, UserPoolId, Username):
         self.users[Username]["status"] = "CONFIRMED"
@@ -159,13 +155,6 @@ class FakeCognito:
     def admin_delete_user(self, UserPoolId, Username):
         del self.users[Username]
 
-    def admin_set_user_password(self, UserPoolId, Username, Password, Permanent):
-        assert Permanent is False
-        self.users[Username]["status"] = "FORCE_CHANGE_PASSWORD"
-        self.users[Username]["password"] = Password
-
-    def admin_user_global_sign_out(self, UserPoolId, Username):
-        self.users[Username]["signed_out"] = True
 
 
 def event(route, sub=STUDENT_SUB, email="student@umsystem.edu", body=None,
@@ -328,7 +317,7 @@ class ApiTest(unittest.TestCase):
             ("PUT /admin/labs/{lab}/lock", {"lab": "week_01"}, {"locked": True}),
             ("GET /admin/admins", {}, None),
             ("POST /admin/admins", {}, {"email": "me@umsystem.edu"}),
-            ("GET /admin/accounts/pending", {}, None),
+            ("GET /admin/accounts", {}, None),
         ]:
             status, _ = self.call(route, params=params, body=body)
             self.assertEqual(status, 403, route)
@@ -395,11 +384,16 @@ class ApiTest(unittest.TestCase):
         self.cognito.add("c@umsystem.edu", "c@umsystem.edu", status="CONFIRMED")
         self.call("POST /admin/admins", email=OWNER, body={"email": "ta@umsystem.edu"})
 
-        status, body = self.call("GET /admin/accounts/pending", email="ta@umsystem.edu")
+        status, body = self.call("GET /admin/accounts", email="ta@umsystem.edu")
         self.assertEqual(status, 200)
-        self.assertEqual({a["username"] for a in body["accounts"]},
-                         {"a@umsystem.edu", "b@umsystem.edu"})
-        self.assertEqual(body["accounts"][0]["createdAt"], "2026-09-16T22:00:00+00:00")
+        rows = {a["username"]: a for a in body["accounts"]}
+        self.assertEqual(set(rows), {"a@umsystem.edu", "b@umsystem.edu", "c@umsystem.edu"})
+        self.assertFalse(rows["a@umsystem.edu"]["approved"])
+        self.assertTrue(rows["c@umsystem.edu"]["approved"])
+        self.assertEqual(rows["a@umsystem.edu"]["email"], "a@missouri.edu")
+        self.assertEqual(rows["a@umsystem.edu"]["createdAt"], "2026-09-16T22:00:00+00:00")
+        # Waiting accounts come first.
+        self.assertEqual([a["approved"] for a in body["accounts"]], [False, False, True])
 
         status, body = self.call("POST /admin/accounts/confirm", email="ta@umsystem.edu",
                                  body={"usernames": ["a@umsystem.edu", "c@umsystem.edu",
@@ -414,7 +408,7 @@ class ApiTest(unittest.TestCase):
 
     def test_students_cannot_touch_accounts(self):
         self.cognito.add("a@umsystem.edu", "a@umsystem.edu")
-        self.assertEqual(self.call("GET /admin/accounts/pending")[0], 403)
+        self.assertEqual(self.call("GET /admin/accounts")[0], 403)
         self.assertEqual(self.call("POST /admin/accounts/confirm",
                                    body={"usernames": ["a@umsystem.edu"]})[0], 403)
         self.assertEqual(self.call("DELETE /admin/accounts/{username}",
@@ -428,7 +422,7 @@ class ApiTest(unittest.TestCase):
         self.call("POST /admin/admins", email=OWNER, body={"email": "ta2@umsystem.edu"})
         self.cognito.add("ta2@umsystem.edu", "ta2@umsystem.edu")
 
-        status, body = self.call("GET /admin/accounts/pending", email="ta@umsystem.edu")
+        status, body = self.call("GET /admin/accounts", email="ta@umsystem.edu")
         self.assertTrue(all(a["staff"] for a in body["accounts"]))
 
         status, body = self.call("POST /admin/accounts/confirm", email="ta@umsystem.edu",
@@ -475,20 +469,23 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(status, 403)
         self.assertIn("ta2@umsystem.edu", self.cognito.users)
 
-    def test_find_account(self):
+    def test_deleting_keeps_saved_work(self):
+        # Forgot password: delete, sign up again, approve. The answers are still there.
+        self.cognito.add("a@umsystem.edu", "a@missouri.edu", status="CONFIRMED")
+        self.save({"q1": "b"}, email="a@missouri.edu")
+        self.call("DELETE /admin/accounts/{username}", email=OWNER,
+                  params={"username": "a@umsystem.edu"})
         self.cognito.add("a@umsystem.edu", "a@missouri.edu")
-        status, body = self.call("GET /admin/accounts/{username}", email=OWNER,
-                                 params={"username": "A%40mail.missouri.edu"})
-        self.assertEqual(status, 200)
-        self.assertEqual((body["username"], body["email"], body["status"], body["statusText"]),
-                         ("a@umsystem.edu", "a@missouri.edu", "UNCONFIRMED", "Waiting for approval"))
-        self.assertFalse(body["staff"])
-        status, _ = self.call("GET /admin/accounts/{username}", email=OWNER,
-                              params={"username": "zz@umsystem.edu"})
-        self.assertEqual(status, 404)
-        status, _ = self.call("GET /admin/accounts/{username}",
-                              params={"username": "a@umsystem.edu"})
-        self.assertEqual(status, 403)
+        self.call("POST /admin/accounts/confirm", email=OWNER,
+                  body={"usernames": ["a@umsystem.edu"]})
+        status, body = self.call("GET /labs/{lab}/progress", sub=OTHER_SUB,
+                                 email="a@umsystem.edu", params={"lab": "week_01"})
+        self.assertEqual(body["state"], {"q1": "b"})
+
+    def test_account_list_marks_you(self):
+        self.cognito.add("owner@umsystem.edu", "owner@missouri.edu", status="CONFIRMED")
+        status, body = self.call("GET /admin/accounts", email=OWNER)
+        self.assertTrue(body["accounts"][0]["you"])
 
     def test_confirm_rejects_bad_input(self):
         for bad in [None, [], "a@umsystem.edu", [5], ["x"] * 101]:
@@ -500,42 +497,6 @@ class ApiTest(unittest.TestCase):
         status, body = self.call("POST /admin/accounts/confirm", email=OWNER,
                                  body={"usernames": ["a@missouri.edu"]})
         self.assertFalse(body["results"][0]["confirmed"])
-
-    def test_admin_resets_a_student_password(self):
-        import re
-        self.cognito.add("a@umsystem.edu", "a@missouri.edu", status="CONFIRMED")
-        self.call("POST /admin/admins", email=OWNER, body={"email": "ta@umsystem.edu"})
-        status, body = self.call("POST /admin/accounts/reset-password",
-                                 email="ta@umsystem.edu", body={"email": "A@Mail.Missouri.edu"})
-        self.assertEqual(status, 200)
-        self.assertEqual(body["username"], "a@umsystem.edu")
-        self.assertRegex(body["temporaryPassword"], r"^[a-z]{4}-[2-9]{4}-[a-z]{4}$")
-        user = self.cognito.users["a@umsystem.edu"]
-        self.assertEqual(user["status"], "FORCE_CHANGE_PASSWORD")
-        self.assertEqual(user["password"], body["temporaryPassword"])
-        self.assertTrue(user["signed_out"])
-        # Every reset gives a different password.
-        _, again = self.call("POST /admin/accounts/reset-password", email=OWNER,
-                             body={"email": "a@umsystem.edu"})
-        self.assertNotEqual(again["temporaryPassword"], body["temporaryPassword"])
-
-    def test_reset_password_rules(self):
-        self.cognito.add("waiting@umsystem.edu", "waiting@umsystem.edu")
-        self.cognito.add("second.owner@umsystem.edu", "second.owner@umsystem.edu", status="CONFIRMED")
-        self.call("POST /admin/admins", email=OWNER, body={"email": "ta@umsystem.edu"})
-        cases = [
-            ("student@umsystem.edu", {"email": "x@umsystem.edu"}, 403),     # students cannot
-            ("ta@umsystem.edu", {"email": "nobody@umsystem.edu"}, 404),
-            ("ta@umsystem.edu", {"email": "waiting@umsystem.edu"}, 409),   # approve instead
-            ("ta@umsystem.edu", {"email": "second.owner@missouri.edu"}, 403),
-            ("ta@umsystem.edu", {"email": 7}, 400),
-        ]
-        for who, body, want in cases:
-            status, _ = self.call("POST /admin/accounts/reset-password", email=who, body=body)
-            self.assertEqual(status, want, (who, body))
-        status, _ = self.call("POST /admin/accounts/reset-password", email=OWNER,
-                              body={"email": "second.owner@umsystem.edu"})
-        self.assertEqual(status, 200)
 
     # one mailbox, three spellings ---------------------------------------------
 

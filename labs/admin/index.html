@@ -120,55 +120,25 @@ sitemap: false
     </section>
 
     <section class="panel">
-      <h2>Accounts waiting for approval</h2>
-      <p class="muted" style="margin-top:-4px">Students who created an account and are
-      waiting for you. Approve the ones you recognise and they can sign in with the password
-      they chose. Remove any you do not, such as an address with a typo.</p>
+      <h2>Student accounts</h2>
+      <p class="muted" style="margin-top:-4px">New accounts wait here until you approve them.
+      Delete an account if the address has a typo, or if a student forgot their password; they
+      create it again and you approve it. Their saved lab work is kept either way. Approve an
+      account only when you know that student made it.</p>
       <div class="toolbar">
-        <div class="grow muted" id="pending-count"></div>
-        <button type="button" id="pending-refresh">Refresh</button>
-        <button type="button" id="pending-confirm" class="primary" disabled>Approve selected</button>
+        <div class="grow"><input type="search" id="acct-filter" placeholder="Filter by email" aria-label="Filter accounts by email"></div>
+        <button type="button" id="acct-refresh">Refresh</button>
+        <button type="button" id="acct-approve" class="primary" disabled>Approve selected</button>
       </div>
-      <p id="pending-error" class="error" hidden></p>
-      <p id="pending-note" class="muted" hidden></p>
+      <p id="acct-count" class="muted" style="margin:0 0 6px"></p>
+      <p id="acct-error" class="error" hidden></p>
+      <p id="acct-note" class="muted" hidden></p>
       <div class="scroll">
         <table>
-          <thead><tr><th><input type="checkbox" id="pending-all" aria-label="Select every account"></th>
-            <th>Email</th><th>Signed up</th><th></th><th></th></tr></thead>
-          <tbody id="pending"></tbody>
+          <thead><tr><th><input type="checkbox" id="acct-all" aria-label="Select every waiting account"></th>
+            <th>Email</th><th>Status</th><th>Created</th><th></th></tr></thead>
+          <tbody id="accounts"></tbody>
         </table>
-      </div>
-    </section>
-
-    <section class="panel">
-      <h2>Find an account</h2>
-      <p class="muted" style="margin-top:-4px">For a student who cannot get in: a typo in
-      their address, a forgotten password, or an account nobody approved. Any spelling of a
-      university address works.</p>
-      <form class="toolbar" id="find-form">
-        <div class="grow"><input type="email" id="find-email" placeholder="student@missouri.edu" required aria-label="Email of the account to find"></div>
-        <button type="submit" class="primary">Find</button>
-      </form>
-      <p id="find-error" class="error" hidden></p>
-      <div id="find-result" hidden>
-        <div class="stats">
-          <div class="stat"><b id="find-who"></b><span id="find-typed"></span></div>
-          <div class="stat"><b id="find-status"></b><span id="find-since"></span></div>
-        </div>
-        <div class="toolbar">
-          <button type="button" id="find-approve" class="primary" hidden>Approve</button>
-          <button type="button" id="find-reset">Reset password</button>
-          <button type="button" id="find-remove" class="danger">Remove account</button>
-        </div>
-        <p id="find-staff" class="muted" hidden>This is an owner or admin address, so only a course owner can change it.</p>
-      </div>
-      <div id="reset-result" class="panel" hidden style="border-top-color:var(--ok);margin:8px 0 0;max-width:620px">
-        <p class="muted" style="margin:0">Temporary password for <strong id="reset-who"></strong></p>
-        <p id="reset-password" style="margin:6px 0;font-size:1.6rem;font-weight:800;font-family:ui-monospace,Consolas,monospace;letter-spacing:.06em"></p>
-        <p style="margin:0">Tell the student privately to <strong>sign in with their email and type
-        this in the Password box</strong>. It is not a code. They will then choose their own
-        password. It works for <span id="reset-days"></span> days, and this page will not show
-        it again.</p>
       </div>
     </section>
 
@@ -391,151 +361,104 @@ sitemap: false
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
   }
 
-  // -- accounts waiting for a code ----------------------------------------------
+  // -- student accounts ---------------------------------------------------------
 
-  var pending = [];
+  var accounts = [];
 
-  function selectedPending() {
-    return Array.prototype.filter.call(document.querySelectorAll("input.pending-pick"),
+  function picked() {
+    return Array.prototype.filter.call(document.querySelectorAll("input.acct-pick"),
       function (box) { return box.checked; }).map(function (box) { return box.value; });
   }
 
-  function updatePendingButton() {
-    var picked = selectedPending();
-    $("pending-confirm").disabled = picked.length === 0;
-    $("pending-confirm").textContent = picked.length
-      ? "Approve " + picked.length + " selected" : "Approve selected";
+  function updateApprove() {
+    var n = picked().length;
+    $("acct-approve").disabled = n === 0;
+    $("acct-approve").textContent = n ? "Approve " + n + " selected" : "Approve selected";
   }
 
-  function renderPending() {
-    var body = $("pending");
+  function renderAccounts() {
+    var filter = $("acct-filter").value.trim().toLowerCase();
+    var waiting = accounts.filter(function (a) { return !a.approved; }).length;
+    $("acct-count").textContent = accounts.length + " account" + (accounts.length === 1 ? "" : "s") +
+      ", " + (waiting ? waiting + " waiting for approval" : "none waiting");
+    $("acct-all").checked = false;
+    var body = $("accounts");
     body.textContent = "";
-    $("pending-all").checked = false;
-    $("pending-count").textContent = pending.length
-      ? pending.length + " waiting" : "Nobody is waiting.";
-    pending.forEach(function (a) {
+    accounts.filter(function (a) {
+      return !filter || (a.email + " " + a.username).indexOf(filter) >= 0;
+    }).forEach(function (a) {
       var ownerOnly = a.staff && !me.owner;
-      var box = el("input", { type: "checkbox", class: "pending-pick", value: a.username,
-                              "aria-label": "Select " + a.email, onchange: updatePendingButton });
-      if (ownerOnly) box.disabled = true;
-      var remove = el("button", { type: "button", class: "danger", text: "Remove",
-        onclick: function () {
-          if (!confirm("Remove the account for " + a.email + "? They can sign up again.")) return;
-          busy(remove, auth.api("DELETE", "/admin/accounts/" + encodeURIComponent(a.username))
-            .then(loadPending).catch(function (e) { showError($("pending-error"), e); }));
-        } });
-      if (ownerOnly) remove.disabled = true;
+      var box = null;
+      if (!a.approved) {
+        box = el("input", { type: "checkbox", class: "acct-pick", value: a.username,
+                            "aria-label": "Select " + a.email, onchange: updateApprove });
+        if (ownerOnly) box.disabled = true;
+      }
+      var approve = null;
+      if (!a.approved) {
+        approve = el("button", { type: "button", class: "primary", text: "Approve",
+          onclick: function () { approveAccounts([a.username], approve); } });
+        if (ownerOnly) approve.disabled = true;
+      }
+      var del = null;
+      if (!a.you) {
+        del = el("button", { type: "button", class: "danger", text: "Delete",
+          onclick: function () {
+            if (!confirm("Delete the account for " + a.email + "?\n\nTheir saved lab work is kept. " +
+                         "They can create the account again, and you approve it.")) return;
+            busy(del, auth.api("DELETE", "/admin/accounts/" + encodeURIComponent(a.username))
+              .then(loadAccounts).catch(function (e) { showError($("acct-error"), e); }));
+          } });
+        if (ownerOnly) del.disabled = true;
+      }
+      var tags = [a.approved ? el("span", { class: "tag done", text: "Approved" })
+                             : el("span", { class: "tag going", text: "Waiting" })];
+      if (a.staff) tags.push(" ", el("span", { class: "tag lock", text: ownerOnly ? "Staff: owner only" : "Staff" }));
+      if (a.you) tags.push(" ", el("span", { class: "muted", text: "you" }));
       body.appendChild(el("tr", {}, [
         el("td", {}, [box]),
-        el("td", { text: a.email }),
+        el("td", { text: a.email || a.username }),
+        el("td", {}, tags),
         el("td", { text: when(a.createdAt) }),
-        el("td", {}, [a.staff ? el("span", { class: "tag lock",
-          text: ownerOnly ? "Staff address: owner only" : "Staff address" }) : null]),
-        el("td", {}, [remove]),
+        el("td", {}, [approve, approve && del ? " " : null, del]),
       ]));
     });
-    updatePendingButton();
+    updateApprove();
   }
 
-  function loadPending() {
-    $("pending-error").hidden = true;
-    return auth.api("GET", "/admin/accounts/pending").then(function (res) {
-      pending = res.accounts;
-      renderPending();
-    }).catch(function (e) { showError($("pending-error"), e); });
+  function loadAccounts() {
+    $("acct-error").hidden = true;
+    return auth.api("GET", "/admin/accounts").then(function (res) {
+      accounts = res.accounts;
+      renderAccounts();
+    }).catch(function (e) { showError($("acct-error"), e); });
   }
 
-  $("pending-all").addEventListener("change", function (ev) {
-    Array.prototype.forEach.call(document.querySelectorAll("input.pending-pick"), function (box) {
-      if (!box.disabled) box.checked = ev.target.checked;
-    });
-    updatePendingButton();
-  });
-
-  $("pending-refresh").addEventListener("click", function (ev) { busy(ev.target, loadPending()); });
-
-  $("pending-confirm").addEventListener("click", function (ev) {
-    var picked = selectedPending();
-    if (!picked.length) return;
-    $("pending-note").hidden = true;
-    busy(ev.target, auth.api("POST", "/admin/accounts/confirm", { usernames: picked })
+  function approveAccounts(names, button) {
+    $("acct-note").hidden = true;
+    return busy(button, auth.api("POST", "/admin/accounts/confirm", { usernames: names })
       .then(function (res) {
         var done = res.results.filter(function (r) { return r.confirmed; }).length;
         var failed = res.results.filter(function (r) { return !r.confirmed; });
-        $("pending-note").textContent = done + " approved." + (failed.length
+        $("acct-note").textContent = done + " approved." + (failed.length
           ? " Not approved: " + failed.map(function (r) { return r.username + " (" + r.error + ")"; }).join("; ")
           : " They can sign in now.");
-        $("pending-note").hidden = false;
-        return loadPending();
-      }).catch(function (e) { showError($("pending-error"), e); }))
-      .then(updatePendingButton);   // busy() re-enables it; nothing is selected now
-  });
-
-  // -- find an account ----------------------------------------------------------
-
-  var found = null;
-
-  function showAccount(acc) {
-    found = acc;
-    $("find-who").textContent = acc.username;
-    $("find-typed").textContent = acc.email && acc.email !== acc.username
-      ? "signed up as " + acc.email : "university account";
-    $("find-status").textContent = acc.statusText + (acc.owner ? " \u00b7 owner" : acc.staff ? " \u00b7 admin" : "");
-    $("find-since").textContent = "created " + when(acc.createdAt);
-    var locked = acc.staff && !me.owner;
-    $("find-approve").hidden = acc.status !== "UNCONFIRMED";
-    $("find-reset").hidden = acc.status === "UNCONFIRMED";
-    ["find-approve", "find-reset", "find-remove"].forEach(function (id) { $(id).disabled = locked; });
-    $("find-remove").disabled = locked || (me.email === acc.username);
-    $("find-staff").hidden = !locked;
-    $("find-result").hidden = false;
+        $("acct-note").hidden = false;
+        return loadAccounts();
+      }).catch(function (e) { showError($("acct-error"), e); }))
+      .then(updateApprove);
   }
 
-  function findAccount(email) {
-    $("find-error").hidden = true;
-    $("find-result").hidden = true;
-    return auth.api("GET", "/admin/accounts/" + encodeURIComponent(email))
-      .then(showAccount)
-      .catch(function (e) { showError($("find-error"), e); });
-  }
-
-  $("find-form").addEventListener("submit", function (ev) {
-    ev.preventDefault();
-    $("reset-result").hidden = true;
-    busy(ev.target.querySelector("button"), findAccount($("find-email").value.trim()));
+  $("acct-all").addEventListener("change", function (ev) {
+    Array.prototype.forEach.call(document.querySelectorAll("input.acct-pick"), function (box) {
+      if (!box.disabled) box.checked = ev.target.checked;
+    });
+    updateApprove();
   });
-
-  $("find-approve").addEventListener("click", function (ev) {
-    busy(ev.target, auth.api("POST", "/admin/accounts/confirm", { usernames: [found.username] })
-      .then(function (res) {
-        var r = res.results[0];
-        if (!r.confirmed) throw new Error(r.error || "Could not approve that account.");
-        return Promise.all([findAccount(found.username), loadPending()]);
-      }).catch(function (e) { showError($("find-error"), e); }));
-  });
-
-  $("find-reset").addEventListener("click", function (ev) {
-    if (!confirm("Reset the password for " + found.username + "? Their current password stops working.")) return;
-    busy(ev.target, auth.api("POST", "/admin/accounts/reset-password", { email: found.username })
-      .then(function (res) {
-        $("reset-who").textContent = res.username;
-        $("reset-password").textContent = res.temporaryPassword;
-        $("reset-days").textContent = res.expiresInDays;
-        $("reset-result").hidden = false;
-        return findAccount(found.username);
-      }).catch(function (e) { showError($("find-error"), e); }));
-  });
-
-  $("find-remove").addEventListener("click", function (ev) {
-    if (!confirm("Remove the account " + found.username + "? They will need to create it again. " +
-                 "Answers they already saved are kept.")) return;
-    busy(ev.target, auth.api("DELETE", "/admin/accounts/" + encodeURIComponent(found.username))
-      .then(function () {
-        $("find-result").hidden = true;
-        $("reset-result").hidden = true;
-        $("find-email").value = "";
-        return loadPending();
-      }).catch(function (e) { showError($("find-error"), e); }));
+  $("acct-filter").addEventListener("input", renderAccounts);
+  $("acct-refresh").addEventListener("click", function (ev) { busy(ev.target, loadAccounts()); });
+  $("acct-approve").addEventListener("click", function (ev) {
+    if (picked().length) approveAccounts(picked(), ev.target);
   });
 
   // -- admins -------------------------------------------------------------------
@@ -599,7 +522,7 @@ sitemap: false
       ? "Admins can see every student's answers and lock labs. As an owner, you can add or remove them. They sign up with the address you add here, even if it is not a university address. University addresses work with any spelling: missouri.edu, mail.missouri.edu or umsystem.edu."
       : "Admins can see every student's answers and lock labs. Only a course owner can change this list.";
     loadOverview().catch(function (e) { alert(e.message); });
-    loadPending();
+    loadAccounts();
     loadAdmins();
   });
 })();

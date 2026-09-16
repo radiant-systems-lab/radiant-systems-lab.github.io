@@ -25,10 +25,12 @@ Owners come from the OWNER_EMAILS environment variable, so they cannot be
 removed from the dashboard. Only owners can add or remove admins. Owners and
 admins can lock labs and individual students.
 
-Verification emails from Cognito do not always reach university inboxes, so
-admins can also confirm accounts that are still waiting for their code. An
-account that would be an owner or an admin can only be confirmed by an owner,
-so a student cannot claim a staff address and have it approved by a TA.
+New accounts wait for an admin to approve them, since Cognito's emails do not
+reach university inboxes. A student who forgot their password asks an admin to
+delete the account and creates it again; saved work is keyed by email, not by
+account, so nothing is lost. An account that would be an owner or an admin can
+only be approved or deleted by an owner, so a student cannot claim a staff
+address and have it approved by a TA.
 """
 
 from __future__ import annotations
@@ -38,7 +40,6 @@ import json
 import logging
 import os
 import re
-import secrets
 from datetime import datetime, timezone
 from decimal import Decimal
 from urllib.parse import unquote
@@ -92,11 +93,10 @@ class Accounts:
         self.c = client
         self.pool = pool_id
 
-    def pending(self) -> list[dict]:
-        """Accounts that were created but never confirmed with an emailed code."""
+    def everyone(self) -> list[dict]:
+        """Every account, approved or waiting."""
         found: list[dict] = []
-        kwargs = {"UserPoolId": self.pool, "Limit": 60,
-                  "Filter": 'cognito:user_status = "UNCONFIRMED"'}
+        kwargs = {"UserPoolId": self.pool, "Limit": 60}
         while True:
             page = self.c.list_users(**kwargs)
             for u in page.get("Users", []):
@@ -105,30 +105,18 @@ class Accounts:
                 found.append({
                     "username": u["Username"],
                     "email": attrs.get("email", ""),
+                    "status": u.get("UserStatus"),
                     "createdAt": created.isoformat(timespec="seconds") if created else None,
                 })
             if not page.get("PaginationToken"):
                 return found
             kwargs["PaginationToken"] = page["PaginationToken"]
 
-    def lookup(self, username: str) -> dict | None:
+    def status(self, username: str) -> str | None:
         try:
-            u = self.c.admin_get_user(UserPoolId=self.pool, Username=username)
+            return self.c.admin_get_user(UserPoolId=self.pool, Username=username)["UserStatus"]
         except self.c.exceptions.UserNotFoundException:
             return None
-        attrs = {a["Name"]: a["Value"] for a in u.get("UserAttributes", [])}
-        created = u.get("UserCreateDate")
-        return {
-            "username": u["Username"],
-            "email": attrs.get("email", ""),
-            "status": u["UserStatus"],
-            "enabled": u.get("Enabled", True),
-            "createdAt": created.isoformat(timespec="seconds") if created else None,
-        }
-
-    def status(self, username: str) -> str | None:
-        found = self.lookup(username)
-        return found["status"] if found else None
 
     def confirm(self, username: str) -> None:
         self.c.admin_confirm_sign_up(UserPoolId=self.pool, Username=username)
@@ -139,14 +127,6 @@ class Accounts:
 
     def remove(self, username: str) -> None:
         self.c.admin_delete_user(UserPoolId=self.pool, Username=username)
-
-    def set_temporary_password(self, username: str, password: str) -> None:
-        """Replace the password with one that must be changed at next sign-in."""
-        self.c.admin_set_user_password(UserPoolId=self.pool, Username=username,
-                                       Password=password, Permanent=False)
-        # Whoever was signed in with the old password is signed out everywhere.
-        self.c.admin_user_global_sign_out(UserPoolId=self.pool, Username=username)
-
 
 class Store:
     """Every DynamoDB call the API makes, so the tests can swap in a fake."""
@@ -522,45 +502,22 @@ def pending_account(store, user, username: str) -> str:
     return uid
 
 
-TEMP_PASSWORD_DAYS = 7
-
-
-def temporary_password() -> str:
-    """Easy to read out or type: xxxx-0000-xxxx, meeting the pool's password rules."""
-    letters = "abcdefghjkmnpqrstuvwxyz"     # no i, l or o
-    digits = "23456789"                     # no 0 or 1
-    pick = lambda chars, n: "".join(secrets.choice(chars) for _ in range(n))
-    return f"{pick(letters, 4)}-{pick(digits, 4)}-{pick(letters, 4)}"
-
-
-def admin_reset_password(store, user, params, body):
-    require_admin(user)
-    raw = body.get("email") if isinstance(body.get("email"), str) else ""
-    uid = canonical(raw)
-    if not EMAIL.match(uid):
-        raise HttpError(400, "That does not look like an email address.")
-    status = store.accounts.status(uid)
-    if status is None:
-        raise HttpError(404, "There is no account for that address.")
-    if status == "UNCONFIRMED":
-        raise HttpError(409, "That account has not been approved yet. Approve it under "
-                             "Accounts waiting for a code, and their own password will work.")
-    if (uid in owners() or store.is_listed_admin(uid)) and not user["owner"]:
-        raise HttpError(403, "Only a course owner can reset an owner or admin password.")
-    password = temporary_password()
-    store.accounts.set_temporary_password(uid, password)
-    log.info("%s reset the password for %s", user["email"], uid)   # never the password
-    return {"username": uid, "temporaryPassword": password, "expiresInDays": TEMP_PASSWORD_DAYS}
-
-
-def admin_pending_accounts(store, user, params, body):
+def admin_accounts(store, user, params, body):
     require_admin(user)
     staff = owners()
     rows = []
-    for a in store.accounts.pending():
+    for a in store.accounts.everyone():
         uid = canonical(a["username"])
-        rows.append({**a, "staff": uid in staff or store.is_listed_admin(uid)})
-    return {"accounts": sorted(rows, key=lambda a: a["createdAt"] or "", reverse=True)}
+        rows.append({
+            **a,
+            "approved": a["status"] != "UNCONFIRMED",
+            "staff": uid in staff or store.is_listed_admin(uid),
+            "you": uid == user["id"],
+        })
+    # Waiting first, then newest first.
+    rows.sort(key=lambda a: a["createdAt"] or "", reverse=True)
+    rows.sort(key=lambda a: a["approved"])
+    return {"accounts": rows}
 
 
 def admin_confirm_accounts(store, user, params, body):
@@ -582,33 +539,12 @@ def admin_confirm_accounts(store, user, params, body):
     return {"results": results}
 
 
-STATUS_WORDS = {
-    "UNCONFIRMED": "Waiting for approval",
-    "CONFIRMED": "Active",
-    "FORCE_CHANGE_PASSWORD": "Has a temporary password",
-    "RESET_REQUIRED": "Needs a password reset",
-}
-
-
 def account_param(params: dict) -> str:
     raw = unquote(params.get("username") or "")
     uid = canonical(raw)
     if not EMAIL.match(uid):
         raise HttpError(400, "That does not look like an email address.")
     return uid
-
-
-def admin_find_account(store, user, params, body):
-    require_admin(user)
-    uid = account_param(params)
-    found = store.accounts.lookup(uid)
-    if found is None:
-        raise HttpError(404, f"There is no account for {uid}. Check the spelling, or ask "
-                             "the student to create one.")
-    found["statusText"] = STATUS_WORDS.get(found["status"], found["status"])
-    found["staff"] = uid in owners() or store.is_listed_admin(uid)
-    found["owner"] = uid in owners()
-    return found
 
 
 def admin_remove_account(store, user, params, body):
@@ -621,7 +557,7 @@ def admin_remove_account(store, user, params, body):
     if (uid in owners() or store.is_listed_admin(uid)) and not user["owner"]:
         raise HttpError(403, "Only a course owner can remove an owner or admin account.")
     store.accounts.remove(uid)
-    log.info("%s removed the account %s", user["email"], uid)
+    log.info("%s deleted the account %s", user["email"], uid)   # saved work is kept
     return {"username": uid, "removed": True}
 
 
@@ -636,11 +572,9 @@ ROUTES = {
     "GET /admin/admins": admin_list_admins,
     "POST /admin/admins": admin_add_admin,
     "DELETE /admin/admins/{email}": admin_remove_admin,
-    "GET /admin/accounts/pending": admin_pending_accounts,
+    "GET /admin/accounts": admin_accounts,
     "POST /admin/accounts/confirm": admin_confirm_accounts,
     "DELETE /admin/accounts/{username}": admin_remove_account,
-    "POST /admin/accounts/reset-password": admin_reset_password,
-    "GET /admin/accounts/{username}": admin_find_account,
 }
 
 

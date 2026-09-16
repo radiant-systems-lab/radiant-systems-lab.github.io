@@ -216,7 +216,7 @@ Resources:
               Resource:
                 - !GetAtt LabsTable.Arn
                 - !Sub "${LabsTable.Arn}/index/GSI1"
-            # For confirming accounts whose emailed code never arrived.
+            # For approving and deleting accounts from the dashboard.
             - Effect: Allow
               Action:
                 - cognito-idp:ListUsers
@@ -224,8 +224,6 @@ Resources:
                 - cognito-idp:AdminConfirmSignUp
                 - cognito-idp:AdminUpdateUserAttributes
                 - cognito-idp:AdminDeleteUser
-                - cognito-idp:AdminSetUserPassword
-                - cognito-idp:AdminUserGlobalSignOut
               Resource: !GetAtt PeoplePool.Arn
       Events:
         Me:
@@ -258,21 +256,15 @@ Resources:
         AdminRemoveAdmin:
           Type: HttpApi
           Properties: { ApiId: !Ref HttpApi, Method: DELETE, Path: "/admin/admins/{email}" }
-        AdminPendingAccounts:
+        AdminAccounts:
           Type: HttpApi
-          Properties: { ApiId: !Ref HttpApi, Method: GET, Path: /admin/accounts/pending }
+          Properties: { ApiId: !Ref HttpApi, Method: GET, Path: /admin/accounts }
         AdminConfirmAccounts:
           Type: HttpApi
           Properties: { ApiId: !Ref HttpApi, Method: POST, Path: /admin/accounts/confirm }
         AdminRemoveAccount:
           Type: HttpApi
           Properties: { ApiId: !Ref HttpApi, Method: DELETE, Path: "/admin/accounts/{username}" }
-        AdminFindAccount:
-          Type: HttpApi
-          Properties: { ApiId: !Ref HttpApi, Method: GET, Path: "/admin/accounts/{username}" }
-        AdminResetPassword:
-          Type: HttpApi
-          Properties: { ApiId: !Ref HttpApi, Method: POST, Path: /admin/accounts/reset-password }
 
   ApiLogs:
     Type: AWS::Logs::LogGroup

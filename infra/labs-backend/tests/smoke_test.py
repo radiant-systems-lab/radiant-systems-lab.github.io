@@ -196,44 +196,17 @@ def main() -> int:
             check(f"sign up {email.split('@')[0][-1]}", status, 200)
             aws("dynamodb", "delete-item", "--table-name", table, "--key", json.dumps({
                 "PK": {"S": "CONFIG"}, "SK": {"S": f"ADMIN#{email}"}}))
-        status, body = call("admin", "GET", "/admin/accounts/pending")
-        listed = {a["username"] for a in body.get("accounts", [])}
-        check("pending listed", set(waiting) <= listed, True)
-        check("student cannot list", call("student", "GET", "/admin/accounts/pending")[0], 403)
+        status, body = call("admin", "GET", "/admin/accounts")
+        waiting_now = {a["username"] for a in body.get("accounts", []) if not a["approved"]}
+        check("waiting listed", set(waiting) <= waiting_now, True)
+        check("student cannot list", call("student", "GET", "/admin/accounts")[0], 403)
         status, body = call("admin", "POST", "/admin/accounts/confirm", {"usernames": [waiting[0]]})
         check("confirm", body.get("results", [{}])[0].get("confirmed"), True)
         check("confirmed can sign in", bool(sign_in(waiting[0])), True)
-        status, body = call("admin", "GET", "/admin/accounts/" + urllib.parse.quote(waiting[0]))
-        check("find account", (status, body.get("statusText")), (200, "Active"))
-        check("remove", call("admin", "DELETE",
+        check("delete", call("admin", "DELETE",
                              "/admin/accounts/" + urllib.parse.quote(waiting[1]))[0], 200)
-        check("removed is gone", call("admin", "DELETE",
+        check("deleted is gone", call("admin", "DELETE",
                                       "/admin/accounts/" + urllib.parse.quote(waiting[1]))[0], 404)
-
-        print("password reset by an admin")
-        status, body = call("admin", "POST", "/admin/accounts/reset-password",
-                            {"email": people["student"]})
-        check("reset", status, 200)
-        temp = body.get("temporaryPassword", "")
-        status, data = http(
-            "POST", f"https://cognito-idp.{REGION}.amazonaws.com/",
-            {"AuthFlow": "USER_PASSWORD_AUTH", "ClientId": client,
-             "AuthParameters": {"USERNAME": people["student"], "PASSWORD": temp}},
-            {"Content-Type": "application/x-amz-json-1.1",
-             "X-Amz-Target": "AWSCognitoIdentityProviderService.InitiateAuth"},
-        )
-        check("temporary password asks for a new one", data.get("ChallengeName"),
-              "NEW_PASSWORD_REQUIRED")
-        new_password = password + "x"
-        status, data = http(
-            "POST", f"https://cognito-idp.{REGION}.amazonaws.com/",
-            {"ChallengeName": "NEW_PASSWORD_REQUIRED", "ClientId": client,
-             "Session": data.get("Session"),
-             "ChallengeResponses": {"USERNAME": people["student"], "NEW_PASSWORD": new_password}},
-            {"Content-Type": "application/x-amz-json-1.1",
-             "X-Amz-Target": "AWSCognitoIdentityProviderService.RespondToAuthChallenge"},
-        )
-        check("new password accepted", "AuthenticationResult" in data, True)
 
         print("CORS")
         req = urllib.request.Request(api + f"/labs/{LAB}/progress", method="OPTIONS", headers={
