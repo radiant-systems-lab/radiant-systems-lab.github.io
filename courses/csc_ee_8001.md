@@ -97,7 +97,7 @@ layout: page
               <tr>
                 <td><time datetime="2026-09-09">Sept 9th</time></td>
                 <td>ML Workflows</td>
-                <td>&mdash;</td>
+                <td><a href="/course_pdfs/E2E_ML/Week_3_MLWorkflows.pdf">ML Workflows</a></td>
               </tr>
               <tr>
                 <td><time datetime="2026-09-16">Sept 16th</time></td>
