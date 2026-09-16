@@ -12,8 +12,95 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    def ask(prompt, options, correct, explain):
+async def _(json, mo):
+    # Progress saving. On the course site, labs/gate/gate.js signs the student in
+    # and tags this tab with an "rl" query parameter. The notebook runs in a web
+    # worker, so it talks to that script over a BroadcastChannel named after the
+    # tag, and the script makes the API calls. Opened any other way (marimo edit,
+    # a plain export) there is no tag and nothing is saved.
+    import sys as _sys
+
+    class LabSync:
+        def __init__(self, tab):
+            from js import BroadcastChannel
+            from pyodide.ffi import create_proxy
+
+            self.state = {}
+            self._waiting = {}
+            self._channel = BroadcastChannel.new("radiant-lab-" + tab)
+            self._listener = create_proxy(self._receive)
+            self._channel.onmessage = self._listener
+
+        def _receive(self, event):
+            try:
+                message = json.loads(event.data)
+            except (TypeError, ValueError):
+                return
+            waiting = self._waiting.pop(message.get("id"), None)
+            if waiting is not None and not waiting.done():
+                waiting.set_result(message)
+
+        def _send(self, op, message_id, **fields):
+            message = {"id": message_id, "op": op, "from": "notebook"}
+            message.update(fields)
+            self._channel.postMessage(json.dumps(message))
+
+        async def _request(self, op, timeout=None, **fields):
+            import asyncio
+            import uuid
+
+            message_id = uuid.uuid4().hex
+            reply = asyncio.get_event_loop().create_future()
+            self._waiting[message_id] = reply
+            self._send(op, message_id, **fields)
+            try:
+                return await (reply if timeout is None else asyncio.wait_for(reply, timeout))
+            except asyncio.TimeoutError:
+                return {"ok": False, "error": "the page did not answer in time"}
+            finally:
+                self._waiting.pop(message_id, None)
+
+        async def load(self):
+            """Wait for sign-in, then return what this student saved before."""
+            reply = await self._request("load")
+            self.state = dict(reply.get("state") or {})
+            return reply
+
+        def record(self, **answers):
+            """Remember these answers; the page saves them a moment later."""
+            import uuid
+
+            changed = {k: v for k, v in answers.items()
+                       if k not in self.state or self.state[k] != v}
+            if changed:
+                self.state.update(changed)
+                self._send("save", uuid.uuid4().hex, state=self.state)
+
+        async def submit(self, **answers):
+            """Save everything now and mark the lab as submitted."""
+            self.state.update(answers)
+            return await self._request("submit", timeout=45, state=self.state)
+
+    def pick(options, value):
+        """The label a radio should show for a saved value, or None."""
+        return next((label for label, v in options.items() if v == value), None)
+
+    lab_sync = None
+    lab_status = {}
+    saved = {}
+    locked = False
+    _tab = mo.query_params().get("rl") if "pyodide" in _sys.modules else None
+    if _tab:
+        lab_sync = LabSync(_tab)
+        lab_status = await lab_sync.load()
+        saved = dict(lab_sync.state)
+        locked = bool(lab_status.get("locked"))
+    return lab_status, lab_sync, locked, pick, saved
+
+
+@app.cell(hide_code=True)
+def _(locked, mo, pick, saved):
+    def ask(prompt, options, correct, explain, key):
         """A quick check you can answer as many times as you like.
 
         Returns (radio, render, summarise). Pass radio.value to render(); the
@@ -22,7 +109,8 @@ def _(mo):
         labels = {value: label for label, value in options.items()}
         BREAK = chr(10) + chr(10)
 
-        radio = mo.ui.radio(options=options, label=prompt)
+        radio = mo.ui.radio(options=options, label=prompt,
+                            value=pick(options, saved.get(key)), disabled=locked)
 
         def render(value):
             if value is None:
@@ -291,6 +379,7 @@ def _(ask):
             "d": ("Accuracy is a property of the model and the data it learned from, not of the "
                   "chip it later runs on."),
         },
+        key="q1",
     )
     q1
     return q1, q1_render, q1_sum
@@ -338,7 +427,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _(locked, mo, pick, saved):
     MODELS = [
         (0.05, "a wake word spotter, the thing listening for 'hey'"),
         (0.5, "a tiny image classifier"),
@@ -351,17 +440,20 @@ def _(mo):
     ]
     size = mo.ui.slider(
         steps=[m[0] for m in MODELS],
-        value=3.5,
+        value=saved.get("size", 3.5),
+        disabled=locked,
         label="Model size, in millions of numbers",
         show_value=True,
     )
+    _precisions = {
+        "4 bytes each, full precision": 4.0,
+        "2 bytes each, half": 2.0,
+        "1 byte each, quantised": 1.0,
+    }
     precision = mo.ui.radio(
-        options={
-            "4 bytes each, full precision": 4.0,
-            "2 bytes each, half": 2.0,
-            "1 byte each, quantised": 1.0,
-        },
-        value="4 bytes each, full precision",
+        options=_precisions,
+        value=pick(_precisions, saved.get("precision")) or "4 bytes each, full precision",
+        disabled=locked,
         inline=True,
         label="How much space each number takes",
     )
@@ -539,6 +631,7 @@ def _(ask):
             "d": ("Where a model was trained has no bearing on whether it fits somewhere later. "
                   "Training happens once, in a data centre, on hardware nobody deploys to."),
         },
+        key="q2",
     )
     q2
     return q2, q2_render, q2_sum
@@ -645,6 +738,7 @@ def _(ask):
             "d": ("Usually not. It is normally applied to a model that has already been trained, "
                   "which is a large part of why it is the first thing people try."),
         },
+        key="q3",
     )
     q3
     return q3, q3_render, q3_sum
@@ -755,17 +849,17 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _(locked, mo, saved):
     bytes_mb = mo.ui.slider(
-        5, 200, value=40, step=5,
+        5, 200, value=saved.get("bytes_mb", 40), step=5, disabled=locked,
         label="How much it has to fetch (megabytes)", show_value=True,
     )
     ops_gf = mo.ui.slider(
-        0.5, 20.0, value=2.0, step=0.5,
+        0.5, 20.0, value=saved.get("ops_gf", 2.0), step=0.5, disabled=locked,
         label="How many sums it has to do (billions)", show_value=True,
     )
     machine_gf = mo.ui.slider(
-        4, 48, value=12, step=2,
+        4, 48, value=saved.get("machine_gf", 12), step=2, disabled=locked,
         label="How many sums the machine really manages per second (billions)",
         show_value=True,
     )
@@ -890,6 +984,7 @@ def _(ask):
                   "term that dominates. Diagnose first, then spend."),
             "d": ("The overhead is 5 ms of 572. Even removing it entirely is under one per cent."),
         },
+        key="q4",
     )
     q4
     return q4, q4_render, q4_sum
@@ -947,10 +1042,11 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _(locked, mo, saved):
     batch = mo.ui.slider(
         steps=[1, 2, 3, 4, 8, 16, 32, 64],
-        value=1,
+        value=saved.get("batch", 1),
+        disabled=locked,
         label="How many images you send at once",
         show_value=True,
     )
@@ -1096,6 +1192,7 @@ def _(ask):
             "d": ("The machine is half of it. The other half is how you feed it, which is why "
                   "the batch slider changed the verdict without touching the hardware."),
         },
+        key="q5",
     )
     q5
     return q5, q5_render, q5_sum
@@ -1130,7 +1227,13 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _(locked, mo, pick, saved):
+    _saved = saved.get("decision") or {}
+    _choices = {
+        "Send every frame to a data centre and do the work there": "cloud",
+        "Put a small server in the building and send frames to that": "edge",
+        "Run a small model on each camera and send only what it finds": "device",
+    }
     decision_form = (
         mo.md("""
         {choice}
@@ -1139,14 +1242,14 @@ def _(mo):
         """)
         .batch(
             choice=mo.ui.radio(
-                options={
-                    "Send every frame to a data centre and do the work there": "cloud",
-                    "Put a small server in the building and send frames to that": "edge",
-                    "Run a small model on each camera and send only what it finds": "device",
-                },
+                options=_choices,
+                value=pick(_choices, _saved.get("choice")),
+                disabled=locked,
                 label="**Where would you run it?**",
             ),
             why=mo.ui.text_area(
+                value=_saved.get("why", ""),
+                disabled=locked,
                 placeholder="What made you pick that, and what would change your mind?",
                 label="**Why?**",
                 full_width=True,
@@ -1154,6 +1257,7 @@ def _(mo):
             ),
         )
         .form(
+            submit_button_disabled=locked,
             submit_button_label="Submit my decision",
             bordered=True,
             validate=lambda v: (
@@ -1170,13 +1274,13 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(decision_form, mo):
+def _(decision_form, mo, saved):
     mo.stop(
-        decision_form.value is None,
+        not (decision_form.value or saved.get("decision")),
         mo.callout(mo.md("Pick an answer, say why, then press **Submit my decision**."), kind="warn"),
     )
-    decision_choice = decision_form.value["choice"]
-    decision_why = decision_form.value["why"].strip()
+    decision_choice = (decision_form.value or saved.get("decision"))["choice"]
+    decision_why = (decision_form.value or saved.get("decision"))["why"].strip()
     return decision_choice, decision_why
 
 
@@ -1211,12 +1315,15 @@ def _(decision_choice, mo):
 
 
 @app.cell(hide_code=True)
-def _(decision_choice, mo):
+def _(decision_choice, locked, mo, saved):
     _ = decision_choice
+    _saved = saved.get("reflection") or {}
     reflect_form = (
         mo.md("{takeaway}")
         .batch(
             takeaway=mo.ui.text_area(
+                value=_saved.get("takeaway", ""),
+                disabled=locked,
                 placeholder="The thing that would stop me first is... because...",
                 label="**Last one.** For the option you chose, which runs out first: memory, time, or battery? Say why.",
                 full_width=True,
@@ -1224,6 +1331,7 @@ def _(decision_choice, mo):
             ),
         )
         .form(
+            submit_button_disabled=locked,
             submit_button_label="Finish the lab",
             bordered=True,
             validate=lambda v: (
@@ -1237,14 +1345,48 @@ def _(decision_choice, mo):
 
 
 @app.cell(hide_code=True)
-def _(mo, reflect_form):
+def _(mo, reflect_form, saved):
     mo.stop(
-        reflect_form.value is None,
+        not (reflect_form.value or saved.get("reflection")),
         mo.callout(mo.md("Answer the last question to finish."), kind="warn"),
     )
-    takeaway_text = reflect_form.value["takeaway"].strip()
+    takeaway_text = (reflect_form.value or saved.get("reflection"))["takeaway"].strip()
     done = True
     return done, takeaway_text
+
+
+@app.cell(hide_code=True)
+async def _(done, lab_status, lab_sync, mo, reflect_form):
+    # Sends the finished lab. On a return visit the form is empty but the saved
+    # answers stand, so say where things are instead of submitting again.
+    _ = done
+    if lab_sync is None:
+        _msg, _kind = (
+            "You opened this lab outside the course site, so nothing was sent to your "
+            "instructor. Use the download below to keep a copy.", "neutral")
+    elif reflect_form.value is None:
+        _when = (lab_status.get("submittedAt") or "")[:10]
+        if lab_status.get("submitted"):
+            _msg, _kind = (
+                f"**Submitted on {_when}.** You can change answers and submit the last "
+                "question again to resubmit.", "success")
+        else:
+            _msg, _kind = (
+                "Your answers are saved but the lab is **not submitted** yet. Submit the "
+                "last question to finish.", "warn")
+    else:
+        _reply = await lab_sync.submit(reflection=reflect_form.value, finished=True)
+        if _reply.get("ok"):
+            _msg, _kind = ("**Submitted.** Your instructor can see your answers. You can "
+                           "still change them and submit again.", "success")
+        elif _reply.get("locked"):
+            _msg, _kind = ("**Not submitted.** An instructor has locked this lab.", "danger")
+        else:
+            _msg, _kind = (
+                f"**Not submitted:** {_reply.get('error', 'unknown error')}. Your answers "
+                "are still saved as you go. Submit the last question to try again.", "danger")
+    mo.callout(mo.md(_msg), kind=_kind)
+    return
 
 
 @app.cell(hide_code=True)
@@ -1465,6 +1607,38 @@ def _(done, mo):
     ])
     return
 
+
+@app.cell(hide_code=True)
+def _(
+    batch,
+    bytes_mb,
+    decision_form,
+    lab_sync,
+    machine_gf,
+    ops_gf,
+    precision,
+    q1,
+    q2,
+    q3,
+    q4,
+    q5,
+    size,
+):
+    # Answers that are on the page from the start. A form's value is None until
+    # it is submitted in this visit, so it is only recorded once it has one.
+    if lab_sync is not None:
+        lab_sync.record(q1=q1.value, q2=q2.value, q3=q3.value, q4=q4.value, q5=q5.value, size=size.value, precision=precision.value, bytes_mb=bytes_mb.value, ops_gf=ops_gf.value, machine_gf=machine_gf.value, batch=batch.value)
+        if decision_form.value is not None:
+            lab_sync.record(decision=decision_form.value)
+    return
+
+@app.cell(hide_code=True)
+def _(lab_sync, reflect_form):
+    # The last question only exists once the decision is in.
+    if lab_sync is not None:
+        if reflect_form.value is not None:
+            lab_sync.record(reflection=reflect_form.value)
+    return
 
 if __name__ == "__main__":
     app.run()

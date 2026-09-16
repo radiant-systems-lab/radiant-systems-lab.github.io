@@ -9,8 +9,11 @@ the student's browser. There is nothing to install, no kernel, and no server.
 ```
 labs/
   _src/<slug>/notebook.py   source you edit          (not published - "_" prefix)
+  _src/lab_template.py      starting point for a new lab, with saving wired in
   <slug>/index.html         generated bundle          (published, committed)
   runtime/                  shared marimo frontend    (published, committed)
+  gate/                     sign-in screen and its config (published, committed)
+  admin/                    instructor dashboard      (published, committed)
   build_labs.py             build script              (not published)
   .venv/                    build toolchain           (gitignored)
 ```
@@ -62,10 +65,54 @@ build stops with a `runtime conflict` error if two labs disagree.
 ## Adding a lab
 
 1. Add a record to `_data/labs.yml` with `status: coming-soon`.
-2. Create `labs/_src/<slug>/notebook.py`.
+2. Copy `labs/_src/lab_template.py` to `labs/_src/<slug>/notebook.py` and write the lab.
+   The comment at the top of the template explains how to make each answer save.
 3. Build it, then flip `status` to `available`.
 
 The card and the course page pick it up automatically; no HTML to edit.
+
+## Sign-in and saving
+
+Every lab asks students to sign in with their university email before it opens,
+and saves their answers as they go. A returning student sees their answers again,
+on any computer. Instructors see everything at `/labs/admin/`.
+
+How the pieces fit:
+
+- `gate/gate.js` covers the lab with a sign-in screen, talks to Amazon Cognito, and
+  calls the progress API. The build adds it to any notebook that contains the
+  `"radiant-lab-"` channel name, which is how the saving cell identifies itself.
+- The notebook runs in a web worker, so it cannot see the page. The gate gives each
+  tab a random `rl` query parameter before marimo starts, and the notebook uses it
+  to open a private `BroadcastChannel` to the gate. Tokens never reach Python.
+- `gate/config.js` holds the API address and Cognito client id. Both are public by
+  design. `infra/labs-backend/deploy.sh` writes this file; do not edit it by hand.
+- The backend (Cognito, API Gateway, Lambda, DynamoDB) lives in
+  `infra/labs-backend/`. Its README covers deploying, costs, and tests.
+
+Students can type `missouri.edu`, `mail.missouri.edu` or `umsystem.edu`; all three
+reach the same account and the same saved answers. Students stay signed in for
+30 days across every lab. Owners and admins can lock a
+whole lab or one student's answers from the dashboard. A locked lab still opens,
+with the saved answers visible and every control disabled.
+
+Opened with `marimo edit`, a notebook has no gate and simply does not save.
+
+### Previewing without AWS
+
+To click through a lab locally without signing in, temporarily replace
+`gate/config.js` with:
+
+```js
+window.RADIANT_LAB_CONFIG = {
+  region: "us-east-1", apiUrl: "http://mock.invalid", clientId: "mock",
+  mock: true, mockAdmin: true, mockEmail: "you@umsystem.edu",
+};
+```
+
+The gate then skips sign-in and keeps a fake database in this browser's
+localStorage. Put the real file back (`git checkout labs/gate/config.js`) and
+rebuild before committing.
 
 ## Previewing
 

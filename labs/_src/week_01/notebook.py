@@ -15,8 +15,95 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    def ask(prompt, options, correct, explain):
+async def _(json, mo):
+    # Progress saving. On the course site, labs/gate/gate.js signs the student in
+    # and tags this tab with an "rl" query parameter. The notebook runs in a web
+    # worker, so it talks to that script over a BroadcastChannel named after the
+    # tag, and the script makes the API calls. Opened any other way (marimo edit,
+    # a plain export) there is no tag and nothing is saved.
+    import sys as _sys
+
+    class LabSync:
+        def __init__(self, tab):
+            from js import BroadcastChannel
+            from pyodide.ffi import create_proxy
+
+            self.state = {}
+            self._waiting = {}
+            self._channel = BroadcastChannel.new("radiant-lab-" + tab)
+            self._listener = create_proxy(self._receive)
+            self._channel.onmessage = self._listener
+
+        def _receive(self, event):
+            try:
+                message = json.loads(event.data)
+            except (TypeError, ValueError):
+                return
+            waiting = self._waiting.pop(message.get("id"), None)
+            if waiting is not None and not waiting.done():
+                waiting.set_result(message)
+
+        def _send(self, op, message_id, **fields):
+            message = {"id": message_id, "op": op, "from": "notebook"}
+            message.update(fields)
+            self._channel.postMessage(json.dumps(message))
+
+        async def _request(self, op, timeout=None, **fields):
+            import asyncio
+            import uuid
+
+            message_id = uuid.uuid4().hex
+            reply = asyncio.get_event_loop().create_future()
+            self._waiting[message_id] = reply
+            self._send(op, message_id, **fields)
+            try:
+                return await (reply if timeout is None else asyncio.wait_for(reply, timeout))
+            except asyncio.TimeoutError:
+                return {"ok": False, "error": "the page did not answer in time"}
+            finally:
+                self._waiting.pop(message_id, None)
+
+        async def load(self):
+            """Wait for sign-in, then return what this student saved before."""
+            reply = await self._request("load")
+            self.state = dict(reply.get("state") or {})
+            return reply
+
+        def record(self, **answers):
+            """Remember these answers; the page saves them a moment later."""
+            import uuid
+
+            changed = {k: v for k, v in answers.items()
+                       if k not in self.state or self.state[k] != v}
+            if changed:
+                self.state.update(changed)
+                self._send("save", uuid.uuid4().hex, state=self.state)
+
+        async def submit(self, **answers):
+            """Save everything now and mark the lab as submitted."""
+            self.state.update(answers)
+            return await self._request("submit", timeout=45, state=self.state)
+
+    def pick(options, value):
+        """The label a radio should show for a saved value, or None."""
+        return next((label for label, v in options.items() if v == value), None)
+
+    lab_sync = None
+    lab_status = {}
+    saved = {}
+    locked = False
+    _tab = mo.query_params().get("rl") if "pyodide" in _sys.modules else None
+    if _tab:
+        lab_sync = LabSync(_tab)
+        lab_status = await lab_sync.load()
+        saved = dict(lab_sync.state)
+        locked = bool(lab_status.get("locked"))
+    return lab_status, lab_sync, locked, pick, saved
+
+
+@app.cell(hide_code=True)
+def _(locked, mo, pick, saved):
+    def ask(prompt, options, correct, explain, key):
         """A quick check you can answer as many times as you like.
 
         These are for thinking with, not for marking. The graded quiz lives in
@@ -29,7 +116,8 @@ def _(mo):
         labels = {value: label for label, value in options.items()}
         BREAK = chr(10) + chr(10)          # a blank line, i.e. a new paragraph
 
-        radio = mo.ui.radio(options=options, label=prompt)
+        radio = mo.ui.radio(options=options, label=prompt,
+                            value=pick(options, saved.get(key)), disabled=locked)
 
         def render(value):
             if value is None:
@@ -443,6 +531,7 @@ def _(ask):
             'd': ("Data quality and drift genuinely matter, and there is a lab on that later. But "
                   "the answer here is bigger than dataset size."),
         },
+        key="q0",
     )
     q0
     return q0, q0_render, q0_sum
@@ -673,6 +762,7 @@ def _(ask):
             'd': ("Some systems are built to do this and it is a good design. It does not happen for "
                   "free though. Somebody has to choose the threshold and build the fallback."),
         },
+        key="q3",
     )
     q3
     return q3, q3_render, q3_sum
@@ -832,7 +922,13 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _(locked, mo, pick, saved):
+    _saved = saved.get("guess") or {}
+    _choices = {
+        "As small as possible (1-4), keep waiting time near zero": "tiny",
+        "Moderate (8-16), balance waiting against efficiency": "moderate",
+        "As large as possible (64+), get the most out of the GPU": "huge",
+    }
     guess_form = (
         mo.md("""
         {choice}
@@ -841,14 +937,14 @@ def _(mo):
         """)
         .batch(
             choice=mo.ui.radio(
-                options={
-                    "As small as possible (1-4), keep waiting time near zero": "tiny",
-                    "Moderate (8-16), balance waiting against efficiency": "moderate",
-                    "As large as possible (64+), get the most out of the GPU": "huge",
-                },
+                options=_choices,
+                value=pick(_choices, _saved.get("choice")),
+                disabled=locked,
                 label="**Your guess.** Which batch size keeps the slowest 5% of people under 150 ms, when 200 people arrive every second?",
             ),
             why=mo.ui.text_area(
+                value=_saved.get("why", ""),
+                disabled=locked,
                 placeholder="One sentence is fine. What made you pick that one?",
                 label="**Why did you pick that?**",
                 full_width=True,
@@ -856,6 +952,7 @@ def _(mo):
             ),
         )
         .form(
+            submit_button_disabled=locked,
             submit_button_label="Submit my guess",
             bordered=True,
             validate=lambda v: (
@@ -872,11 +969,11 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(guess_form, mo):
+def _(guess_form, mo, saved):
     # The gate stays, because guessing before you look is the point. The guess is
     # not locked though: nothing here is marked, so changing your mind is fine.
     mo.stop(
-        guess_form.value is None,
+        not (guess_form.value or saved.get("guess")),
         mo.callout(
             mo.md(
                 "Pick an answer, say why in a few words, then press **Submit my guess**. "
@@ -885,8 +982,8 @@ def _(guess_form, mo):
             kind="warn",
         ),
     )
-    predict_choice = guess_form.value["choice"]
-    predict_reason = guess_form.value["why"].strip()
+    predict_choice = (guess_form.value or saved.get("guess"))["choice"]
+    predict_reason = (guess_form.value or saved.get("guess"))["why"].strip()
     prediction_locked = True
     return predict_choice, predict_reason, prediction_locked
 
@@ -899,14 +996,14 @@ def _(mo, prediction_locked):
 
 
 @app.cell(hide_code=True)
-def _(mo, prediction_locked):
+def _(locked, mo, prediction_locked, saved):
     _ = prediction_locked
     batch = mo.ui.slider(
-        1, 128, value=1, step=1,
+        1, 128, value=saved.get("batch", 1), step=1, disabled=locked,
         label="Batch size - how many we collect before sending", show_value=True,
     )
     load = mo.ui.slider(
-        50, 400, value=200, step=10,
+        50, 400, value=saved.get("load", 200), step=10, disabled=locked,
         label="How many people arrive per second", show_value=True,
     )
     mo.vstack([batch, load])
@@ -1181,8 +1278,14 @@ def _(mo, prediction_locked):
 
 
 @app.cell(hide_code=True)
-def _(batch, mo, prediction_locked):
+def _(batch, locked, mo, pick, prediction_locked, saved):
     _ = prediction_locked
+    _saved = saved.get("decision") or {}
+    _choices = {
+        "Yes, ship it. I can name a batch size that keeps our promise": "ship",
+        "Ship it, but buy a second GPU so we are not running at the edge": "ship_scale",
+        "No. We cannot keep this promise on one GPU, and I can show why": "hold",
+    }
     decision_form = (
         mo.md("""
         {choice}
@@ -1191,14 +1294,14 @@ def _(batch, mo, prediction_locked):
         """)
         .batch(
             choice=mo.ui.radio(
-                options={
-                    "Yes, ship it. I can name a batch size that keeps our promise": "ship",
-                    "Ship it, but buy a second GPU so we are not running at the edge": "ship_scale",
-                    "No. We cannot keep this promise on one GPU, and I can show why": "hold",
-                },
+                options=_choices,
+                value=pick(_choices, _saved.get("choice")),
+                disabled=locked,
                 label="**Your decision.** What do you tell your manager?",
             ),
             why=mo.ui.text_area(
+                value=_saved.get("why", ""),
+                disabled=locked,
                 placeholder=(
                     "Say which batch size you picked, what the slowest 5% end up waiting, "
                     "and what would make you change your answer."
@@ -1209,6 +1312,7 @@ def _(batch, mo, prediction_locked):
             ),
         )
         .form(
+            submit_button_disabled=locked,
             submit_button_label="Submit my decision",
             bordered=True,
             validate=lambda v: (
@@ -1228,9 +1332,9 @@ def _(batch, mo, prediction_locked):
 
 
 @app.cell(hide_code=True)
-def _(decision_form, mo):
+def _(decision_form, mo, saved):
     mo.stop(
-        decision_form.value is None,
+        not (decision_form.value or saved.get("decision")),
         mo.callout(
             mo.md(
                 "Pick a decision, explain it, then press **Submit my decision** to finish "
@@ -1239,8 +1343,8 @@ def _(decision_form, mo):
             kind="info",
         ),
     )
-    decision_choice = decision_form.value["choice"]
-    defence_text = decision_form.value["why"].strip()
+    decision_choice = (decision_form.value or saved.get("decision"))["choice"]
+    defence_text = (decision_form.value or saved.get("decision"))["why"].strip()
     return decision_choice, defence_text
 
 
@@ -1251,11 +1355,14 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _(locked, mo, saved):
+    _saved = saved.get("answers") or {}
     answers_form = (
         mo.md("{takeaway}")
         .batch(
             takeaway=mo.ui.text_area(
+                value=_saved.get("takeaway", ""),
+                disabled=locked,
                 placeholder="The thing that decided it was... and I would not have found that by looking at accuracy because...",
                 label="**In your own words:** what actually decided whether this could ship, and why would you never have found it by looking at the accuracy score?",
                 full_width=True,
@@ -1263,6 +1370,7 @@ def _(mo):
             ),
         )
         .form(
+            submit_button_disabled=locked,
             submit_button_label="Finish the lab and make my report",
             bordered=True,
             validate=lambda v: (
@@ -1276,17 +1384,52 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(answers_form, mo):
+def _(answers_form, mo, saved):
     mo.stop(
-        answers_form.value is None,
+        not (answers_form.value or saved.get("answers")),
         mo.callout(
             mo.md("Write both answers, then press **Finish the lab and make my report**."),
             kind="warn",
         ),
     )
-    takeaway_text = answers_form.value["takeaway"].strip()
+    takeaway_text = (answers_form.value or saved.get("answers"))["takeaway"].strip()
     done = True
     return done, takeaway_text
+
+
+@app.cell(hide_code=True)
+async def _(answers_form, decision_choice, done, lab_status, lab_sync, mo):
+    # Sends the finished lab. On a return visit the form is empty but the saved
+    # answers stand, so say where things are instead of submitting again. In this
+    # lab the last question sits above the decision, so wait for both.
+    _ = done, decision_choice
+    if lab_sync is None:
+        _msg, _kind = (
+            "You opened this lab outside the course site, so nothing was sent to your "
+            "instructor. Use the download below to keep a copy.", "neutral")
+    elif answers_form.value is None:
+        _when = (lab_status.get("submittedAt") or "")[:10]
+        if lab_status.get("submitted"):
+            _msg, _kind = (
+                f"**Submitted on {_when}.** You can change answers and submit the last "
+                "question again to resubmit.", "success")
+        else:
+            _msg, _kind = (
+                "Your answers are saved but the lab is **not submitted** yet. Submit the "
+                "last question to finish.", "warn")
+    else:
+        _reply = await lab_sync.submit(answers=answers_form.value, finished=True)
+        if _reply.get("ok"):
+            _msg, _kind = ("**Submitted.** Your instructor can see your answers. You can "
+                           "still change them and submit again.", "success")
+        elif _reply.get("locked"):
+            _msg, _kind = ("**Not submitted.** An instructor has locked this lab.", "danger")
+        else:
+            _msg, _kind = (
+                f"**Not submitted:** {_reply.get('error', 'unknown error')}. Your answers "
+                "are still saved as you go. Submit the last question to try again.", "danger")
+    mo.callout(mo.md(_msg), kind=_kind)
+    return
 
 
 @app.cell(hide_code=True)
@@ -1559,6 +1702,27 @@ def _(decision_choice, mo):
     ])
     return
 
+
+@app.cell(hide_code=True)
+def _(answers_form, guess_form, lab_sync, q0, q3):
+    # Answers that are on the page from the start. A form's value is None until
+    # it is submitted in this visit, so it is only recorded once it has one.
+    if lab_sync is not None:
+        lab_sync.record(q0=q0.value, q3=q3.value)
+        if guess_form.value is not None:
+            lab_sync.record(guess=guess_form.value)
+        if answers_form.value is not None:
+            lab_sync.record(answers=answers_form.value)
+    return
+
+@app.cell(hide_code=True)
+def _(batch, decision_form, lab_sync, load):
+    # These only exist once the guess is in.
+    if lab_sync is not None:
+        lab_sync.record(batch=batch.value, load=load.value)
+        if decision_form.value is not None:
+            lab_sync.record(decision=decision_form.value)
+    return
 
 if __name__ == "__main__":
     app.run()

@@ -10,3 +10,6 @@ labs/_src/quizzes.md
 
 # marimo session cache, written by a non-WASM `marimo export html` run
 labs/_src/**/__marimo__/
+
+# Lab backend build output (packaged templates, parameter files)
+infra/labs-backend/.build/

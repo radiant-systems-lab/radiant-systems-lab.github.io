@@ -8,7 +8,9 @@ exclude: [".rvmrc", ".rbenv-version", "ReadMe.md", "README.md", "Rakefile", "cha
           # Lab build tooling. The generated bundles under labs/<slug>/ and the
           # shared labs/runtime/ ARE published; only the sources and tools are not.
           # labs/_src/ and labs/.venv/ are already ignored by Jekyll ("_" and "." prefixes).
-          "labs/build_labs.py", "labs/README.md"]
+          "labs/build_labs.py", "labs/README.md",
+          # AWS backend for lab sign-in and saving; deployed separately, not a web page.
+          "infra"]
 
 # Jekyll drops files whose names begin with "_" or "." . marimo's bundler emits
 # several real modules with those names (vite externals, lodash internals), and

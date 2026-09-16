@@ -1,0 +1,491 @@
+---
+layout: null
+sitemap: false
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Lab dashboard - CSC/EE 8001</title>
+  <script src="../gate/config.js?v={{ site.time | date: '%s' }}"></script>
+  <script src="../gate/gate.js?v={{ site.time | date: '%s' }}" data-mode="admin"></script>
+  <style>
+    :root {
+      --gold: #f1b82d; --gold-dark: #6a5314; --gold-soft: #fff3cc; --line: #e6e6e6;
+      --ink: #1c1c1c; --muted: #6f6f6f; --ok: #2e7d32; --bad: #c62828; --bg: #faf8f2;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink);
+           font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    main { max-width: 1120px; margin: 0 auto; padding: 28px 16px 90px; }
+    .eyebrow { margin: 0 0 4px; color: var(--gold-dark); font-size: .74rem; font-weight: 800;
+               letter-spacing: .08em; text-transform: uppercase; }
+    h1 { margin: 0 0 4px; font-size: 1.7rem; }
+    h2 { margin: 0 0 10px; font-size: 1.15rem; }
+    .sub { margin: 0 0 22px; color: var(--muted); }
+    .panel { background: #fff; border: 1px solid var(--line); border-top: 5px solid var(--gold);
+             border-radius: 12px; padding: 18px 20px; margin-bottom: 20px; }
+    .notice { background: #fdecec; border: 1px solid #f3c4c4; color: #8a1f1f;
+              border-radius: 10px; padding: 12px 14px; }
+    .scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+    th { color: var(--gold-dark); font-size: .72rem; font-weight: 800; letter-spacing: .05em;
+         text-transform: uppercase; white-space: nowrap; }
+    tr.lab-row { cursor: pointer; }
+    tr.lab-row:hover, tr.lab-row.active { background: #fffdf5; }
+    .num { text-align: right; font-variant-numeric: tabular-nums; }
+    .tag { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: .74rem;
+           font-weight: 800; white-space: nowrap; }
+    .tag.done { background: #edf7ee; color: var(--ok); }
+    .tag.going { background: var(--gold-soft); color: #62490a; }
+    .tag.lock { background: #fdecec; color: var(--bad); }
+    button, .btn { font: inherit; font-size: .85rem; font-weight: 700; border-radius: 999px;
+                   padding: 5px 12px; border: 1px solid #d6d6d6; background: #fff; color: var(--ink);
+                   cursor: pointer; white-space: nowrap; }
+    button:hover { background: #f6f6f6; }
+    button.primary { background: var(--gold); border-color: #e0a91c; }
+    button.primary:hover { background: #e8ad19; }
+    button.danger { color: var(--bad); border-color: #f0c2c2; }
+    button[disabled] { opacity: .55; cursor: progress; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 0 0 12px; }
+    .toolbar .grow { flex: 1 1 200px; }
+    input[type=search], input[type=email] { font: inherit; padding: 7px 11px; border: 1px solid #d6d6d6;
+             border-radius: 8px; width: 100%; max-width: 320px; }
+    pre.answers { margin: 6px 0 0; padding: 10px 12px; background: #fafafa; border: 1px solid #eee;
+                  border-radius: 8px; white-space: pre-wrap; word-break: break-word; font-size: .8rem;
+                  max-height: 340px; overflow: auto; }
+    .muted { color: var(--muted); }
+    .error { color: var(--bad); font-weight: 600; }
+    .stats { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+    .stat { border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; min-width: 120px; }
+    .stat b { display: block; font-size: 1.3rem; }
+    .stat span { color: var(--muted); font-size: .78rem; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">CSC/EE 8001 &middot; Instructors</p>
+  <h1>Lab dashboard</h1>
+  <p class="sub">Who has started and submitted each lab, what they answered, and who can still change their answers.</p>
+
+  <div id="denied" class="notice" hidden>
+    This account does not have instructor access. Ask a course owner to add
+    <strong id="denied-email"></strong> as an admin, then reload this page.
+  </div>
+
+  <div id="app" hidden>
+    <section class="panel">
+      <h2>Labs</h2>
+      <p class="muted" style="margin-top:-4px">Locking a lab stops every student from changing their answers. Admins can still open and edit it.</p>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Week</th><th>Lab</th><th class="num">Started</th><th class="num">Submitted</th><th>Status</th><th></th></tr></thead>
+          <tbody id="labs"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="detail" hidden>
+      <h2 id="detail-title"></h2>
+      <div class="stats" id="detail-stats"></div>
+      <div class="toolbar">
+        <div class="grow"><input type="search" id="filter" placeholder="Filter by email" aria-label="Filter students by email"></div>
+        <button type="button" id="refresh">Refresh</button>
+        <button type="button" id="export" class="primary">Download CSV</button>
+      </div>
+      <p id="detail-error" class="error" hidden></p>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Student</th><th>Status</th><th>Last saved</th><th class="num">Saves</th><th class="num">Answers</th><th></th></tr></thead>
+          <tbody id="students"></tbody>
+        </table>
+      </div>
+      <p id="empty" class="muted" hidden>No one has opened this lab yet.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Accounts waiting for a code</h2>
+      <p class="muted" style="margin-top:-4px">Students who signed up but never entered
+      their emailed code. University mail sometimes holds those messages. Confirm the
+      ones you recognise and they can sign in with the password they chose. Remove any
+      you do not.</p>
+      <div class="toolbar">
+        <div class="grow muted" id="pending-count"></div>
+        <button type="button" id="pending-refresh">Refresh</button>
+        <button type="button" id="pending-confirm" class="primary" disabled>Confirm selected</button>
+      </div>
+      <p id="pending-error" class="error" hidden></p>
+      <p id="pending-note" class="muted" hidden></p>
+      <div class="scroll">
+        <table>
+          <thead><tr><th><input type="checkbox" id="pending-all" aria-label="Select every account"></th>
+            <th>Email</th><th>Signed up</th><th></th><th></th></tr></thead>
+          <tbody id="pending"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Admins</h2>
+      <p class="muted" style="margin-top:-4px" id="admins-help"></p>
+      <form class="toolbar" id="add-admin" hidden>
+        <div class="grow"><input type="email" id="new-admin" placeholder="ta@missouri.edu" required aria-label="Email of the new admin"></div>
+        <button type="submit" class="primary">Add admin</button>
+      </form>
+      <p id="admins-error" class="error" hidden></p>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Email</th><th>Role</th><th>Added by</th><th></th></tr></thead>
+          <tbody id="admins"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var LABS = {{ site.data.labs | jsonify }};
+  var auth = window.radiantLabAuth;
+  var $ = function (id) { return document.getElementById(id); };
+  var me = null, current = null, rows = [], lockState = {};
+
+  if (!auth) {
+    document.querySelector("main").insertAdjacentHTML("beforeend",
+      '<p class="notice">The sign-in service is not configured for this site.</p>');
+    return;
+  }
+
+  function el(tag, attrs, kids) {
+    var n = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) {
+      if (k === "text") n.textContent = attrs[k];
+      else if (k === "class") n.className = attrs[k];
+      else if (k.slice(0, 2) === "on") n.addEventListener(k.slice(2), attrs[k]);
+      else n.setAttribute(k, attrs[k]);
+    });
+    (kids || []).forEach(function (c) { if (c != null) n.appendChild(typeof c === "string" ? document.createTextNode(c) : c); });
+    return n;
+  }
+
+  function when(iso) {
+    if (!iso) return "—";
+    var d = new Date(iso);
+    return isNaN(d) ? iso : d.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+  }
+
+  function busy(button, promise) {
+    button.disabled = true;
+    return promise.finally(function () { button.disabled = false; });
+  }
+
+  function showError(node, e) {
+    node.textContent = e.message || String(e);
+    node.hidden = false;
+  }
+
+  // -- labs overview ------------------------------------------------------------
+
+  function renderLabs(counts) {
+    var body = $("labs");
+    body.textContent = "";
+    LABS.filter(function (l) { return l.kind === "notebook"; })
+      .sort(function (a, b) { return a.number - b.number; })
+      .forEach(function (lab) {
+        var c = counts[lab.slug] || {};
+        var locked = !!lockState[lab.slug];
+        var toggle = el("button", {
+          type: "button", class: locked ? "" : "danger",
+          text: locked ? "Unlock lab" : "Lock lab",
+          onclick: function (ev) {
+            ev.stopPropagation();
+            busy(toggle, auth.api("PUT", "/admin/labs/" + lab.slug + "/lock", { locked: !locked })
+              .then(function (res) {
+                lockState[lab.slug] = res.locked;
+                return loadOverview();
+              }).then(function () { if (current === lab.slug) openLab(lab.slug); })
+              .catch(function (e) { alert(e.message); }));
+          },
+        });
+        var row = el("tr", { class: "lab-row" + (current === lab.slug ? " active" : ""),
+                             "data-slug": lab.slug, tabindex: "0", onclick: function () { openLab(lab.slug); },
+                             onkeydown: function (ev) { if (ev.key === "Enter") openLab(lab.slug); } }, [
+          el("td", { text: "Week " + lab.week }),
+          el("td", {}, [el("strong", { text: lab.title }),
+                        lab.status !== "available" ? el("span", { class: "muted", text: " (" + lab.status + ")" }) : null]),
+          el("td", { class: "num", text: c.started == null ? "…" : String(c.started) }),
+          el("td", { class: "num", text: c.submitted == null ? "…" : String(c.submitted) }),
+          el("td", {}, [locked ? el("span", { class: "tag lock", text: "Locked" }) : el("span", { class: "tag going", text: "Open" })]),
+          el("td", {}, [toggle]),
+        ]);
+        body.appendChild(row);
+      });
+  }
+
+  function loadOverview() {
+    return auth.api("GET", "/admin/labs").then(function (res) {
+      lockState = {};
+      res.labs.forEach(function (l) { lockState[l.lab] = l.locked; });
+      renderLabs({});
+      var counts = {};
+      return Promise.all(LABS.filter(function (l) { return l.kind === "notebook"; }).map(function (lab) {
+        return auth.api("GET", "/admin/labs/" + lab.slug + "/progress").then(function (p) {
+          counts[lab.slug] = {
+            started: p.students.length,
+            submitted: p.students.filter(function (s) { return s.submitted; }).length,
+          };
+        }).catch(function () { counts[lab.slug] = {}; });
+      })).then(function () { renderLabs(counts); });
+    });
+  }
+
+  // -- one lab ------------------------------------------------------------------
+
+  function labBySlug(slug) {
+    return LABS.filter(function (l) { return l.slug === slug; })[0] || { slug: slug, title: slug, week: "?" };
+  }
+
+  function openLab(slug) {
+    current = slug;
+    var lab = labBySlug(slug);
+    $("detail").hidden = false;
+    $("detail-title").textContent = "Week " + lab.week + ": " + lab.title;
+    $("detail-error").hidden = true;
+    Array.prototype.forEach.call(document.querySelectorAll("tr.lab-row"), function (r) {
+      r.classList.toggle("active", r.getAttribute("data-slug") === slug);
+    });
+    return auth.api("GET", "/admin/labs/" + slug + "/progress").then(function (res) {
+      rows = res.students;
+      renderStudents();
+    }).catch(function (e) { showError($("detail-error"), e); });
+  }
+
+  function renderStudents() {
+    var filter = $("filter").value.trim().toLowerCase();
+    var shown = rows.filter(function (r) { return !filter || (r.email || "").indexOf(filter) >= 0; });
+    var submitted = rows.filter(function (r) { return r.submitted; }).length;
+    var lockedCount = rows.filter(function (r) { return r.locked; }).length;
+
+    var stats = $("detail-stats");
+    stats.textContent = "";
+    [[rows.length, "started"], [submitted, "submitted"], [rows.length - submitted, "in progress"],
+     [lockedCount, "individually locked"]].forEach(function (s) {
+      stats.appendChild(el("div", { class: "stat" }, [el("b", { text: String(s[0]) }), el("span", { text: s[1] })]));
+    });
+
+    var body = $("students");
+    body.textContent = "";
+    $("empty").hidden = rows.length > 0;
+    shown.forEach(function (r) {
+      var answers = Object.keys(r.state || {}).filter(function (k) {
+        var v = r.state[k];
+        return v !== null && v !== "" && k !== "finished";
+      }).length;
+      var detailRow = el("tr", { hidden: "" }, [el("td", { colspan: "6" }, [
+        el("div", { class: "muted", text: "First opened " + when(r.createdAt) +
+          (r.submittedAt ? " · last submitted " + when(r.submittedAt) + " (" + r.submissions + " time" + (r.submissions === 1 ? "" : "s") + ")" : "") +
+          (r.locked ? " · locked by " + (r.lockedBy || "an admin") : "") }),
+        el("pre", { class: "answers", text: JSON.stringify(r.state, null, 2) }),
+      ])]);
+      var view = el("button", { type: "button", text: "Answers", "aria-expanded": "false",
+        onclick: function () {
+          detailRow.hidden = !detailRow.hidden;
+          view.setAttribute("aria-expanded", String(!detailRow.hidden));
+        } });
+      var lock = el("button", { type: "button", class: r.locked ? "" : "danger",
+        text: r.locked ? "Unlock" : "Lock",
+        onclick: function () {
+          busy(lock, auth.api("PUT", "/admin/labs/" + current + "/students/" + encodeURIComponent(r.id) + "/lock",
+                              { locked: !r.locked })
+            .then(function (updated) {
+              rows = rows.map(function (x) { return x.id === updated.id ? updated : x; });
+              renderStudents();
+            }).catch(function (e) { showError($("detail-error"), e); }));
+        } });
+      body.appendChild(el("tr", {}, [
+        el("td", { text: r.email || r.id }),
+        el("td", {}, [
+          r.submitted ? el("span", { class: "tag done", text: "Submitted" }) : el("span", { class: "tag going", text: "In progress" }),
+          r.locked ? " " : null,
+          r.locked ? el("span", { class: "tag lock", text: "Locked" }) : null,
+        ]),
+        el("td", { text: when(r.updatedAt) }),
+        el("td", { class: "num", text: String(r.saves || 0) }),
+        el("td", { class: "num", text: String(answers) }),
+        el("td", {}, [view, " ", lock]),
+      ]));
+      body.appendChild(detailRow);
+    });
+  }
+
+  function exportCsv() {
+    var keys = {};
+    rows.forEach(function (r) { Object.keys(r.state || {}).forEach(function (k) { keys[k] = true; }); });
+    var answerKeys = Object.keys(keys).sort();
+    var head = ["email", "submitted", "submitted_at", "submissions", "last_saved", "saves", "locked"].concat(answerKeys);
+    function cell(v) {
+      if (v === null || v === undefined) return "";
+      if (typeof v === "object") v = JSON.stringify(v);
+      v = String(v);
+      if (/^[=+\-@]/.test(v)) v = "'" + v;   // keep spreadsheets from running it as a formula
+      return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+    }
+    var lines = [head.join(",")].concat(rows.map(function (r) {
+      return [r.email, r.submitted, r.submittedAt, r.submissions, r.updatedAt, r.saves, r.locked]
+        .concat(answerKeys.map(function (k) { return (r.state || {})[k]; }))
+        .map(cell).join(",");
+    }));
+    var blob = new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
+    var a = el("a", { href: URL.createObjectURL(blob),
+                      download: current + "-responses-" + new Date().toISOString().slice(0, 10) + ".csv" });
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  }
+
+  // -- accounts waiting for a code ----------------------------------------------
+
+  var pending = [];
+
+  function selectedPending() {
+    return Array.prototype.filter.call(document.querySelectorAll("input.pending-pick"),
+      function (box) { return box.checked; }).map(function (box) { return box.value; });
+  }
+
+  function updatePendingButton() {
+    var picked = selectedPending();
+    $("pending-confirm").disabled = picked.length === 0;
+    $("pending-confirm").textContent = picked.length
+      ? "Confirm " + picked.length + " selected" : "Confirm selected";
+  }
+
+  function renderPending() {
+    var body = $("pending");
+    body.textContent = "";
+    $("pending-all").checked = false;
+    $("pending-count").textContent = pending.length
+      ? pending.length + " waiting" : "Nobody is waiting for a code.";
+    pending.forEach(function (a) {
+      var ownerOnly = a.staff && !me.owner;
+      var box = el("input", { type: "checkbox", class: "pending-pick", value: a.username,
+                              "aria-label": "Select " + a.email, onchange: updatePendingButton });
+      if (ownerOnly) box.disabled = true;
+      var remove = el("button", { type: "button", class: "danger", text: "Remove",
+        onclick: function () {
+          if (!confirm("Remove the unconfirmed account for " + a.email + "? They can sign up again.")) return;
+          busy(remove, auth.api("DELETE", "/admin/accounts/" + encodeURIComponent(a.username))
+            .then(loadPending).catch(function (e) { showError($("pending-error"), e); }));
+        } });
+      if (ownerOnly) remove.disabled = true;
+      body.appendChild(el("tr", {}, [
+        el("td", {}, [box]),
+        el("td", { text: a.email }),
+        el("td", { text: when(a.createdAt) }),
+        el("td", {}, [a.staff ? el("span", { class: "tag lock",
+          text: ownerOnly ? "Staff address: owner only" : "Staff address" }) : null]),
+        el("td", {}, [remove]),
+      ]));
+    });
+    updatePendingButton();
+  }
+
+  function loadPending() {
+    $("pending-error").hidden = true;
+    return auth.api("GET", "/admin/accounts/pending").then(function (res) {
+      pending = res.accounts;
+      renderPending();
+    }).catch(function (e) { showError($("pending-error"), e); });
+  }
+
+  $("pending-all").addEventListener("change", function (ev) {
+    Array.prototype.forEach.call(document.querySelectorAll("input.pending-pick"), function (box) {
+      if (!box.disabled) box.checked = ev.target.checked;
+    });
+    updatePendingButton();
+  });
+
+  $("pending-refresh").addEventListener("click", function (ev) { busy(ev.target, loadPending()); });
+
+  $("pending-confirm").addEventListener("click", function (ev) {
+    var picked = selectedPending();
+    if (!picked.length) return;
+    $("pending-note").hidden = true;
+    busy(ev.target, auth.api("POST", "/admin/accounts/confirm", { usernames: picked })
+      .then(function (res) {
+        var done = res.results.filter(function (r) { return r.confirmed; }).length;
+        var failed = res.results.filter(function (r) { return !r.confirmed; });
+        $("pending-note").textContent = done + " confirmed." + (failed.length
+          ? " Not confirmed: " + failed.map(function (r) { return r.username + " (" + r.error + ")"; }).join("; ")
+          : " They can sign in now.");
+        $("pending-note").hidden = false;
+        return loadPending();
+      }).catch(function (e) { showError($("pending-error"), e); }))
+      .then(updatePendingButton);   // busy() re-enables it; nothing is selected now
+  });
+
+  // -- admins -------------------------------------------------------------------
+
+  function loadAdmins() {
+    $("admins-error").hidden = true;
+    return auth.api("GET", "/admin/admins").then(function (res) {
+      var body = $("admins");
+      body.textContent = "";
+      res.admins.forEach(function (a) {
+        var remove = null;
+        if (me.owner && !a.owner) {
+          remove = el("button", { type: "button", class: "danger", text: "Remove",
+            onclick: function () {
+              if (!confirm("Remove " + a.email + " as an admin?")) return;
+              busy(remove, auth.api("DELETE", "/admin/admins/" + encodeURIComponent(a.email))
+                .then(loadAdmins).catch(function (e) { showError($("admins-error"), e); }));
+            } });
+        }
+        body.appendChild(el("tr", {}, [
+          el("td", { text: a.email }),
+          el("td", {}, [el("span", { class: "tag " + (a.owner ? "done" : "going"), text: a.owner ? "Owner" : "Admin" })]),
+          el("td", { class: "muted", text: a.owner ? "set at deployment" : (a.addedBy || "") + (a.addedAt ? ", " + when(a.addedAt) : "") }),
+          el("td", {}, [remove]),
+        ]));
+      });
+    }).catch(function (e) { showError($("admins-error"), e); });
+  }
+
+  $("add-admin").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var input = $("new-admin");
+    var button = ev.target.querySelector("button");
+    $("admins-error").hidden = true;
+    busy(button, auth.api("POST", "/admin/admins", { email: input.value.trim() })
+      .then(function () { input.value = ""; return loadAdmins(); })
+      .catch(function (e) { showError($("admins-error"), e); }));
+  });
+
+  $("filter").addEventListener("input", renderStudents);
+  $("refresh").addEventListener("click", function (ev) { busy(ev.target, openLab(current)); });
+  $("export").addEventListener("click", exportCsv);
+
+  auth.ready.then(function (user) {
+    me = user;
+    if (!me.admin) {
+      $("denied-email").textContent = me.email;
+      $("denied").hidden = false;
+      return;
+    }
+    $("app").hidden = false;
+    $("add-admin").hidden = !me.owner;
+    $("admins-help").textContent = me.owner
+      ? "Admins can see every student's answers and lock labs. As an owner, you can add or remove them. They sign up with the address you add here, even if it is not a university address. University addresses work with any spelling: missouri.edu, mail.missouri.edu or umsystem.edu."
+      : "Admins can see every student's answers and lock labs. Only a course owner can change this list.";
+    loadOverview().catch(function (e) { alert(e.message); });
+    loadPending();
+    loadAdmins();
+  });
+})();
+</script>
+</body>
+</html>

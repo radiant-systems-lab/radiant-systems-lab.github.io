@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import hashlib
 import os
 import re
 import shutil
@@ -36,6 +37,11 @@ REPO_ROOT = LABS_DIR.parent
 
 # PWA manifests are rewritten post-hoist; excluded from the runtime-conflict check.
 BRANDED = ("manifest.json", "site.webmanifest")
+
+# A notebook that saves progress talks to labs/gate/gate.js over a BroadcastChannel
+# whose name starts with this. Those labs get the sign-in gate; the rest stay open.
+SAVES_MARKER = '"radiant-lab-"'
+GATE_DIR = LABS_DIR / "gate"
 
 
 def discover(only: list[str]) -> list[Path]:
@@ -93,7 +99,40 @@ def build(src: Path) -> Path:
 
     hoist_runtime(out)
     patch_title(index, src.name)
+    if SAVES_MARKER in notebook.read_text(encoding="utf-8"):
+        inject_gate(index, src.name)
     return out
+
+
+def inject_gate(index: Path, slug: str) -> None:
+    """Load the sign-in gate ahead of marimo, so it can tag the tab first.
+
+    The gate sets the "rl" query parameter that the notebook's worker reads at
+    start-up, so it has to run before marimo's own scripts. Both files get a
+    content hash in the URL, so a redeploy is not hidden by the browser cache.
+    """
+    config = GATE_DIR / "config.js"
+    gate = GATE_DIR / "gate.js"
+    if not gate.is_file():
+        sys.exit(f"{slug}: saves progress but {gate} is missing")
+    if not config.is_file():
+        print(f"  warning: {config.relative_to(REPO_ROOT)} is missing; run "
+              f"infra/labs-backend/deploy.sh so {slug} can sign students in")
+
+    def stamp(path: Path) -> str:
+        data = path.read_bytes() if path.is_file() else b""
+        return hashlib.sha256(data).hexdigest()[:10]
+
+    tags = (
+        f'<script src="../gate/config.js?v={stamp(config)}"></script>\n'
+        f'    <script src="../gate/gate.js?v={stamp(gate)}" data-lab="{slug}"></script>\n    '
+    )
+    html = index.read_text(encoding="utf-8")
+    at = html.find("<script")
+    if at < 0 or at > html.find("</head>"):
+        sys.exit(f"{slug}: could not find where to load the sign-in gate")
+    index.write_text(html[:at] + tags + html[at:], encoding="utf-8")
+    print(f"  {slug} saves progress: sign-in required")
 
 
 def hoist_runtime(out: Path) -> None:
