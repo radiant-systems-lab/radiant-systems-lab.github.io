@@ -111,11 +111,24 @@ class Accounts:
                 return found
             kwargs["PaginationToken"] = page["PaginationToken"]
 
-    def status(self, username: str) -> str | None:
+    def lookup(self, username: str) -> dict | None:
         try:
-            return self.c.admin_get_user(UserPoolId=self.pool, Username=username)["UserStatus"]
+            u = self.c.admin_get_user(UserPoolId=self.pool, Username=username)
         except self.c.exceptions.UserNotFoundException:
             return None
+        attrs = {a["Name"]: a["Value"] for a in u.get("UserAttributes", [])}
+        created = u.get("UserCreateDate")
+        return {
+            "username": u["Username"],
+            "email": attrs.get("email", ""),
+            "status": u["UserStatus"],
+            "enabled": u.get("Enabled", True),
+            "createdAt": created.isoformat(timespec="seconds") if created else None,
+        }
+
+    def status(self, username: str) -> str | None:
+        found = self.lookup(username)
+        return found["status"] if found else None
 
     def confirm(self, username: str) -> None:
         self.c.admin_confirm_sign_up(UserPoolId=self.pool, Username=username)
@@ -569,11 +582,46 @@ def admin_confirm_accounts(store, user, params, body):
     return {"results": results}
 
 
+STATUS_WORDS = {
+    "UNCONFIRMED": "Waiting for approval",
+    "CONFIRMED": "Active",
+    "FORCE_CHANGE_PASSWORD": "Has a temporary password",
+    "RESET_REQUIRED": "Needs a password reset",
+}
+
+
+def account_param(params: dict) -> str:
+    raw = unquote(params.get("username") or "")
+    uid = canonical(raw)
+    if not EMAIL.match(uid):
+        raise HttpError(400, "That does not look like an email address.")
+    return uid
+
+
+def admin_find_account(store, user, params, body):
+    require_admin(user)
+    uid = account_param(params)
+    found = store.accounts.lookup(uid)
+    if found is None:
+        raise HttpError(404, f"There is no account for {uid}. Check the spelling, or ask "
+                             "the student to create one.")
+    found["statusText"] = STATUS_WORDS.get(found["status"], found["status"])
+    found["staff"] = uid in owners() or store.is_listed_admin(uid)
+    found["owner"] = uid in owners()
+    return found
+
+
 def admin_remove_account(store, user, params, body):
     require_admin(user)
-    uid = pending_account(store, user, unquote(params.get("username") or ""))
+    uid = account_param(params)
+    if uid == user["id"]:
+        raise HttpError(400, "You cannot remove your own account.")
+    if store.accounts.status(uid) is None:
+        raise HttpError(404, "There is no such account.")
+    if (uid in owners() or store.is_listed_admin(uid)) and not user["owner"]:
+        raise HttpError(403, "Only a course owner can remove an owner or admin account.")
     store.accounts.remove(uid)
-    log.info("%s removed unconfirmed account %s", user["email"], uid)
+    log.info("%s removed the account %s", user["email"], uid)
     return {"username": uid, "removed": True}
 
 
@@ -592,6 +640,7 @@ ROUTES = {
     "POST /admin/accounts/confirm": admin_confirm_accounts,
     "DELETE /admin/accounts/{username}": admin_remove_account,
     "POST /admin/accounts/reset-password": admin_reset_password,
+    "GET /admin/accounts/{username}": admin_find_account,
 }
 
 

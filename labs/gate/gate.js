@@ -17,6 +17,10 @@
  * Script attributes:  data-mode="lab" (default) or "admin"
  *                     data-lab="week_04" (default: taken from the URL)
  *
+ * Emailed codes (verification, password reset) are off unless config.js sets
+ * `emailCodes: true`: university mail holds Cognito's messages, so students are
+ * approved and given temporary passwords by an instructor on the dashboard.
+ *
  * For previewing a lab locally without AWS, set `mock: true` in config.js.
  * Sign-in is skipped and the API is faked in this browser's localStorage;
  * `mockAdmin: true` makes the fake user an admin.
@@ -42,6 +46,7 @@
   var COGNITO = "https://cognito-idp." + cfg.region + ".amazonaws.com/";
   var SAVE_DELAY_MS = 1200;
   var MOCK = cfg.mock === true;
+  var EMAIL_CODES = cfg.emailCodes === true;
   var ALIASES = (cfg.aliasDomains || ["umsystem.edu", "missouri.edu", "mail.missouri.edu"])
     .map(function (d) { return String(d).trim().toLowerCase(); });
 
@@ -140,14 +145,21 @@
     });
   }
 
+  var WRONG_LOGIN = "Wrong email or password. Check the address you typed. If you still " +
+    "cannot get in, ask your instructor, who can reset your password.";
+
   function friendly(data) {
     var type = String(data.__type || "").split("#").pop();
     var msg = String(data.message || data.Message || "");
     switch (type) {
       case "NotAuthorizedException":
-        return /disabled/i.test(msg) ? "This account has been disabled." : "Wrong email or password.";
+        if (/disabled/i.test(msg)) return "This account has been disabled.";
+        if (/temporary password has expired/i.test(msg)) {
+          return "That temporary password has expired. Ask your instructor for a new one.";
+        }
+        return WRONG_LOGIN;
       case "UserNotFoundException":
-        return "Wrong email or password.";
+        return WRONG_LOGIN;
       case "UsernameExistsException":
         return "There is already an account for that email. Sign in instead.";
       case "CodeMismatchException":
@@ -323,6 +335,16 @@
         return { username: u, confirmed: db.pending.length < before };
       }) };
       persist();
+    } else if (path === "/admin/accounts/reset-password") {
+      out = { username: username(body.email), temporaryPassword: "kqmt-4829-bxrp", expiresInDays: 7 };
+    } else if ((m = path.match(/^\/admin\/accounts\/(.+)$/)) && method === "GET") {
+      var wanted = username(decodeURIComponent(m[1]));
+      var waitingFor = db.pending.filter(function (a) { return username(a) === wanted; })[0];
+      if (!waitingFor && wanted !== email) return fail(404, "There is no account for " + wanted + ".");
+      out = { username: wanted, email: waitingFor || address, createdAt: now,
+              status: waitingFor ? "UNCONFIRMED" : "CONFIRMED",
+              statusText: waitingFor ? "Waiting for approval" : "Active",
+              staff: !waitingFor, owner: !waitingFor, enabled: true };
     } else if ((m = path.match(/^\/admin\/accounts\/(.+)$/)) && method === "DELETE") {
       var dropped = decodeURIComponent(m[1]);
       db.pending = db.pending.filter(function (a) { return username(a) !== dropped; });
@@ -383,6 +405,9 @@
     ".rl-msg.ok{background:#edf7ee;color:#1e5b22;border:1px solid #c6e3c8}",
     ".rl-msg[hidden]{display:none}",
     ".rl-note{margin:14px 0 0;color:#6f6f6f;font-size:.78rem;line-height:1.5}",
+    ".rl-card ol{list-style:decimal outside!important;margin:0 0 16px;padding:0 0 0 22px}",
+    ".rl-card li{display:list-item!important;list-style:inherit!important;border:0!important;",
+    "margin:0 0 6px;padding:0;color:#2f2f2f;font-size:.92rem;line-height:1.5;background:none}",
     ".rl-pill{position:fixed;left:12px;bottom:12px;z-index:2147482000;display:flex;",
     "align-items:center;gap:10px;flex-wrap:wrap;max-width:calc(100vw - 24px);box-sizing:border-box;",
     "padding:6px 12px;border:1px solid #e6e6e6;border-radius:999px;background:rgba(255,255,255,.96);",
@@ -498,14 +523,14 @@
           : "Sign in to open the lab. Your answers save as you go, so you can come back to them later." }));
       email = input("University email", "email", "email", "username", { value: pendingEmail });
       pass = input("Password", "password", "password", "current-password");
+      card.appendChild(el("p", { class: "rl-note", style: "margin:-6px 0 12px", text:
+        "Got a temporary password from your instructor? Type it in the Password box." }));
       f = form([email.label, pass.label], "Sign in", function () {
         pendingEmail = email.input.value.trim();
         return signIn(pendingEmail, pass.input.value).catch(function (e) {
           if (e.code === "UserNotConfirmedException") {
-            // Codes are often held by university mail, so do not send another one
-            // on every attempt; the verify screen has a button for that.
             pendingPassword = pass.input.value;
-            showView("verify", "Your account is not confirmed yet.");
+            showView(EMAIL_CODES ? "verify" : "waiting");
             return;
           }
           throw e;
@@ -517,14 +542,20 @@
       ]));
     } else if (name === "signup") {
       card.appendChild(el("h1", { id: "rl-title", text: "Create your lab account" }));
-      card.appendChild(el("p", { class: "rl-sub", text:
-        "Use your University of Missouri email. We will send a code to check it is yours." }));
+      card.appendChild(el("p", { class: "rl-sub", text: EMAIL_CODES
+        ? "Use your University of Missouri email. We will send a code to check it is yours."
+        : "Use your University of Missouri email. Your instructor approves new accounts, " +
+          "then you can sign in." }));
       email = input("University email", "email", "email", "username", { value: pendingEmail });
+      var emailAgain = input("Retype university email", "email", "email2", "off");
       pass = input("New password", "password", "password", "new-password", { minlength: "8" });
       again = input("Retype new password", "password", "password2", "new-password", { minlength: "8" });
-      f = form([email.label, pass.label, again.label], "Create account", function () {
+      f = form([email.label, emailAgain.label, pass.label, again.label], "Create account", function () {
         pendingEmail = email.input.value.trim();
         if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(pendingEmail)) throw new Error("Enter a valid email address.");
+        if (pendingEmail.toLowerCase() !== emailAgain.input.value.trim().toLowerCase()) {
+          throw new Error("The two email addresses do not match.");
+        }
         samePassword();
         return cognito("SignUp", {
           Username: username(pendingEmail),
@@ -532,7 +563,8 @@
           UserAttributes: [{ Name: "email", Value: pendingEmail.toLowerCase() }],
         }).then(function () {
           pendingPassword = pass.input.value;
-          showView("verify", "We sent a 6-digit code to " + pendingEmail + ".");
+          showView(EMAIL_CODES ? "verify" : "waiting",
+                   EMAIL_CODES ? "We sent a 6-digit code to " + pendingEmail + "." : null);
         });
       });
       card.appendChild(f);
@@ -569,6 +601,38 @@
       card.appendChild(el("p", { class: "rl-note", text:
         "No code? Let your instructor know you have signed up. After they approve " +
         "your account, use Back to sign in." }));
+    } else if (name === "waiting") {
+      card.appendChild(el("h1", { id: "rl-title", text: "Waiting for approval" }));
+      card.appendChild(el("p", { class: "rl-sub", text:
+        "Your account is created, but your instructor has not approved it yet. Let them " +
+        "know you have signed up. Once they approve it, sign in with the password you chose." }));
+      card.appendChild(el("p", { class: "rl-sub" }, [
+        document.createTextNode("Your account: "),
+        el("strong", { text: pendingEmail || "the address you entered" }),
+      ]));
+      card.appendChild(el("p", { class: "rl-note", text:
+        "No email is sent, so there is nothing to wait for in your inbox. If that address " +
+        "has a typo, create the account again with the right one and tell your instructor." }));
+      card.appendChild(el("div", { class: "rl-links" }, [
+        link("Back to sign in", "signin"), link("Create the account again", "signup"),
+      ]));
+    } else if (name === "forgot" && !EMAIL_CODES) {
+      card.appendChild(el("h1", { id: "rl-title", text: "Forgot your password?" }));
+      card.appendChild(el("p", { class: "rl-sub", text:
+        "Ask your instructor to reset it. They will give you a temporary password." }));
+      var steps = el("ol");
+      [
+        "Go back to the sign-in screen.",
+        "Enter your university email, and type the temporary password in the Password box.",
+        "You will then be asked to choose a new password of your own.",
+      ].forEach(function (t) { steps.appendChild(el("li", { text: t })); });
+      card.appendChild(steps);
+      card.appendChild(el("p", { class: "rl-note", text:
+        "No email is sent, and there is no code to enter. The temporary password works " +
+        "for 7 days." }));
+      var back = el("button", { class: "rl-btn", type: "button", text: "Back to sign in" });
+      back.addEventListener("click", function () { showView("signin"); });
+      card.appendChild(back);
     } else if (name === "forgot") {
       card.appendChild(el("h1", { id: "rl-title", text: "Reset your password" }));
       card.appendChild(el("p", { class: "rl-sub", text:

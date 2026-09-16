@@ -203,6 +203,8 @@ def main() -> int:
         status, body = call("admin", "POST", "/admin/accounts/confirm", {"usernames": [waiting[0]]})
         check("confirm", body.get("results", [{}])[0].get("confirmed"), True)
         check("confirmed can sign in", bool(sign_in(waiting[0])), True)
+        status, body = call("admin", "GET", "/admin/accounts/" + urllib.parse.quote(waiting[0]))
+        check("find account", (status, body.get("statusText")), (200, "Active"))
         check("remove", call("admin", "DELETE",
                              "/admin/accounts/" + urllib.parse.quote(waiting[1]))[0], 200)
         check("removed is gone", call("admin", "DELETE",

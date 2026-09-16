@@ -144,7 +144,10 @@ class FakeCognito:
     def admin_get_user(self, UserPoolId, Username):
         if Username not in self.users:
             raise UserNotFound()
-        return {"UserStatus": self.users[Username]["status"]}
+        u = self.users[Username]
+        return {"Username": Username, "UserStatus": u["status"], "Enabled": True,
+                "UserCreateDate": self.now,
+                "UserAttributes": [{"Name": "email", "Value": u["email"]}]}
 
     def admin_confirm_sign_up(self, UserPoolId, Username):
         self.users[Username]["status"] = "CONFIRMED"
@@ -447,10 +450,45 @@ class ApiTest(unittest.TestCase):
                               params={"username": "a%40umsystem.edu"})
         self.assertEqual(status, 200)
         self.assertNotIn("a@umsystem.edu", self.cognito.users)
+        # Approved accounts can be removed too, for sign-ups with a typo.
+        status, _ = self.call("DELETE /admin/accounts/{username}", email="ta@umsystem.edu",
+                              params={"username": "c@missouri.edu"})
+        self.assertEqual(status, 200)
+        self.assertNotIn("c@umsystem.edu", self.cognito.users)
         status, _ = self.call("DELETE /admin/accounts/{username}", email=OWNER,
                               params={"username": "c@umsystem.edu"})
-        self.assertEqual(status, 409)
-        self.assertIn("c@umsystem.edu", self.cognito.users)
+        self.assertEqual(status, 404)
+
+    def test_cannot_remove_own_or_staff_account(self):
+        self.cognito.add("owner@umsystem.edu", "owner@missouri.edu", status="CONFIRMED")
+        self.cognito.add("ta2@umsystem.edu", "ta2@umsystem.edu", status="CONFIRMED")
+        self.call("POST /admin/admins", email=OWNER, body={"email": "ta@umsystem.edu"})
+        self.call("POST /admin/admins", email=OWNER, body={"email": "ta2@umsystem.edu"})
+        status, _ = self.call("DELETE /admin/accounts/{username}", email=OWNER,
+                              params={"username": "owner@umsystem.edu"})
+        self.assertEqual(status, 400)
+        status, _ = self.call("DELETE /admin/accounts/{username}", email="ta@umsystem.edu",
+                              params={"username": "owner@umsystem.edu"})
+        self.assertEqual(status, 403)
+        status, _ = self.call("DELETE /admin/accounts/{username}", email="ta@umsystem.edu",
+                              params={"username": "ta2@umsystem.edu"})
+        self.assertEqual(status, 403)
+        self.assertIn("ta2@umsystem.edu", self.cognito.users)
+
+    def test_find_account(self):
+        self.cognito.add("a@umsystem.edu", "a@missouri.edu")
+        status, body = self.call("GET /admin/accounts/{username}", email=OWNER,
+                                 params={"username": "A%40mail.missouri.edu"})
+        self.assertEqual(status, 200)
+        self.assertEqual((body["username"], body["email"], body["status"], body["statusText"]),
+                         ("a@umsystem.edu", "a@missouri.edu", "UNCONFIRMED", "Waiting for approval"))
+        self.assertFalse(body["staff"])
+        status, _ = self.call("GET /admin/accounts/{username}", email=OWNER,
+                              params={"username": "zz@umsystem.edu"})
+        self.assertEqual(status, 404)
+        status, _ = self.call("GET /admin/accounts/{username}",
+                              params={"username": "a@umsystem.edu"})
+        self.assertEqual(status, 403)
 
     def test_confirm_rejects_bad_input(self):
         for bad in [None, [], "a@umsystem.edu", [5], ["x"] * 101]:

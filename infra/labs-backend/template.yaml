@@ -267,6 +267,9 @@ Resources:
         AdminRemoveAccount:
           Type: HttpApi
           Properties: { ApiId: !Ref HttpApi, Method: DELETE, Path: "/admin/accounts/{username}" }
+        AdminFindAccount:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Method: GET, Path: "/admin/accounts/{username}" }
         AdminResetPassword:
           Type: HttpApi
           Properties: { ApiId: !Ref HttpApi, Method: POST, Path: /admin/accounts/reset-password }

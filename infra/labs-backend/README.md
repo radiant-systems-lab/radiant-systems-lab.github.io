@@ -108,17 +108,15 @@ misbehaving script could cost.
 
 ## Things to know
 
-- **Codes that never arrive.** Cognito's built-in sender
-  (`no-reply@verificationemail.com`) is sometimes held by university mail
-  filters, and it allows about 50 emails a day. When a student's code does not
-  come, an admin confirms the account under "Accounts waiting for a code" on the
-  dashboard, and the student signs in with the password they chose. Only an owner
-  can confirm an account that uses an owner's or admin's address. For a forgotten
-  password whose reset email is held too, an admin uses "Reset a password" on the
-  dashboard: the student gets a temporary password, which works for 7 days and
-  must be replaced at the next sign-in. Only an owner can reset an owner's or
-  admin's password. Sending through Amazon
-  SES would fix delivery, but needs a domain you control.
+- **No emails.** Cognito's built-in sender (`no-reply@verificationemail.com`) is
+  held by university mail filters, so the sign-in page does not ask students for
+  emailed codes. New accounts wait for an admin to approve them under "Accounts
+  waiting for approval" on the dashboard. A forgotten password is handled with
+  "Find an account": the admin resets it, gets a temporary password that works for
+  7 days, and the student types it in the normal Password box and then chooses
+  their own. Only an owner can approve, reset or remove an owner's or admin's
+  account. To bring emailed codes back once delivery works (for example through
+  Amazon SES with your own domain), add `emailCodes: true` to `labs/gate/config.js`.
 - **Data.** Student answers tied to names are education records under FERPA.
   Check that this AWS account is approved for them before using it with a class.
 - **Viewing.** The labs are static files on GitHub Pages. The sign-in screen stops
