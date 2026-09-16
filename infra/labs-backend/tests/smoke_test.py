@@ -208,6 +208,31 @@ def main() -> int:
         check("removed is gone", call("admin", "DELETE",
                                       "/admin/accounts/" + urllib.parse.quote(waiting[1]))[0], 404)
 
+        print("password reset by an admin")
+        status, body = call("admin", "POST", "/admin/accounts/reset-password",
+                            {"email": people["student"]})
+        check("reset", status, 200)
+        temp = body.get("temporaryPassword", "")
+        status, data = http(
+            "POST", f"https://cognito-idp.{REGION}.amazonaws.com/",
+            {"AuthFlow": "USER_PASSWORD_AUTH", "ClientId": client,
+             "AuthParameters": {"USERNAME": people["student"], "PASSWORD": temp}},
+            {"Content-Type": "application/x-amz-json-1.1",
+             "X-Amz-Target": "AWSCognitoIdentityProviderService.InitiateAuth"},
+        )
+        check("temporary password asks for a new one", data.get("ChallengeName"),
+              "NEW_PASSWORD_REQUIRED")
+        new_password = password + "x"
+        status, data = http(
+            "POST", f"https://cognito-idp.{REGION}.amazonaws.com/",
+            {"ChallengeName": "NEW_PASSWORD_REQUIRED", "ClientId": client,
+             "Session": data.get("Session"),
+             "ChallengeResponses": {"USERNAME": people["student"], "NEW_PASSWORD": new_password}},
+            {"Content-Type": "application/x-amz-json-1.1",
+             "X-Amz-Target": "AWSCognitoIdentityProviderService.RespondToAuthChallenge"},
+        )
+        check("new password accepted", "AuthenticationResult" in data, True)
+
         print("CORS")
         req = urllib.request.Request(api + f"/labs/{LAB}/progress", method="OPTIONS", headers={
             "Origin": "https://radiant-systems-lab.github.io",

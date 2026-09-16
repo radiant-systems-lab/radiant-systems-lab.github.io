@@ -156,6 +156,14 @@ class FakeCognito:
     def admin_delete_user(self, UserPoolId, Username):
         del self.users[Username]
 
+    def admin_set_user_password(self, UserPoolId, Username, Password, Permanent):
+        assert Permanent is False
+        self.users[Username]["status"] = "FORCE_CHANGE_PASSWORD"
+        self.users[Username]["password"] = Password
+
+    def admin_user_global_sign_out(self, UserPoolId, Username):
+        self.users[Username]["signed_out"] = True
+
 
 def event(route, sub=STUDENT_SUB, email="student@umsystem.edu", body=None,
           params=None, verified="true", token_use="id"):
@@ -454,6 +462,42 @@ class ApiTest(unittest.TestCase):
         status, body = self.call("POST /admin/accounts/confirm", email=OWNER,
                                  body={"usernames": ["a@missouri.edu"]})
         self.assertFalse(body["results"][0]["confirmed"])
+
+    def test_admin_resets_a_student_password(self):
+        import re
+        self.cognito.add("a@umsystem.edu", "a@missouri.edu", status="CONFIRMED")
+        self.call("POST /admin/admins", email=OWNER, body={"email": "ta@umsystem.edu"})
+        status, body = self.call("POST /admin/accounts/reset-password",
+                                 email="ta@umsystem.edu", body={"email": "A@Mail.Missouri.edu"})
+        self.assertEqual(status, 200)
+        self.assertEqual(body["username"], "a@umsystem.edu")
+        self.assertRegex(body["temporaryPassword"], r"^[a-z]{4}-[2-9]{4}-[a-z]{4}$")
+        user = self.cognito.users["a@umsystem.edu"]
+        self.assertEqual(user["status"], "FORCE_CHANGE_PASSWORD")
+        self.assertEqual(user["password"], body["temporaryPassword"])
+        self.assertTrue(user["signed_out"])
+        # Every reset gives a different password.
+        _, again = self.call("POST /admin/accounts/reset-password", email=OWNER,
+                             body={"email": "a@umsystem.edu"})
+        self.assertNotEqual(again["temporaryPassword"], body["temporaryPassword"])
+
+    def test_reset_password_rules(self):
+        self.cognito.add("waiting@umsystem.edu", "waiting@umsystem.edu")
+        self.cognito.add("second.owner@umsystem.edu", "second.owner@umsystem.edu", status="CONFIRMED")
+        self.call("POST /admin/admins", email=OWNER, body={"email": "ta@umsystem.edu"})
+        cases = [
+            ("student@umsystem.edu", {"email": "x@umsystem.edu"}, 403),     # students cannot
+            ("ta@umsystem.edu", {"email": "nobody@umsystem.edu"}, 404),
+            ("ta@umsystem.edu", {"email": "waiting@umsystem.edu"}, 409),   # approve instead
+            ("ta@umsystem.edu", {"email": "second.owner@missouri.edu"}, 403),
+            ("ta@umsystem.edu", {"email": 7}, 400),
+        ]
+        for who, body, want in cases:
+            status, _ = self.call("POST /admin/accounts/reset-password", email=who, body=body)
+            self.assertEqual(status, want, (who, body))
+        status, _ = self.call("POST /admin/accounts/reset-password", email=OWNER,
+                              body={"email": "second.owner@umsystem.edu"})
+        self.assertEqual(status, 200)
 
     # one mailbox, three spellings ---------------------------------------------
 

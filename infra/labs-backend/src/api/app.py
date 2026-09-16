@@ -38,6 +38,7 @@ import json
 import logging
 import os
 import re
+import secrets
 from datetime import datetime, timezone
 from decimal import Decimal
 from urllib.parse import unquote
@@ -125,6 +126,13 @@ class Accounts:
 
     def remove(self, username: str) -> None:
         self.c.admin_delete_user(UserPoolId=self.pool, Username=username)
+
+    def set_temporary_password(self, username: str, password: str) -> None:
+        """Replace the password with one that must be changed at next sign-in."""
+        self.c.admin_set_user_password(UserPoolId=self.pool, Username=username,
+                                       Password=password, Permanent=False)
+        # Whoever was signed in with the old password is signed out everywhere.
+        self.c.admin_user_global_sign_out(UserPoolId=self.pool, Username=username)
 
 
 class Store:
@@ -501,6 +509,37 @@ def pending_account(store, user, username: str) -> str:
     return uid
 
 
+TEMP_PASSWORD_DAYS = 7
+
+
+def temporary_password() -> str:
+    """Easy to read out or type: xxxx-0000-xxxx, meeting the pool's password rules."""
+    letters = "abcdefghjkmnpqrstuvwxyz"     # no i, l or o
+    digits = "23456789"                     # no 0 or 1
+    pick = lambda chars, n: "".join(secrets.choice(chars) for _ in range(n))
+    return f"{pick(letters, 4)}-{pick(digits, 4)}-{pick(letters, 4)}"
+
+
+def admin_reset_password(store, user, params, body):
+    require_admin(user)
+    raw = body.get("email") if isinstance(body.get("email"), str) else ""
+    uid = canonical(raw)
+    if not EMAIL.match(uid):
+        raise HttpError(400, "That does not look like an email address.")
+    status = store.accounts.status(uid)
+    if status is None:
+        raise HttpError(404, "There is no account for that address.")
+    if status == "UNCONFIRMED":
+        raise HttpError(409, "That account has not been approved yet. Approve it under "
+                             "Accounts waiting for a code, and their own password will work.")
+    if (uid in owners() or store.is_listed_admin(uid)) and not user["owner"]:
+        raise HttpError(403, "Only a course owner can reset an owner or admin password.")
+    password = temporary_password()
+    store.accounts.set_temporary_password(uid, password)
+    log.info("%s reset the password for %s", user["email"], uid)   # never the password
+    return {"username": uid, "temporaryPassword": password, "expiresInDays": TEMP_PASSWORD_DAYS}
+
+
 def admin_pending_accounts(store, user, params, body):
     require_admin(user)
     staff = owners()
@@ -552,6 +591,7 @@ ROUTES = {
     "GET /admin/accounts/pending": admin_pending_accounts,
     "POST /admin/accounts/confirm": admin_confirm_accounts,
     "DELETE /admin/accounts/{username}": admin_remove_account,
+    "POST /admin/accounts/reset-password": admin_reset_password,
 }
 
 

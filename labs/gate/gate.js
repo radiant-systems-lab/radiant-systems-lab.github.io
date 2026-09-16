@@ -572,7 +572,9 @@
     } else if (name === "forgot") {
       card.appendChild(el("h1", { id: "rl-title", text: "Reset your password" }));
       card.appendChild(el("p", { class: "rl-sub", text:
-        "We will email you a code to set a new password." }));
+        "We will email you a code to set a new password. University mail often holds " +
+        "these, so if nothing arrives, ask your instructor to reset your password. They " +
+        "will give you a temporary one to sign in with." }));
       email = input("University email", "email", "email", "username", { value: pendingEmail });
       f = form([email.label], "Email me a code", function () {
         pendingEmail = email.input.value.trim();
@@ -597,6 +599,36 @@
       });
       card.appendChild(f);
       card.appendChild(el("div", { class: "rl-links" }, [link("Back to sign in", "signin")]));
+    } else if (name === "newpass") {
+      card.appendChild(el("h1", { id: "rl-title", text: "Choose your own password" }));
+      card.appendChild(el("p", { class: "rl-sub", text:
+        "You signed in with a temporary password from your instructor. Pick a new one " +
+        "that only you know." }));
+      pass = input("New password", "password", "password", "new-password", { minlength: "8" });
+      again = input("Retype new password", "password", "password2", "new-password", { minlength: "8" });
+      f = form([pass.label, again.label], "Save password and continue", function () {
+        samePassword();
+        if (!challenge) throw new Error("Please sign in again.");
+        return cognito("RespondToAuthChallenge", {
+          ChallengeName: "NEW_PASSWORD_REQUIRED",
+          Session: challenge.session,
+          ChallengeResponses: { USERNAME: challenge.username, NEW_PASSWORD: pass.input.value },
+        }).then(function (data) {
+          challenge = null;
+          writeSession(sessionFrom(data.AuthenticationResult));
+          return start();
+        }, function (e) {
+          if (e.code === "NotAuthorizedException") {
+            challenge = null;
+            showView("signin", "That took too long. Sign in again with the temporary password.");
+            return;
+          }
+          throw e;
+        });
+      });
+      card.appendChild(f);
+      card.appendChild(el("p", { class: "rl-note", text:
+        "At least 8 characters, with a lowercase letter and a number." }));
     } else if (name === "loading") {
       card.appendChild(el("h1", { id: "rl-title", text: h.title }));
       card.appendChild(el("p", { class: "rl-sub", text: message || "Opening your lab…" }));
@@ -640,11 +672,19 @@
     afterSignIn.splice(0).forEach(function (fn) { fn(); });
   }
 
+  var challenge = null;
+
   function signIn(email, password) {
     return cognito("InitiateAuth", {
       AuthFlow: "USER_PASSWORD_AUTH",
       AuthParameters: { USERNAME: username(email), PASSWORD: password },
     }).then(function (data) {
+      if (data.ChallengeName === "NEW_PASSWORD_REQUIRED") {
+        // An instructor reset the password; the temporary one must be replaced.
+        challenge = { session: data.Session, username: username(email) };
+        showView("newpass");
+        return;
+      }
       if (!data.AuthenticationResult) {
         throw new Error("This account needs a step the lab page cannot do. Ask your instructor.");
       }

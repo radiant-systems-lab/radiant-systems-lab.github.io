@@ -142,6 +142,25 @@ sitemap: false
     </section>
 
     <section class="panel">
+      <h2>Reset a password</h2>
+      <p class="muted" style="margin-top:-4px">For someone who forgot their password and
+      whose reset email never arrived. They get a temporary password, sign in with it, and
+      choose a new one straight away. Anyone signed in with the old password is signed
+      out within the hour.</p>
+      <form class="toolbar" id="reset-form">
+        <div class="grow"><input type="email" id="reset-email" placeholder="student@missouri.edu" required aria-label="Email of the account to reset"></div>
+        <button type="submit" class="primary">Reset password</button>
+      </form>
+      <p id="reset-error" class="error" hidden></p>
+      <div id="reset-result" class="stat" hidden style="max-width:560px">
+        <span>Temporary password for <strong id="reset-who"></strong></span>
+        <b id="reset-password" style="font-family:ui-monospace,Consolas,monospace;letter-spacing:.04em"></b>
+        <span>Give it to them privately. It works once, for <span id="reset-days"></span> days,
+        and disappears from this page when you leave.</span>
+      </div>
+    </section>
+
+    <section class="panel">
       <h2>Admins</h2>
       <p class="muted" style="margin-top:-4px" id="admins-help"></p>
       <form class="toolbar" id="add-admin" hidden>
@@ -438,6 +457,25 @@ sitemap: false
         return loadPending();
       }).catch(function (e) { showError($("pending-error"), e); }))
       .then(updatePendingButton);   // busy() re-enables it; nothing is selected now
+  });
+
+  // -- password reset -----------------------------------------------------------
+
+  $("reset-form").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var email = $("reset-email").value.trim();
+    var button = ev.target.querySelector("button");
+    $("reset-error").hidden = true;
+    $("reset-result").hidden = true;
+    if (!confirm("Reset the password for " + email + "? Their current password stops working.")) return;
+    busy(button, auth.api("POST", "/admin/accounts/reset-password", { email: email })
+      .then(function (res) {
+        $("reset-who").textContent = res.username;
+        $("reset-password").textContent = res.temporaryPassword;
+        $("reset-days").textContent = res.expiresInDays;
+        $("reset-result").hidden = false;
+        $("reset-email").value = "";
+      }).catch(function (e) { showError($("reset-error"), e); }));
   });
 
   // -- admins -------------------------------------------------------------------

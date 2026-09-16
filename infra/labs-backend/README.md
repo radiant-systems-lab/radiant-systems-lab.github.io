@@ -113,9 +113,11 @@ misbehaving script could cost.
   filters, and it allows about 50 emails a day. When a student's code does not
   come, an admin confirms the account under "Accounts waiting for a code" on the
   dashboard, and the student signs in with the password they chose. Only an owner
-  can confirm an account that uses an owner's or admin's address. A forgotten
-  password still needs the emailed reset code; if that is held too, someone with
-  AWS access sets a new password in the Cognito console. Sending through Amazon
+  can confirm an account that uses an owner's or admin's address. For a forgotten
+  password whose reset email is held too, an admin uses "Reset a password" on the
+  dashboard: the student gets a temporary password, which works for 7 days and
+  must be replaced at the next sign-in. Only an owner can reset an owner's or
+  admin's password. Sending through Amazon
   SES would fix delivery, but needs a domain you control.
 - **Data.** Student answers tied to names are education records under FERPA.
   Check that this AWS account is approved for them before using it with a class.

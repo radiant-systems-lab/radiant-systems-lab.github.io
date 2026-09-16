@@ -224,6 +224,8 @@ Resources:
                 - cognito-idp:AdminConfirmSignUp
                 - cognito-idp:AdminUpdateUserAttributes
                 - cognito-idp:AdminDeleteUser
+                - cognito-idp:AdminSetUserPassword
+                - cognito-idp:AdminUserGlobalSignOut
               Resource: !GetAtt PeoplePool.Arn
       Events:
         Me:
@@ -265,6 +267,9 @@ Resources:
         AdminRemoveAccount:
           Type: HttpApi
           Properties: { ApiId: !Ref HttpApi, Method: DELETE, Path: "/admin/accounts/{username}" }
+        AdminResetPassword:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Method: POST, Path: /admin/accounts/reset-password }
 
   ApiLogs:
     Type: AWS::Logs::LogGroup
