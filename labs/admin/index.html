@@ -63,13 +63,25 @@ sitemap: false
     .stat { border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; min-width: 120px; }
     .stat b { display: block; font-size: 1.3rem; }
     .stat span { color: var(--muted); font-size: .78rem; }
+    .top { display: flex; flex-wrap: wrap; justify-content: space-between;
+           align-items: flex-start; gap: 12px; }
+    .who { display: flex; align-items: center; gap: 10px; color: var(--muted);
+           font-size: .88rem; }
     [hidden] { display: none !important; }
   </style>
 </head>
 <body>
 <main>
-  <p class="eyebrow">CSC/EE 8001 &middot; Instructors</p>
-  <h1>Lab dashboard</h1>
+  <header class="top">
+    <div>
+      <p class="eyebrow">CSC/EE 8001 &middot; Instructors</p>
+      <h1>Lab dashboard</h1>
+    </div>
+    <div class="who" id="who" hidden>
+      <span id="who-email"></span>
+      <button type="button" id="sign-out">Sign out</button>
+    </div>
+  </header>
   <p class="sub">Who has started and submitted each lab, what they answered, and who can still change their answers.</p>
 
   <div id="denied" class="notice" hidden>
@@ -469,8 +481,15 @@ sitemap: false
   $("refresh").addEventListener("click", function (ev) { busy(ev.target, openLab(current)); });
   $("export").addEventListener("click", exportCsv);
 
+  $("sign-out").addEventListener("click", function (ev) {
+    ev.target.disabled = true;
+    auth.signOut();
+  });
+
   auth.ready.then(function (user) {
     me = user;
+    $("who-email").textContent = user.address || user.email;
+    $("who").hidden = false;
     if (!me.admin) {
       $("denied-email").textContent = me.email;
       $("denied").hidden = false;

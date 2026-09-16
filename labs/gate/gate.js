@@ -496,10 +496,11 @@
         pendingEmail = email.input.value.trim();
         return signIn(pendingEmail, pass.input.value).catch(function (e) {
           if (e.code === "UserNotConfirmedException") {
+            // Codes are often held by university mail, so do not send another one
+            // on every attempt; the verify screen has a button for that.
             pendingPassword = pass.input.value;
-            return cognito("ResendConfirmationCode", { Username: username(pendingEmail) }).then(function () {
-              showView("verify", "Your email is not verified yet, so we sent a new code.");
-            });
+            showView("verify", "Your account is not confirmed yet.");
+            return;
           }
           throw e;
         });
@@ -531,13 +532,14 @@
         "At least 8 characters, with a lowercase letter and a number." }));
       card.appendChild(el("div", { class: "rl-links" }, [link("I already have an account", "signin")]));
     } else if (name === "verify") {
-      card.appendChild(el("h1", { id: "rl-title", text: "Check your email" }));
+      card.appendChild(el("h1", { id: "rl-title", text: "Almost there" }));
       card.appendChild(el("p", { class: "rl-sub", text:
-        "Enter the code we sent to your email. It can take a minute, and it " +
-        "sometimes lands in junk mail." }));
+        "We emailed you a 6-digit code. University mail often holds these messages, " +
+        "so if nothing arrives, your instructor will approve your account instead. " +
+        "Once that is done, sign in with the password you chose." }));
       code = input("Verification code", "text", "code", "one-time-code",
                    { inputmode: "numeric", pattern: "[0-9]*", maxlength: "6" });
-      f = form([code.label], "Verify email", function () {
+      f = form([code.label], "I have a code", function () {
         return cognito("ConfirmSignUp", {
           Username: username(pendingEmail), ConfirmationCode: code.input.value.trim(),
         }).then(function () {
@@ -557,9 +559,8 @@
       });
       card.appendChild(el("div", { class: "rl-links" }, [resend, link("Back to sign in", "signin")]));
       card.appendChild(el("p", { class: "rl-note", text:
-        "No code after a few minutes? University mail sometimes holds these messages. " +
-        "Ask your instructor to confirm your account, then sign in with the password " +
-        "you just chose." }));
+        "No code? Let your instructor know you have signed up. After they approve " +
+        "your account, use Back to sign in." }));
     } else if (name === "forgot") {
       card.appendChild(el("h1", { id: "rl-title", text: "Reset your password" }));
       card.appendChild(el("p", { class: "rl-sub", text:
