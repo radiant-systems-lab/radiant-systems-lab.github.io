@@ -27,6 +27,7 @@ async def _(json, mo):
             from pyodide.ffi import create_proxy
 
             self.state = {}
+            self.last_submitted = None
             self._waiting = {}
             self._channel = BroadcastChannel.new("radiant-lab-" + tab)
             self._listener = create_proxy(self._receive)
@@ -80,7 +81,10 @@ async def _(json, mo):
         async def submit(self, **answers):
             """Save everything now and mark the lab as submitted."""
             self.state.update(answers)
-            return await self._request("submit", timeout=45, state=self.state)
+            reply = await self._request("submit", timeout=45, state=self.state)
+            if reply.get("ok"):
+                self.last_submitted = reply.get("submittedAt") or "today"
+            return reply
 
     def pick(options, value):
         """The label a radio should show for a saved value, or None."""
@@ -1847,40 +1851,6 @@ def _(mo, reflect_form, saved):
 
 
 @app.cell(hide_code=True)
-async def _(done, lab_status, lab_sync, mo, reflect_form):
-    # Sends the finished lab. On a return visit the form is empty but the saved
-    # answers stand, so say where things are instead of submitting again.
-    _ = done
-    if lab_sync is None:
-        _msg, _kind = (
-            "You opened this lab outside the course site, so nothing was sent to your "
-            "instructor. Use the download below to keep a copy.", "neutral")
-    elif reflect_form.value is None:
-        _when = (lab_status.get("submittedAt") or "")[:10]
-        if lab_status.get("submitted"):
-            _msg, _kind = (
-                f"**Submitted on {_when}.** You can change answers and submit the last "
-                "question again to resubmit.", "success")
-        else:
-            _msg, _kind = (
-                "Your answers are saved but the lab is **not submitted** yet. Submit the "
-                "last question to finish.", "warn")
-    else:
-        _reply = await lab_sync.submit(reflection=reflect_form.value, finished=True)
-        if _reply.get("ok"):
-            _msg, _kind = ("**Submitted.** Your instructor can see your answers. You can "
-                           "still change them and submit again.", "success")
-        elif _reply.get("locked"):
-            _msg, _kind = ("**Not submitted.** An instructor has locked this lab.", "danger")
-        else:
-            _msg, _kind = (
-                f"**Not submitted:** {_reply.get('error', 'unknown error')}. Your answers "
-                "are still saved as you go. Submit the last question to try again.", "danger")
-    mo.callout(mo.md(_msg), kind=_kind)
-    return
-
-
-@app.cell(hide_code=True)
 def _(
     accuracy,
     chosen,
@@ -1978,110 +1948,56 @@ def _(
 
 
 @app.cell(hide_code=True)
-def _(
-    accuracy,
-    chosen,
-    decision_choice,
-    decision_why,
-    done,
-    json,
-    mo,
-    q1,
-    q1_sum,
-    q2,
-    q2_sum,
-    q3,
-    q3_sum,
-    q4,
-    q4_sum,
-    q5,
-    q5_sum,
-    reopened,
-    shippable,
-    size_mb,
-    takeaway_text,
-):
+def _(done, lab_sync, locked, mo):
     _ = done
-    _a1 = q1_sum(q1.value)
-    _a2 = q2_sum(q2.value)
-    _a3 = q3_sum(q3.value)
-    _a4 = q4_sum(q4.value)
-    _a5 = q5_sum(q5.value)
-
-    def _word(ok):
-        return "not answered" if ok is None else ("correct" if ok else "not correct")
-
-    _fixes = [_n for _n, *_ in chosen]
-    _stages = sorted(reopened)
-
-    submission = {
-        "lab": "CSC/EE 8001 - Week 3",
-        "fixes_applied": _fixes,
-        "final_size_mb": round(size_mb, 1),
-        "final_accuracy_pct": round(accuracy, 1),
-        "ships": shippable,
-        "stages_reopened": _stages,
-        "truck_decision": decision_choice,
-        "why": decision_why,
-        "stage_to_redo": takeaway_text,
-        "check_1_when_the_constraint_should_bite": {"answer": _a1[0], "correct": _a1[1]},
-        "check_2_why_quantising_was_not_enough": {"answer": _a2[0], "correct": _a2[1]},
-        "check_3_weights_only_handover": {"answer": _a3[0], "correct": _a3[1]},
-        "check_4_what_catches_drift": {"answer": _a4[0], "correct": _a4[1]},
-        "check_5_cron_versus_scheduler": {"answer": _a5[0], "correct": _a5[1]},
-    }
-
-    report_text = chr(10).join([
-        "CSC/EE 8001 - Week 3",
-        "=" * 40,
-        "",
-        "FIXES I APPLIED",
-        "  " + (", ".join(_fixes) or "none"),
-        "",
-        "WHERE THAT LEFT ME",
-        f"  {size_mb:.0f} MB at {accuracy:.1f} per cent "
-        f"({'ships' if shippable else 'does not ship'})",
-        "",
-        "STAGES REOPENED",
-        "  " + ", ".join(_stages),
-        "",
-        "THE TRUCK DECISION",
-        f"  {decision_choice}",
-        "",
-        "WHY",
-        f"  {decision_why}",
-        "",
-        "WHAT HAS TO BE REDONE",
-        f"  {takeaway_text}",
-        "",
-        "QUICK CHECKS",
-        "  When the memory constraint should have started to matter",
-        f"    {_a1[0]}  [{_word(_a1[1])}]",
-        "  Why quantising alone did not close the gap",
-        f"    {_a2[0]}  [{_word(_a2[1])}]",
-        "  What is missing when only weights are handed over",
-        f"    {_a3[0]}  [{_word(_a3[1])}]",
-        "  What catches a silent accuracy drop",
-        f"    {_a4[0]}  [{_word(_a4[1])}]",
-        "  What cron does when an earlier job fails",
-        f"    {_a5[0]}  [{_word(_a5[1])}]",
+    submit_button = mo.ui.run_button(
+        label="Submit my work",
+        kind="success",
+        disabled=lab_sync is None or locked,
+        tooltip="Send your answers to your instructor",
+    )
+    mo.vstack([
+        mo.md("## Submit your work"),
+        mo.md(
+            "Your answers have been saving as you went. When you are happy with them, "
+            "press the button to hand the lab in. You can change answers and submit "
+            "again until your instructor locks the lab."
+        ),
+        submit_button,
     ])
+    return (submit_button,)
 
-    mo.accordion({
-        "A copy of what you did": mo.vstack([
-            mo.hstack(
-                [
-                    mo.download(data=report_text.encode("utf-8"),
-                                filename="week3_report.txt", label="Download my report"),
-                    mo.download(data=json.dumps(submission, indent=2).encode("utf-8"),
-                                filename="week3_report.json", label="Download as JSON"),
-                ],
-                justify="start",
-                gap=1,
-            ),
-            mo.md("```" + chr(10) + report_text + chr(10) + "```"),
-        ]),
-    })
+
+@app.cell(hide_code=True)
+async def _(lab_status, lab_sync, locked, mo, reflect_form, saved, submit_button):
+    # Runs when the button is pressed, and otherwise just says where things stand.
+    if lab_sync is None:
+        _msg, _kind = (
+            "This copy of the lab is not connected to the course site, so it cannot be "
+            "submitted from here.", "neutral")
+    elif submit_button.value:
+        _reply = await lab_sync.submit(
+            reflection=reflect_form.value or saved.get("reflection"), finished=True)
+        if _reply.get("ok"):
+            _msg, _kind = ("**Submitted.** Your instructor can see your work.", "success")
+        elif _reply.get("locked"):
+            _msg, _kind = ("**Not submitted.** Your instructor has locked this lab.", "danger")
+        else:
+            _msg, _kind = (
+                f"**Not submitted:** {_reply.get('error', 'something went wrong')}. Your "
+                "answers are still saved. Press **Submit my work** to try again.", "danger")
+    elif lab_sync.last_submitted or lab_status.get("submitted"):
+        _when = str(lab_sync.last_submitted or lab_status.get("submittedAt") or "")[:10]
+        _msg, _kind = (
+            f"**Submitted on {_when}.** Changed something since? Press **Submit my work** "
+            "again.", "success")
+    elif locked:
+        _msg, _kind = ("Your instructor has locked this lab, so it can no longer be submitted.",
+                       "warn")
+    else:
+        _msg, _kind = ("**Not submitted yet.** Press **Submit my work** when you are done.",
+                       "warn")
+    mo.callout(mo.md(_msg), kind=_kind)
     return
 
 
@@ -2178,6 +2094,8 @@ def _(lab_sync, reflect_form):
         if reflect_form.value is not None:
             lab_sync.record(reflection=reflect_form.value)
     return
+
+
 
 if __name__ == "__main__":
     app.run()

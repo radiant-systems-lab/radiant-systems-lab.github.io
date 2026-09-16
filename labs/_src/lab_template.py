@@ -14,6 +14,11 @@
 #      a returning student is not asked to submit it again
 # Keys only need to be unique within the lab. Values must be JSON: strings,
 # numbers, booleans, None, lists and dicts.
+#
+# Every lab from Week 4 on ends with a short quiz (see "Quick quiz" near the end:
+# replace the three questions). Its answers and score are saved with the lab, the
+# Submit my work button waits until every question is answered, and the score
+# shows in the dashboard's Quiz column.
 
 import marimo
 
@@ -43,6 +48,7 @@ async def _(json, mo):
             from pyodide.ffi import create_proxy
 
             self.state = {}
+            self.last_submitted = None
             self._waiting = {}
             self._channel = BroadcastChannel.new("radiant-lab-" + tab)
             self._listener = create_proxy(self._receive)
@@ -96,7 +102,10 @@ async def _(json, mo):
         async def submit(self, **answers):
             """Save everything now and mark the lab as submitted."""
             self.state.update(answers)
-            return await self._request("submit", timeout=45, state=self.state)
+            reply = await self._request("submit", timeout=45, state=self.state)
+            if reply.get("ok"):
+                self.last_submitted = reply.get("submittedAt") or "today"
+            return reply
 
     def pick(options, value):
         """The label a radio should show for a saved value, or None."""
@@ -327,39 +336,6 @@ def _(lab_sync, reflect_form):
 
 
 @app.cell(hide_code=True)
-async def _(done, lab_status, lab_sync, mo, reflect_form):
-    _ = done
-    if lab_sync is None:
-        _msg, _kind = (
-            "You opened this lab outside the course site, so nothing was sent to your "
-            "instructor. Use the download below to keep a copy.", "neutral")
-    elif reflect_form.value is None:
-        # Came back to a lab they had already finished.
-        _when = (lab_status.get("submittedAt") or "")[:10]
-        if lab_status.get("submitted"):
-            _msg, _kind = (
-                f"**Submitted on {_when}.** You can change answers and press "
-                "**Finish the lab** again to resubmit.", "success")
-        else:
-            _msg, _kind = (
-                "Your answers are saved but the lab is **not submitted** yet. "
-                "Press **Finish the lab** to submit it.", "warn")
-    else:
-        _reply = await lab_sync.submit(reflection=reflect_form.value, finished=True)
-        if _reply.get("ok"):
-            _msg, _kind = ("**Submitted.** Your instructor can see your answers. You can "
-                           "still change them and submit again.", "success")
-        elif _reply.get("locked"):
-            _msg, _kind = ("**Not submitted.** An instructor has locked this lab.", "danger")
-        else:
-            _msg, _kind = (
-                f"**Not submitted:** {_reply.get('error', 'unknown error')}. Your answers "
-                "are still saved as you go. Press **Finish the lab** to try again.", "danger")
-    mo.callout(mo.md(_msg), kind=_kind)
-    return
-
-
-@app.cell(hide_code=True)
 def _(decision_choice, decision_why, done, mo, q1, q1_sum, takeaway_text):
     _ = done
     _text, _ok = q1_sum(q1.value)
@@ -370,6 +346,120 @@ def _(decision_choice, decision_why, done, mo, q1, q1_sum, takeaway_text):
     - **Decision:** {decision_choice}, because {decision_why}
     - **Last answer:** {takeaway_text}
     """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(done, locked, mo, pick, saved):
+    # Every lab from Week 4 on ends with a short quiz: a few simple questions on what
+    # the lab just showed. Replace these three. Each entry is
+    # (question, {shown answer: stored value}, the right stored value).
+    _ = done
+    QUIZ = [
+        ("Where are your lab answers kept?",
+         {"Only in this browser": "a",
+          "In the course database, under your account": "b",
+          "Nowhere, until you download them": "c"},
+         "b"),
+        ("What happens when you press Submit my work?",
+         {"The lab is handed in to your instructor": "a",
+          "Your answers are deleted": "b",
+          "Nothing, it only checks your spelling": "c"},
+         "a"),
+        ("Can you change an answer after submitting?",
+         {"No, never": "a",
+          "Yes, and submit again, until the lab is locked": "b"},
+         "b"),
+    ]
+    _saved = saved.get("quiz") or {}
+    quiz = mo.ui.array([
+        mo.ui.radio(options=_options, label=f"**{_n}.** {_question}",
+                    value=pick(_options, _saved.get(str(_n))), disabled=locked)
+        for _n, (_question, _options, _right) in enumerate(QUIZ, 1)
+    ])
+    mo.vstack([
+        mo.md("## Quick quiz"),
+        mo.md("A few simple questions. Your answers are saved, and scored when you submit."),
+        # Shown one by one; drawing the array itself adds index numbers.
+        *[quiz[_i] for _i in range(len(QUIZ))],
+    ], gap=1)
+    return QUIZ, quiz
+
+
+@app.cell(hide_code=True)
+def _(QUIZ, lab_sync, quiz):
+    # The quiz only exists once the lab is finished, so it is recorded here.
+    quiz_score = f"{sum(v == q[2] for q, v in zip(QUIZ, quiz.value))}/{len(QUIZ)}"
+    if lab_sync is not None:
+        lab_sync.record(quiz={str(n): v for n, v in enumerate(quiz.value, 1)},
+                        quiz_score=quiz_score)
+    return (quiz_score,)
+
+
+@app.cell(hide_code=True)
+def _(done, lab_sync, locked, mo, quiz):
+    _ = done
+    _unanswered = sum(v is None for v in quiz.value)
+    submit_button = mo.ui.run_button(
+        label="Submit my work",
+        kind="success",
+        disabled=lab_sync is None or locked or _unanswered > 0,
+        tooltip="Send your answers to your instructor",
+    )
+    mo.vstack([
+        mo.md("## Submit your work"),
+        mo.md(
+            "Your answers have been saving as you went. When you are happy with them, "
+            "press the button to hand the lab in. You can change answers and submit "
+            "again until your instructor locks the lab."
+            + (f" **Answer the {_unanswered} quiz question"
+               f"{'s' if _unanswered > 1 else ''} above first.**" if _unanswered else "")
+        ),
+        submit_button,
+    ])
+    return (submit_button,)
+
+
+@app.cell(hide_code=True)
+async def _(
+    lab_status,
+    lab_sync,
+    locked,
+    mo,
+    quiz_score,
+    reflect_form,
+    saved,
+    submit_button,
+):
+    # Runs when the button is pressed, and otherwise just says where things stand.
+    if lab_sync is None:
+        _msg, _kind = (
+            "This copy of the lab is not connected to the course site, so it cannot be "
+            "submitted from here.", "neutral")
+    elif submit_button.value:
+        _reply = await lab_sync.submit(
+            reflection=reflect_form.value or saved.get("reflection"), finished=True)
+        if _reply.get("ok"):
+            _msg, _kind = (f"**Submitted.** Your instructor can see your work. "
+                           f"Quiz: **{quiz_score}**.", "success")
+        elif _reply.get("locked"):
+            _msg, _kind = ("**Not submitted.** Your instructor has locked this lab.", "danger")
+        else:
+            _msg, _kind = (
+                f"**Not submitted:** {_reply.get('error', 'something went wrong')}. Your "
+                "answers are still saved. Press **Submit my work** to try again.", "danger")
+    elif lab_sync.last_submitted or lab_status.get("submitted"):
+        _when = str(lab_sync.last_submitted or lab_status.get("submittedAt") or "")[:10]
+        _msg, _kind = (
+            f"**Submitted on {_when}.** Changed something since? Press **Submit my work** "
+            "again.", "success")
+    elif locked:
+        _msg, _kind = ("Your instructor has locked this lab, so it can no longer be submitted.",
+                       "warn")
+    else:
+        _msg, _kind = ("**Not submitted yet.** Press **Submit my work** when you are done.",
+                       "warn")
+    mo.callout(mo.md(_msg), kind=_kind)
     return
 
 

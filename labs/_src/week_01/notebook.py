@@ -29,6 +29,7 @@ async def _(json, mo):
             from pyodide.ffi import create_proxy
 
             self.state = {}
+            self.last_submitted = None
             self._waiting = {}
             self._channel = BroadcastChannel.new("radiant-lab-" + tab)
             self._listener = create_proxy(self._receive)
@@ -82,7 +83,10 @@ async def _(json, mo):
         async def submit(self, **answers):
             """Save everything now and mark the lab as submitted."""
             self.state.update(answers)
-            return await self._request("submit", timeout=45, state=self.state)
+            reply = await self._request("submit", timeout=45, state=self.state)
+            if reply.get("ok"):
+                self.last_submitted = reply.get("submittedAt") or "today"
+            return reply
 
     def pick(options, value):
         """The label a radio should show for a saved value, or None."""
@@ -1398,41 +1402,6 @@ def _(answers_form, mo, saved):
 
 
 @app.cell(hide_code=True)
-async def _(answers_form, decision_choice, done, lab_status, lab_sync, mo):
-    # Sends the finished lab. On a return visit the form is empty but the saved
-    # answers stand, so say where things are instead of submitting again. In this
-    # lab the last question sits above the decision, so wait for both.
-    _ = done, decision_choice
-    if lab_sync is None:
-        _msg, _kind = (
-            "You opened this lab outside the course site, so nothing was sent to your "
-            "instructor. Use the download below to keep a copy.", "neutral")
-    elif answers_form.value is None:
-        _when = (lab_status.get("submittedAt") or "")[:10]
-        if lab_status.get("submitted"):
-            _msg, _kind = (
-                f"**Submitted on {_when}.** You can change answers and submit the last "
-                "question again to resubmit.", "success")
-        else:
-            _msg, _kind = (
-                "Your answers are saved but the lab is **not submitted** yet. Submit the "
-                "last question to finish.", "warn")
-    else:
-        _reply = await lab_sync.submit(answers=answers_form.value, finished=True)
-        if _reply.get("ok"):
-            _msg, _kind = ("**Submitted.** Your instructor can see your answers. You can "
-                           "still change them and submit again.", "success")
-        elif _reply.get("locked"):
-            _msg, _kind = ("**Not submitted.** An instructor has locked this lab.", "danger")
-        else:
-            _msg, _kind = (
-                f"**Not submitted:** {_reply.get('error', 'unknown error')}. Your answers "
-                "are still saved as you go. Submit the last question to try again.", "danger")
-    mo.callout(mo.md(_msg), kind=_kind)
-    return
-
-
-@app.cell(hide_code=True)
 def _(
     batch,
     decision_choice,
@@ -1531,122 +1500,56 @@ def _(
 
 
 @app.cell(hide_code=True)
-def _(
-    batch,
-    decision_choice,
-    defence_text,
-    json,
-    load,
-    meets_sla,
-    mo,
-    p95_ms,
-    predict_choice,
-    predict_reason,
-    q0,
-    q0_sum,
-    q3,
-    q3_sum,
-    takeaway_text,
-):
-    mo.stop(decision_choice is None or defence_text == "")
-
-    _names = {
-        "tiny": "as small as possible (1-4)",
-        "moderate": "moderate (8-16)",
-        "huge": "as large as possible (64+)",
-    }
-    _p95 = "overloaded" if p95_ms == float("inf") else f"{p95_ms:.0f} ms"
-    _correct = predict_choice == "moderate"
-
-    _a1 = q0_sum(q0.value)
-    _a2 = q3_sum(q3.value)
-
-    def _verdict_word(ok):
-        return "not answered" if ok is None else ("correct" if ok else "not correct")
-
-    submission = {
-        "lab": "CSC/EE 8001 - Week 1",
-        "your_guess": _names[predict_choice],
-        "your_reasoning": predict_reason,
-        "correct_answer": "moderate (8-16); works from 6 to 19, best at 9",
-        "guess_was_correct": _correct,
-        "final_batch_size": int(batch.value),
-        "arrival_rate_per_second": int(load.value),
-        "final_p95_ms": None if p95_ms == float("inf") else round(p95_ms, 1),
-        "meets_150ms_target": meets_sla,
-        "your_decision": decision_choice,
-        "your_defence": defence_text,
-        "check_1_why_projects_fail": {"answer": _a1[0], "correct": _a1[1]},
-        "check_2_how_ml_breaks": {"answer": _a2[0], "correct": _a2[1]},
-        "what_stopped_the_biggest_model": takeaway_text,
-    }
-
-    report_text = "\n".join([
-        "CSC/EE 8001 - Week 1",
-        "=" * 56,
-        "",
-        "WHAT I GUESSED",
-        f"  {_names[predict_choice]}",
-        f"  Because: {predict_reason}",
-        f"  This was {'CORRECT' if _correct else 'NOT correct'}.",
-        "",
-        "THE ACTUAL ANSWER",
-        "  Moderate batches (8-16). Anything from 6 to 19 meets the target;",
-        "  batch 9 is best at 102 ms. Batches of 1-4 cannot keep up at all,",
-        "  and batches of 64+ spend longer than the whole budget just waiting",
-        "  for the batch to fill.",
-        "",
-        "WHAT I SETTLED ON",
-        f"  Batch size        : {int(batch.value)}",
-        f"  Arrival rate      : {int(load.value)} requests/second",
-        f"  Slowest 5% wait   : {_p95}",
-        f"  Meets the target  : {'yes' if meets_sla else 'no'}",
-        "",
-        "MY DECISION",
-        f"  {decision_choice}",
-        "",
-        "MY REASONING",
-        f"  {defence_text}",
-        "",
-        "QUICK CHECKS",
-        f"  Why most ML projects never reach production",
-        f"    {_a1[0]}  [{_verdict_word(_a1[1])}]",
-        f"  What happens when a deployed ML system goes wrong",
-        f"    {_a2[0]}  [{_verdict_word(_a2[1])}]",
-        "",
-        "WHAT STOPPED THE BIGGEST MODEL FROM BEING USABLE",
-        f"  {takeaway_text}",
-    ])
-
-    _names = {
-        "tiny": "as small as possible (1 to 4)",
-        "moderate": "moderate (8 to 16)",
-        "huge": "as large as possible (64+)",
-    }
-    _decision_words = {
-        "ship": "Ship it",
-        "ship_scale": "Ship it, and add a second machine",
-        "hold": "Do not ship it",
-    }
-    _p95 = "overloaded" if p95_ms == float("inf") else f"{p95_ms:.0f} ms"
-
-    _downloads = mo.hstack(
-        [
-            mo.download(data=report_text.encode("utf-8"),
-                        filename="week1_report.txt", label="Download my report"),
-            mo.download(data=json.dumps(submission, indent=2).encode("utf-8"),
-                        filename="week1_report.json", label="Download as JSON"),
-        ],
-        justify="start",
-        gap=1,
+def _(decision_choice, done, lab_sync, locked, mo):
+    _ = done, decision_choice
+    submit_button = mo.ui.run_button(
+        label="Submit my work",
+        kind="success",
+        disabled=lab_sync is None or locked,
+        tooltip="Send your answers to your instructor",
     )
+    mo.vstack([
+        mo.md("## Submit your work"),
+        mo.md(
+            "Your answers have been saving as you went. When you are happy with them, "
+            "press the button to hand the lab in. You can change answers and submit "
+            "again until your instructor locks the lab."
+        ),
+        submit_button,
+    ])
+    return (submit_button,)
 
-    mo.accordion({
-        "A copy of what you did": mo.vstack([
-            _downloads,
-            mo.md("```" + chr(10) + report_text + chr(10) + "```"),
-        ]),
-    })
+
+@app.cell(hide_code=True)
+async def _(answers_form, lab_status, lab_sync, locked, mo, saved, submit_button):
+    # Runs when the button is pressed, and otherwise just says where things stand.
+    if lab_sync is None:
+        _msg, _kind = (
+            "This copy of the lab is not connected to the course site, so it cannot be "
+            "submitted from here.", "neutral")
+    elif submit_button.value:
+        _reply = await lab_sync.submit(
+            answers=answers_form.value or saved.get("answers"), finished=True)
+        if _reply.get("ok"):
+            _msg, _kind = ("**Submitted.** Your instructor can see your work.", "success")
+        elif _reply.get("locked"):
+            _msg, _kind = ("**Not submitted.** Your instructor has locked this lab.", "danger")
+        else:
+            _msg, _kind = (
+                f"**Not submitted:** {_reply.get('error', 'something went wrong')}. Your "
+                "answers are still saved. Press **Submit my work** to try again.", "danger")
+    elif lab_sync.last_submitted or lab_status.get("submitted"):
+        _when = str(lab_sync.last_submitted or lab_status.get("submittedAt") or "")[:10]
+        _msg, _kind = (
+            f"**Submitted on {_when}.** Changed something since? Press **Submit my work** "
+            "again.", "success")
+    elif locked:
+        _msg, _kind = ("Your instructor has locked this lab, so it can no longer be submitted.",
+                       "warn")
+    else:
+        _msg, _kind = ("**Not submitted yet.** Press **Submit my work** when you are done.",
+                       "warn")
+    mo.callout(mo.md(_msg), kind=_kind)
     return
 
 
@@ -1723,6 +1626,8 @@ def _(batch, decision_form, lab_sync, load):
         if decision_form.value is not None:
             lab_sync.record(decision=decision_form.value)
     return
+
+
 
 if __name__ == "__main__":
     app.run()

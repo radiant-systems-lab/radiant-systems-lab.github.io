@@ -67,6 +67,8 @@ build stops with a `runtime conflict` error if two labs disagree.
 1. Add a record to `_data/labs.yml` with `status: coming-soon`.
 2. Copy `labs/_src/lab_template.py` to `labs/_src/<slug>/notebook.py` and write the lab.
    The comment at the top of the template explains how to make each answer save.
+   From Week 4 on, every lab ends with a short quiz of a few simple questions; the
+   template has one to replace.
 3. Build it, then flip `status` to `available`.
 
 The card and the course page pick it up automatically; no HTML to edit.

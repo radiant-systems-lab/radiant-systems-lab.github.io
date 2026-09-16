@@ -112,7 +112,7 @@ sitemap: false
       <p id="detail-error" class="error" hidden></p>
       <div class="scroll">
         <table>
-          <thead><tr><th>Student</th><th>Status</th><th>Last saved</th><th class="num">Saves</th><th class="num">Answers</th><th></th></tr></thead>
+          <thead><tr><th>Student</th><th>Status</th><th>Last saved</th><th class="num">Saves</th><th class="num">Answers</th><th class="num">Quiz</th><th></th></tr></thead>
           <tbody id="students"></tbody>
         </table>
       </div>
@@ -299,7 +299,7 @@ sitemap: false
         var v = r.state[k];
         return v !== null && v !== "" && k !== "finished";
       }).length;
-      var detailRow = el("tr", { hidden: "" }, [el("td", { colspan: "6" }, [
+      var detailRow = el("tr", { hidden: "" }, [el("td", { colspan: "7" }, [
         el("div", { class: "muted", text: "First opened " + when(r.createdAt) +
           (r.submittedAt ? " · last submitted " + when(r.submittedAt) + " (" + r.submissions + " time" + (r.submissions === 1 ? "" : "s") + ")" : "") +
           (r.locked ? " · locked by " + (r.lockedBy || "an admin") : "") }),
@@ -330,6 +330,7 @@ sitemap: false
         el("td", { text: when(r.updatedAt) }),
         el("td", { class: "num", text: String(r.saves || 0) }),
         el("td", { class: "num", text: String(answers) }),
+        el("td", { class: "num", text: (r.state && r.state.quiz_score) || "—" }),
         el("td", {}, [view, " ", lock]),
       ]));
       body.appendChild(detailRow);
