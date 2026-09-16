@@ -44,6 +44,24 @@ so they are treated as one person everywhere:
 This assumes the part before the `@` means the same person on all three domains,
 which is how university accounts work. The list is the `AliasDomains` parameter.
 
+## Semesters
+
+Answers, submissions and locks are kept per semester. The current semester
+follows the date (January to May is spring, June and July summer, August to
+December fall); an owner can pin a different one on the dashboard. A student who
+takes the course again later starts fresh, and earlier work stays viewable by
+picking that semester on the dashboard. Accounts are not per semester: the
+dashboard shows when each person was last active, and an owner can delete
+accounts not used since a chosen semester (their work is kept).
+
+## Locking
+
+A locked lab, or a lab locked for one student, is not shown to students at all:
+the sign-in screen stays up with "This lab is locked", and saving is refused.
+Owners and admins still open it. The lab pages themselves are public files on
+GitHub Pages, so this stops everyone using the site normally; someone who loads
+the raw page with browser tools could still read it, but could not save.
+
 ## Deploying
 
 Needs the AWS CLI and a signed-in profile.

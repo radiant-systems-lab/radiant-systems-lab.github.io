@@ -72,6 +72,7 @@ def main() -> int:
     # the sign-up check lets a non-university address through.
     waiting = [f"smoke-wait-{tag}-{n}@example.com" for n in (1, 2)]
     password = "Smoke-" + secrets.token_urlsafe(12) + "1a"
+    term = None
     failures: list[str] = []
 
     def check(label, got, want):
@@ -115,11 +116,16 @@ def main() -> int:
         }))
         tokens = {role: sign_in(email) for role, email in people.items()}
 
-        print("identity")
+        term = call("student", "GET", "/me")[1].get("term")
+        print(f"identity (semester {term})")
         check("no token", http("GET", api + "/me")[0], 401)
         check("student /me admin", call("student", "GET", "/me")[1].get("admin"), False)
         check("admin /me admin", call("admin", "GET", "/me")[1].get("admin"), True)
         check("admin /me owner", call("admin", "GET", "/me")[1].get("owner"), False)
+
+        check("admin sees the same semester",
+              call("admin", "GET", "/admin/terms")[1].get("current"), term)
+        check("student cannot list semesters", call("student", "GET", "/admin/terms")[0], 403)
 
         print("saving")
         check("empty progress", call("student", "GET", f"/labs/{LAB}/progress")[1].get("state"), {})
@@ -139,6 +145,9 @@ def main() -> int:
         check("student row submitted", rows.get(people["student"], {}).get("submitted"), True)
         check("admin cannot add admins", call("admin", "POST", "/admin/admins",
                                               {"email": "x@example.com"})[0], 403)
+
+        check("another semester is empty", call(
+            "admin", "GET", f"/admin/labs/{LAB}/progress?term=1999-fall")[1].get("students"), [])
 
         print("locking")
         check("lock lab", call("admin", "PUT", f"/admin/labs/{LAB}/lock", {"locked": True})[0], 200)
@@ -224,7 +233,7 @@ def main() -> int:
                 aws("cognito-idp", "admin-delete-user", "--user-pool-id", pool, "--username", email)
             except subprocess.CalledProcessError:
                 pass
-        keys = [("CONFIG", f"ADMIN#{people['admin']}"), (f"LAB#{LAB}", "SETTINGS"),
+        keys = [("CONFIG", f"ADMIN#{people['admin']}"), (f"LAB#{term}#{LAB}", "SETTINGS"),
                 *[("CONFIG", f"ADMIN#{w}") for w in waiting]]
         for email in [*people.values(), alias_user]:
             found = aws("dynamodb", "query", "--table-name", table,

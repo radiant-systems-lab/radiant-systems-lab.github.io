@@ -92,6 +92,9 @@ How the pieces fit:
 - The backend (Cognito, API Gateway, Lambda, DynamoDB) lives in
   `infra/labs-backend/`. Its README covers deploying, costs, and tests.
 
+Work is kept per semester, and the dashboard can show any semester. A locked lab
+is not shown to students at all. See `infra/labs-backend/README.md`.
+
 Students can type `missouri.edu`, `mail.missouri.edu` or `umsystem.edu`; all three
 reach the same account and the same saved answers. Students stay signed in for
 30 days across every lab. Owners and admins can lock a

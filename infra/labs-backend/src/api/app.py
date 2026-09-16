@@ -5,25 +5,34 @@ claims in the request context can be trusted. A student's identity always comes
 from those claims and never from the request body, which is what stops one
 student from writing into another student's record.
 
+Work is kept per semester ("term"), so a student who takes the course again in a
+later year starts fresh, and last year's answers and locks stay where they were.
+The current term follows the calendar (January to May is spring, June and July
+summer, August to December fall) unless an owner sets it on the dashboard.
+
 Table layout (one table, string keys):
 
-    PK            SK                      what it holds
-    USER#<id>     LAB#<lab>               a student's latest answers for one lab
-    USER#<id>     SUBMIT#<lab>#<time>     every final submission, kept as history
-    LAB#<lab>     SETTINGS                whether the whole lab is locked
-    CONFIG        ADMIN#<id>              admins added by an owner
+    PK                  SK                            what it holds
+    USER#<id>           LAB#<term>#<lab>              latest answers for one lab
+    USER#<id>           SUBMIT#<term>#<lab>#<time>    every submission, as history
+    USER#<id>           PROFILE                       last term the person was active
+    LAB#<term>#<lab>    SETTINGS                      whether the whole lab is locked
+    CONFIG              ADMIN#<id>                    admins added by an owner
+    CONFIG              TERM#<term>                   a term that has saved work
+    CONFIG              CURRENT_TERM                  an owner's choice of term
+
+GSI1 lists one lab's students in a term (GSI1PK = LAB#<term>#<lab>), the lab
+settings of a term (GSI1PK = LABS#<term>), and everyone's profile
+(GSI1PK = PROFILES).
 
 A person's <id> is their verified email with university aliases folded
 together: x@missouri.edu, x@mail.missouri.edu and x@umsystem.edu are one
 mailbox, so all three become x@umsystem.edu (see canonical()). The sign-in page
 uses the same id as the Cognito username, so there is one account per person.
 
-GSI1 lists one lab's students (GSI1PK = LAB#<lab>) and the settings of every
-lab (GSI1PK = LABS).
-
 Owners come from the OWNER_EMAILS environment variable, so they cannot be
-removed from the dashboard. Only owners can add or remove admins. Owners and
-admins can lock labs and individual students.
+removed from the dashboard. Only owners can add or remove admins, choose the
+term, or clear out old accounts. Owners and admins can lock labs and students.
 
 New accounts wait for an admin to approve them, since Cognito's emails do not
 reach university inboxes. A student who forgot their password asks an admin to
@@ -40,7 +49,7 @@ import json
 import logging
 import os
 import re
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from decimal import Decimal
 from urllib.parse import unquote
 
@@ -49,6 +58,9 @@ log.setLevel(logging.INFO)
 
 LAB_ID = re.compile(r"^[a-z0-9_]{1,40}$")
 EMAIL = re.compile(r"^[^@\s]{1,64}@[A-Za-z0-9.-]{1,190}\.[A-Za-z]{2,}$")
+TERM_ID = re.compile(r"^(\d{4})-(spring|summer|fall)$")
+SEASONS = ["spring", "summer", "fall"]
+SEASON_START = {"spring": 1, "summer": 6, "fall": 8}     # month each term begins
 
 MAX_BODY_BYTES = 100_000
 MAX_STATE_BYTES = 64_000
@@ -64,6 +76,46 @@ class HttpError(Exception):
 def now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
+
+def today() -> date:
+    """Separate so the tests can pick the date."""
+    return datetime.now(timezone.utc).date()
+
+
+# -- terms -------------------------------------------------------------------
+
+def term_for(day: date) -> str:
+    season = "spring" if day.month <= 5 else "summer" if day.month <= 7 else "fall"
+    return f"{day.year}-{season}"
+
+
+def term_order(term: str) -> tuple[int, int]:
+    m = TERM_ID.match(term)
+    return (int(m.group(1)), SEASONS.index(m.group(2))) if m else (0, -1)
+
+
+def term_label(term: str) -> str:
+    m = TERM_ID.match(term)
+    return f"{m.group(2).title()} {m.group(1)}" if m else term
+
+
+def term_start(term: str) -> str:
+    m = TERM_ID.match(term)
+    return date(int(m.group(1)), SEASON_START[m.group(2)], 1).isoformat()
+
+
+def next_term(term: str) -> str:
+    year, i = term_order(term)
+    return f"{year + (i == 2)}-{SEASONS[(i + 1) % 3]}"
+
+
+def check_term(value) -> str:
+    if not isinstance(value, str) or not TERM_ID.match(value):
+        raise HttpError(400, "A semester looks like 2026-fall, 2027-spring or 2027-summer.")
+    return value
+
+
+# -- identity ----------------------------------------------------------------
 
 def alias_domains() -> list[str]:
     """University domains that share one mailbox; the first is the canonical one."""
@@ -128,6 +180,7 @@ class Accounts:
     def remove(self, username: str) -> None:
         self.c.admin_delete_user(UserPoolId=self.pool, Username=username)
 
+
 class Store:
     """Every DynamoDB call the API makes, so the tests can swap in a fake."""
 
@@ -158,44 +211,78 @@ class Store:
     def remove_admin(self, email: str) -> None:
         self.t.delete_item(Key={"PK": "CONFIG", "SK": f"ADMIN#{email}"})
 
+    # -- terms -------------------------------------------------------------
+
+    def term_choice(self) -> str | None:
+        item = self.t.get_item(Key={"PK": "CONFIG", "SK": "CURRENT_TERM"}).get("Item")
+        return item.get("term") if item else None
+
+    def set_term_choice(self, term: str | None, by: str) -> None:
+        if term is None:
+            self.t.delete_item(Key={"PK": "CONFIG", "SK": "CURRENT_TERM"})
+        else:
+            self.t.put_item(Item={"PK": "CONFIG", "SK": "CURRENT_TERM",
+                                  "term": term, "setBy": by, "setAt": now()})
+
+    def terms_with_work(self) -> list[str]:
+        items = self._query("PK = :pk AND begins_with(SK, :prefix)",
+                            {":pk": "CONFIG", ":prefix": "TERM#"})
+        return [i["SK"].split("#", 1)[1] for i in items]
+
+    def note_activity(self, uid: str, email: str, term: str) -> None:
+        """Remember that this term has work, and when this person was last active."""
+        self.t.put_item(Item={"PK": "CONFIG", "SK": f"TERM#{term}", "term": term})
+        profile = self.t.get_item(Key={"PK": f"USER#{uid}", "SK": "PROFILE"}).get("Item") or {}
+        latest = profile.get("lastTerm")
+        if latest and term_order(latest) > term_order(term):
+            term = latest
+        self.t.put_item(Item={
+            "PK": f"USER#{uid}", "SK": "PROFILE", "GSI1PK": "PROFILES", "GSI1SK": uid,
+            "email": email, "lastTerm": term, "lastSeen": now(),
+        })
+
+    def profiles(self) -> dict[str, dict]:
+        items = self._query("GSI1PK = :pk", {":pk": "PROFILES"}, index="GSI1")
+        return {i["GSI1SK"]: i for i in items}
+
     # -- lab settings ------------------------------------------------------
 
-    def lab_settings(self, lab: str) -> dict:
-        res = self.t.get_item(Key={"PK": f"LAB#{lab}", "SK": "SETTINGS"})
+    def lab_settings(self, term: str, lab: str) -> dict:
+        res = self.t.get_item(Key={"PK": f"LAB#{term}#{lab}", "SK": "SETTINGS"})
         return res.get("Item") or {}
 
-    def all_lab_settings(self) -> list[dict]:
-        return self._query("GSI1PK = :pk", {":pk": "LABS"}, index="GSI1")
+    def all_lab_settings(self, term: str) -> list[dict]:
+        return self._query("GSI1PK = :pk", {":pk": f"LABS#{term}"}, index="GSI1")
 
-    def set_lab_lock(self, lab: str, locked: bool, by: str) -> dict:
+    def set_lab_lock(self, term: str, lab: str, locked: bool, by: str) -> dict:
         item = {
-            "PK": f"LAB#{lab}", "SK": "SETTINGS",
-            "GSI1PK": "LABS", "GSI1SK": lab,
-            "lab": lab, "locked": locked, "lockedBy": by, "lockedAt": now(),
+            "PK": f"LAB#{term}#{lab}", "SK": "SETTINGS",
+            "GSI1PK": f"LABS#{term}", "GSI1SK": lab,
+            "term": term, "lab": lab, "locked": locked, "lockedBy": by, "lockedAt": now(),
         }
         self.t.put_item(Item=item)
         return item
 
     # -- student progress --------------------------------------------------
 
-    def progress(self, uid: str, lab: str) -> dict | None:
-        res = self.t.get_item(Key={"PK": f"USER#{uid}", "SK": f"LAB#{lab}"})
+    def progress(self, uid: str, term: str, lab: str) -> dict | None:
+        res = self.t.get_item(Key={"PK": f"USER#{uid}", "SK": f"LAB#{term}#{lab}"})
         return res.get("Item")
 
-    def lab_progress(self, lab: str) -> list[dict]:
-        return self._query("GSI1PK = :pk", {":pk": f"LAB#{lab}"}, index="GSI1")
+    def lab_progress(self, term: str, lab: str) -> list[dict]:
+        return self._query("GSI1PK = :pk", {":pk": f"LAB#{term}#{lab}"}, index="GSI1")
 
-    def save_progress(self, uid: str, email: str, lab: str, state_json: str,
+    def save_progress(self, uid: str, email: str, term: str, lab: str, state_json: str,
                       submit: bool, force: bool) -> dict:
         ts = now()
-        names = {"#state": "state", "#locked": "locked"}
+        names = {"#state": "state", "#locked": "locked", "#term": "term"}
         values = {
-            ":state": state_json, ":ts": ts, ":email": email, ":lab": lab,
-            ":gpk": f"LAB#{lab}", ":zero": 0, ":one": 1,
+            ":state": state_json, ":ts": ts, ":email": email, ":lab": lab, ":term": term,
+            ":gpk": f"LAB#{term}#{lab}", ":zero": 0, ":one": 1,
         }
         sets = [
             "#state = :state", "updatedAt = :ts", "email = :email", "lab = :lab",
-            "GSI1PK = :gpk", "GSI1SK = :email",
+            "#term = :term", "GSI1PK = :gpk", "GSI1SK = :email",
             "saves = if_not_exists(saves, :zero) + :one",
             "createdAt = if_not_exists(createdAt, :ts)",
         ]
@@ -207,7 +294,7 @@ class Store:
             values[":true"] = True
 
         kwargs = {
-            "Key": {"PK": f"USER#{uid}", "SK": f"LAB#{lab}"},
+            "Key": {"PK": f"USER#{uid}", "SK": f"LAB#{term}#{lab}"},
             "UpdateExpression": "SET " + ", ".join(sets),
             "ExpressionAttributeValues": values,
             "ReturnValues": "ALL_NEW",
@@ -226,17 +313,20 @@ class Store:
         except self.t.meta.client.exceptions.ConditionalCheckFailedException:
             raise HttpError(423, "An instructor has locked your answers for this lab.")
 
+        if item.get("saves") == 1:
+            self.note_activity(uid, email, term)
         if submit:
             self.t.put_item(Item={
-                "PK": f"USER#{uid}", "SK": f"SUBMIT#{lab}#{ts}",
-                "email": email, "lab": lab, "state": state_json, "submittedAt": ts,
+                "PK": f"USER#{uid}", "SK": f"SUBMIT#{term}#{lab}#{ts}",
+                "email": email, "term": term, "lab": lab, "state": state_json,
+                "submittedAt": ts,
             })
         return item
 
-    def set_student_lock(self, uid: str, lab: str, locked: bool, by: str) -> dict:
+    def set_student_lock(self, uid: str, term: str, lab: str, locked: bool, by: str) -> dict:
         try:
             res = self.t.update_item(
-                Key={"PK": f"USER#{uid}", "SK": f"LAB#{lab}"},
+                Key={"PK": f"USER#{uid}", "SK": f"LAB#{term}#{lab}"},
                 UpdateExpression="SET #locked = :locked, lockedBy = :by, lockedAt = :ts",
                 ConditionExpression="attribute_exists(PK)",
                 ExpressionAttributeNames={"#locked": "locked"},
@@ -244,7 +334,7 @@ class Store:
                 ReturnValues="ALL_NEW",
             )
         except self.t.meta.client.exceptions.ConditionalCheckFailedException:
-            raise HttpError(404, "That student has not opened this lab yet.")
+            raise HttpError(404, "That student has not opened this lab this semester.")
         return res["Attributes"]
 
     # -- helpers -----------------------------------------------------------
@@ -318,6 +408,16 @@ def parse_body(event: dict) -> dict:
     return body
 
 
+def current_term(store: Store) -> str:
+    return store.term_choice() or term_for(today())
+
+
+def term_param(store: Store, params: dict) -> str:
+    """The term an admin asked for with ?term=, or the current one."""
+    wanted = (params.get("query") or {}).get("term")
+    return check_term(wanted) if wanted else current_term(store)
+
+
 def lab_param(params: dict) -> str:
     lab = params.get("lab", "")
     if not LAB_ID.match(lab):
@@ -337,9 +437,9 @@ def require_admin(user: dict) -> None:
         raise HttpError(403, "This needs instructor access.")
 
 
-def require_owner(user: dict) -> None:
+def require_owner(user: dict, what: str = "change who the admins are") -> None:
     if not user["owner"]:
-        raise HttpError(403, "Only a course owner can change who the admins are.")
+        raise HttpError(403, f"Only a course owner can {what}.")
 
 
 def load_state(item: dict | None) -> dict:
@@ -367,20 +467,25 @@ def student_row(item: dict) -> dict:
     }
 
 
-# -- routes ------------------------------------------------------------------
+# -- routes: students ----------------------------------------------------------
 
 def get_me(store, user, params, body):
+    term = current_term(store)
     return {"email": user["email"], "address": user["address"],
-            "admin": user["admin"], "owner": user["owner"]}
+            "admin": user["admin"], "owner": user["owner"],
+            "term": term, "termLabel": term_label(term)}
 
 
 def get_progress(store, user, params, body):
     lab = lab_param(params)
-    item = store.progress(user["id"], lab)
-    lab_locked = bool(store.lab_settings(lab).get("locked"))
+    term = current_term(store)
+    item = store.progress(user["id"], term, lab)
+    lab_locked = bool(store.lab_settings(term, lab).get("locked"))
     student_locked = bool(item and item.get("locked"))
     return {
         "lab": lab,
+        "term": term,
+        "termLabel": term_label(term),
         "state": load_state(item),
         "submitted": bool(item and item.get("submitted")),
         "submittedAt": item.get("submittedAt") if item else None,
@@ -395,6 +500,7 @@ def get_progress(store, user, params, body):
 
 def put_progress(store, user, params, body):
     lab = lab_param(params)
+    term = current_term(store)
     state = body.get("state")
     if not isinstance(state, dict):
         raise HttpError(400, "'state' must be an object.")
@@ -405,14 +511,15 @@ def put_progress(store, user, params, body):
     if len(state_json.encode("utf-8")) > MAX_STATE_BYTES:
         raise HttpError(413, "That is more than a lab can save.")
 
-    if not user["admin"] and store.lab_settings(lab).get("locked"):
+    if not user["admin"] and store.lab_settings(term, lab).get("locked"):
         raise HttpError(423, "An instructor has locked this lab.")
 
     item = store.save_progress(
-        user["id"], user["email"], lab, state_json, submit, force=user["admin"]
+        user["id"], user["email"], term, lab, state_json, submit, force=user["admin"]
     )
     return {
         "lab": lab,
+        "term": term,
         "updatedAt": item.get("updatedAt"),
         "submitted": bool(item.get("submitted")),
         "submittedAt": item.get("submittedAt"),
@@ -420,41 +527,75 @@ def put_progress(store, user, params, body):
     }
 
 
+# -- routes: labs and terms ----------------------------------------------------
+
+def admin_terms(store, user, params, body):
+    require_admin(user)
+    chosen = store.term_choice()
+    automatic = term_for(today())
+    current = chosen or automatic
+    ids = set(store.terms_with_work()) | {current, automatic, next_term(automatic)}
+    ids = sorted(ids, key=term_order, reverse=True)
+    return {
+        "current": current,
+        "automatic": automatic,
+        "chosen": chosen,
+        "terms": [{"id": t, "label": term_label(t)} for t in ids],
+    }
+
+
+def admin_set_term(store, user, params, body):
+    require_owner(user, "choose the semester")
+    term = body.get("term")
+    if term is not None:
+        check_term(term)
+    store.set_term_choice(term, user["email"])
+    log.info("%s set the semester to %s", user["email"], term or "automatic")
+    return admin_terms(store, user, params, body)
+
+
 def admin_labs(store, user, params, body):
     require_admin(user)
-    return {"labs": [
+    term = term_param(store, params)
+    return {"term": term, "labs": [
         {"lab": s.get("lab"), "locked": bool(s.get("locked")),
          "lockedBy": s.get("lockedBy"), "lockedAt": s.get("lockedAt")}
-        for s in store.all_lab_settings()
+        for s in store.all_lab_settings(term)
     ]}
 
 
 def admin_lab_progress(store, user, params, body):
     require_admin(user)
     lab = lab_param(params)
-    settings = store.lab_settings(lab)
-    rows = sorted((student_row(i) for i in store.lab_progress(lab)),
+    term = term_param(store, params)
+    settings = store.lab_settings(term, lab)
+    rows = sorted((student_row(i) for i in store.lab_progress(term, lab)),
                   key=lambda r: r["email"] or "")
-    return {"lab": lab, "locked": bool(settings.get("locked")), "students": rows}
+    return {"lab": lab, "term": term, "locked": bool(settings.get("locked")),
+            "students": rows}
 
 
 def admin_lock_lab(store, user, params, body):
     require_admin(user)
     lab = lab_param(params)
-    item = store.set_lab_lock(lab, flag(body, "locked"), user["email"])
-    return {"lab": lab, "locked": item["locked"], "lockedBy": item["lockedBy"],
-            "lockedAt": item["lockedAt"]}
+    term = term_param(store, params)
+    item = store.set_lab_lock(term, lab, flag(body, "locked"), user["email"])
+    return {"lab": lab, "term": term, "locked": item["locked"],
+            "lockedBy": item["lockedBy"], "lockedAt": item["lockedAt"]}
 
 
 def admin_lock_student(store, user, params, body):
     require_admin(user)
     lab = lab_param(params)
+    term = term_param(store, params)
     uid = canonical(unquote(params.get("student") or ""))
     if not EMAIL.match(uid):
         raise HttpError(400, "Unknown student.")
-    item = store.set_student_lock(uid, lab, flag(body, "locked"), user["email"])
+    item = store.set_student_lock(uid, term, lab, flag(body, "locked"), user["email"])
     return student_row(item)
 
+
+# -- routes: admins -------------------------------------------------------------
 
 def admin_list_admins(store, user, params, body):
     require_admin(user)
@@ -487,8 +628,14 @@ def admin_remove_admin(store, user, params, body):
     return {"email": email, "removed": True}
 
 
+# -- routes: accounts -----------------------------------------------------------
+
+def is_staff(store, uid: str) -> bool:
+    return uid in owners() or store.is_listed_admin(uid)
+
+
 def pending_account(store, user, username: str) -> str:
-    """Check an account can be confirmed or removed by this admin; return its id."""
+    """Check an account can be approved by this admin; return its id."""
     uid = canonical(username)
     if not EMAIL.match(uid) or uid != (username or "").strip().lower():
         raise HttpError(400, "Unknown account.")
@@ -497,22 +644,25 @@ def pending_account(store, user, username: str) -> str:
         raise HttpError(404, "There is no such account.")
     if status != "UNCONFIRMED":
         raise HttpError(409, "That account is already confirmed.")
-    if (uid in owners() or store.is_listed_admin(uid)) and not user["owner"]:
+    if is_staff(store, uid) and not user["owner"]:
         raise HttpError(403, "Only a course owner can confirm or remove an owner or admin account.")
     return uid
 
 
 def admin_accounts(store, user, params, body):
     require_admin(user)
-    staff = owners()
+    profiles = store.profiles()
     rows = []
     for a in store.accounts.everyone():
         uid = canonical(a["username"])
+        last = profiles.get(uid, {}).get("lastTerm")
         rows.append({
             **a,
             "approved": a["status"] != "UNCONFIRMED",
-            "staff": uid in staff or store.is_listed_admin(uid),
+            "staff": is_staff(store, uid),
             "you": uid == user["id"],
+            "lastTerm": last,
+            "lastTermLabel": term_label(last) if last else None,
         })
     # Waiting first, then newest first.
     rows.sort(key=lambda a: a["createdAt"] or "", reverse=True)
@@ -554,17 +704,48 @@ def admin_remove_account(store, user, params, body):
         raise HttpError(400, "You cannot remove your own account.")
     if store.accounts.status(uid) is None:
         raise HttpError(404, "There is no such account.")
-    if (uid in owners() or store.is_listed_admin(uid)) and not user["owner"]:
+    if is_staff(store, uid) and not user["owner"]:
         raise HttpError(403, "Only a course owner can remove an owner or admin account.")
     store.accounts.remove(uid)
     log.info("%s deleted the account %s", user["email"], uid)   # saved work is kept
     return {"username": uid, "removed": True}
 
 
+def admin_clear_old_accounts(store, user, params, body):
+    """Delete student accounts with no work since `before`. Their work is kept."""
+    require_owner(user, "clear out old accounts")
+    before = check_term(body.get("before"))
+    dry_run = body.get("dryRun", True)
+    if not isinstance(dry_run, bool):
+        raise HttpError(400, "'dryRun' must be true or false.")
+    profiles = store.profiles()
+    starts = term_start(before)
+    chosen = []
+    for a in store.accounts.everyone():
+        uid = canonical(a["username"])
+        if uid == user["id"] or is_staff(store, uid):
+            continue
+        last = profiles.get(uid, {}).get("lastTerm")
+        if last:
+            old = term_order(last) < term_order(before)
+        else:
+            # Never saved anything: go by when the account was made.
+            old = (a["createdAt"] or "")[:10] < starts
+        if old:
+            chosen.append(uid)
+    if not dry_run:
+        for uid in chosen:
+            store.accounts.remove(uid)
+        log.info("%s cleared %d accounts inactive before %s", user["email"], len(chosen), before)
+    return {"before": before, "dryRun": dry_run, "accounts": chosen}
+
+
 ROUTES = {
     "GET /me": get_me,
     "GET /labs/{lab}/progress": get_progress,
     "PUT /labs/{lab}/progress": put_progress,
+    "GET /admin/terms": admin_terms,
+    "PUT /admin/terms/current": admin_set_term,
     "GET /admin/labs": admin_labs,
     "GET /admin/labs/{lab}/progress": admin_lab_progress,
     "PUT /admin/labs/{lab}/lock": admin_lock_lab,
@@ -574,6 +755,7 @@ ROUTES = {
     "DELETE /admin/admins/{email}": admin_remove_admin,
     "GET /admin/accounts": admin_accounts,
     "POST /admin/accounts/confirm": admin_confirm_accounts,
+    "POST /admin/accounts/clear-old": admin_clear_old_accounts,
     "DELETE /admin/accounts/{username}": admin_remove_account,
 }
 
@@ -599,7 +781,8 @@ def handler(event, context, store: Store | None = None):
         if route is None:
             raise HttpError(404, "Not found.")
         user = caller(event, store)
-        params = event.get("pathParameters") or {}
+        params = dict(event.get("pathParameters") or {})
+        params["query"] = event.get("queryStringParameters") or {}
         return respond(200, route(store, user, params, parse_body(event)))
     except HttpError as err:
         return respond(err.status, {"error": err.message})

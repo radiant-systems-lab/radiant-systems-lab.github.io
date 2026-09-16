@@ -67,6 +67,8 @@ sitemap: false
            align-items: flex-start; gap: 12px; }
     .who { display: flex; align-items: center; gap: 10px; color: var(--muted);
            font-size: .88rem; }
+    select { font: inherit; font-size: .9rem; padding: 6px 10px; border: 1px solid #d6d6d6;
+             border-radius: 8px; background: #fff; color: var(--ink); }
     [hidden] { display: none !important; }
   </style>
 </head>
@@ -91,8 +93,23 @@ sitemap: false
 
   <div id="app" hidden>
     <section class="panel">
+      <div class="toolbar" style="margin:0">
+        <label style="display:flex;align-items:center;gap:10px;font-weight:800">Semester
+          <select id="term-pick" aria-label="Semester to view"></select></label>
+        <span class="muted grow" id="term-note"></span>
+      </div>
+      <div class="toolbar" id="term-owner" hidden style="margin:12px 0 0">
+        <span class="muted">Students save to</span>
+        <select id="term-set" aria-label="Semester students save to"></select>
+        <button type="button" id="term-save">Save</button>
+      </div>
+      <p id="term-error" class="error" hidden></p>
+    </section>
+
+    <section class="panel">
       <h2>Labs</h2>
-      <p class="muted" style="margin-top:-4px">Locking a lab stops every student from changing their answers. Admins can still open and edit it.</p>
+      <p class="muted" style="margin-top:-4px">For the semester chosen above. Locking a lab closes it for every
+      student: they cannot open it at all. Admins still can.</p>
       <div class="scroll">
         <table>
           <thead><tr><th>Week</th><th>Lab</th><th class="num">Started</th><th class="num">Submitted</th><th>Status</th><th></th></tr></thead>
@@ -127,6 +144,11 @@ sitemap: false
       account only when you know that student made it.</p>
       <div class="toolbar">
         <div class="grow"><input type="search" id="acct-filter" placeholder="Filter by email" aria-label="Filter accounts by email"></div>
+        <select id="acct-scope" aria-label="Which accounts to show">
+          <option value="all">All accounts</option>
+          <option value="term">Active in the chosen semester</option>
+          <option value="waiting">Waiting for approval</option>
+        </select>
         <button type="button" id="acct-refresh">Refresh</button>
         <button type="button" id="acct-approve" class="primary" disabled>Approve selected</button>
       </div>
@@ -136,9 +158,20 @@ sitemap: false
       <div class="scroll">
         <table>
           <thead><tr><th><input type="checkbox" id="acct-all" aria-label="Select every waiting account"></th>
-            <th>Email</th><th>Status</th><th>Created</th><th></th></tr></thead>
+            <th>Email</th><th>Status</th><th>Last active</th><th>Created</th><th></th></tr></thead>
           <tbody id="accounts"></tbody>
         </table>
+      </div>
+      <div id="clear-box" hidden style="margin-top:16px;border-top:1px solid #f0f0f0;padding-top:12px">
+        <p class="muted" style="margin:0 0 8px">A new year: delete student accounts that have not
+        been used since a semester. Their saved work stays, and they can sign up again.</p>
+        <div class="toolbar" style="margin:0">
+          <span>Not used since</span>
+          <select id="clear-before" aria-label="Delete accounts not used since this semester"></select>
+          <button type="button" id="clear-preview">Preview</button>
+          <button type="button" id="clear-go" class="danger" hidden>Delete</button>
+        </div>
+        <p id="clear-note" class="muted" hidden></p>
       </div>
     </section>
 
@@ -167,6 +200,13 @@ sitemap: false
   var auth = window.radiantLabAuth;
   var $ = function (id) { return document.getElementById(id); };
   var me = null, current = null, rows = [], lockState = {};
+  var term = null, termInfo = null;
+
+  function inTerm() { return "?term=" + encodeURIComponent(term); }
+  function termName(id) {
+    var t = (termInfo && termInfo.terms || []).filter(function (x) { return x.id === id; })[0];
+    return t ? t.label : id;
+  }
 
   if (!auth) {
     document.querySelector("main").insertAdjacentHTML("beforeend",
@@ -217,7 +257,7 @@ sitemap: false
           text: locked ? "Unlock lab" : "Lock lab",
           onclick: function (ev) {
             ev.stopPropagation();
-            busy(toggle, auth.api("PUT", "/admin/labs/" + lab.slug + "/lock", { locked: !locked })
+            busy(toggle, auth.api("PUT", "/admin/labs/" + lab.slug + "/lock" + inTerm(), { locked: !locked })
               .then(function (res) {
                 lockState[lab.slug] = res.locked;
                 return loadOverview();
@@ -241,13 +281,13 @@ sitemap: false
   }
 
   function loadOverview() {
-    return auth.api("GET", "/admin/labs").then(function (res) {
+    return auth.api("GET", "/admin/labs" + inTerm()).then(function (res) {
       lockState = {};
       res.labs.forEach(function (l) { lockState[l.lab] = l.locked; });
       renderLabs({});
       var counts = {};
       return Promise.all(LABS.filter(function (l) { return l.kind === "notebook"; }).map(function (lab) {
-        return auth.api("GET", "/admin/labs/" + lab.slug + "/progress").then(function (p) {
+        return auth.api("GET", "/admin/labs/" + lab.slug + "/progress" + inTerm()).then(function (p) {
           counts[lab.slug] = {
             started: p.students.length,
             submitted: p.students.filter(function (s) { return s.submitted; }).length,
@@ -267,12 +307,12 @@ sitemap: false
     current = slug;
     var lab = labBySlug(slug);
     $("detail").hidden = false;
-    $("detail-title").textContent = "Week " + lab.week + ": " + lab.title;
+    $("detail-title").textContent = "Week " + lab.week + ": " + lab.title + " \u00b7 " + termName(term);
     $("detail-error").hidden = true;
     Array.prototype.forEach.call(document.querySelectorAll("tr.lab-row"), function (r) {
       r.classList.toggle("active", r.getAttribute("data-slug") === slug);
     });
-    return auth.api("GET", "/admin/labs/" + slug + "/progress").then(function (res) {
+    return auth.api("GET", "/admin/labs/" + slug + "/progress" + inTerm()).then(function (res) {
       rows = res.students;
       renderStudents();
     }).catch(function (e) { showError($("detail-error"), e); });
@@ -313,7 +353,7 @@ sitemap: false
       var lock = el("button", { type: "button", class: r.locked ? "" : "danger",
         text: r.locked ? "Unlock" : "Lock",
         onclick: function () {
-          busy(lock, auth.api("PUT", "/admin/labs/" + current + "/students/" + encodeURIComponent(r.id) + "/lock",
+          busy(lock, auth.api("PUT", "/admin/labs/" + current + "/students/" + encodeURIComponent(r.id) + "/lock" + inTerm(),
                               { locked: !r.locked })
             .then(function (updated) {
               rows = rows.map(function (x) { return x.id === updated.id ? updated : x; });
@@ -356,7 +396,7 @@ sitemap: false
     }));
     var blob = new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv;charset=utf-8" });
     var a = el("a", { href: URL.createObjectURL(blob),
-                      download: current + "-responses-" + new Date().toISOString().slice(0, 10) + ".csv" });
+                      download: current + "-" + term + "-responses.csv" });
     document.body.appendChild(a);
     a.click();
     setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
@@ -385,7 +425,10 @@ sitemap: false
     $("acct-all").checked = false;
     var body = $("accounts");
     body.textContent = "";
+    var scope = $("acct-scope").value;
     accounts.filter(function (a) {
+      if (scope === "term" && a.lastTerm !== term) return false;
+      if (scope === "waiting" && a.approved) return false;
       return !filter || (a.email + " " + a.username).indexOf(filter) >= 0;
     }).forEach(function (a) {
       var ownerOnly = a.staff && !me.owner;
@@ -420,6 +463,7 @@ sitemap: false
         el("td", {}, [box]),
         el("td", { text: a.email || a.username }),
         el("td", {}, tags),
+        el("td", { class: a.lastTerm ? "" : "muted", text: a.lastTermLabel || "never" }),
         el("td", { text: when(a.createdAt) }),
         el("td", {}, [approve, approve && del ? " " : null, del]),
       ]));
@@ -457,9 +501,80 @@ sitemap: false
     updateApprove();
   });
   $("acct-filter").addEventListener("input", renderAccounts);
+  $("acct-scope").addEventListener("change", renderAccounts);
   $("acct-refresh").addEventListener("click", function (ev) { busy(ev.target, loadAccounts()); });
   $("acct-approve").addEventListener("click", function (ev) {
     if (picked().length) approveAccounts(picked(), ev.target);
+  });
+
+  // -- semesters ----------------------------------------------------------------
+
+  function fill(select, options, chosen) {
+    select.textContent = "";
+    options.forEach(function (o) {
+      var opt = el("option", { value: o.id, text: o.label });
+      if (o.id === chosen) opt.selected = true;
+      select.appendChild(opt);
+    });
+  }
+
+  function loadTerms() {
+    $("term-error").hidden = true;
+    return auth.api("GET", "/admin/terms").then(function (info) {
+      termInfo = info;
+      if (!term) term = info.current;
+      fill($("term-pick"), info.terms, term);
+      $("term-note").textContent = "Students are saving to " + termName(info.current) +
+        (info.chosen ? ", chosen by an owner." : ", set from today's date.");
+      fill($("term-set"), [{ id: "", label: "Automatic (" + termName(info.automatic) + ")" }]
+        .concat(info.terms), info.chosen || "");
+      fill($("clear-before"), info.terms, info.current);
+      $("term-owner").hidden = !me.owner;
+      $("clear-box").hidden = !me.owner;
+    }).catch(function (e) { showError($("term-error"), e); });
+  }
+
+  $("term-pick").addEventListener("change", function (ev) {
+    term = ev.target.value;
+    loadOverview().catch(function (e) { alert(e.message); });
+    if (current) openLab(current);
+    renderAccounts();
+  });
+
+  $("term-save").addEventListener("click", function (ev) {
+    var chosen = $("term-set").value || null;
+    var name = chosen ? termName(chosen) : "the semester for today's date";
+    if (!confirm("From now on, students' answers are saved to " + name + ". Continue?")) return;
+    busy(ev.target, auth.api("PUT", "/admin/terms/current", { term: chosen })
+      .then(loadTerms).catch(function (e) { showError($("term-error"), e); }));
+  });
+
+  var clearList = [];
+  $("clear-preview").addEventListener("click", function (ev) {
+    $("clear-go").hidden = true;
+    busy(ev.target, auth.api("POST", "/admin/accounts/clear-old",
+                             { before: $("clear-before").value, dryRun: true })
+      .then(function (res) {
+        clearList = res.accounts;
+        $("clear-note").textContent = clearList.length
+          ? clearList.length + " account" + (clearList.length === 1 ? "" : "s") + " would be deleted: " +
+            clearList.join(", ") + ". Staff accounts and yours are never included."
+          : "No accounts are that old.";
+        $("clear-note").hidden = false;
+        $("clear-go").textContent = "Delete " + clearList.length;
+        $("clear-go").hidden = clearList.length === 0;
+      }).catch(function (e) { showError($("acct-error"), e); }));
+  });
+
+  $("clear-go").addEventListener("click", function (ev) {
+    if (!confirm("Delete " + clearList.length + " accounts? Their saved work is kept.")) return;
+    busy(ev.target, auth.api("POST", "/admin/accounts/clear-old",
+                             { before: $("clear-before").value, dryRun: false })
+      .then(function (res) {
+        $("clear-note").textContent = res.accounts.length + " accounts deleted.";
+        $("clear-go").hidden = true;
+        return loadAccounts();
+      }).catch(function (e) { showError($("acct-error"), e); }));
   });
 
   // -- admins -------------------------------------------------------------------
@@ -522,7 +637,9 @@ sitemap: false
     $("admins-help").textContent = me.owner
       ? "Admins can see every student's answers and lock labs. As an owner, you can add or remove them. They sign up with the address you add here, even if it is not a university address. University addresses work with any spelling: missouri.edu, mail.missouri.edu or umsystem.edu."
       : "Admins can see every student's answers and lock labs. Only a course owner can change this list.";
-    loadOverview().catch(function (e) { alert(e.message); });
+    loadTerms().then(function () {
+      return loadOverview();
+    }).catch(function (e) { alert(e.message); });
     loadAccounts();
     loadAdmins();
   });

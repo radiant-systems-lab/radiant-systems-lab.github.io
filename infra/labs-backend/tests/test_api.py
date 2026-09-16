@@ -158,10 +158,11 @@ class FakeCognito:
 
 
 def event(route, sub=STUDENT_SUB, email="student@umsystem.edu", body=None,
-          params=None, verified="true", token_use="id"):
+          params=None, verified="true", token_use="id", query=None):
     return {
         "routeKey": route,
         "pathParameters": params or {},
+        "queryStringParameters": query,
         "body": json.dumps(body) if body is not None else None,
         "requestContext": {"authorizer": {"jwt": {"claims": {
             "sub": sub, "email": email, "email_verified": verified,
@@ -172,6 +173,9 @@ def event(route, sub=STUDENT_SUB, email="student@umsystem.edu", body=None,
 
 class ApiTest(unittest.TestCase):
     def setUp(self):
+        import datetime
+        self.day = datetime.date(2026, 9, 16)          # Fall 2026
+        app.today = lambda: self.day
         os.environ["OWNER_EMAILS"] = f"{OWNER}, Second.Owner@missouri.edu"
         self.table = FakeTable()
         self.cognito = FakeCognito()
@@ -225,7 +229,7 @@ class ApiTest(unittest.TestCase):
         status, body = self.save({"q1": "b", "done": True}, submit=True)
         self.assertEqual(status, 200)
         self.assertTrue(body["submitted"])
-        history = [k for k in self.table.items if k[1].startswith("SUBMIT#week_01#")]
+        history = [k for k in self.table.items if k[1].startswith("SUBMIT#2026-fall#week_01#")]
         self.assertEqual(len(history), 1)
 
     def test_students_cannot_read_each_other(self):
@@ -497,6 +501,108 @@ class ApiTest(unittest.TestCase):
         status, body = self.call("POST /admin/accounts/confirm", email=OWNER,
                                  body={"usernames": ["a@missouri.edu"]})
         self.assertFalse(body["results"][0]["confirmed"])
+
+    # semesters --------------------------------------------------------------
+
+    def test_term_follows_the_calendar(self):
+        import datetime
+        for day, term in [((2027, 1, 10), "2027-spring"), ((2027, 5, 31), "2027-spring"),
+                          ((2027, 6, 1), "2027-summer"), ((2027, 8, 1), "2027-fall"),
+                          ((2027, 12, 31), "2027-fall")]:
+            self.assertEqual(app.term_for(datetime.date(*day)), term)
+        self.assertEqual(app.next_term("2026-fall"), "2027-spring")
+        self.assertEqual(app.next_term("2027-spring"), "2027-summer")
+        self.assertEqual(app.term_label("2026-fall"), "Fall 2026")
+        status, body = self.call("GET /me")
+        self.assertEqual((body["term"], body["termLabel"]), ("2026-fall", "Fall 2026"))
+
+    def test_each_term_keeps_its_own_work(self):
+        import datetime
+        self.save({"q1": "fall"})
+        self.day = datetime.date(2027, 9, 1)            # a year later
+        status, body = self.call("GET /labs/{lab}/progress", params={"lab": "week_01"})
+        self.assertEqual((body["term"], body["state"]), ("2027-fall", {}))
+        self.save({"q1": "again"})
+
+        status, body = self.call("GET /admin/labs/{lab}/progress", email=OWNER,
+                                 params={"lab": "week_01"}, query={"term": "2026-fall"})
+        self.assertEqual(body["students"][0]["state"], {"q1": "fall"})
+        status, body = self.call("GET /admin/labs/{lab}/progress", email=OWNER,
+                                 params={"lab": "week_01"})
+        self.assertEqual((body["term"], body["students"][0]["state"]),
+                         ("2027-fall", {"q1": "again"}))
+
+        status, body = self.call("GET /admin/terms", email=OWNER)
+        ids = [t["id"] for t in body["terms"]]
+        self.assertEqual(ids[:2], ["2028-spring", "2027-fall"])   # newest first
+        self.assertIn("2026-fall", ids)
+        self.assertEqual(body["current"], "2027-fall")
+
+    def test_locks_belong_to_a_term(self):
+        self.call("PUT /admin/labs/{lab}/lock", email=OWNER, params={"lab": "week_01"},
+                  body={"locked": True}, query={"term": "2026-spring"})
+        self.assertEqual(self.save({"q1": "a"})[0], 200)       # Fall 2026 is open
+        status, body = self.call("GET /admin/labs", email=OWNER, query={"term": "2026-spring"})
+        self.assertEqual(body["labs"][0]["locked"], True)
+        status, body = self.call("GET /admin/labs", email=OWNER)
+        self.assertEqual(body["labs"], [])
+
+    def test_owner_chooses_the_term(self):
+        status, _ = self.call("PUT /admin/terms/current", email="ta@umsystem.edu",
+                              body={"term": "2027-spring"})
+        self.assertEqual(status, 403)
+        status, body = self.call("PUT /admin/terms/current", email=OWNER,
+                                 body={"term": "2027-spring"})
+        self.assertEqual((status, body["current"], body["chosen"]),
+                         (200, "2027-spring", "2027-spring"))
+        self.save({"q1": "early"})
+        self.assertIn(("USER#student@umsystem.edu", "LAB#2027-spring#week_01"), self.table.items)
+        status, body = self.call("PUT /admin/terms/current", email=OWNER, body={"term": None})
+        self.assertEqual((body["current"], body["chosen"]), ("2026-fall", None))
+        for bad in ["fall-2026", "2026-winter", 2026, ""]:
+            status, _ = self.call("PUT /admin/terms/current", email=OWNER, body={"term": bad})
+            self.assertEqual(status, 400, bad)
+        status, _ = self.call("GET /admin/labs", email=OWNER, query={"term": "nope"})
+        self.assertEqual(status, 400)
+
+    def test_accounts_show_last_active_term(self):
+        import datetime
+        self.cognito.add("student@umsystem.edu", "student@missouri.edu", status="CONFIRMED")
+        self.save({"q1": "a"})
+        self.day = datetime.date(2027, 2, 1)
+        self.save({"q1": "b"})
+        status, body = self.call("GET /admin/accounts", email=OWNER)
+        row = body["accounts"][0]
+        self.assertEqual((row["lastTerm"], row["lastTermLabel"]), ("2027-spring", "Spring 2027"))
+
+    def test_clear_old_accounts(self):
+        import datetime
+        self.cognito.add("old@umsystem.edu", "old@umsystem.edu", status="CONFIRMED")
+        self.cognito.add("new@umsystem.edu", "new@umsystem.edu", status="CONFIRMED")
+        self.cognito.add("idle@umsystem.edu", "idle@umsystem.edu", status="CONFIRMED")
+        self.cognito.add("ta@umsystem.edu", "ta@umsystem.edu", status="CONFIRMED")
+        self.cognito.add("owner@umsystem.edu", "owner@missouri.edu", status="CONFIRMED")
+        self.call("POST /admin/admins", email=OWNER, body={"email": "ta@umsystem.edu"})
+        self.save({"q1": "a"}, email="old@umsystem.edu")          # Fall 2026
+        self.day = datetime.date(2027, 9, 2)
+        self.save({"q1": "a"}, email="new@umsystem.edu")          # Fall 2027
+        # idle never saved; FakeCognito says it was created in September 2026.
+
+        status, _ = self.call("POST /admin/accounts/clear-old", email="ta@umsystem.edu",
+                              body={"before": "2027-fall"})
+        self.assertEqual(status, 403)
+        status, body = self.call("POST /admin/accounts/clear-old", email=OWNER,
+                                 body={"before": "2027-fall"})
+        self.assertEqual(sorted(body["accounts"]), ["idle@umsystem.edu", "old@umsystem.edu"])
+        self.assertIn("old@umsystem.edu", self.cognito.users)     # dry run by default
+        status, body = self.call("POST /admin/accounts/clear-old", email=OWNER,
+                                 body={"before": "2027-fall", "dryRun": False})
+        self.assertEqual(sorted(self.cognito.users),
+                         ["new@umsystem.edu", "owner@umsystem.edu", "ta@umsystem.edu"])
+        # Their work is still there.
+        status, body = self.call("GET /admin/labs/{lab}/progress", email=OWNER,
+                                 params={"lab": "week_01"}, query={"term": "2026-fall"})
+        self.assertEqual([r["email"] for r in body["students"]], ["old@umsystem.edu"])
 
     # one mailbox, three spellings ---------------------------------------------
 

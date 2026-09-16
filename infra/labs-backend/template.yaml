@@ -256,6 +256,15 @@ Resources:
         AdminRemoveAdmin:
           Type: HttpApi
           Properties: { ApiId: !Ref HttpApi, Method: DELETE, Path: "/admin/admins/{email}" }
+        AdminTerms:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Method: GET, Path: /admin/terms }
+        AdminSetTerm:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Method: PUT, Path: /admin/terms/current }
+        AdminClearOldAccounts:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Method: POST, Path: /admin/accounts/clear-old }
         AdminAccounts:
           Type: HttpApi
           Properties: { ApiId: !Ref HttpApi, Method: GET, Path: /admin/accounts }

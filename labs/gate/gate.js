@@ -256,6 +256,8 @@
     var admin = cfg.mockAdmin === true;
     var now = new Date().toISOString().replace(/\.\d+Z$/, "+00:00");
     var m, out;
+    path = path.split("?")[0];
+    db.term = db.term || null;
 
     function persist() { localStorage.setItem(KEY, JSON.stringify(db)); }
     function fail(status, message) {
@@ -273,8 +275,11 @@
       };
     }
 
+    var term = db.term || "2026-fall";
+    var termLabel = term.replace(/^(\d+)-(\w)(\w+)$/, function (_, y, a, b) { return a.toUpperCase() + b + " " + y; });
     if (path === "/me") {
-      out = { email: email, address: address, admin: admin, owner: admin };
+      out = { email: email, address: address, admin: admin, owner: admin,
+              term: term, termLabel: termLabel };
     } else if ((m = path.match(/^\/labs\/([a-z0-9_]+)\/progress$/))) {
       var lab = m[1], rec = db.progress[lab] || null;
       var labLocked = !!db.labs[lab], studentLocked = !!(rec && rec.locked);
@@ -322,6 +327,17 @@
       db.progress[m[1]].lockedBy = email;
       persist();
       out = row(m[1]);
+    } else if (path === "/admin/terms" || path === "/admin/terms/current") {
+      if (method === "PUT") { db.term = body.term; persist(); term = body.term || "2026-fall"; }
+      out = { current: term, automatic: "2026-fall", chosen: db.term,
+              terms: ["2027-spring", "2026-fall", "2026-summer"].map(function (t) {
+                return { id: t, label: t.replace(/^(\d+)-(\w)(\w+)$/, function (_, y, a, b) {
+                  return a.toUpperCase() + b + " " + y; }) };
+              }) };
+    } else if (path === "/admin/accounts/clear-old") {
+      out = { before: body.before, dryRun: body.dryRun !== false,
+              accounts: (db.approved || []).map(username) };
+      if (body.dryRun === false) { db.approved = []; persist(); }
     } else if (path === "/admin/accounts") {
       db.approved = db.approved || [];
       out = { accounts: db.pending.map(function (a) {
@@ -329,7 +345,8 @@
                  createdAt: now, staff: false, you: false };
       }).concat(db.approved.concat([address]).map(function (a) {
         return { username: username(a), email: a, status: "CONFIRMED", approved: true,
-                 createdAt: now, staff: a === address, you: a === address };
+                 createdAt: now, staff: a === address, you: a === address,
+                 lastTerm: "2026-fall", lastTermLabel: "Fall 2026" };
       })) };
     } else if (path === "/admin/accounts/confirm") {
       db.approved = db.approved || [];
@@ -687,6 +704,19 @@
       card.appendChild(f);
       card.appendChild(el("p", { class: "rl-note", text:
         "At least 8 characters, with a lowercase letter and a number." }));
+    } else if (name === "locked") {
+      card.appendChild(el("h1", { id: "rl-title", text: "This lab is locked" }));
+      card.appendChild(el("p", { class: "rl-sub", text: message }));
+      card.appendChild(el("p", { class: "rl-note", text:
+        "Everything you saved is kept. Ask your instructor if you think this is a mistake." }));
+      var course = el("a", { class: "rl-btn", href: "/courses/csc_ee_8001.html#labs",
+                             style: "text-align:center;text-decoration:none",
+                             text: "Back to the course page" });
+      card.appendChild(course);
+      var leave = el("button", { class: "rl-link", type: "button", text: "Sign out" });
+      leave.addEventListener("click", function () { signOut(); });
+      card.appendChild(el("div", { class: "rl-links" }, [leave]));
+      message = null;
     } else if (name === "loading") {
       card.appendChild(el("h1", { id: "rl-title", text: h.title }));
       card.appendChild(el("p", { class: "rl-sub", text: message || "Opening your lab…" }));
@@ -779,8 +809,13 @@
         return;
       }
       return api("GET", "/labs/" + labId + "/progress").then(function (progress) {
+        if (progress.locked) {
+          // The lab stays covered, and the notebook is never given the answers.
+          showView("locked", lockMessage(progress.labLocked, progress.studentLocked));
+          return;
+        }
         hideGate();
-        renderPill();
+        renderPill(progress.termLabel);
         applyLock(progress);
         setStatus(progress.updatedAt ? "ok" : "idle",
                   progress.updatedAt ? "Progress restored" : "Answers save as you go");
@@ -800,7 +835,7 @@
 
   var statusDot, statusText;
 
-  function renderPill() {
+  function renderPill(termLabel) {
     if (pill) pill.remove();
     statusDot = el("span", { class: "rl-dot", "aria-hidden": "true" });
     statusText = el("span", { role: "status", text: "" });
@@ -808,7 +843,11 @@
     out.addEventListener("click", function () {
       flush().finally(signOut);
     });
-    var parts = [statusDot, el("span", { text: user.address || user.email }), statusText];
+    var parts = [statusDot, el("span", { text: user.address || user.email })];
+    if (termLabel || user.termLabel) {
+      parts.push(el("span", { text: "\u00b7 " + (termLabel || user.termLabel) }));
+    }
+    parts.push(statusText);
     if (user.admin && mode !== "admin") {
       parts.push(el("a", { href: "../admin/", text: "Dashboard" }));
     }
@@ -823,13 +862,15 @@
     statusText.textContent = text ? "· " + text : "";
   }
 
+  function lockMessage(labLocked, studentLocked) {
+    return studentLocked && !labLocked
+      ? "Your instructor has closed this lab for you, so it cannot be opened right now."
+      : "Your instructor has closed this lab, so it cannot be opened right now.";
+  }
+
   function applyLock(progress) {
     var message = null;
-    if (progress.locked) {
-      message = progress.studentLocked && !progress.labLocked
-        ? "Your instructor has locked your answers for this lab. You can look, but changes will not be saved."
-        : "Your instructor has locked this lab. You can look, but changes will not be saved.";
-    } else if (progress.admin && (progress.labLocked || progress.studentLocked)) {
+    if (progress.admin && (progress.labLocked || progress.studentLocked)) {
       message = "This lab is locked for students. You are an admin, so your changes still save.";
     }
     if (!message) {
@@ -903,8 +944,8 @@
         lockedOut = true;
         latestState = null;
         var whole = /locked this lab/.test(e.message);
-        applyLock({ locked: true, labLocked: whole, studentLocked: !whole });
-        setStatus("bad", "Locked, not saved");
+        document.documentElement.classList.add(PENDING);
+        showView("locked", lockMessage(whole, !whole));
       } else {
         setStatus("bad", "Not saved: " + e.message);
       }
