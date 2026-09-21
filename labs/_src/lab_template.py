@@ -12,6 +12,9 @@
 #      form is submitted get their own record cell
 #   3. for a form, fall back to saved.get("key") where you read form.value, so
 #      a returning student is not asked to submit it again
+#
+# Quick checks take one answer. Give ask() a single sentence explaining the right
+# answer; wrong ones are not picked apart option by option.
 # Keys only need to be unique within the lab. Values must be JSON: strings,
 # numbers, booleans, None, lists and dicts.
 #
@@ -126,10 +129,11 @@ async def _(json, mo):
 
 @app.cell(hide_code=True)
 def _(locked, mo, pick, saved):
-    def ask(prompt, options, correct, explain, key):
-        """A quick check you can answer as many times as you like.
+    def ask(prompt, options, correct, because, key):
+        """A quick check. One answer, then the reason the right one is right.
 
-        Returns (radio, render, summarise). The answer is restored from `key`.
+        `because` explains the correct answer in plain words. Wrong answers are
+        not picked apart one by one; the student just gets the explanation.
         """
         labels = {value: label for label, value in options.items()}
         BREAK = chr(10) + chr(10)
@@ -139,12 +143,12 @@ def _(locked, mo, pick, saved):
 
         def render(value):
             if value is None:
-                return mo.callout(mo.md("Pick an answer and I will explain it."), kind="neutral")
+                return mo.callout(mo.md("Pick an answer and I will tell you why."),
+                                  kind="neutral")
             ok = value == correct
-            body = ("**Correct.** " if ok else "**Not quite.** ") + explain[value]
-            if not ok:
-                body += BREAK + f"The answer is *{labels[correct]}*."
-            return mo.callout(mo.md(body), kind="success" if ok else "warn")
+            head = "**That is it.** " if ok else f"**The answer is:** *{labels[correct]}*."
+            return mo.callout(mo.md(head + BREAK + because),
+                              kind="success" if ok else "warn")
 
         def summarise(value):
             if value is None:
@@ -178,11 +182,8 @@ def _(ask):
             "Nowhere until they download the report": "c",
         },
         "b",
-        {
-            "a": "It used to be. Now it follows the student to any computer they sign in on.",
-            "b": "Every answer is saved against the signed-in account as they go.",
-            "c": "The download is still there as a copy, but saving happens on its own.",
-        },
+        "Every answer is saved against the signed-in account as the student works, so it "
+        "follows them to any computer they sign in on.",
         key="q1",
     )
     q1
