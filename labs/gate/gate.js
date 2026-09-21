@@ -421,21 +421,18 @@
     ".rl-card ol{list-style:decimal outside!important;margin:0 0 16px;padding:0 0 0 22px}",
     ".rl-card li{display:list-item!important;list-style:inherit!important;border:0!important;",
     "margin:0 0 6px;padding:0;color:#2f2f2f;font-size:.92rem;line-height:1.5;background:none}",
-    ".rl-pill{position:fixed;left:12px;bottom:12px;z-index:2147482000;display:flex;",
-    "align-items:center;gap:10px;flex-wrap:wrap;max-width:calc(100vw - 24px);box-sizing:border-box;",
-    "padding:7px 10px 7px 13px;border:1px solid #e0e0e0;border-radius:999px;background:#fff;",
-    "box-shadow:0 6px 18px rgba(17,17,17,.12);font:500 .82rem/1.35 -apple-system,BlinkMacSystemFont,",
-    "'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#3a3a3a}",
-    ".rl-pill .rl-dot{width:8px;height:8px;border-radius:50%;background:#9a9a9a;flex:0 0 auto}",
-    ".rl-pill .rl-dot.ok{background:#2e7d32}.rl-pill .rl-dot.busy{background:#f1b82d}",
-    ".rl-pill .rl-dot.bad{background:#c62828}",
-    // The sign-out control has to read as a button, not as small print.
-    ".rl-pill a,.rl-pill button{font:inherit;font-weight:800;font-size:.82rem;cursor:pointer;",
-    "border:1px solid #d9d9d9;border-radius:999px;padding:5px 13px;background:#f7f7f7;",
+    // Sits in the top right, like the dashboard's. marimo keeps the very corner.
+    ".rl-pill{position:fixed;top:10px;right:56px;z-index:2147482000;display:flex;",
+    "align-items:center;gap:10px;max-width:calc(100vw - 72px);box-sizing:border-box;",
+    "font:500 .85rem/1.3 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,",
+    "Arial,sans-serif;color:#6f6f6f}",
+    ".rl-pill .rl-who{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
+    ".rl-pill .rl-warn{color:#c62828;font-weight:700}",
+    ".rl-pill .rl-warn:empty{display:none}",
+    ".rl-pill a,.rl-pill button{font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;",
+    "border:1px solid #d6d6d6;border-radius:999px;padding:5px 12px;background:#fff;",
     "color:#1c1c1c;text-decoration:none;white-space:nowrap}",
-    ".rl-pill a:hover,.rl-pill button:hover{background:#efefef;border-color:#c9c9c9}",
-    ".rl-pill button.rl-out{background:#fff3cc;border-color:#f1b82d;color:#62490a}",
-    ".rl-pill button.rl-out:hover{background:#ffe9a8}",
+    ".rl-pill a:hover,.rl-pill button:hover{background:#f6f6f6}",
     ".rl-banner{position:fixed;top:0;left:0;right:0;z-index:2147482500;padding:9px 16px;",
     "background:#fff3cc;border-bottom:1px solid #f2dfaa;color:#62490a;text-align:center;",
     "font:600 .88rem/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}",
@@ -820,7 +817,7 @@
           return;
         }
         hideGate();
-        renderPill(progress.termLabel);
+        renderPill();
         applyLock(progress);
         setStatus(progress.updatedAt ? "ok" : "idle",
                   progress.updatedAt ? "Progress restored" : "Answers save as you go");
@@ -838,21 +835,16 @@
 
   // -- status pill and lock banner ----------------------------------------------
 
-  var statusDot, statusText;
+  var statusText;
 
-  function renderPill(termLabel) {
+  function renderPill() {
     if (pill) pill.remove();
-    statusDot = el("span", { class: "rl-dot", "aria-hidden": "true" });
-    statusText = el("span", { role: "status", text: "" });
-    var out = el("button", { type: "button", class: "rl-out", text: "Sign out" });
+    statusText = el("span", { class: "rl-warn", role: "status", text: "" });
+    var out = el("button", { type: "button", text: "Sign out" });
     out.addEventListener("click", function () {
       flush().finally(signOut);
     });
-    var parts = [statusDot, el("span", { text: user.address || user.email })];
-    if (termLabel || user.termLabel) {
-      parts.push(el("span", { text: "\u00b7 " + (termLabel || user.termLabel) }));
-    }
-    parts.push(statusText);
+    var parts = [statusText, el("span", { class: "rl-who", text: user.address || user.email })];
     if (user.admin && mode !== "admin") {
       parts.push(el("a", { href: "../admin/", text: "Dashboard" }));
     }
@@ -862,9 +854,8 @@
   }
 
   function setStatus(kind, text) {
-    if (!statusDot) return;
-    statusDot.className = "rl-dot " + (kind || "");
-    statusText.textContent = text ? "· " + text : "";
+    // Only speak up when a save has actually gone wrong.
+    if (statusText) statusText.textContent = kind === "bad" ? text : "";
   }
 
   function lockMessage(labLocked, studentLocked) {
