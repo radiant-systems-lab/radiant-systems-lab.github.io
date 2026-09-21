@@ -101,7 +101,7 @@ layout: page
               <tr>
                 <td><time datetime="2026-09-16">Sept 16th</time></td>
                 <td>Data Engineering</td>
-                <td>&mdash;</td>
+                <td><a href="/course_pdfs/E2E_ML/Week_4_s-data.pdf">Data Engineering</a></td>
               </tr>
               <tr>
                 <td><time datetime="2026-09-23">Sept 23rd</time></td>
