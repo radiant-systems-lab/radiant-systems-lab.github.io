@@ -423,14 +423,19 @@
     "margin:0 0 6px;padding:0;color:#2f2f2f;font-size:.92rem;line-height:1.5;background:none}",
     ".rl-pill{position:fixed;left:12px;bottom:12px;z-index:2147482000;display:flex;",
     "align-items:center;gap:10px;flex-wrap:wrap;max-width:calc(100vw - 24px);box-sizing:border-box;",
-    "padding:6px 12px;border:1px solid #e6e6e6;border-radius:999px;background:rgba(255,255,255,.96);",
-    "box-shadow:0 4px 14px rgba(17,17,17,.08);font:500 .78rem/1.3 -apple-system,BlinkMacSystemFont,",
+    "padding:7px 10px 7px 13px;border:1px solid #e0e0e0;border-radius:999px;background:#fff;",
+    "box-shadow:0 6px 18px rgba(17,17,17,.12);font:500 .82rem/1.35 -apple-system,BlinkMacSystemFont,",
     "'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#3a3a3a}",
     ".rl-pill .rl-dot{width:8px;height:8px;border-radius:50%;background:#9a9a9a;flex:0 0 auto}",
     ".rl-pill .rl-dot.ok{background:#2e7d32}.rl-pill .rl-dot.busy{background:#f1b82d}",
     ".rl-pill .rl-dot.bad{background:#c62828}",
-    ".rl-pill a,.rl-pill button{color:#6a5314;font:inherit;font-weight:700;background:none;border:0;",
-    "padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:2px}",
+    // The sign-out control has to read as a button, not as small print.
+    ".rl-pill a,.rl-pill button{font:inherit;font-weight:800;font-size:.82rem;cursor:pointer;",
+    "border:1px solid #d9d9d9;border-radius:999px;padding:5px 13px;background:#f7f7f7;",
+    "color:#1c1c1c;text-decoration:none;white-space:nowrap}",
+    ".rl-pill a:hover,.rl-pill button:hover{background:#efefef;border-color:#c9c9c9}",
+    ".rl-pill button.rl-out{background:#fff3cc;border-color:#f1b82d;color:#62490a}",
+    ".rl-pill button.rl-out:hover{background:#ffe9a8}",
     ".rl-banner{position:fixed;top:0;left:0;right:0;z-index:2147482500;padding:9px 16px;",
     "background:#fff3cc;border-bottom:1px solid #f2dfaa;color:#62490a;text-align:center;",
     "font:600 .88rem/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}",
@@ -839,7 +844,7 @@
     if (pill) pill.remove();
     statusDot = el("span", { class: "rl-dot", "aria-hidden": "true" });
     statusText = el("span", { role: "status", text: "" });
-    var out = el("button", { type: "button", text: "Sign out" });
+    var out = el("button", { type: "button", class: "rl-out", text: "Sign out" });
     out.addEventListener("click", function () {
       flush().finally(signOut);
     });
