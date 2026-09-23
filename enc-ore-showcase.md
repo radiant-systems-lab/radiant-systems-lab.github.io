@@ -70,7 +70,7 @@ stylesheet: /assets/themes/twitter/css/enc-ore-showcase.css
     <div>
       <span class="encore-label">Presented by</span>
       <h2 id="presenter-title">Tanu Malik</h2>
-      <p class="encore-role">Associate Professor, David L. Payne Department of Electrical Engineering and Computer Science, University of Missouri</p>
+      <p class="encore-role">Associate Professor, Electrical Engineering and Computer Science, University of Missouri</p>
       <p>Dr. Malik leads the Radiant Systems Lab, where research focuses on reproducible distributed and parallel systems, big-data management, and trustworthy AI.</p>
       <a class="encore-text-link" href="https://engineering.missouri.edu/faculty/tanu-malik/" target="_blank" rel="noopener noreferrer">View faculty profile <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
     </div>
