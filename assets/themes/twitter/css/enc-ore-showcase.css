@@ -137,33 +137,6 @@ body:has(.encore-showcase) .row-fluid > .span12 {
   color: #fff !important;
 }
 
-.encore-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  max-width: 720px;
-  margin: 38px 0 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.24);
-}
-
-.encore-stats > div {
-  padding: 20px 24px 4px 0;
-}
-
-.encore-stats dt {
-  color: #fff;
-  font-family: "Montserrat", Arial, sans-serif;
-  font-size: 1.55rem;
-  line-height: 1.2;
-  margin: 0;
-}
-
-.encore-stats dd {
-  color: #cfd1e7;
-  font-size: 0.92rem;
-  line-height: 1.4;
-  margin: 4px 0 0;
-}
-
 .encore-section {
   padding: 68px 36px;
   border-bottom: 1px solid var(--encore-border);
@@ -256,8 +229,7 @@ body:has(.encore-showcase) .row-fluid > .span12 {
   font-weight: 800;
 }
 
-.encore-flow h3,
-.encore-science-grid h3 {
+.encore-flow h3 {
   color: var(--encore-ink);
   font-family: "Montserrat", Arial, sans-serif;
   font-size: 1.05rem;
@@ -266,38 +238,11 @@ body:has(.encore-showcase) .row-fluid > .span12 {
   margin: 3px 0 8px;
 }
 
-.encore-flow p,
-.encore-science-grid p {
+.encore-flow p {
   color: var(--encore-muted);
   font-size: 0.94rem;
   line-height: 1.55;
   margin: 0;
-}
-
-.encore-science {
-  background: var(--encore-surface);
-}
-
-.encore-science-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-  margin-bottom: 24px;
-}
-
-.encore-science-grid article {
-  background: #fff;
-  border: 1px solid var(--encore-border);
-  border-top: 4px solid var(--encore-green);
-  border-radius: 8px;
-  min-height: 190px;
-  padding: 24px;
-}
-
-.encore-science-grid i {
-  color: var(--encore-green);
-  font-size: 1.55rem;
-  margin-bottom: 16px;
 }
 
 .encore-text-link {
@@ -312,36 +257,6 @@ body:has(.encore-showcase) .row-fluid > .span12 {
 .encore-text-link:hover,
 .encore-text-link:focus {
   text-decoration: underline !important;
-}
-
-.encore-experiment-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  border-top: 1px solid var(--encore-border);
-}
-
-.encore-experiment-list span {
-  color: #30353b;
-  font-size: 1rem;
-  line-height: 1.35;
-  min-height: 52px;
-  display: flex;
-  align-items: center;
-  padding: 12px 16px 12px 0;
-  border-bottom: 1px solid var(--encore-border);
-}
-
-.encore-experiment-list span:nth-child(odd) {
-  margin-right: 20px;
-}
-
-.encore-experiment-list span::before {
-  content: "";
-  width: 9px;
-  height: 9px;
-  flex: 0 0 9px;
-  background: var(--encore-gold);
-  margin-right: 12px;
 }
 
 .encore-presenter {
@@ -459,15 +374,6 @@ body:has(.encore-showcase) .row-fluid > .span12 {
     width: 100%;
   }
 
-  .encore-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .encore-stats > div {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-    padding: 14px 0;
-  }
-
   .encore-section {
     padding: 48px 18px;
   }
@@ -481,8 +387,6 @@ body:has(.encore-showcase) .row-fluid > .span12 {
   }
 
   .encore-flow,
-  .encore-science-grid,
-  .encore-experiment-list,
   .encore-presenter,
   .encore-qr {
     grid-template-columns: 1fr;
@@ -495,10 +399,6 @@ body:has(.encore-showcase) .row-fluid > .span12 {
     border-bottom: 1px solid var(--encore-border);
     margin-right: 0;
     padding-right: 0;
-  }
-
-  .encore-experiment-list span:nth-child(odd) {
-    margin-right: 0;
   }
 
   .encore-presenter {

@@ -22,11 +22,6 @@ stylesheet: /assets/themes/twitter/css/enc-ore-showcase.css
         Explore live portal
       </a>
     </div>
-    <dl class="encore-stats" aria-label="Demonstration summary">
-      <div><dt>8</dt><dd>curated workflows</dd></div>
-      <div><dt>2</dt><dd>notebook kernels</dd></div>
-      <div><dt>On demand</dt><dd>cloud execution</dd></div>
-    </dl>
   </section>
 
   <section class="encore-section encore-presentation" id="presentation" aria-labelledby="presentation-title">
@@ -68,52 +63,6 @@ stylesheet: /assets/themes/twitter/css/enc-ore-showcase.css
         <div><h3>Repeat</h3><p>A separate Repeat environment opens the capture and re-executes the workflow from its recorded computational context.</p></div>
       </li>
     </ol>
-  </section>
-
-  <section class="encore-section encore-science" aria-labelledby="science-title">
-    <div class="encore-section-heading">
-      <span>Featured science workflow</span>
-      <h2 id="science-title">IMERG storm analysis at distributed scale</h2>
-      <p>The live demonstration processes NASA IMERG precipitation data to identify connected precipitation features, track storms through time, and render geospatial outputs. Dask workers provide on-demand parallel compute while the notebook coordinates the scientific workflow.</p>
-    </div>
-    <div class="encore-science-grid">
-      <article>
-        <i class="fa-solid fa-cloud-rain" aria-hidden="true"></i>
-        <h3>Scientific input</h3>
-        <p>Time-ordered precipitation observations stored as NetCDF files.</p>
-      </article>
-      <article>
-        <i class="fa-solid fa-diagram-project" aria-hidden="true"></i>
-        <h3>Processing</h3>
-        <p>Masking, connected-component labeling, temporal feature tracking, and visualization.</p>
-      </article>
-      <article>
-        <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
-        <h3>Reproducible output</h3>
-        <p>Tracked storm products, maps, and the captured execution needed to repeat them.</p>
-      </article>
-    </div>
-    <a class="encore-text-link" href="https://github.com/radiant-systems-lab/ImergView-Dask" target="_blank" rel="noopener noreferrer">
-      View the IMERG workflow repository <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
-    </a>
-  </section>
-
-  <section class="encore-section" aria-labelledby="experiments-title">
-    <div class="encore-section-heading">
-      <span>Curated workflows</span>
-      <h2 id="experiments-title">A broader reproducibility testbed</h2>
-      <p>The portal brings together workflows spanning precipitation, atmospheric chemistry, marine ecosystems, geospatial statistics, and forest dynamics.</p>
-    </div>
-    <div class="encore-experiment-list" aria-label="Curated scientific workflows">
-      <span>IMERG Dask</span>
-      <span>IMERG Feature Database</span>
-      <span>IMERG Event Analysis</span>
-      <span>Kelp Forest Projection</span>
-      <span>Aura OMI Ozone Kriging</span>
-      <span>POMD Precipitation Features</span>
-      <span>South America Storms</span>
-      <span>Tree Mortality Workflow</span>
-    </div>
   </section>
 
   <section class="encore-section encore-presenter" aria-labelledby="presenter-title">
