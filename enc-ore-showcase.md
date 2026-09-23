@@ -92,5 +92,5 @@ stylesheet: /assets/themes/twitter/css/enc-ore-showcase.css
     </figure>
   </section>
 
-  <p class="encore-note">Enc-ORE is a Radiant Systems Lab research demonstration. References to NASA datasets and NASA Science Cloud describe the demonstrated research context and do not imply endorsement.</p>
+  <p class="encore-note">Enc-ORE is a Radiant Systems Lab research demonstration.</p>
 </main>
