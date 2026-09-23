@@ -201,42 +201,22 @@ body:has(.encore-showcase) .row-fluid > .span12 {
   background: #fff;
 }
 
-.encore-video-placeholder {
+.encore-video-player {
   width: 100%;
   aspect-ratio: 16 / 9;
   min-height: 280px;
   max-height: 570px;
   background: #1a1d22;
-  color: #fff;
   border: 1px solid #0e1013;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  padding: 30px;
-  text-align: left;
+  overflow: hidden;
 }
 
-.encore-video-placeholder > i {
-  color: var(--encore-gold);
-  font-size: 3.2rem;
-}
-
-.encore-video-placeholder strong,
-.encore-video-placeholder span {
+.encore-video-player iframe {
   display: block;
-}
-
-.encore-video-placeholder strong {
-  font-family: "Montserrat", Arial, sans-serif;
-  font-size: 1.35rem;
-}
-
-.encore-video-placeholder span {
-  color: #c8cdd3;
-  font-size: 1rem;
-  margin-top: 5px;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 .encore-flow {
@@ -496,10 +476,8 @@ body:has(.encore-showcase) .row-fluid > .span12 {
     font-size: 1.62rem;
   }
 
-  .encore-video-placeholder {
+  .encore-video-player {
     min-height: 230px;
-    flex-direction: column;
-    text-align: center;
   }
 
   .encore-flow,

@@ -35,12 +35,13 @@ stylesheet: /assets/themes/twitter/css/enc-ore-showcase.css
       <h2 id="presentation-title">Reproducible Research, Built Autonomously</h2>
       <p>The presentation follows one scientific workflow from its source repository through audited execution, portable capture, and independent repeat.</p>
     </div>
-    <div class="encore-video-placeholder" role="img" aria-label="Presentation video placeholder">
-      <i class="fa-solid fa-circle-play" aria-hidden="true"></i>
-      <div>
-        <strong>Presentation video</strong>
-        <span>The video will be available here after publication.</span>
-      </div>
+    <div class="encore-video-player">
+      <iframe
+        src="https://www.youtube.com/embed/LxHAwlRH9YA"
+        title="Radiant Systems Lab project presentation"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
     </div>
   </section>
 
