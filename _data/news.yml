@@ -10,30 +10,30 @@
 - id: N-2026-65
   News:
     rank: 65
-    date: 2026-09-11
+    date: 2026-10-01
     description: >
-      The paper [[Amortized Bayesian Inversion of Multi-Contrast Neutron Reflectometry]] by Roberto D. Herrera, Mithilesh Gollapelli, Upasana Roy, Konstantina Sokratous, Minh D. Phan, Prasad Calyam, Clintin Stober, and Tanu Malik got accepted at the [13th IEEE International Conference on Data Science and Advanced Analytics (DSAA 2026)](https://dsaa2026.dsaa.co/), held October 6-9, 2026 in New Delhi, India. Congrats Roberto and Mithilesh!
+      [Tanu Malik](https://engineering.missouri.edu/faculty/tanu-malik/) presented [Backpacks and Black Boxes: Reproducible Science When AI Writes the Code](/keynotes/Backpack_Blackbox_eScience26-Keynote.pdf) as an invited keynote at [IEEE eScience 2026](https://www.escience-conference.org/2026/keynotes).
 
 - id: N-2026-64
   News:
     rank: 64
     date: 2026-09-11
     description: >
-      The paper [CAMP: Consumption-Aware Memory Prediction for Scientific Workflows](/pdfs/pdfs/pubs/IEEE_WORKS_26.pdf) by Nagarjuna Chowdary Kandimalla, [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/), and Tanu Malik got accepted at the [21st Workshop on Workflows in Support of Large-Scale Science (WORKS 2026)](https://works-workshop.org/), held with [SC26](https://sc26.supercomputing.org/program/workshops/) on November 15, 2026 in Chicago, Illinois. Congrats Nagarjuna and Bhanu!
+      The paper [[Amortized Bayesian Inversion of Multi-Contrast Neutron Reflectometry]] by Roberto D. Herrera, Mithilesh Gollapelli, Upasana Roy, Konstantina Sokratous, Minh D. Phan, Prasad Calyam, Clintin Stober, and Tanu Malik got accepted at the [13th IEEE International Conference on Data Science and Advanced Analytics (DSAA 2026)](https://dsaa2026.dsaa.co/), held October 6-9, 2026 in New Delhi, India. Congrats Roberto and Mithilesh!
 
 - id: N-2026-63
   News:
     rank: 63
-    date: 2026-08-20
+    date: 2026-09-11
     description: >
-      Md Saiful Islam, Douglas Thain, A S M Shahadat Hossain, and Tanu Malik will present the tutorial [Portable By Design: Deploying Notebook-based Scientific Workflows across HPC Clusters](/tutorials.html#T-2026-01) at [IEEE eScience 2026](https://www.escience-conference.org/2026/tutorials), held September 28-October 2, 2026 in Naples, Italy.
+      The paper [CAMP: Consumption-Aware Memory Prediction for Scientific Workflows](/pdfs/pdfs/pubs/IEEE_WORKS_26.pdf) by [Nagarjuna Kandimalla](https://www.linkedin.com/in/nagarjuna-kandimalla/), [Bhanu Prakash Vangala](https://bhanuprakashvangala.github.io/), and Tanu Malik got accepted at the [21st Workshop on Workflows in Support of Large-Scale Science (WORKS 2026)](https://works-workshop.org/), held with [SC26](https://sc26.supercomputing.org/program/workshops/) on November 15, 2026 in Chicago, Illinois. Congrats Nagarjuna and Bhanu!
 
 - id: N-2026-62
   News:
     rank: 62
-    date: 2026-08-14
+    date: 2026-08-20
     description: >
-      [Tanu Malik](https://engineering.missouri.edu/faculty/tanu-malik/) presents [[Backpacks and Black Boxes: Reproducible Science When AI Writes the Code]] as an invited keynote at [IEEE eScience 2026](https://www.escience-conference.org/2026/keynotes) on October 1, 2026.
+      Md Saiful Islam, Douglas Thain, A S M Shahadat Hossain, and Tanu Malik will present the tutorial [Portable By Design: Deploying Notebook-based Scientific Workflows across HPC Clusters](/tutorials.html#T-2026-01) at [IEEE eScience 2026](https://www.escience-conference.org/2026/tutorials), held September 28-October 2, 2026 in Naples, Italy.
 
 - id: N-2026-61
   News:

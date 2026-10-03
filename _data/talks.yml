@@ -1,0 +1,26 @@
+# Talk records rendered by talks.md.
+# Keep records in descending Talk.rank order. IDs use TA-YYYY-NN.
+# Set status to "upcoming" or "past" and update it after the event.
+# Optional material links are rendered only when a verified URL is present.
+
+- id: TA-2026-01
+  Talk:
+    rank: 1
+    title: 'Backpacks and Black Boxes: Reproducible Science When AI Writes the Code'
+    type: 'Invited Keynote'
+    date: '2026-10-01'
+    displayDate: 'October 1, 2026'
+    status: past
+    speakers:
+      - name: 'Tanu Malik'
+        url: 'https://engineering.missouri.edu/faculty/tanu-malik/'
+    event:
+      name: 'IEEE eScience 2026'
+      url: 'https://www.escience-conference.org/2026/keynotes'
+    location: 'Naples, Italy'
+    summary: >
+      An invited keynote on reproducible science when AI writes the code.
+    links:
+      slides: '/keynotes/Backpack_Blackbox_eScience26-Keynote.pdf'
+      video: ''
+
