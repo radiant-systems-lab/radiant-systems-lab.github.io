@@ -41,8 +41,14 @@
 
   <div class="talk-links" aria-label="Talk links and materials">
     <a class="talk-link" href="{{ include.talk.event.url }}" target="_blank" rel="noopener noreferrer">
-      <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Event Page
+      <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+      {{ include.talk.event.linkLabel | default: "Event Page" }}
     </a>
+    {% if include.talk.links.proceedings and include.talk.links.proceedings != "" %}
+      <a class="talk-link talk-link-secondary" href="{{ include.talk.links.proceedings }}" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-book-open" aria-hidden="true"></i> Conference Proceedings
+      </a>
+    {% endif %}
     {% if include.talk.links.slides and include.talk.links.slides != "" %}
       <a class="talk-link talk-link-secondary" href="{{ include.talk.links.slides }}" target="_blank" rel="noopener noreferrer">
         <i class="fa-regular fa-file-powerpoint" aria-hidden="true"></i> Slides
