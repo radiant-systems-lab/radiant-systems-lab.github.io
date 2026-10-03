@@ -3,6 +3,54 @@
 # Set status to "upcoming" or "past" and update it after the event.
 # Optional material links are rendered only when a verified URL is present.
 
+- id: TA-2023-01
+  Talk:
+    rank: 3
+    title: 'Using Provenance to Improve Computational Reproducibility'
+    type: 'Keynote'
+    date: '2023-10-10'
+    displayDate: 'October 10, 2023'
+    status: past
+    speakers:
+      - name: 'Tanu Malik'
+        url: 'https://engineering.missouri.edu/faculty/tanu-malik/'
+    event:
+      name: '3rd Workshop on Reproducible Workflows, Data Management, and Security (ReWorDS 2023)'
+      url: 'https://www.escience-conference.org/2023/timetable'
+      linkLabel: 'Conference Timetable'
+    location: 'Limassol, Cyprus'
+    summary: >
+      A keynote on provenance-enabled reproducible containers, combining file
+      isolation with record and replay to support portable notebook execution,
+      execution comparison, multi-version replay, and data debloating.
+    links:
+      slides: '/keynotes/ReWords-Keynote_2023.pdf'
+      proceedings: 'https://www.proceedings.com/content/070/070685webtoc.pdf#page=7'
+      video: ''
+
+- id: TA-2021-01
+  Talk:
+    rank: 2
+    title: 'Artifact Description/Artifact Evaluation: A Reproducibility Bane or a Boon'
+    type: 'Keynote'
+    date: '2021-06-21'
+    displayDate: 'June 21, 2021'
+    status: past
+    speakers:
+      - name: 'Tanu Malik'
+        url: 'https://engineering.missouri.edu/faculty/tanu-malik/'
+    event:
+      name: '4th International Workshop on Practical Reproducible Evaluation of Systems (P-RECS 2021)'
+      url: 'https://p-recs.github.io/2021/keynote'
+    location: 'Virtual'
+    summary: >
+      A data-driven examination of how artifact description and evaluation
+      affect reproducibility, including survey evidence, research objects,
+      cloud infrastructure, documented workflows, and reproducible containers.
+    links:
+      slides: '/keynotes/PRECS-2021-Keynote-Malik-v1.pdf'
+      video: ''
+
 - id: TA-2026-01
   Talk:
     rank: 1
