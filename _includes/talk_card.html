@@ -1,0 +1,58 @@
+<article class="talk-card" id="{{ include.item.id }}" aria-labelledby="{{ include.item.id }}-title">
+  <div class="talk-card-top">
+    <div>
+      <p class="talk-card-eyebrow">{{ include.talk.type }}</p>
+      <h4 id="{{ include.item.id }}-title">{{ include.talk.title }}</h4>
+    </div>
+    <span class="talk-status talk-status-{{ include.talk.status }}">{{ include.talk.status | capitalize }}</span>
+  </div>
+
+  <div class="talk-meta">
+    <div class="talk-meta-item">
+      <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+      <span>
+        {% if include.talk.displayDate %}
+          {{ include.talk.displayDate }}
+        {% else %}
+          {{ include.talk.date | date: "%B %-d, %Y" }}
+        {% endif %}
+      </span>
+    </div>
+    <div class="talk-meta-item">
+      <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+      <span>{{ include.talk.location }}</span>
+    </div>
+    <div class="talk-meta-item">
+      <i class="fa-solid fa-building-columns" aria-hidden="true"></i>
+      <a href="{{ include.talk.event.url }}" target="_blank" rel="noopener noreferrer">{{ include.talk.event.name }}</a>
+    </div>
+  </div>
+
+  {% if include.talk.speakers and include.talk.speakers.size > 0 %}
+    <p class="talk-speakers">
+      <strong>{% if include.talk.speakers.size == 1 %}Speaker{% else %}Speakers{% endif %}:</strong>
+      {% for speaker in include.talk.speakers %}
+        {% if speaker.url %}<a href="{{ speaker.url }}" target="_blank" rel="noopener noreferrer">{{ speaker.name }}</a>{% else %}{{ speaker.name }}{% endif %}{% unless forloop.last %}{% if forloop.rindex == 2 %}, and {% else %}, {% endif %}{% endunless %}
+      {% endfor %}
+    </p>
+  {% endif %}
+
+  <p class="talk-summary">{{ include.talk.summary }}</p>
+
+  <div class="talk-links" aria-label="Talk links and materials">
+    <a class="talk-link" href="{{ include.talk.event.url }}" target="_blank" rel="noopener noreferrer">
+      <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Event Page
+    </a>
+    {% if include.talk.links.slides and include.talk.links.slides != "" %}
+      <a class="talk-link talk-link-secondary" href="{{ include.talk.links.slides }}" target="_blank" rel="noopener noreferrer">
+        <i class="fa-regular fa-file-powerpoint" aria-hidden="true"></i> Slides
+      </a>
+    {% endif %}
+    {% if include.talk.links.video and include.talk.links.video != "" %}
+      <a class="talk-link talk-link-secondary" href="{{ include.talk.links.video }}" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-circle-play" aria-hidden="true"></i> Video
+      </a>
+    {% endif %}
+  </div>
+</article>
+

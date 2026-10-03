@@ -106,13 +106,13 @@ layout: page
               </tr>
               <tr>
                 <td><time datetime="2026-09-23">Sept 23rd</time></td>
-                <td>Model Development and Frameworks</td>
-                <td>&mdash;</td>
+                <td>Data Engineering</td>
+                <td><a href="/course_pdfs/E2E_ML/Week_4_s-data.pdf">Data Engineering</a></td>
               </tr>
               <tr>
                 <td><time datetime="2026-09-30">Sept 30th</time></td>
                 <td>Model Training</td>
-                <td>&mdash;</td>
+                <td><a href="/course_pdfs/E2E_ML/Week_6_s-model-training.pdf">Model Training</a></td>
               </tr>
               <tr>
                 <td><time datetime="2026-10-07">Oct 7th</time></td>
