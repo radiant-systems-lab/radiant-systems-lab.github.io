@@ -129,7 +129,7 @@ sitemap: false
       <p id="detail-error" class="error" hidden></p>
       <div class="scroll">
         <table>
-          <thead><tr><th>Student</th><th>Status</th><th>Last saved</th><th class="num">Saves</th><th class="num">Answers</th><th class="num">Quiz</th><th></th></tr></thead>
+          <thead><tr><th>Student</th><th>Status</th><th>Last saved</th><th class="num">Saves</th><th class="num">Answers</th><th class="num">Marked</th><th></th></tr></thead>
           <tbody id="students"></tbody>
         </table>
       </div>
@@ -227,7 +227,7 @@ sitemap: false
   }
 
   function when(iso) {
-    if (!iso) return "—";
+    if (!iso) return "·";
     var d = new Date(iso);
     return isNaN(d) ? iso : d.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
   }
@@ -370,7 +370,8 @@ sitemap: false
         el("td", { text: when(r.updatedAt) }),
         el("td", { class: "num", text: String(r.saves || 0) }),
         el("td", { class: "num", text: String(answers) }),
-        el("td", { class: "num", text: (r.state && r.state.quiz_score) || "—" }),
+        el("td", { class: "num", title: "quick checks plus quiz, where the lab has them",
+          text: (r.state && (r.state.auto_score || r.state.quiz_score)) || "·" }),
         el("td", {}, [view, " ", lock]),
       ]));
       body.appendChild(detailRow);

@@ -96,3 +96,49 @@
     - 'Tell the difference between a rare thing and a small number of examples.'
     - 'Read accuracy, precision and recall, and say which one a problem needs.'
     - 'Pick where to set the line between alerting and staying quiet.'
+
+- id: week_05
+  number: 5
+  week: 5
+  slug: week_05
+  title: 'Data That Stops Describing the World'
+  status: available
+  kind: notebook
+  topic: 'Data Engineering'
+  due: '2026-09-30'
+  estimated_minutes: 45
+  url: /labs/week_05/
+  summary: >
+    A card with three years of small purchases shows a charge for 5,000 pounds. The same
+    row could be a typo, a holiday, a new job, or a terminal that has started
+    double-charging everyone. Work out which, then do it again for values that are missing
+    rather than wrong, and again for a dataset that was accurate until the world moved on.
+  objectives:
+    - 'Give four reasons a value can be an outlier, and say why the response differs for each.'
+    - "Apply Tukey's fences and a z-score, and say which breaks on skewed data and why."
+    - 'Classify missingness as MCAR, MAR or MNAR, and say what each one permits.'
+    - 'Say what complete-case deletion does to the composition of a dataset.'
+    - 'Tell covariate, concept and prior shift apart from monitoring alone.'
+
+- id: week_06
+  number: 6
+  week: 6
+  slug: week_06
+  title: 'Reading a Training Run'
+  status: available
+  kind: notebook
+  topic: 'Model Training'
+  due: '2026-10-07'
+  estimated_minutes: 45
+  url: /labs/week_06/
+  summary: >
+    A 24 GB GPU, 7 GB of weights, and a run that completes the forward pass then dies with
+    CUDA out of memory. Nothing in that error says where the other seventeen gigabytes
+    went. Work down the execution stack until you can name the term responsible, then
+    design the experiment that proves it.
+  objectives:
+    - 'Classify symptoms into resource, throughput, numerical and correctness failures.'
+    - 'Use the execution stack to turn a symptom into a hypothesis about one layer.'
+    - 'Count MACs and FLOPs for a layer, and say why that does not predict its runtime.'
+    - 'Account for training memory in five terms and say which one dominates.'
+    - 'Design an out-of-memory experiment whose outcome rules something out either way.'
