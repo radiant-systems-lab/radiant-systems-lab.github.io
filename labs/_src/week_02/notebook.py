@@ -98,7 +98,9 @@ async def _(json, mo):
         lab_sync = LabSync(_tab)
         lab_status = await lab_sync.load()
         saved = dict(lab_sync.state)
-        locked = bool(lab_status.get("locked"))
+        # Handed in means read-only: the server refuses any further writes,
+        # so every control on the page is disabled to match.
+        locked = bool(lab_status.get("locked") or lab_status.get("submitted"))
     return lab_status, lab_sync, locked, pick, saved
 
 
@@ -1444,21 +1446,34 @@ def _(
 
 
 @app.cell(hide_code=True)
-def _(done, lab_sync, locked, mo):
+def _(done, locked, mo):
+    _ = done
+    # Handing in cannot be undone, so it takes a tick as well as a press.
+    confirm = mo.ui.checkbox(
+        label="I have read my answers back and I know they cannot be changed after this",
+        disabled=locked,
+    )
+    return (confirm,)
+
+
+@app.cell(hide_code=True)
+def _(confirm, done, lab_sync, locked, mo):
     _ = done
     submit_button = mo.ui.run_button(
         label="Submit my work",
         kind="success",
-        disabled=lab_sync is None or locked,
+        disabled=lab_sync is None or locked or not confirm.value,
         tooltip="Send your answers to your instructor",
     )
     mo.vstack([
         mo.md("## Submit your work"),
         mo.md(
-            "Your answers have been saving as you went. When you are happy with them, "
-            "press the button to hand the lab in. You can change answers and submit "
-            "again until your instructor locks the lab."
+            "Your answers have been saving as you went. Handing in is the last step and "
+            "it is final: once the lab is in, nothing on this page can be changed. Read "
+            "back through your answers first. If you hand in by mistake, ask your "
+            "instructor to reopen the lab for you."
         ),
+        confirm,
         submit_button,
     ])
     return (submit_button,)
@@ -1475,7 +1490,12 @@ async def _(lab_status, lab_sync, locked, mo, reflect_form, saved, submit_button
         _reply = await lab_sync.submit(
             reflection=reflect_form.value or saved.get("reflection"), finished=True)
         if _reply.get("ok"):
-            _msg, _kind = ("**Submitted.** Your instructor can see your work.", "success")
+            _msg, _kind = ("**Submitted.** Your instructor can see your work. That is the "
+                           "lab in, so nothing on this page is saved from here on.",
+                           "success")
+        elif _reply.get("submitted"):
+            _msg, _kind = ("**Already handed in.** This lab went in earlier, so the "
+                           "answers can no longer be changed.", "warn")
         elif _reply.get("locked"):
             _msg, _kind = ("**Not submitted.** Your instructor has locked this lab.", "danger")
         else:
@@ -1485,8 +1505,9 @@ async def _(lab_status, lab_sync, locked, mo, reflect_form, saved, submit_button
     elif lab_sync.last_submitted or lab_status.get("submitted"):
         _when = str(lab_sync.last_submitted or lab_status.get("submittedAt") or "")[:10]
         _msg, _kind = (
-            f"**Submitted on {_when}.** Changed something since? Press **Submit my work** "
-            "again.", "success")
+            f"**Submitted on {_when}.** Your answers are saved exactly as they were and "
+            "cannot be changed now. If you need another go at it, ask your instructor to "
+            "reopen the lab.", "success")
     elif locked:
         _msg, _kind = ("Your instructor has locked this lab, so it can no longer be submitted.",
                        "warn")

@@ -342,6 +342,7 @@ sitemap: false
       var detailRow = el("tr", { hidden: "" }, [el("td", { colspan: "7" }, [
         el("div", { class: "muted", text: "First opened " + when(r.createdAt) +
           (r.submittedAt ? " · last submitted " + when(r.submittedAt) + " (" + r.submissions + " time" + (r.submissions === 1 ? "" : "s") + ")" : "") +
+          (r.reopenedAt && !r.submitted ? " · reopened " + when(r.reopenedAt) : "") +
           (r.locked ? " · locked by " + (r.lockedBy || "an admin") : "") }),
         el("pre", { class: "answers", text: JSON.stringify(r.state, null, 2) }),
       ])]);
@@ -360,6 +361,17 @@ sitemap: false
               renderStudents();
             }).catch(function (e) { showError($("detail-error"), e); }));
         } });
+      // Handing in is final for the student, so this is the only way back.
+      var reopen = !r.submitted ? null : el("button", { type: "button",
+        title: "Let this student change their answers and hand in again",
+        text: "Reopen",
+        onclick: function () {
+          busy(reopen, auth.api("PUT", "/admin/labs/" + current + "/students/" + encodeURIComponent(r.id) + "/reopen" + inTerm())
+            .then(function (updated) {
+              rows = rows.map(function (x) { return x.id === updated.id ? updated : x; });
+              renderStudents();
+            }).catch(function (e) { showError($("detail-error"), e); }));
+        } });
       body.appendChild(el("tr", {}, [
         el("td", { text: r.email || r.id }),
         el("td", {}, [
@@ -372,7 +384,7 @@ sitemap: false
         el("td", { class: "num", text: String(answers) }),
         el("td", { class: "num", title: "quick checks plus quiz, where the lab has them",
           text: (r.state && (r.state.auto_score || r.state.quiz_score)) || "·" }),
-        el("td", {}, [view, " ", lock]),
+        el("td", {}, reopen ? [view, " ", reopen, " ", lock] : [view, " ", lock]),
       ]));
       body.appendChild(detailRow);
     });

@@ -105,7 +105,9 @@ async def _(json, mo):
         lab_sync = LabSync(_tab)
         lab_status = await lab_sync.load()
         saved = dict(lab_sync.state)
-        locked = bool(lab_status.get("locked"))
+        # Handed in means read-only: the server refuses any further writes,
+        # so every control on the page is disabled to match.
+        locked = bool(lab_status.get("locked") or lab_status.get("submitted"))
     return lab_status, lab_sync, locked, pick, saved
 
 
@@ -1649,24 +1651,38 @@ def _(CHECKS, QUIZ, checks_right, lab_sync, quiz):
 
 
 @app.cell(hide_code=True)
-def _(done, lab_sync, locked, mo, quiz):
+def _(done, locked, mo):
+    _ = done
+    # Handing in cannot be undone, so it takes a tick as well as a press.
+    confirm = mo.ui.checkbox(
+        label="I have read my answers back and I know they cannot be changed after this",
+        disabled=locked,
+    )
+    return (confirm,)
+
+
+@app.cell(hide_code=True)
+def _(confirm, done, lab_sync, locked, mo, quiz):
     _ = done
     _unanswered = sum(v is None for v in quiz.value)
     submit_button = mo.ui.run_button(
         label="Submit my work",
         kind="success",
-        disabled=lab_sync is None or locked or _unanswered > 0,
+        disabled=lab_sync is None or locked or _unanswered > 0
+        or not confirm.value,
         tooltip="Send your answers to your instructor",
     )
     mo.vstack([
         mo.md("## Submit your work"),
         mo.md(
-            "Everything has been saving as you went. Press the button to hand the lab in. You "
-            "can revise the written answers and submit again until your instructor locks the "
-            "lab; the marked questions keep the answer you gave first."
+            "Everything has been saving as you went. Handing in is the last step and it is "
+            "final: once the lab is in, nothing on this page can be changed, the written "
+            "answers included. Read back through them first. If you hand in by mistake, ask "
+            "your instructor to reopen the lab for you."
             + (f" **Answer the {_unanswered} quiz question"
                f"{'s' if _unanswered > 1 else ''} above first.**" if _unanswered else "")
         ),
+        confirm,
         submit_button,
     ])
     return (submit_button,)
@@ -1695,7 +1711,11 @@ async def _(
         if _reply.get("ok"):
             _msg, _kind = (f"**Submitted.** Your instructor can see your work. "
                            f"Quiz: **{quiz_score}**. Marked answers overall: "
-                           f"**{auto_score}**.", "success")
+                           f"**{auto_score}**. That is the lab in, so nothing on this "
+                           f"page is saved from here on.", "success")
+        elif _reply.get("submitted"):
+            _msg, _kind = ("**Already handed in.** This lab went in earlier, so the "
+                           "answers can no longer be changed.", "warn")
         elif _reply.get("locked"):
             _msg, _kind = ("**Not submitted.** Your instructor has locked this lab.", "danger")
         else:
@@ -1705,8 +1725,9 @@ async def _(
     elif lab_sync.last_submitted or lab_status.get("submitted"):
         _when = str(lab_sync.last_submitted or lab_status.get("submittedAt") or "")[:10]
         _msg, _kind = (
-            f"**Submitted on {_when}.** Changed something since? Press **Submit my work** "
-            "again.", "success")
+            f"**Submitted on {_when}.** Your answers are saved exactly as they were and "
+            "cannot be changed now. If you need another go at it, ask your instructor to "
+            "reopen the lab.", "success")
     elif locked:
         _msg, _kind = ("Your instructor has locked this lab, so it can no longer be submitted.",
                        "warn")

@@ -272,6 +272,7 @@
         submittedAt: r.submittedAt || null, submissions: r.submissions || 0,
         updatedAt: r.updatedAt, createdAt: r.createdAt, saves: r.saves || 0,
         locked: !!r.locked, lockedBy: r.lockedBy || null,
+        reopenedAt: r.reopenedAt || null,
       };
     }
 
@@ -294,6 +295,9 @@
       } else {
         if (!admin && labLocked) return fail(423, "An instructor has locked this lab.");
         if (!admin && studentLocked) return fail(423, "An instructor has locked your answers for this lab.");
+        if (!admin && rec && rec.submitted) {
+          return fail(409, "You have already handed this lab in, so your answers can no longer be changed.");
+        }
         rec = rec || { createdAt: now, saves: 0, submissions: 0 };
         rec.state = body.state;
         rec.updatedAt = now;
@@ -325,6 +329,13 @@
       if (!db.progress[m[1]]) return fail(404, "That student has not opened this lab yet.");
       db.progress[m[1]].locked = !!body.locked;
       db.progress[m[1]].lockedBy = email;
+      persist();
+      out = row(m[1]);
+    } else if ((m = path.match(/^\/admin\/labs\/([a-z0-9_]+)\/students\/[^/]+\/reopen$/))) {
+      if (!db.progress[m[1]]) return fail(404, "That student has not opened this lab yet.");
+      delete db.progress[m[1]].submitted;
+      delete db.progress[m[1]].submittedAt;
+      db.progress[m[1]].reopenedAt = now;
       persist();
       out = row(m[1]);
     } else if (path === "/admin/terms" || path === "/admin/terms/current") {
@@ -868,17 +879,32 @@
     var message = null;
     if (progress.admin && (progress.labLocked || progress.studentLocked)) {
       message = "This lab is locked for students. You are an admin, so your changes still save.";
+    } else if (progress.submitted) {
+      // Handed in. The answers are still readable; nothing more can be written.
+      handedIn = true;
+      message = "You handed this lab in" + (progress.submittedAt ? " on " + day(progress.submittedAt) : "")
+        + ". Your answers are saved and can no longer be changed.";
     }
     if (!message) {
       if (banner) banner.hidden = true;
       return;
     }
+    showBanner(message);
+  }
+
+  function showBanner(message) {
     if (!banner) {
       banner = el("div", { class: "rl-banner", role: "status" });
       document.body.appendChild(banner);
     }
     banner.textContent = message;
     banner.hidden = false;
+  }
+
+  function day(iso) {
+    var d = new Date(iso);
+    return isNaN(d) ? String(iso).slice(0, 10)
+                    : d.toLocaleDateString([], { month: "long", day: "numeric" });
   }
 
   // -- progress sync with the notebook ------------------------------------------
@@ -889,6 +915,7 @@
   var saveTimer = null;
   var saving = Promise.resolve();
   var lockedOut = false;
+  var handedIn = false;
 
   function reply(message) {
     if (channel) channel.postMessage(JSON.stringify(Object.assign({ from: "gate" }, message)));
@@ -896,7 +923,8 @@
 
   function scheduleSave(state) {
     latestState = state;
-    if (lockedOut) return;
+    // Once the lab is handed in the server refuses writes, so stop sending them.
+    if (lockedOut || handedIn) return;
     setStatus("busy", "Saving…");
     clearTimeout(saveTimer);
     saveTimer = setTimeout(function () { send(false); }, SAVE_DELAY_MS);
@@ -915,7 +943,7 @@
 
     function tryIt() {
       return once().catch(function (e) {
-        if (e.status === 423) throw e;
+        if (e.status === 423 || e.status === 409) throw e;   // settled, not worth retrying
         if (e.code === "SignInNeeded") {
           // Keep the answers, ask for the password, then send them.
           return new Promise(function (resolve, reject) {
@@ -933,6 +961,12 @@
 
     saving = saving.catch(function () {}).then(tryIt).then(function (res) {
       if (latestState === state) latestState = null;
+      if (submit) {
+        // Handed in. Nothing else goes to the server for this lab.
+        handedIn = true;
+        showBanner("You have handed this lab in. Your answers are saved and can no "
+                   + "longer be changed. Ask your instructor if you need it reopened.");
+      }
       setStatus("ok", submit ? "Submitted" : "Saved " + clock(res.updatedAt));
       return res;
     }, function (e) {
@@ -942,6 +976,11 @@
         var whole = /locked this lab/.test(e.message);
         document.documentElement.classList.add(PENDING);
         showView("locked", lockMessage(whole, !whole));
+      } else if (e.status === 409) {
+        // Already handed in, here or in another tab. Leave the answers on screen.
+        handedIn = true;
+        latestState = null;
+        showBanner(e.message);
       } else {
         setStatus("bad", "Not saved: " + e.message);
       }
@@ -978,7 +1017,8 @@
         send(true).then(function (res) {
           reply({ id: msg.id, ok: true, submittedAt: res && res.submittedAt });
         }, function (e) {
-          reply({ id: msg.id, ok: false, error: e.message, locked: e.status === 423 });
+          reply({ id: msg.id, ok: false, error: e.message,
+                  locked: e.status === 423, submitted: e.status === 409 });
         });
       }
     };

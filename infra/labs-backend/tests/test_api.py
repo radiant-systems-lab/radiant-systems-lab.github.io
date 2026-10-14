@@ -86,9 +86,19 @@ class FakeTable:
         if ConditionExpression and "#locked" in ConditionExpression:
             if current and current.get("locked"):
                 raise ConditionFailed()
+        if ConditionExpression and "#submitted" in ConditionExpression:
+            if current and current.get("submitted"):
+                raise ConditionFailed()
 
         item = dict(current or {"PK": Key["PK"], "SK": Key["SK"]})
-        for clause in split_top_level(UpdateExpression[len("SET "):]):
+        expression = UpdateExpression.strip()
+        if expression.startswith("REMOVE "):
+            gone, _, assignments = expression[len("REMOVE "):].partition(" SET ")
+            for field in split_top_level(gone):
+                item.pop(names.get(field, field), None)
+        else:
+            assignments = expression[len("SET "):]
+        for clause in split_top_level(assignments):
             field, expr = [p.strip() for p in clause.split(" = ", 1)]
             field = names.get(field, field)
             if expr.startswith("if_not_exists("):
@@ -293,6 +303,78 @@ class ApiTest(unittest.TestCase):
                   sub=OTHER_SUB, params={"lab": "week_01", "student": "student@umsystem.edu"},
                   body={"locked": False})
         self.assertEqual(self.save({"q1": "z"})[0], 200)
+
+    # handing in is final ----------------------------------------------------
+
+    def test_nothing_saves_after_a_student_has_submitted(self):
+        self.save({"q1": "a"})
+        self.assertEqual(self.save({"q1": "a", "done": True}, submit=True)[0], 200)
+
+        status, body = self.save({"q1": "changed"})
+        self.assertEqual(status, 409)
+        self.assertIn("already handed this lab in", body["error"])
+
+        # The answers are the ones that were handed in, not the attempted change.
+        _, body = self.call("GET /labs/{lab}/progress", params={"lab": "week_01"})
+        self.assertEqual(body["state"], {"q1": "a", "done": True})
+
+    def test_submitting_twice_is_refused(self):
+        self.save({"q1": "a"}, submit=True)
+        status, _ = self.save({"q1": "a"}, submit=True)
+        self.assertEqual(status, 409)
+        history = [k for k in self.table.items if k[1].startswith("SUBMIT#")]
+        self.assertEqual(len(history), 1)
+
+    def test_a_lock_is_reported_as_a_lock_not_as_a_hand_in(self):
+        self.save({"q1": "a"})
+        self.call("PUT /admin/labs/{lab}/students/{student}/lock", email=OWNER,
+                  sub=OTHER_SUB, params={"lab": "week_01", "student": "student@umsystem.edu"},
+                  body={"locked": True})
+        status, body = self.save({"q1": "z"})
+        self.assertEqual(status, 423)
+        self.assertIn("locked your answers", body["error"])
+
+    def test_an_admin_is_not_stopped_by_their_own_hand_in(self):
+        # Admins use the labs to check them, so the guard does not apply to them.
+        self.save({"q1": "a"}, sub=OTHER_SUB, email=OWNER, submit=True)
+        status, _ = self.save({"q1": "b"}, sub=OTHER_SUB, email=OWNER)
+        self.assertEqual(status, 200)
+
+    def test_reopening_lets_a_student_submit_again(self):
+        self.save({"q1": "a"}, submit=True)
+        self.assertEqual(self.save({"q1": "b"})[0], 409)
+
+        status, row = self.call(
+            "PUT /admin/labs/{lab}/students/{student}/reopen", email=OWNER, sub=OTHER_SUB,
+            params={"lab": "week_01", "student": "student%40umsystem.edu"})
+        self.assertEqual(status, 200)
+        self.assertFalse(row["submitted"])
+        self.assertIsNone(row["submittedAt"])
+        self.assertTrue(row["reopenedAt"])
+        # Reopening hands the lab back; it does not wipe the work.
+        self.assertEqual(row["state"], {"q1": "a"})
+
+        self.assertEqual(self.save({"q1": "b"})[0], 200)
+        status, body = self.save({"q1": "b"}, submit=True)
+        self.assertEqual(status, 200)
+        self.assertTrue(body["submitted"])
+        # Both hand-ins are counted, so the row still shows it went in twice.
+        _, row = self.call("GET /admin/labs/{lab}/progress", email=OWNER,
+                           params={"lab": "week_01"})
+        self.assertEqual(row["students"][0]["submissions"], 2)
+
+    def test_reopening_a_student_who_never_opened_the_lab(self):
+        status, _ = self.call(
+            "PUT /admin/labs/{lab}/students/{student}/reopen", email=OWNER,
+            params={"lab": "week_01", "student": "other@umsystem.edu"})
+        self.assertEqual(status, 404)
+
+    def test_reopening_needs_an_instructor(self):
+        self.save({"q1": "a"}, submit=True)
+        status, _ = self.call(
+            "PUT /admin/labs/{lab}/students/{student}/reopen",
+            params={"lab": "week_01", "student": "student%40umsystem.edu"})
+        self.assertEqual(status, 403)
 
     def test_locking_a_student_who_never_opened_the_lab(self):
         status, _ = self.call(

@@ -275,7 +275,6 @@ class Store:
     def save_progress(self, uid: str, email: str, term: str, lab: str, state_json: str,
                       submit: bool, force: bool) -> dict:
         ts = now()
-        names = {"#state": "state", "#locked": "locked", "#term": "term"}
         values = {
             ":state": state_json, ":ts": ts, ":email": email, ":lab": lab, ":term": term,
             ":gpk": f"LAB#{term}#{lab}", ":zero": 0, ":one": 1,
@@ -288,7 +287,7 @@ class Store:
         ]
         if submit:
             sets += [
-                "submitted = :true", "submittedAt = :ts",
+                "#submitted = :true", "submittedAt = :ts",
                 "submissions = if_not_exists(submissions, :zero) + :one",
             ]
             values[":true"] = True
@@ -296,21 +295,32 @@ class Store:
         kwargs = {
             "Key": {"PK": f"USER#{uid}", "SK": f"LAB#{term}#{lab}"},
             "UpdateExpression": "SET " + ", ".join(sets),
-            "ExpressionAttributeValues": values,
             "ReturnValues": "ALL_NEW",
         }
-        if force:
-            # #locked only appears in the condition; DynamoDB rejects unused names.
-            del names["#locked"]
-        else:
-            # Checked in the same write, so a lock placed a moment earlier still wins.
-            kwargs["ConditionExpression"] = "attribute_not_exists(#locked) OR #locked = :false"
+        if not force:
+            # Both are checked in the same write, so a lock or a hand-in that landed a
+            # moment earlier still wins. Once submitted is true, nothing more goes in.
+            kwargs["ConditionExpression"] = (
+                "(attribute_not_exists(#locked) OR #locked = :false) AND "
+                "(attribute_not_exists(#submitted) OR #submitted = :false)"
+            )
             values[":false"] = False
-        kwargs["ExpressionAttributeNames"] = names
+
+        names = {"#state": "state", "#term": "term",
+                 "#locked": "locked", "#submitted": "submitted"}
+        # DynamoDB rejects any name the expressions do not mention.
+        used = kwargs["UpdateExpression"] + " " + kwargs.get("ConditionExpression", "")
+        kwargs["ExpressionAttributeNames"] = {k: v for k, v in names.items() if k in used}
+        kwargs["ExpressionAttributeValues"] = values
 
         try:
             item = self.t.update_item(**kwargs)["Attributes"]
         except self.t.meta.client.exceptions.ConditionalCheckFailedException:
+            # Two guards share one error, so look at the row to say which one it was.
+            current = self.progress(uid, term, lab) or {}
+            if current.get("submitted"):
+                raise HttpError(409, "You have already handed this lab in, so your answers "
+                                     "can no longer be changed.")
             raise HttpError(423, "An instructor has locked your answers for this lab.")
 
         if item.get("saves") == 1:
@@ -331,6 +341,26 @@ class Store:
                 ConditionExpression="attribute_exists(PK)",
                 ExpressionAttributeNames={"#locked": "locked"},
                 ExpressionAttributeValues={":locked": locked, ":by": by, ":ts": now()},
+                ReturnValues="ALL_NEW",
+            )
+        except self.t.meta.client.exceptions.ConditionalCheckFailedException:
+            raise HttpError(404, "That student has not opened this lab this semester.")
+        return res["Attributes"]
+
+    def reopen(self, uid: str, term: str, lab: str, by: str) -> dict:
+        """Hand a lab back so a student can change answers and submit again.
+
+        Their answers are left exactly as they are; only the hand-in is undone.
+        The submissions count stays, so the history still shows what happened.
+        """
+        try:
+            res = self.t.update_item(
+                Key={"PK": f"USER#{uid}", "SK": f"LAB#{term}#{lab}"},
+                UpdateExpression=("REMOVE #submitted, submittedAt "
+                                  "SET reopenedAt = :ts, reopenedBy = :by"),
+                ConditionExpression="attribute_exists(PK)",
+                ExpressionAttributeNames={"#submitted": "submitted"},
+                ExpressionAttributeValues={":ts": now(), ":by": by},
                 ReturnValues="ALL_NEW",
             )
         except self.t.meta.client.exceptions.ConditionalCheckFailedException:
@@ -464,6 +494,7 @@ def student_row(item: dict) -> dict:
         "saves": item.get("saves", 0),
         "locked": bool(item.get("locked")),
         "lockedBy": item.get("lockedBy"),
+        "reopenedAt": item.get("reopenedAt"),
     }
 
 
@@ -592,6 +623,19 @@ def admin_lock_student(store, user, params, body):
     if not EMAIL.match(uid):
         raise HttpError(400, "Unknown student.")
     item = store.set_student_lock(uid, term, lab, flag(body, "locked"), user["email"])
+    return student_row(item)
+
+
+def admin_reopen_student(store, user, params, body):
+    """Undo a student's hand-in so they can change their answers and submit again."""
+    require_admin(user)
+    lab = lab_param(params)
+    term = term_param(store, params)
+    uid = canonical(unquote(params.get("student") or ""))
+    if not EMAIL.match(uid):
+        raise HttpError(400, "Unknown student.")
+    item = store.reopen(uid, term, lab, user["email"])
+    log.info("%s reopened %s %s for %s", user["email"], term, lab, uid)
     return student_row(item)
 
 
@@ -750,6 +794,7 @@ ROUTES = {
     "GET /admin/labs/{lab}/progress": admin_lab_progress,
     "PUT /admin/labs/{lab}/lock": admin_lock_lab,
     "PUT /admin/labs/{lab}/students/{student}/lock": admin_lock_student,
+    "PUT /admin/labs/{lab}/students/{student}/reopen": admin_reopen_student,
     "GET /admin/admins": admin_list_admins,
     "POST /admin/admins": admin_add_admin,
     "DELETE /admin/admins/{email}": admin_remove_admin,

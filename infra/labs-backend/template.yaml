@@ -247,6 +247,9 @@ Resources:
         AdminLockStudent:
           Type: HttpApi
           Properties: { ApiId: !Ref HttpApi, Method: PUT, Path: "/admin/labs/{lab}/students/{student}/lock" }
+        AdminReopenStudent:
+          Type: HttpApi
+          Properties: { ApiId: !Ref HttpApi, Method: PUT, Path: "/admin/labs/{lab}/students/{student}/reopen" }
         AdminListAdmins:
           Type: HttpApi
           Properties: { ApiId: !Ref HttpApi, Method: GET, Path: /admin/admins }
