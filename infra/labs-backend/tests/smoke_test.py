@@ -149,6 +149,23 @@ def main() -> int:
         check("another semester is empty", call(
             "admin", "GET", f"/admin/labs/{LAB}/progress?term=1999-fall")[1].get("students"), [])
 
+        print("handing in is final")
+        student_path = urllib.parse.quote(people["student"])
+        check("no saving after a hand-in", call("student", "PUT", f"/labs/{LAB}/progress",
+                                                {"state": {"q1": "tampered"}})[0], 409)
+        check("no handing in twice", call("student", "PUT", f"/labs/{LAB}/progress",
+                                          {"state": {"q1": "tampered"}, "submit": True})[0], 409)
+        check("answers untouched", call("student", "GET", f"/labs/{LAB}/progress")[1].get("state"),
+              {"q1": "c"})
+        check("students cannot reopen themselves", call(
+            "student", "PUT", f"/admin/labs/{LAB}/students/{student_path}/reopen")[0], 403)
+        status, body = call("admin", "PUT",
+                            f"/admin/labs/{LAB}/students/{student_path}/reopen")
+        check("admin reopens", (status, body.get("submitted")), (200, False))
+        check("reopening keeps the work", body.get("state"), {"q1": "c"})
+        check("saving works again", call("student", "PUT", f"/labs/{LAB}/progress",
+                                         {"state": {"q1": "c"}})[0], 200)
+
         print("locking")
         check("lock lab", call("admin", "PUT", f"/admin/labs/{LAB}/lock", {"locked": True})[0], 200)
         check("student save refused", call("student", "PUT", f"/labs/{LAB}/progress",
@@ -161,7 +178,6 @@ def main() -> int:
         check("unlock lab", call("admin", "PUT", f"/admin/labs/{LAB}/lock", {"locked": False})[0], 200)
         check("student saves again", call("student", "PUT", f"/labs/{LAB}/progress",
                                           {"state": {"q1": "d"}})[0], 200)
-        student_path = urllib.parse.quote(people["student"])
         check("lock student", call("admin", "PUT",
                                    f"/admin/labs/{LAB}/students/{student_path}/lock",
                                    {"locked": True})[0], 200)
