@@ -7,6 +7,13 @@
 #      [[PUB: title]] by [[PUB: authors]] has been accepted at [[PUB: journal]].
 #      Read the [[PUB: PDF]] or view the [[PUB: DOI]].
 
+- id: N-2026-66
+  News:
+    rank: 66
+    date: 2026-10-07
+    description: >
+      The paper [[Fidelis: Exploiting Task Similarity for Low-overhead Distributed Workflow Audit and Replay]] by Talha Azaz, Raza Ahmad, Ali Adibifar, Douglas Thain, and Tanu Malik was accepted at the [27th ACM International Middleware Conference (Middleware 2026)](https://middleware-conf.github.io/2026/). Congratulations to all authors!
+
 - id: N-2026-65
   News:
     rank: 65
