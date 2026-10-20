@@ -20,12 +20,33 @@ description: Radiant's members
 
   <section class="people-section" id="director">
     <h2 class="people-section-title"><i class="fa-solid fa-user-tie"></i> Director</h2>
-    <div class="people image-container people-grid director-grid">
-      {% for person in site.data.faculty %}
-        {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
-      {% endfor %}
+    <div class="director-layout">
+      <div class="people image-container people-grid director-grid">
+        {% for person in site.data.faculty %}
+          {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
+        {% endfor %}
+      </div>
+      <div class="director-showcases">
+        <div class="director-showcases-heading">
+          <span>Featured work</span>
+          <h3>Research Showcases</h3>
+          <p>Interactive demonstrations and project presentations from the lab.</p>
+        </div>
+        <div class="director-showcase-list">
+          {% for showcase in site.data.director_showcases %}
+            <a class="director-showcase-link" href="{{ BASE_PATH }}{{ showcase.url }}">
+              <span class="director-showcase-icon"><i class="{{ showcase.icon }}" aria-hidden="true"></i></span>
+              <span class="director-showcase-copy">
+                <span class="director-showcase-label">{{ showcase.label }}</span>
+                <strong>{{ showcase.title }}</strong>
+                <span class="director-showcase-description">{{ showcase.description }}</span>
+              </span>
+              <i class="fa-solid fa-arrow-right director-showcase-arrow" aria-hidden="true"></i>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
     </div>
-    <p class="role-note"><a href="{{ BASE_PATH }}/enc-ore-showcase/">Enc-ORE Research Demonstration</a></p>
   </section>
 
   <section class="people-section" id="postdocs">
