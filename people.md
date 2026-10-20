@@ -25,6 +25,7 @@ description: Radiant's members
         {% include person_image image=person.image caption=person.name link=person.website title=person.name %}
       {% endfor %}
     </div>
+    <p class="role-note"><a href="{{ BASE_PATH }}/enc-ore-showcase/">Enc-ORE Research Demonstration</a></p>
   </section>
 
   <section class="people-section" id="postdocs">
