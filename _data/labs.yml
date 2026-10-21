@@ -167,3 +167,30 @@
     - 'Give two very different reasons a model might get an example wrong.'
     - 'Work out whether choosing a subset cost more than it saved.'
     - 'Pick the right method when you are short of labels, or short of time.'
+
+- id: week_08
+  number: 8
+  week: 8
+  slug: week_08
+  title: "The Photos You Need Don't Exist"
+  status: available
+  kind: notebook
+  topic: 'Data Augmentation and Synthetic Data'
+  due: '2026-11-04'
+  estimated_minutes: 45
+  url: /labs/week_08/
+  summary: >
+    Last week you deleted 80,000 photos. The doorbell still cannot see people at night in
+    the rain, because you only ever had 100 photos like that and deleting things does not
+    create the ones you are missing. So you make them instead: blend photos together, learn
+    how image generators actually work, then find out what one usable fake photo really
+    costs. Ends with a training run that gets slower when you remove three quarters of the
+    data.
+  objectives:
+    - 'Tell a "too much data" problem from a "missing data" problem, and pick the right tool.'
+    - 'Blend two photos and say what label the result should get.'
+    - 'Explain how an image generator learns, without the maths.'
+    - 'Work out what one usable generated example costs you.'
+    - 'Say why a realistic picture can still ruin a model.'
+    - 'Find the bottleneck in a training pipeline, and know what will not fix it.'
+
