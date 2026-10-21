@@ -14,11 +14,12 @@
         {% endif %}
       </h4>
     </div>
-    <span class="lab-status lab-status-{{ lab.status }}">
-      {% if lab.status == 'available' %}Available
-      {% elsif lab.status == 'coming-soon' %}Coming soon
-      {% else %}{{ lab.status | replace: '-', ' ' | capitalize }}{% endif %}
-    </span>
+    {% unless is_available %}
+      <span class="lab-status lab-status-{{ lab.status }}">
+        {% if lab.status == 'coming-soon' %}Coming soon
+        {% else %}{{ lab.status | replace: '-', ' ' | capitalize }}{% endif %}
+      </span>
+    {% endunless %}
   </div>
 
   <div class="lab-meta">
