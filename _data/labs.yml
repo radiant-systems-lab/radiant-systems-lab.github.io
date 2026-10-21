@@ -142,3 +142,28 @@
     - 'Count MACs and FLOPs for a layer, and say why that does not predict its runtime.'
     - 'Account for training memory in five terms and say which one dominates.'
     - 'Design an out-of-memory experiment whose outcome rules something out either way.'
+
+- id: week_07
+  number: 7
+  week: 7
+  slug: week_07
+  title: 'Most of Your Data Is Not Teaching Anything'
+  status: available
+  kind: notebook
+  topic: 'Data Selection'
+  due: '2026-10-28'
+  estimated_minutes: 45
+  url: /labs/week_07/
+  summary: >
+    You have 100,000 photos from doorbell cameras and can only afford to train on 20,000.
+    And 60,000 of them are the same empty driveway. Delete the right 80,000 and you lose
+    almost nothing. Delete the wrong 80,000 and the model stops working. Run the algorithms
+    that choose for you, then work out whether the choosing cost more than it saved, which
+    is the part nobody budgets for.
+  objectives:
+    - 'Explain why having lots of compute and little data changes what you work on.'
+    - 'Work out how much accuracy each GPU-hour is actually buying you.'
+    - 'Run a real selection algorithm by hand, and say where it is blind.'
+    - 'Give two very different reasons a model might get an example wrong.'
+    - 'Work out whether choosing a subset cost more than it saved.'
+    - 'Pick the right method when you are short of labels, or short of time.'
