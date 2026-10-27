@@ -12,7 +12,7 @@
     displayDate: 'October 10, 2023'
     status: past
     speakers:
-      - name: 'Tanu Malik'
+      - name: 'Dr. Tanu Malik'
         url: 'https://engineering.missouri.edu/faculty/tanu-malik/'
     event:
       name: '3rd Workshop on Reproducible Workflows, Data Management, and Security (ReWorDS 2023)'
@@ -37,7 +37,7 @@
     displayDate: 'June 21, 2021'
     status: past
     speakers:
-      - name: 'Tanu Malik'
+      - name: 'Dr. Tanu Malik'
         url: 'https://engineering.missouri.edu/faculty/tanu-malik/'
     event:
       name: '4th International Workshop on Practical Reproducible Evaluation of Systems (P-RECS 2021)'
@@ -60,7 +60,7 @@
     displayDate: 'October 1, 2026'
     status: past
     speakers:
-      - name: 'Tanu Malik'
+      - name: 'Dr. Tanu Malik'
         url: 'https://engineering.missouri.edu/faculty/tanu-malik/'
     event:
       name: 'IEEE eScience 2026'

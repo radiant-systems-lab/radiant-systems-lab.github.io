@@ -2667,6 +2667,120 @@ body:has(.page-people) .page-people .director-grid {
   grid-template-columns: minmax(230px, 300px);
 }
 
+body:has(.page-people) .page-people .director-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 300px) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 32px;
+}
+
+body:has(.page-people) .page-people .director-showcases {
+  min-width: 0;
+  padding: 8px 0;
+}
+
+body:has(.page-people) .page-people .director-showcases-heading {
+  margin-bottom: 20px;
+}
+
+body:has(.page-people) .page-people .director-showcases-heading > span {
+  display: block;
+  color: #6c5a19;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+body:has(.page-people) .page-people .director-showcases-heading h3 {
+  color: var(--mu-black);
+  font-size: 1.35rem;
+  line-height: 1.25;
+  margin: 5px 0 7px;
+}
+
+body:has(.page-people) .page-people .director-showcases-heading p {
+  color: var(--mu-subtext);
+  font-size: 0.98rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+body:has(.page-people) .page-people .director-showcase-list {
+  border-top: 1px solid var(--mu-border);
+}
+
+body:has(.page-people) .page-people .director-showcase-link {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) 20px;
+  align-items: center;
+  gap: 14px;
+  min-height: 112px;
+  padding: 16px 4px;
+  border-bottom: 1px solid var(--mu-border);
+  color: var(--mu-black);
+  text-decoration: none;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+body:has(.page-people) .page-people .director-showcase-link:hover,
+body:has(.page-people) .page-people .director-showcase-link:focus {
+  background: #fffbef;
+  color: var(--mu-black);
+  text-decoration: none;
+}
+
+body:has(.page-people) .page-people .director-showcase-icon {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--mu-gold);
+  color: var(--mu-black);
+  font-size: 1rem;
+}
+
+body:has(.page-people) .page-people .director-showcase-copy,
+body:has(.page-people) .page-people .director-showcase-label,
+body:has(.page-people) .page-people .director-showcase-description {
+  display: block;
+}
+
+body:has(.page-people) .page-people .director-showcase-label {
+  color: #6c5a19;
+  font-size: 0.76rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+body:has(.page-people) .page-people .director-showcase-copy strong {
+  display: block;
+  color: var(--mu-black);
+  font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.03rem;
+  line-height: 1.35;
+  margin: 4px 0;
+}
+
+body:has(.page-people) .page-people .director-showcase-description {
+  color: var(--mu-subtext);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+body:has(.page-people) .page-people .director-showcase-arrow {
+  color: #766522;
+  transition: transform 0.18s ease;
+}
+
+body:has(.page-people) .page-people .director-showcase-link:hover .director-showcase-arrow,
+body:has(.page-people) .page-people .director-showcase-link:focus .director-showcase-arrow {
+  transform: translateX(3px);
+}
+
 body:has(.page-people) .page-people .person {
   position: relative;
   width: 100%;
@@ -2847,6 +2961,17 @@ body:has(.page-people) .page-people a:hover {
 
   body:has(.page-people) .page-people .director-grid {
     grid-template-columns: minmax(210px, 1fr);
+  }
+
+  body:has(.page-people) .page-people .director-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  body:has(.page-people) .page-people .director-showcase-link {
+    grid-template-columns: 42px minmax(0, 1fr) 18px;
+    gap: 11px;
+    padding: 14px 2px;
   }
 
   body:has(.page-people) .page-people .director-grid .person {

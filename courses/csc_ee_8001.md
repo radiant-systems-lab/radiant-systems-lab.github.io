@@ -111,8 +111,11 @@ layout: page
               </tr>
               <tr>
                 <td><time datetime="2026-09-30">Sept 30th</time></td>
-                <td>Model Training</td>
-                <td><a href="/course_pdfs/E2E_ML/Week_6_s-model-training.pdf">Model Training</a></td>
+                <td>Model Training and Neural Networks</td>
+                <td>
+                  <a href="/course_pdfs/E2E_ML/Week_6_s-model-training.pdf">Model Training</a><br>
+                  <a href="/course_pdfs/E2E_ML/Week_6_s-neural-networks-annotated.pdf">Neural Networks</a>
+                </td>
               </tr>
               <tr>
                 <td><time datetime="2026-10-07">Oct 7th</time></td>
@@ -121,13 +124,13 @@ layout: page
               </tr>
               <tr>
                 <td><time datetime="2026-10-14">Oct 14th</time></td>
-                <td>Optimization Principles</td>
-                <td>&mdash;</td>
+                <td>Data Selection</td>
+                <td><a href="/course_pdfs/E2E_ML/Week_7_s-dataselection.pdf">Data Selection</a></td>
               </tr>
               <tr>
                 <td><time datetime="2026-10-21">Oct 21st</time></td>
-                <td>Data Selection</td>
-                <td>&mdash;</td>
+                <td>Data Augmentation</td>
+                <td><a href="/course_pdfs/E2E_ML/Week_8_DataAug.pdf">Data Augmentation</a></td>
               </tr>
               <tr>
                 <td><time datetime="2026-10-28">Oct 28th</time></td>
