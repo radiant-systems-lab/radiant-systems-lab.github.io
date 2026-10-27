@@ -7,6 +7,13 @@
 #      [[PUB: title]] by [[PUB: authors]] has been accepted at [[PUB: journal]].
 #      Read the [[PUB: PDF]] or view the [[PUB: DOI]].
 
+- id: N-2026-67
+  News:
+    rank: 67
+    date: 2026-10-24
+    description: >
+      The paper [[Joint T-K Budgeting for Dual-Long-Tail Candidate-Heavy Sequence Workloads]] by Ziyang Jia and Tanu Malik got accepted at the [2026 IEEE International Conference on Big Data (IEEE BigData 2026)](https://bigdataieee.org/BigData2026/), held December 14-17, 2026 in Phoenix, Arizona. Congrats Ziyang!
+
 - id: N-2026-66
   News:
     rank: 66
@@ -19,7 +26,7 @@
     rank: 65
     date: 2026-10-01
     description: >
-      [Tanu Malik](https://engineering.missouri.edu/faculty/tanu-malik/) presented [Backpacks and Black Boxes: Reproducible Science When AI Writes the Code](/keynotes/Backpack_Blackbox_eScience26-Keynote.pdf) as an invited keynote at [IEEE eScience 2026](https://www.escience-conference.org/2026/keynotes).
+      [Dr. Tanu Malik](https://engineering.missouri.edu/faculty/tanu-malik/) presented [Backpacks and Black Boxes: Reproducible Science When AI Writes the Code](/keynotes/Backpack_Blackbox_eScience26-Keynote.pdf) as an invited keynote at [IEEE eScience 2026](https://www.escience-conference.org/2026/keynotes).
 
 - id: N-2026-64
   News:
