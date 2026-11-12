@@ -134,18 +134,18 @@ layout: page
               </tr>
               <tr>
                 <td><time datetime="2026-10-28">Oct 28th</time></td>
-                <td>Model Compression and Benchmarking</td>
+                <td>No Class</td>
                 <td>&mdash;</td>
               </tr>
               <tr>
                 <td><time datetime="2026-11-04">Nov 4th</time></td>
-                <td>Model Deployment</td>
-                <td>&mdash;</td>
+                <td>Model Compression</td>
+                <td><a href="/course_pdfs/E2E_ML/Week_10_model_compression_2h_lecture.pdf">Model Compression</a></td>
               </tr>
               <tr>
                 <td><time datetime="2026-11-11">Nov 11th</time></td>
-                <td>Model Serving</td>
-                <td>&mdash;</td>
+                <td>Knowledge Distillation</td>
+                <td><a href="/course_pdfs/E2E_ML/Week_11_Knowledge_Distillation_Slides.pdf">Knowledge Distillation</a></td>
               </tr>
               <tr>
                 <td><time datetime="2026-11-18">Nov 18th</time></td>
